@@ -16,16 +16,10 @@
     </md-menu>
 
     <md-toolbar-row>
-        <button md-button [mdMenuTriggerFor]="selectMode">mode</button>
+        <button md-button [mdMenuTriggerFor]="selectMode">{{selectedMode.name}}</button>
         <md-menu #selectMode="mdMenu">
-            <button md-menu-item>
-                Day
-            </button>
-            <button md-menu-item>
-                Month
-            </button>
-            <button md-menu-item>
-                Year
+            <button md-menu-item *ngFor="let mode of modes" (click)="selectedMode = mode">
+                {{mode.name}}
             </button>
         </md-menu>
 
