@@ -11,12 +11,14 @@ import 'hammerjs';
 import {AppComponent} from './app.component';
 import { AppbarComponent } from './components/appbar/appbar.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
+import { SidenavDaypickerComponent } from './components/sidenav-daypicker/sidenav-daypicker.component';
 
 @NgModule({
 	declarations: [
 		AppComponent,
 		AppbarComponent,
-		SidenavComponent
+		SidenavComponent,
+		SidenavDaypickerComponent
 	],
 	imports: [
 		BrowserModule,
