@@ -1,6 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
 @import '~@angular/material/core/theming/prebuilt/indigo-pink.css';
+@import url('https://fonts.googleapis.com/css?family=Roboto');
 
-body {
+html, body {
+  font-family: 'Roboto', 'Segoe UI', Calibri, Arial, sans-serif;
+  height: 100vh;
+  padding: 0;
   margin: 0;
 }
