@@ -9,17 +9,20 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import 'hammerjs';
 
 import {AppComponent} from './app.component';
-import { AppbarComponent } from './components/appbar/appbar.component';
-import { SidenavComponent } from './components/sidenav/sidenav.component';
-import { SidenavDaypickerComponent } from './components/sidenav-daypicker/sidenav-daypicker.component';
+import {AppbarComponent} from './components/appbar/appbar.component';
+import {SidenavComponent} from './components/sidenav/sidenav.component';
+import {SidenavDaypickerComponent} from './components/sidenav-daypicker/sidenav-daypicker.component';
+import {MonthYearDialogComponent} from './components/month-year-dialog/month-year-dialog.component';
 
 @NgModule({
 	declarations: [
 		AppComponent,
 		AppbarComponent,
 		SidenavComponent,
-		SidenavDaypickerComponent
+		SidenavDaypickerComponent,
+		MonthYearDialogComponent
 	],
+	entryComponents: [MonthYearDialogComponent],
 	imports: [
 		BrowserModule,
 		FormsModule,

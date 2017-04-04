@@ -1,27 +1,11 @@
+<button md-button id="btnMonthYear" (click)="openMonthYearDialog()" color="accent">{{monthYear | date:'MMMM yyyy' }}</button>
+
 <md-list>
-    <md-list-item>
-        <h4 md-line>Montag</h4>
-        <p md-line>Projects: 3 | Hours: 8.5</p>
-    </md-list-item>
-    <md-divider></md-divider>
-    <md-list-item>
-        <h4 md-line>Dienstag</h4>
-        <p md-line>Projects: 3 | Hours: 8.5</p>
-    </md-list-item>
-    <md-divider></md-divider>
-    <md-list-item>
-        <h4 md-line>Mittwoch</h4>
-        <p md-line>Projects: 3 | Hours: 8.5</p>
-    </md-list-item>
-    <md-divider></md-divider>
-    <md-list-item>
-        <h4 md-line>Donnerstag</h4>
-        <p md-line>Projects: 3 | Hours: 8.5</p>
-    </md-list-item>
-    <md-divider></md-divider>
-    <md-list-item>
-        <h4 md-line>Freitag</h4>
-        <p md-line>Projects: 3 | Hours: 8.5</p>
-    </md-list-item>
-    <md-divider></md-divider>
+    <span *ngFor="let day of days">
+        <md-list-item>
+            <h4 md-line>{{ day.date | date:'EEEE dd.' }}</h4>
+            <p md-line>Projects: 3 | Hours: 8.5</p>
+        </md-list-item>
+        <md-divider></md-divider>
+    </span>
 </md-list>
