@@ -1,6 +1,9 @@
 <md-toolbar color="primary" class="appbar">
     <span>Work Time Calculator</span>
     <span class="fill-remaining-space"></span>
+    <button md-button (click)="SetActiveDateToToday()">
+        Today
+    </button>
     <button md-icon-button [mdMenuTriggerFor]="menu">
         <md-icon>more_vert</md-icon>
     </button>

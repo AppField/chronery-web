@@ -1,4 +1,15 @@
+@import '../../../wtc-theme';
+
 :host {
   display: flex;
   flex: 1;
+
+  .mat-sidenav-container {
+    width: 100%;
+  }
+
+  /deep/ .mat-ink-bar {
+    background-color: mat-color($accent);
+  }
 }
+

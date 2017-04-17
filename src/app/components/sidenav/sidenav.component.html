@@ -5,13 +5,14 @@
 
     <div>
         <nav md-tab-nav-bar>
-            <a md-tab-link>
-                Times
-            </a>
-            <a md-tab-link>
-                Summary
+            <a md-tab-link
+               *ngFor="let link of navLinks; let i = index"
+               (click)="activeLinkIndex = i"
+               [routerLink]="[link.path, selectedDate]"
+               [active]="isActive([link.path, selectedDate])">
+                {{link.label}}
             </a>
         </nav>
-        <h1>Times</h1>
+        <router-outlet></router-outlet>
     </div>
 </md-sidenav-container>

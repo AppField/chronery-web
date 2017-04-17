@@ -5,7 +5,7 @@
             <md-icon>keyboard_arrow_up</md-icon>
         </button>
         <md-input-container type="month" dividerColor="accent">
-            <input mdInput readonly [ngModel]="selectedDate | date:'MMMM'"/>
+            <input mdInput readonly [ngModel]="selectedDate | date:'MM.'"/>
         </md-input-container>
         <button md-button (click)="previousMonth()">
             <md-icon>keyboard_arrow_down</md-icon>

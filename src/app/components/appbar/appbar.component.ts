@@ -1,4 +1,6 @@
 import {Component, OnInit} from '@angular/core';
+import {Utility} from '../../utils/utility';
+import {Router} from '@angular/router';
 
 @Component({
 	selector: 'wtc-appbar',
@@ -7,10 +9,14 @@ import {Component, OnInit} from '@angular/core';
 })
 export class AppbarComponent implements OnInit {
 
-	constructor() {
+	constructor(private router: Router) {
 	}
 
 	ngOnInit() {
 	}
 
+	SetActiveDateToToday = function (): void {
+		const encodedDate = Utility.encodeDate(new Date());
+		this.router.navigate(['hours-of-work', encodedDate]);
+	};
 }
