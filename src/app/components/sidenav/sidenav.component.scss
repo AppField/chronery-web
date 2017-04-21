@@ -6,6 +6,11 @@
 
   .mat-sidenav-container {
     width: 100%;
+
+
+    .router-container {
+      padding: .5rem;
+    }
   }
 
   /deep/ .mat-ink-bar {

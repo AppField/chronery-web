@@ -19,6 +19,7 @@ import {SettingsComponent} from './pages/settings/settings.component';
 import {HoursOfWorkComponent} from './pages/hours-of-work/hours-of-work.component';
 import {AppRoutingModule} from './app-routing.module';
 import {DateParamService} from './services/date-param/date-param.service';
+import { WorkCardComponent } from './components/work-card/work-card.component';
 
 @NgModule({
 	declarations: [
@@ -29,7 +30,8 @@ import {DateParamService} from './services/date-param/date-param.service';
 		MonthYearDialogComponent,
 		SummaryComponent,
 		SettingsComponent,
-		HoursOfWorkComponent
+		HoursOfWorkComponent,
+		WorkCardComponent
 	],
 	entryComponents: [MonthYearDialogComponent],
 	imports: [
