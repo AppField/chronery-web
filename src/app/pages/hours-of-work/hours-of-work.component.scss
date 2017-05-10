@@ -1,0 +1,11 @@
+:host {
+  .container {
+    display: inline-flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+
+    .wtc-work-card {
+      flex-grow: 1;
+    }
+  }
+}
