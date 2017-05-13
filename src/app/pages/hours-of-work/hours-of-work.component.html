@@ -3,6 +3,8 @@
 </h2>
 
 <div class="container">
+
     <wtc-work-card *ngFor="let work of works" [work]="work" (workDeleted)="removeWork(index)"></wtc-work-card>
+
 </div>
 <button md-fab (click)="newWork()"><md-icon>add</md-icon></button>

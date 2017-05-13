@@ -7,11 +7,9 @@ import {MdDialogRef} from '@angular/material';
 	styleUrls: ['./month-year-dialog.component.scss']
 })
 export class MonthYearDialogComponent implements OnInit {
-	months: Array<{}> = [];
 	selectedDate: Date = new Date();
 
 	constructor(public dialogRef: MdDialogRef<MonthYearDialogComponent>) {
-		this.selectedDate = dialogRef.config.data;
 	}
 
 	ngOnInit() {

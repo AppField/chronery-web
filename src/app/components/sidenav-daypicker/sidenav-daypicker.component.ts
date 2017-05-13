@@ -30,16 +30,17 @@ export class SidenavDaypickerComponent implements OnDestroy, AfterViewInit {
 				}).indexOf(Utility.decodeDate(dateParam).getDate());
 			}
 		});
+
+		console.log(this.days);
 	}
 
 	ngAfterViewInit() {
-		const activeElement = this.dayList.toArray()[this.activeLinkIndex];
+		// const activeElement = this.dayList.toArray()[this.activeLinkIndex];
 	}
 
 	onDaySelect(date: Date) {
 		const encodedDate = Utility.encodeDate(date);
 		this.router.navigate(['hours-of-work', encodedDate]);
-		// this.dateParamService.saveDateParam(encodedDate);
 	}
 
 	openMonthYearDialog() {

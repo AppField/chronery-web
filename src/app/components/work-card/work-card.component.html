@@ -2,16 +2,16 @@
     <md-card-header>
         <md-card-title>
             <md-input-container>
-                <input mdInput placeholder="Project" [mdAutocomplete]="project" [(ngModel)]="work.projectName" [formControl]="projectCtrl">
+                <input mdInput placeholder="Project" [formControl]="projectCtrl" [mdAutocomplete]="auto" >
             </md-input-container>
-            <md-autocomplete #project [displayWith]="displayFn">
-                <md-option *ngFor="let project of filteredProjects" [value]="project.name">
-                    {{ project.name }}
+            <md-autocomplete #auto>
+                <md-option *ngFor="let project of filteredProjects | async" [value]="project.name">
+                    <span>{{ project.name }}
+                        {{ project.id }} </span>
                 </md-option>
             </md-autocomplete>
         </md-card-title>
 
-        <span class="fill-remaining-space"></span>
         <button md-icon-button (click)="deleteWork()" color="warn">
             <md-icon>clear</md-icon>
         </button>

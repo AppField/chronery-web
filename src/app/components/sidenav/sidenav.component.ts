@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {Utility} from '../../utils/utility';
 import {Router} from '@angular/router';
 import {DateParamService} from '../../services/date-param/date-param.service';
 

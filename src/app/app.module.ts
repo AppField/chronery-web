@@ -1,11 +1,21 @@
-///<reference path="../../node_modules/@angular/material/module.d.ts"/>
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpModule} from '@angular/http';
-import {MaterialModule} from '@angular/material';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {RouterModule, Routes} from '@angular/router';
+import {
+	MdButtonModule,
+	MdDialogModule,
+	MdSidenavModule,
+	MdIconModule,
+	MdMenuModule,
+	MdCardModule,
+	MdAutocompleteModule,
+	MdInputModule,
+	MdTabsModule,
+	MdListModule,
+	MdToolbarModule
+} from '@angular/material';
 
 import 'hammerjs';
 
@@ -19,7 +29,7 @@ import {SettingsComponent} from './pages/settings/settings.component';
 import {HoursOfWorkComponent} from './pages/hours-of-work/hours-of-work.component';
 import {AppRoutingModule} from './app-routing.module';
 import {DateParamService} from './services/date-param/date-param.service';
-import { WorkCardComponent } from './components/work-card/work-card.component';
+import {WorkCardComponent} from './components/work-card/work-card.component';
 
 @NgModule({
 	declarations: [
@@ -37,9 +47,11 @@ import { WorkCardComponent } from './components/work-card/work-card.component';
 	imports: [
 		BrowserModule,
 		FormsModule,
+		ReactiveFormsModule,
 		HttpModule,
 		BrowserAnimationsModule,
-		MaterialModule,
+		MdButtonModule, MdDialogModule, MdSidenavModule, MdIconModule, MdMenuModule, MdCardModule, MdAutocompleteModule, MdInputModule,
+		MdTabsModule, MdListModule, MdToolbarModule,
 		AppRoutingModule
 	],
 	providers: [DateParamService],

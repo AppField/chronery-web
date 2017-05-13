@@ -2,13 +2,13 @@
   .mat-card {
     margin-bottom: 1rem;
 
-    .fill-remaining-space {
-      flex: 1 1 auto;
-    }
-  }
+    .mat-card-header-text {
+      width: 100%;
 
-  .mat-card-header {
-    margin-bottom:1rem;
+      .mat-input-container {
+        width: 100%;
+      }
+    }
   }
 
   .flex-row {
