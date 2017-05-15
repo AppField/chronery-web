@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Work} from '../../models/work';
-import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Project} from '../../models/project';
 import {Observable} from 'rxjs/Observable';
 
@@ -25,20 +25,17 @@ export class WorkCardComponent implements OnInit {
 
 	workForm: FormGroup;
 
-	static validateTime(control: FormControl): any {
-		return new RegExp('^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$').test(control.value) ? null : {invalidTime: true};
-	}
-
 	constructor(public fb: FormBuilder) {
 
 	}
 
 	ngOnInit() {
-		console.log(this.work);
+		const timeRegex = '^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$';
+
 		this.workForm = this.fb.group({
 			project: [this.work.projectName, Validators.required],
-			from: [this.work.from, [Validators.required, WorkCardComponent.validateTime]],
-			to: [this.work.to, [Validators.required, WorkCardComponent.validateTime]],
+			from: [this.work.from, [Validators.required, Validators.pattern(timeRegex)]],
+			to: [this.work.to, [Validators.required, Validators.pattern(timeRegex)]],
 			comment: this.work.comment
 		});
 

@@ -1,14 +1,17 @@
+import {toArray} from 'rxjs/operator/toArray';
 export class Work {
 	day: string;
-	projectName: string;
 	projectId: string;
+	projectName: string;
 	from: string;
 	to: string;
 	pause: string;
 	spent: string;
 	comment: string;
 
-	constructor() {
+	constructor(day: string) {
+		this.day = day;
+		this.projectId = '';
 		this.projectName = '';
 		this.from = '00:00';
 		this.to = '00:00';
@@ -18,17 +21,16 @@ export class Work {
 	}
 
 	setSpent = function (): void {
-		const fromHours = parseInt(this.from.substr(0, 2), 10);
-		const fromMinutes = parseInt(this.from.substr(3, 5), 10);
+		const from = this.from.split(':');
+		const to = this.from.split(':');
 
-		// const toHours = parseInt(this.to.substr(0, 2), 10);
-		// const toHours = parseInt(this.to.substr(3, 5), 10);
+		const fromDate = new Date(0, 0, 0, from[0], from[1]);
+		const toDate = new Date(0, 0, 0, to[0], to[1]);
 
-		const now = new Date();
-		const later = new Date();
+		const difference = new Date(<any>toDate - <any>fromDate);
+		this.spent = difference.getHours() + ':' + difference.getMinutes();
 
-		console.log('Hours: ' + fromHours);
-		console.log('Minutes: ' + fromMinutes);
+		console.log(this.spent);
 	};
 
 }
