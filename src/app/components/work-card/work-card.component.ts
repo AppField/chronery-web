@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Work} from '../../models/work';
-import {AbstractControl, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Project} from '../../models/project';
 import {Observable} from 'rxjs/Observable';
 
@@ -15,7 +15,6 @@ export class WorkCardComponent implements OnInit {
 	@Input() work: Work;
 	@Output() workDeleted = new EventEmitter();
 
-	// projectCtrl: FormControl = new FormControl();
 	filteredProjects: Observable<Project[]>;
 	projects = [
 		new Project('52342', 'Landing Pages'),
@@ -25,8 +24,10 @@ export class WorkCardComponent implements OnInit {
 	];
 
 	workForm: FormGroup;
-	from: AbstractControl;
-	to: AbstractControl;
+
+	static validateTime(control: FormControl): any {
+		return new RegExp('^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$').test(control.value) ? null : {invalidTime: true};
+	}
 
 	constructor(public fb: FormBuilder) {
 
@@ -36,8 +37,8 @@ export class WorkCardComponent implements OnInit {
 		console.log(this.work);
 		this.workForm = this.fb.group({
 			project: [this.work.projectName, Validators.required],
-			from: [this.work.from, [Validators.required, this.checkIfTime]],
-			to: [this.work.to, [Validators.required, this.checkIfTime]],
+			from: [this.work.from, [Validators.required, WorkCardComponent.validateTime]],
+			to: [this.work.to, [Validators.required, WorkCardComponent.validateTime]],
 			comment: this.work.comment
 		});
 
@@ -50,17 +51,10 @@ export class WorkCardComponent implements OnInit {
 		(<FormControl>this.workForm.controls['project']).registerOnChange(() => {
 			console.log(this.work.projectName);
 		});
-		// Assign the controls to value to show validation errors
-		this.from = this.workForm.controls['from'];
-		this.to = this.workForm.controls['to'];
 	}
 
 	filterProjects(val: string) {
 		return this.projects.filter(project => new RegExp(val, 'i').test(project.name));
-	}
-
-	checkIfTime(control: FormControl): any {
-		return new RegExp('^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$').test(control.value) ? null : {invalidTime: true};
 	}
 
 	deleteWork(): void {
