@@ -17,11 +17,11 @@
 
             <div class="flex-row">
                 <md-input-container>
-                    <input mdInput placeholder="From" formControlName="from">
+                    <input mdInput placeholder="From" formControlName="from" (change)="onTimeChanged()">
                     <md-error>Required format: hh:mm</md-error>
                 </md-input-container>
                 <md-input-container>
-                    <input mdInput placeholder="To" formControlName="to">
+                    <input mdInput placeholder="To" formControlName="to" (change)="onTimeChanged()">
                     <md-error>Required format: hh:mm</md-error>
                 </md-input-container>
             </div>

@@ -9,8 +9,7 @@ export class Work {
 	spent: string;
 	comment: string;
 
-	constructor(day: string) {
-		this.day = day;
+	constructor() {
 		this.projectId = '';
 		this.projectName = '';
 		this.from = '00:00';

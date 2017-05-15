@@ -54,6 +54,12 @@ export class WorkCardComponent implements OnInit {
 		return this.projects.filter(project => new RegExp(val, 'i').test(project.name));
 	}
 
+	onTimeChanged(): void {
+		if (this.workForm.controls['from'].valid && this.workForm.controls['to'].valid) {
+			this.work.setSpent();
+		}
+	}
+
 	deleteWork(): void {
 		this.workDeleted.emit();
 	}
