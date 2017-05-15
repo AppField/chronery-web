@@ -1,47 +1,40 @@
 <md-card>
-    <md-card-header>
-        <md-card-title>
-            <md-input-container>
-                <input mdInput placeholder="Project" [formControl]="projectCtrl" [mdAutocomplete]="auto" >
+    <form [formGroup]="workForm">
+        <md-card-content>
+            <md-input-container class="project">
+                <input mdInput placeholder="Project" formControlName="project"
+                       [mdAutocomplete]="auto">
+                <md-error>Required</md-error>
             </md-input-container>
             <md-autocomplete #auto>
                 <md-option *ngFor="let project of filteredProjects | async" [value]="project.name">
-                    <span>{{ project.name }}
-                        {{ project.id }} </span>
+                    <span>{{ project.name }} | {{ project.id }} </span>
                 </md-option>
             </md-autocomplete>
-        </md-card-title>
+            <button md-icon-button class="delete-button" (click)="deleteWork()">
+                <md-icon>clear</md-icon>
+            </button>
 
-        <button md-icon-button (click)="deleteWork()" color="warn">
-            <md-icon>clear</md-icon>
-        </button>
-    </md-card-header>
-    <md-card-content>
-        <div class="flex-row">
-            <md-input-container>
-                <input mdInput placeholder="From" [(ngModel)]="work.from" (blur)="work.setSpent()">
+            <div class="flex-row">
+                <md-input-container>
+                    <input mdInput placeholder="From" formControlName="from">
+                    <md-error>Required format: hh:mm</md-error>
+                </md-input-container>
+                <md-input-container>
+                    <input mdInput placeholder="To" formControlName="to">
+                    <md-error>Required format: hh:mm</md-error>
+                </md-input-container>
+            </div>
+
+            <md-input-container class="comment">
+                <input mdInput placeholder="Comment" formControlName="comment">
             </md-input-container>
-            <md-input-container>
-                <input mdInput placeholder="To" [(ngModel)]="work.to" (blur)="work.setSpent()">
-            </md-input-container>
-        </div>
-        <!--<div class="flex-row">-->
-        <!--<md-input-container>-->
-        <!--<input mdInput placeholder="Pause" [(ngModel)]="work.pause" (blur)="work.setSpent()">-->
-        <!--</md-input-container>-->
-        <!--<md-input-container>-->
-        <!--<input mdInput placeholder="Spent" [(ngModel)]="work.spent" readonly>-->
-        <!--</md-input-container>-->
-        <!--</div>-->
 
-        <md-input-container class="comment">
-            <input mdInput placeholder="Comment" [(ngModel)]="work.comment">
-        </md-input-container>
-
-    </md-card-content>
-    <md-card-footer>
-        <div class="spent">
-            <span>{{work.spent}}</span>
-        </div>
-    </md-card-footer>
+        </md-card-content>
+        <md-card-footer>
+            <div class="spent">
+                {{work.spent}}
+            </div>
+        </md-card-footer>
+    </form>
 </md-card>

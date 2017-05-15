@@ -1,14 +1,19 @@
+@import '../../../wtc-theme';
+
 :host {
   .mat-card {
     margin-bottom: 1rem;
+  }
 
-    .mat-card-header-text {
-      width: 100%;
+  .project {
+    width: 100%;
+    margin-bottom: .5rem;
+  }
 
-      .mat-input-container {
-        width: 100%;
-      }
-    }
+  .delete-button {
+    position: absolute;
+    top: .5rem;
+    right: .5rem;
   }
 
   .flex-row {
@@ -30,15 +35,19 @@
   }
 
   .spent {
-    color: #474446;
-    background-color: #eee;
     text-align: center;
     padding: .5rem;
     font-size: 1.25rem;
     font-weight: lighter;
+    background-color: #eee;
+    color: #474446;
   }
 
   .comment {
     width: 100%;
+  }
+
+  .fill-remaining-space {
+    flex: 1 1 auto;
   }
 }
