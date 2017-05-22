@@ -30,8 +30,6 @@ export class SidenavDaypickerComponent implements OnDestroy, AfterViewInit {
 				}).indexOf(Utility.decodeDate(dateParam).getDate());
 			}
 		});
-
-		console.log(this.days);
 	}
 
 	ngAfterViewInit() {

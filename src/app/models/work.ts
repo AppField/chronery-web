@@ -1,4 +1,5 @@
-import {toArray} from 'rxjs/operator/toArray';
+import * as moment from 'moment/moment';
+
 export class Work {
 	day: string;
 	projectId: string;
@@ -21,15 +22,11 @@ export class Work {
 
 	setSpent = function (): void {
 		const from = this.from.split(':');
-		const to = this.from.split(':');
-
-		const fromDate = new Date(0, 0, 0, from[0], from[1]);
-		const toDate = new Date(0, 0, 0, to[0], to[1]);
-
-		const difference = new Date(<any>toDate - <any>fromDate);
-		this.spent = difference.getHours() + ':' + difference.getMinutes();
-
-		console.log(this.spent);
+		const to = this.to.split(':');
+		const fromDate = new Date(0, 0, 0, from[0], from[1], 0);
+		const toDate = new Date(0, 0, 0, to[0], to[1], 0);
+		const diff = moment.utc(moment(toDate).diff(moment(fromDate)));
+		this.spent = diff.format('HH:mm');
 	};
 
 }

@@ -1,8 +1,9 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Work} from '../../models/work';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {AbstractControl, Form, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Project} from '../../models/project';
 import {Observable} from 'rxjs/Observable';
+import * as moment from 'moment/moment';
 
 @Component({
 	selector: 'wtc-work-card',
@@ -24,6 +25,18 @@ export class WorkCardComponent implements OnInit {
 	];
 
 	workForm: FormGroup;
+	toControl: AbstractControl;
+
+	static isAfter(control: FormControl): any {
+		if (control.parent) {
+			const from = control.parent.controls['from'].value.split(':');
+			const to = control.value.split(':');
+			const fromDate = new Date(0, 0, 0, from[0], from[1], 0);
+			const toDate = new Date(0, 0, 0, to[0], to[1], 0);
+			return moment(toDate).isAfter(fromDate) ? true : {isNotAfter: true};
+		}
+		return null;
+	}
 
 	constructor(public fb: FormBuilder) {
 
@@ -35,7 +48,7 @@ export class WorkCardComponent implements OnInit {
 		this.workForm = this.fb.group({
 			project: [this.work.projectName, Validators.required],
 			from: [this.work.from, [Validators.required, Validators.pattern(timeRegex)]],
-			to: [this.work.to, [Validators.required, Validators.pattern(timeRegex)]],
+			to: [this.work.to, [Validators.required, Validators.pattern(timeRegex), WorkCardComponent.isAfter]],
 			comment: this.work.comment
 		});
 
@@ -45,8 +58,9 @@ export class WorkCardComponent implements OnInit {
 			.map(project => project && typeof project === 'object' ? project.name : project)
 			.map(name => name ? this.filterProjects(name) : this.projects.slice());
 
-		(<FormControl>this.workForm.controls['project']).registerOnChange(() => {
-			console.log(this.work.projectName);
+		this.toControl = this.workForm.controls['to'];
+		this.workForm.controls['from'].valueChanges.subscribe((value) => {
+			this.workForm.controls['to'].updateValueAndValidity();
 		});
 	}
 
@@ -54,13 +68,25 @@ export class WorkCardComponent implements OnInit {
 		return this.projects.filter(project => new RegExp(val, 'i').test(project.name));
 	}
 
-	onTimeChanged(): void {
+	projectChanged(project: Project): void {
+		this.work.projectId = project.id;
+	}
+
+	timeChanged(): void {
 		if (this.workForm.controls['from'].valid && this.workForm.controls['to'].valid) {
 			this.work.setSpent();
 		}
 	}
 
+	saveWork(): void {
+		this.work.projectName = this.workForm.controls['project'].value;
+		this.work.from = this.workForm.controls['from'].value;
+		this.work.to = this.workForm.controls['to'].value;
+		this.work.comment = this.workForm.controls['comment'].value;
+	}
+
 	deleteWork(): void {
 		this.workDeleted.emit();
 	}
+
 }

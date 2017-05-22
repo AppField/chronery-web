@@ -1,13 +1,13 @@
 <md-card>
-    <form [formGroup]="workForm">
+    <form [formGroup]="workForm" (ngSubmit)="saveWork()">
         <md-card-content>
             <md-input-container class="project">
-                <input mdInput placeholder="Project" formControlName="project"
-                       [mdAutocomplete]="auto">
+                <input mdInput placeholder="Project" formControlName="project" [mdAutocomplete]="auto">
                 <md-error>Required</md-error>
             </md-input-container>
             <md-autocomplete #auto>
-                <md-option *ngFor="let project of filteredProjects | async" [value]="project.name">
+                <md-option *ngFor="let project of filteredProjects | async" [value]="project.name"
+                           (onSelectionChange)="projectChanged(project)">
                     <span>{{ project.name }} | {{ project.id }} </span>
                 </md-option>
             </md-autocomplete>
@@ -17,12 +17,15 @@
 
             <div class="flex-row">
                 <md-input-container>
-                    <input mdInput placeholder="From" formControlName="from" (change)="onTimeChanged()">
+                    <input mdInput placeholder="From" formControlName="from" [(ngModel)]="work.from"
+                           (change)="timeChanged()">
                     <md-error>Required format: hh:mm</md-error>
                 </md-input-container>
                 <md-input-container>
-                    <input mdInput placeholder="To" formControlName="to" (change)="onTimeChanged()">
-                    <md-error>Required format: hh:mm</md-error>
+                    <input mdInput placeholder="To" formControlName="to" [(ngModel)]="work.to"
+                           (change)="timeChanged()">
+                    <md-error *ngIf="toControl.hasError('required') || toControl.hasError('pattern')">Required format: hh:mm</md-error>
+                    <md-error *ngIf="!(toControl.hasError('required') || toControl.hasError('pattern')) && toControl.hasError('isNotAfter')">"To time" isn't after from time</md-error>
                 </md-input-container>
             </div>
 
@@ -33,7 +36,7 @@
         </md-card-content>
         <md-card-footer>
             <div class="spent">
-                {{work.spent}}
+                {{work.spent}} h
             </div>
         </md-card-footer>
     </form>
