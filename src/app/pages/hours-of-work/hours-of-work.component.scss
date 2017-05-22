@@ -1,4 +1,12 @@
 :host {
+  .title-container {
+    display: flex;
+
+    .title {
+      display: inline-block;
+    }
+  }
+
   .container {
     display: inline-flex;
     flex-wrap: wrap;
