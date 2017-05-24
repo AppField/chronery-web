@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Work} from '../../models/work';
-import {AbstractControl, Form, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Project} from '../../models/project';
 import {Observable} from 'rxjs/Observable';
 import * as moment from 'moment/moment';
@@ -77,6 +77,32 @@ export class WorkCardComponent implements OnInit {
 			this.work.setSpent();
 		}
 	}
+
+	formatTime(value: string, name: string): void {
+		if (value.length === 1) {
+			if (Number(value)) {
+				value = '0' + value + ':00';
+			}
+		} else if (value.length === 2) {
+			if (Number(value)) {
+				value = value + ':00';
+			}
+		} else if (value.length === 3) {
+			if (Number(value)) {
+				// User typed e.g. '124'
+				value = value[0] + value[1] + ':' + value[2] + '0';
+			}
+		} else if (value.length === 4) {
+			if (Number(value) || Number(value) === 0) {
+				value = value[0] + value[1] + ':' + value[2] + value[3];
+			} else if (value[2] === ':') {
+				value = value + '0';
+			}
+		}
+		name === 'from' ? this.workForm.controls['from'].patchValue(value) : this.workForm.controls['to'].patchValue(value);
+		this.timeChanged();
+	}
+
 
 	saveWork(): void {
 		this.work.projectName = this.workForm.controls['project'].value;

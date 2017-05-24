@@ -11,21 +11,24 @@
                     <span>{{ project.name }} | {{ project.id }} </span>
                 </md-option>
             </md-autocomplete>
-            <button md-icon-button class="delete-button" (click)="deleteWork()">
+            <button md-icon-button class="delete-button" (click)="deleteWork()" tabindex="-1">
                 <md-icon>clear</md-icon>
             </button>
 
             <div class="flex-row">
                 <md-input-container>
-                    <input mdInput placeholder="From" formControlName="from" [(ngModel)]="work.from"
-                           (change)="timeChanged()">
+                    <input mdInput placeholder="From" formControlName="from" [(ngModel)]="work.from" (blur)="formatTime(work.from, 'from')">
                     <md-error>Required format: hh:mm</md-error>
                 </md-input-container>
                 <md-input-container>
-                    <input mdInput placeholder="To" formControlName="to" [(ngModel)]="work.to"
-                           (change)="timeChanged()">
-                    <md-error *ngIf="toControl.hasError('required') || toControl.hasError('pattern')">Required format: hh:mm</md-error>
-                    <md-error *ngIf="!(toControl.hasError('required') || toControl.hasError('pattern')) && toControl.hasError('isNotAfter')">"To time" isn't after from time</md-error>
+                    <input mdInput placeholder="To" formControlName="to" [(ngModel)]="work.to" (blur)="formatTime(work.to, 'to')">
+                    <md-error *ngIf="toControl.hasError('required') || toControl.hasError('pattern')">Required format:
+                        hh:mm
+                    </md-error>
+                    <md-error
+                            *ngIf="!(toControl.hasError('required') || toControl.hasError('pattern')) && toControl.hasError('isNotAfter')">
+                        "To time" isn't after from time
+                    </md-error>
                 </md-input-container>
             </div>
 
