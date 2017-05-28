@@ -1,5 +1,4 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
 import {Utility} from '../../utils/utility';
 import {DateParamService} from '../../services/date-param/date-param.service';
 import {Work} from '../../models/work';
@@ -15,13 +14,14 @@ export class HoursOfWorkComponent implements OnInit, OnDestroy {
 
 	private sub: any;
 
-	constructor(private route: ActivatedRoute,
+	constructor(
+		// private route: ActivatedRoute,
 				private dateParamService: DateParamService) {
 
-		this.sub = this.route.params.subscribe(params => {
-			this.date = Utility.decodeDate(params['date']);
-			this.dateParamService.saveDateParam(params['date']);
-		});
+		// this.sub = this.route.params.subscribe(params => {
+		// 	this.date = Utility.decodeDate(params['date']);
+		// 	this.dateParamService.saveDateParam(params['date']);
+		// });
 
 		const work1 = new Work();
 		const work2 = new Work();
