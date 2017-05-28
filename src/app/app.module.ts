@@ -1,41 +1,34 @@
-import {BrowserModule} from '@angular/platform-browser';
-import {ErrorHandler, NgModule} from '@angular/core';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {HttpModule} from '@angular/http';
-import {IonicApp, IonicErrorHandler, IonicModule} from 'ionic-angular';
+import { BrowserModule } from '@angular/platform-browser';
+import { ErrorHandler, NgModule } from '@angular/core';
+import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 
-import 'hammerjs';
+import { MyApp } from './app.component';
+import { HomePage } from '../pages/home/home';
+import { ListPage } from '../pages/list/list';
 
-import {AppComponent} from './app.component';
-import {SummaryComponent} from './pages/summary/summary.component';
-import {SettingsComponent} from './pages/settings/settings.component';
-import {HoursOfWorkComponent} from './pages/hours-of-work/hours-of-work.component';
-import {DateParamService} from './services/date-param/date-param.service';
-import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { StatusBar } from '@ionic-native/status-bar';
+import { SplashScreen } from '@ionic-native/splash-screen';
 
 @NgModule({
-	declarations: [
-		AppComponent,
-		// AppbarComponent,
-		// SidenavComponent,
-		// SidenavDaypickerComponent,
-		// MonthYearDialogComponent,
-		// SummaryComponent,
-		// SettingsComponent,
-		// HoursOfWorkComponent,
-		// WorkCardComponent,
-		DashboardComponent
-	],
-	entryComponents: [DashboardComponent],
-	imports: [
-		BrowserModule,
-		FormsModule,
-		ReactiveFormsModule,
-		HttpModule,
-		IonicModule.forRoot(AppComponent)
-	],
-	providers: [DateParamService, { provide: ErrorHandler, useClass: IonicErrorHandler}],
-	bootstrap: [IonicApp]
+  declarations: [
+    MyApp,
+    HomePage,
+    ListPage
+  ],
+  imports: [
+    BrowserModule,
+    IonicModule.forRoot(MyApp),
+  ],
+  bootstrap: [IonicApp],
+  entryComponents: [
+    MyApp,
+    HomePage,
+    ListPage
+  ],
+  providers: [
+    StatusBar,
+    SplashScreen,
+    {provide: ErrorHandler, useClass: IonicErrorHandler}
+  ]
 })
-export class AppModule {
-}
+export class AppModule {}
