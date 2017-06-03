@@ -1,6 +1,5 @@
 // http://ionicframework.com/docs/v2/theming/
 
-
 // App Global Sass
 // --------------------------------------------------
 // Put style rules here that you want to apply globally. These
@@ -14,3 +13,28 @@
 // To declare rules for a specific mode, create a child rule
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
+
+.split-pane .menu-inner {
+
+  .toolbar-background {
+    background-color: color($colors, dark);
+  }
+  .header::after {
+    background-image:none;
+  }
+
+  .content, .item {
+    background-color: color($colors, dark);
+    color: color($colors, light);
+  }
+  .scroll-content {
+    overflow-y: auto;
+  }
+
+  .icon {
+    margin-right: 0;
+  }
+}
+.split-pane-md.split-pane-visible > .split-pane-side {
+  border-right:0;
+}

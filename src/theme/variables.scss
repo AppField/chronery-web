@@ -20,14 +20,26 @@ $font-path: "../assets/fonts";
 // The "primary" color is the only required color in the map.
 
 $colors: (
+        primary-dark: #00796B,
         primary: #009688,
         secondary: #00BCD4,
         danger: #f53d3d,
         light: #f4f4f4,
-        dark: #222
+        dark: #2e2e2e,
 );
 
 $toolbar-md-background: color($colors, primary);
+
+$side-menu-width: 200px;
+
+// ==== Side Menu Width ====
+$split-pane-side-max-width: $side-menu-width;
+$split-pane-side-min-width: $side-menu-width;
+$split-pane-md-side-max-width: $side-menu-width;
+$split-pane-md-side-min-width: $side-menu-width;
+$split-pane-ios-side-max-width: $side-menu-width;
+$split-pane-ios-side-min-width: $side-menu-width;
+
 
 // App iOS Variables
 // --------------------------------------------------

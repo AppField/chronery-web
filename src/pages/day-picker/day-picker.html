@@ -1,0 +1,16 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>DayPicker</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <ion-list>
+      <button ion-item *ngFor="let day of days">
+            {{day | date:'EEEE dd.'}}
+      </button>
+  </ion-list>
+</ion-content>

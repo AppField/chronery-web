@@ -1,37 +1,25 @@
 import { Component, ViewChild } from '@angular/core';
-import { Nav } from 'ionic-angular';
+import { Nav, Events } from 'ionic-angular';
+import { SideNavPage } from '../pages/side-nav/side-nav';
 
 
 @Component({
-  templateUrl: 'app.html'
+	templateUrl: 'app.html'
 })
 export class MyApp {
-  @ViewChild(Nav) nav: Nav;
+	@ViewChild('content') nav: Nav;
 
-  rootPage: string = 'dashboard';
+	rootPage: string = 'dashboard';
+	sideRootPage: Component = SideNavPage;
 
-  pages: Array<{title: string, component: any}>;
+	constructor(public events: Events) {
+		this.initializeApp();
 
-  constructor() {
-    this.initializeApp();
+		events.subscribe('page:navigate', (page) => {
+			this.nav.setRoot(page.component);
+		})
+	}
 
-    // used for an example of ngFor and navigation
-    this.pages = [
-      { title: 'Dashboard', component: 'dashboard' },
-      { title: 'Working Hours', component: 'working-hours'},
-      { title: 'Reports', component: 'reports'},
-      { title: 'Settings', component: 'settings'}
-    ];
-
-  }
-
-  initializeApp() {
-
-  }
-
-  openPage(page) {
-    // Reset the content nav to have just this page
-    // we wouldn't want the back button to show in this scenario
-    this.nav.setRoot(page.component);
-  }
+	initializeApp() {
+	}
 }
