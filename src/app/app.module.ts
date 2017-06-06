@@ -12,6 +12,7 @@ import { WorkCardComponent } from '../components/work-card/work-card';
 		MyApp,
 		SideNavPage,
 		DayPickerPage,
+    WorkCardComponent,
     WorkCardComponent
 	],
 	imports: [
