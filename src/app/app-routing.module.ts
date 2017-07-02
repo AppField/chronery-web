@@ -3,32 +3,32 @@ import {RouterModule, Routes} from '@angular/router';
 
 import {HoursOfWorkComponent} from './pages/hours-of-work/hours-of-work.component';
 import {SummaryComponent} from './pages/summary/summary.component';
-import {Utility} from './utils/utility';
+import {SettingsComponent} from './pages/settings/settings.component';
+import {DashboardComponent} from './pages/dashboard/dashboard.component';
 
 const routes: Routes = [
-		{
-			path: 'hours-of-work',
-			redirectTo: 'hours-of-work/' + Utility.encodeDate(new Date()),
-		},
-		{
-			path: 'hours-of-work/:date',
-			component: HoursOfWorkComponent,
-		},
-		{
-			path: 'summary/:date',
-			component: SummaryComponent
-		},
-		{
-			path: '',
-			redirectTo: 'hours-of-work/' + Utility.encodeDate(new Date()),
-			pathMatch: 'full'
-		},
-		{
-			path: '**',
-			redirectTo: 'hours-of-work/' + Utility.encodeDate(new Date()),
-			pathMatch: 'full'
-		}
-	];
+	{
+		path: 'dashboard',
+		component: DashboardComponent
+	},
+	{
+		path: 'working-hours',
+		component: HoursOfWorkComponent,
+	},
+	{
+		path: 'summary',
+		component: SummaryComponent
+	},
+	{
+		path: 'settings',
+		component: SettingsComponent
+	},
+	{
+		path: '**',
+		redirectTo: '/dashboard',
+		pathMatch: 'full'
+	}
+];
 
 @NgModule({
 	imports: [

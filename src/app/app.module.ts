@@ -31,6 +31,7 @@ import {AppRoutingModule} from './app-routing.module';
 import {DateParamService} from './services/date-param/date-param.service';
 import {WorkCardComponent} from './components/work-card/work-card.component';
 import { NavlistComponent } from './components/navlist/navlist.component';
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
 
 @NgModule({
 	declarations: [
@@ -43,7 +44,8 @@ import { NavlistComponent } from './components/navlist/navlist.component';
 		SettingsComponent,
 		HoursOfWorkComponent,
 		WorkCardComponent,
-		NavlistComponent
+		NavlistComponent,
+		DashboardComponent
 	],
 	entryComponents: [MonthYearDialogComponent],
 	imports: [
