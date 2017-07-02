@@ -1,20 +1,19 @@
-<md-sidenav-container>
+<md-sidenav-container class="dark-sidenav-theme">
     <md-sidenav mode="side" opened="true">
-        <wtc-sidenav-daypicker></wtc-sidenav-daypicker>
+        <!--<wtc-sidenav-daypicker></wtc-sidenav-daypicker>-->
+       <wtc-navlist></wtc-navlist>
     </md-sidenav>
 
     <div>
-        <nav md-tab-nav-bar>
-            <a md-tab-link
-               *ngFor="let link of navLinks; let i = index"
-               (click)="activeLinkIndex = i"
-               [routerLink]="[link.path, selectedDate]"
-               [active]="isActive([link.path, selectedDate])">
-                {{link.label}}
-            </a>
-        </nav>
-        <div class="router-container">
-            <router-outlet></router-outlet>
-        </div>
+        <!--<nav md-tab-nav-bar>-->
+        <!--<a md-tab-link-->
+        <!--*ngFor="let link of navLinks; let i = index"-->
+        <!--(click)="activeLinkIndex = i"-->
+        <!--[routerLink]="[link.path, selectedDate]"-->
+        <!--[active]="isActive([link.path, selectedDate])">-->
+        <!--{{link.label}}-->
+        <!--</a>-->
+        <!--</nav>-->
+        <router-outlet></router-outlet>
     </div>
 </md-sidenav-container>

@@ -4,13 +4,16 @@
   display: flex;
   flex: 1;
 
+  .mat-sidenav {
+    //background-color: mat-color($primary);
+    //color: mat-color($dark-foreground);
+    /deep/ .mat-nav-list .mat-list-item {
+      color: #e2e2e2;
+    }
+  }
+
   .mat-sidenav-container {
     width: 100%;
-
-
-    .router-container {
-      padding: .5rem;
-    }
   }
 
   /deep/ .mat-ink-bar {
