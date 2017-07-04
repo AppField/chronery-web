@@ -4,9 +4,13 @@
   display: flex;
   flex: 1;
 
+  .mat-toolbar {
+    background-color: #424242;
+    color: white;
+    box-shadow: none;
+  }
+
   .mat-sidenav {
-    //background-color: mat-color($primary);
-    //color: mat-color($dark-foreground);
     /deep/ .mat-nav-list .mat-list-item {
       color: #e2e2e2;
     }
@@ -14,10 +18,6 @@
 
   .mat-sidenav-container {
     width: 100%;
-  }
-
-  /deep/ .mat-ink-bar {
-    background-color: mat-color($accent);
   }
 }
 
