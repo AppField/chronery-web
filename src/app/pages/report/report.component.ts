@@ -4,11 +4,11 @@ import {DateParamService} from '../../services/date-param/date-param.service';
 import {Utility} from '../../utils/utility';
 
 @Component({
-	selector: 'wtc-summary',
-	templateUrl: './summary.component.html',
-	styleUrls: ['./summary.component.scss']
+	selector: 'wtc-report',
+	templateUrl: './report.component.html',
+	styleUrls: ['./report.component.scss']
 })
-export class SummaryComponent implements OnInit, OnDestroy {
+export class ReportComponent  implements OnInit, OnDestroy {
 	date: Date;
 
 	private sub: any;

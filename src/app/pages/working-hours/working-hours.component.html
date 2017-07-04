@@ -1,5 +1,10 @@
-<wtc-appbar>
-</wtc-appbar>
+<md-toolbar color="primary">
+    Working Hours
+    <span class="fill-remaining-space"></span>
+    <button md-button (click)="SetActiveDateToToday()">
+        Today
+    </button>
+</md-toolbar>
 <div class="title-container">
     <h2 class="title">
         {{ date | date:'dd. MMMM yyyy' }}

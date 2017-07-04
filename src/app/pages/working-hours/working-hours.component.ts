@@ -5,11 +5,11 @@ import {DateParamService} from '../../services/date-param/date-param.service';
 import {Work} from '../../models/work';
 
 @Component({
-	selector: 'wtc-hours-of-work',
-	templateUrl: './hours-of-work.component.html',
-	styleUrls: ['./hours-of-work.component.scss']
+	selector: 'wtc-working-hours',
+	templateUrl: './working-hours.component.html',
+	styleUrls: ['./working-hours.component.scss']
 })
-export class HoursOfWorkComponent implements OnInit, OnDestroy {
+export class WorkingHoursComponent implements OnInit, OnDestroy {
 	date: Date;
 	works: Work[];
 
@@ -41,6 +41,11 @@ export class HoursOfWorkComponent implements OnInit, OnDestroy {
 
 	removeWork = function (index: string): void {
 		this.works.splice(index, 1);
+	};
+
+	SetActiveDateToToday = function (): void {
+		const encodedDate = Utility.encodeDate(new Date());
+		this.router.navigate(['working-hours', encodedDate]);
 	};
 
 	ngOnDestroy() {

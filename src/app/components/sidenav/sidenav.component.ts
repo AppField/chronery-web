@@ -17,8 +17,8 @@ export class SidenavComponent implements OnInit {
 	constructor(private router: Router,
 				private dateParamService: DateParamService) {
 		this.navLinks = [
-			{path: '/hours-of-work', label: 'Hours Of Work'},
-			{path: '/summary', label: 'Month Summary'}
+			{path: '/working-hours', label: 'Hours Of Work'},
+			{path: '/report', label: 'Month Report'}
 		];
 
 		this.sub = this.dateParamService.getDateParam().subscribe(dateParam => {

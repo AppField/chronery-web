@@ -38,7 +38,7 @@ export class SidenavDaypickerComponent implements OnDestroy, AfterViewInit {
 
 	onDaySelect(date: Date) {
 		const encodedDate = Utility.encodeDate(date);
-		this.router.navigate(['hours-of-work', encodedDate]);
+		this.router.navigate(['working-hours', encodedDate]);
 	}
 
 	openMonthYearDialog() {

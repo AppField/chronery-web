@@ -1,8 +1,8 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 
-import {HoursOfWorkComponent} from './pages/hours-of-work/hours-of-work.component';
-import {SummaryComponent} from './pages/summary/summary.component';
+import {WorkingHoursComponent} from './pages/working-hours/working-hours.component';
+import {ReportComponent} from './pages/report/report.component';
 import {SettingsComponent} from './pages/settings/settings.component';
 import {DashboardComponent} from './pages/dashboard/dashboard.component';
 
@@ -13,11 +13,11 @@ const routes: Routes = [
 	},
 	{
 		path: 'working-hours',
-		component: HoursOfWorkComponent,
+		component: WorkingHoursComponent,
 	},
 	{
-		path: 'summary',
-		component: SummaryComponent
+		path: 'report',
+		component: ReportComponent
 	},
 	{
 		path: 'settings',
