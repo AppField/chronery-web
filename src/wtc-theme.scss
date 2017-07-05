@@ -9,3 +9,8 @@ $warn: mat-palette($mat-amber);
 $wtc-theme: mat-light-theme($primary, $accent, $warn);
 
 @include angular-material-theme($wtc-theme);
+
+
+$sidenav-bg: #212121;
+$subsidenav-bg: #424242;
+$sidenav-text: #e2e2e2;

@@ -5,16 +5,16 @@
   flex: 1;
 
   .mat-toolbar {
-    background-color: #212121;
+    background-color: $sidenav-bg;
     color: white;
     box-shadow: none;
   }
 
   .mat-sidenav {
-    background-color: #212121;
+    background-color: $sidenav-bg;
 
     /deep/ .mat-nav-list .mat-list-item {
-      color: #e2e2e2;
+      color: $sidenav-text;
     }
   }
 

@@ -9,11 +9,12 @@
     padding-top: 0;
   }
 
-  .mat-list-item {
+  .mat-nav-list .mat-list-item {
     transition: color 0.3s;
+    color: $sidenav-text;
   }
 
   .mat-list-item.active {
-    color: mat-color($accent);
+    color: mat-color($primary);
   }
 }

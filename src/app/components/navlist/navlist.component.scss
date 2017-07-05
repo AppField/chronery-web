@@ -3,7 +3,7 @@
 :host {
 
   .mat-nav-list .mat-list-item.active {
-    background-color: #424242;
+    background-color: $subsidenav-bg;
     color: mat-color($primary);
   }
 }
