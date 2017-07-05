@@ -9,13 +9,3 @@ $warn: mat-palette($mat-amber);
 $wtc-theme: mat-light-theme($primary, $accent, $warn);
 
 @include angular-material-theme($wtc-theme);
-
-//Sidenav Theme
-$sidenav-primary: mat-palette($mat-grey, 800);
-$sidenav-accent: mat-palette($mat-teal);
-$sidenav-warn: mat-palette($mat-amber);
-$sidenav-theme: mat-dark-theme($sidenav-primary, $sidenav-accent, $sidenav-warn);
-
-.dark-sidenav-theme {
-  @include mat-sidenav-theme($sidenav-theme);
-}

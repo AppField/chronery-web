@@ -1,4 +1,14 @@
 :host {
+
+  .mat-sidenav-container {
+    height: 100vh;
+
+    .mat-sidenav {
+      background-color: #424242;
+      color: #e2e2e2;
+    }
+  }
+
   .title-container {
     display: flex;
 

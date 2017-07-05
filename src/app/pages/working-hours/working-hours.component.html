@@ -1,20 +1,29 @@
-<md-toolbar color="primary">
-    Working Hours
-    <span class="fill-remaining-space"></span>
-    <button md-button (click)="SetActiveDateToToday()">
-        Today
-    </button>
-</md-toolbar>
-<div class="title-container">
-    <h2 class="title">
-        {{ date | date:'dd. MMMM yyyy' }}
-    </h2>
-    <span class="fill-remaining-space"></span>
-    <button md-fab (click)="newWork()">
-        <md-icon>add</md-icon>
-    </button>
-</div>
+<md-sidenav-container>
+    <md-sidenav #subsidenav mode="side" opened="true">
+        <!--<wtc-sidenav-daypicker></wtc-sidenav-daypicker>-->
+        Sub Sidenav!
+    </md-sidenav>
 
-<div class="container">
-    <wtc-work-card *ngFor="let work of works" [work]="work" (workDeleted)="removeWork(index)"></wtc-work-card>
-</div>
+    <div>
+        <md-toolbar color="primary">
+            Working Hours
+            <span class="fill-remaining-space"></span>
+            <button md-button (click)="SetActiveDateToToday()">
+                Today
+            </button>
+        </md-toolbar>
+        <div class="title-container">
+            <h2 class="title">
+                {{ date | date:'dd. MMMM yyyy' }}
+            </h2>
+            <span class="fill-remaining-space"></span>
+            <button md-fab (click)="newWork()">
+                <md-icon>add</md-icon>
+            </button>
+        </div>
+
+        <div class="container">
+            <wtc-work-card *ngFor="let work of works" [work]="work" (workDeleted)="removeWork(index)"></wtc-work-card>
+        </div>
+    </div>
+</md-sidenav-container>

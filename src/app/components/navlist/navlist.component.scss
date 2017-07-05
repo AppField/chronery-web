@@ -1,0 +1,9 @@
+@import '../../../wtc-theme';
+
+:host {
+
+  .mat-nav-list .mat-list-item.active {
+    background-color: #424242;
+    color: mat-color($primary);
+  }
+}
