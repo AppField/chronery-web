@@ -3,6 +3,8 @@ import {Work} from '../../models/work';
 import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Project} from '../../models/project';
 import {Observable} from 'rxjs/Observable';
+import 'rxjs/add/operator/startWith';
+import 'rxjs/add/operator/map';
 import * as moment from 'moment/moment';
 
 @Component({
