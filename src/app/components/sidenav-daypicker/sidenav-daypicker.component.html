@@ -1,5 +1,7 @@
-<button md-button id="btnMonthYear" (click)="openMonthYearDialog()" color="primary">{{monthYear | date:'MMMM yyyy' }}
-</button>
+<md-toolbar>
+    <button md-button id="btnMonthYear" (click)="openMonthYearDialog()" color="primary">{{monthYear | date:'MMMM yyyy'}}
+    </button>
+</md-toolbar>
 
 <md-nav-list>
     <span *ngFor="let day of days; index as i" #dayList>

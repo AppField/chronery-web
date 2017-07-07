@@ -1,6 +1,11 @@
 @import '../../../wtc-theme';
 
 :host {
+  .mat-toolbar {
+    background-color: $subsidenav-bg;
+    box-shadow: none;
+  }
+
   #btnMonthYear {
     width: 100%;
   }
