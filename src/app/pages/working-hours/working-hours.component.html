@@ -11,18 +11,21 @@
                 Today
             </button>
         </md-toolbar>
-        <div class="title-container">
-            <h2 class="title">
-                {{ date | date:'dd. MMMM yyyy' }}
-            </h2>
-            <span class="fill-remaining-space"></span>
-            <button md-fab (click)="newWork()">
-                <md-icon>add</md-icon>
-            </button>
-        </div>
+        <div class="inner-sidenav-content">
+            <div class="title-container">
+                <h2 class="title">
+                    {{ date | date:'dd. MMMM yyyy' }}
+                </h2>
+                <span class="fill-remaining-space"></span>
+                <button md-fab (click)="newWork()">
+                    <md-icon>add</md-icon>
+                </button>
+            </div>
 
-        <div class="container">
-            <wtc-work-card *ngFor="let work of works" [work]="work" (workDeleted)="removeWork(index)"></wtc-work-card>
+            <div class="container">
+                <wtc-work-card *ngFor="let work of works" [work]="work"
+                               (workDeleted)="removeWork(index)"></wtc-work-card>
+            </div>
         </div>
     </div>
 </md-sidenav-container>

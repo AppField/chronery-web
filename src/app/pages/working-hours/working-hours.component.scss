@@ -5,6 +5,7 @@
     height: 100vh;
 
     .mat-sidenav {
+      min-width: 190px;
       background-color: $subsidenav-bg;
       color: $sidenav-text;
     }
