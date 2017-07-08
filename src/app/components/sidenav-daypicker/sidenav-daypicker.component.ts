@@ -25,9 +25,16 @@ export class SidenavDaypickerComponent implements OnDestroy, AfterViewInit {
 		this.sub = this.activeRoute.params.subscribe(params => {
 			const dateParam = params['date'];
 			if (dateParam) {
+				const date = Utility.decodeDate(dateParam);
+				if (this.monthYear.getMonth() !== date.getMonth() || this.monthYear.getFullYear() !== date.getFullYear()) {
+					this.monthYear.setMonth(date.getMonth());
+					this.monthYear.setFullYear(date.getFullYear());
+					this.getDays();
+				}
+
 				this.activeLinkIndex = this.days.map((obj) => {
 					return obj['date'].getDate();
-				}).indexOf(Utility.decodeDate(dateParam).getDate());
+				}).indexOf(date.getDate());
 			}
 		});
 	}
