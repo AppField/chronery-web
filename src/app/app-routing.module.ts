@@ -5,6 +5,7 @@ import {WorkingHoursComponent} from './pages/working-hours/working-hours.compone
 import {ReportComponent} from './pages/report/report.component';
 import {SettingsComponent} from './pages/settings/settings.component';
 import {DashboardComponent} from './pages/dashboard/dashboard.component';
+import {ProjectsComponent} from './pages/projects/projects.component';
 
 const routes: Routes = [
 	{
@@ -22,6 +23,10 @@ const routes: Routes = [
 	{
 		path: 'report',
 		component: ReportComponent
+	},
+	{
+		path: 'projects',
+		component: ProjectsComponent
 	},
 	{
 		path: 'settings',

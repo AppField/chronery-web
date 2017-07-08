@@ -30,6 +30,7 @@ import {AppRoutingModule} from './app-routing.module';
 import {WorkCardComponent} from './components/work-card/work-card.component';
 import {NavlistComponent} from './components/navlist/navlist.component';
 import {DashboardComponent} from './pages/dashboard/dashboard.component';
+import { ProjectsComponent } from './pages/projects/projects.component';
 
 @NgModule({
 	declarations: [
@@ -42,7 +43,8 @@ import {DashboardComponent} from './pages/dashboard/dashboard.component';
 		WorkingHoursComponent,
 		WorkCardComponent,
 		NavlistComponent,
-		DashboardComponent
+		DashboardComponent,
+		ProjectsComponent
 	],
 	entryComponents: [MonthYearDialogComponent],
 	imports: [

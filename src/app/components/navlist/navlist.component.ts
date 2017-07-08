@@ -37,6 +37,11 @@ export class NavlistComponent implements OnInit {
 				display: 'Report'
 			},
 			{
+				link: '/projects',
+				icon: 'work',
+				display: 'Projects'
+			},
+			{
 				link: '/settings',
 				icon: 'settings',
 				display: 'Settings'
