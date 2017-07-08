@@ -12,6 +12,8 @@
   }
 
   .mat-nav-list {
+    padding-top: 0;
+
     .mat-list-item {
       transition: color 0.3s;
       color: $sidenav-text;
