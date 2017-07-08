@@ -1,7 +1,6 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {Utility} from '../../utils/utility';
-import {DateParamService} from '../../services/date-param/date-param.service';
 import {Work} from '../../models/work';
 
 @Component({
@@ -15,12 +14,11 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
 
 	private sub: any;
 
-	constructor(private route: ActivatedRoute,
-				private dateParamService: DateParamService) {
+	constructor(private router: Router,
+				private route: ActivatedRoute) {
 
 		this.sub = this.route.params.subscribe(params => {
 			this.date = Utility.decodeDate(params['date']);
-			this.dateParamService.saveDateParam(params['date']);
 		});
 
 		const work1 = new Work();

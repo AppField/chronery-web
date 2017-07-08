@@ -11,12 +11,13 @@
     width: 100%;
   }
 
-  .mat-nav-list .mat-list-item {
-    transition: color 0.3s;
-    color: $sidenav-text;
-  }
-
-  .mat-list-item.active {
-    color: mat-color($primary);
+  .mat-nav-list {
+    .mat-list-item {
+      transition: color 0.3s;
+      color: $sidenav-text;
+    }
+    .mat-list-item.active {
+      color: mat-color($primary);
+    }
   }
 }

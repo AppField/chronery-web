@@ -1,18 +1,6 @@
 <md-nav-list>
-    <a md-list-item routerLink="/dashboard" routerLinkActive="active">
-        <md-icon md-list-icon>dashboard</md-icon>
-        Dashboard
-    </a>
-    <a md-list-item routerLink="/working-hours" routerLinkActive="active">
-        <md-icon md-list-icon>timer</md-icon>
-        Working Hours
-    </a>
-    <a md-list-item routerLink="/report" routerLinkActive="active">
-        <md-icon md-list-icon>business</md-icon>
-        Report
-    </a>
-    <a md-list-item routerLink="/settings" routerLinkActive="active">
-        <md-icon md-list-icon>settings</md-icon>
-        Settings
+    <a md-list-item *ngFor="let item of routerItems" routerLink="{{item.link}}" routerLinkActive="active">
+        <md-icon md-list-icon>{{item.icon}}</md-icon>
+        {{item.display}}
     </a>
 </md-nav-list>

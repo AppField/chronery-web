@@ -16,6 +16,10 @@ const routes: Routes = [
 		component: WorkingHoursComponent,
 	},
 	{
+		path: 'working-hours/:date',
+		component: WorkingHoursComponent
+	},
+	{
 		path: 'report',
 		component: ReportComponent
 	},

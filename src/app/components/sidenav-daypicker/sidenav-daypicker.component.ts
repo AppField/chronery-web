@@ -2,8 +2,7 @@ import {Component, OnDestroy, ViewChildren, AfterViewInit} from '@angular/core';
 import {MonthYearDialogComponent} from '../month-year-dialog/month-year-dialog.component';
 import {MdDialog} from '@angular/material';
 import {Utility} from '../../utils/utility';
-import {Router} from '@angular/router';
-import {DateParamService} from '../../services/date-param/date-param.service';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
 	selector: 'wtc-sidenav-daypicker',
@@ -20,10 +19,11 @@ export class SidenavDaypickerComponent implements OnDestroy, AfterViewInit {
 
 	constructor(private dialog: MdDialog,
 				private router: Router,
-				private dateParamService: DateParamService) {
+				private activeRoute: ActivatedRoute) {
 		this.getDays();
 
-		this.sub = this.dateParamService.getDateParam().subscribe(dateParam => {
+		this.sub = this.activeRoute.params.subscribe(params => {
+			const dateParam = params['date'];
 			if (dateParam) {
 				this.activeLinkIndex = this.days.map((obj) => {
 					return obj['date'].getDate();

@@ -27,10 +27,9 @@ import {ReportComponent} from './pages/report/report.component';
 import {SettingsComponent} from './pages/settings/settings.component';
 import {WorkingHoursComponent} from './pages/working-hours/working-hours.component';
 import {AppRoutingModule} from './app-routing.module';
-import {DateParamService} from './services/date-param/date-param.service';
 import {WorkCardComponent} from './components/work-card/work-card.component';
-import { NavlistComponent } from './components/navlist/navlist.component';
-import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import {NavlistComponent} from './components/navlist/navlist.component';
+import {DashboardComponent} from './pages/dashboard/dashboard.component';
 
 @NgModule({
 	declarations: [
@@ -56,7 +55,7 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 		MdTabsModule, MdListModule, MdToolbarModule,
 		AppRoutingModule
 	],
-	providers: [DateParamService],
+	providers: [],
 	bootstrap: [AppComponent]
 })
 export class AppModule {
