@@ -6,6 +6,8 @@ import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/startWith';
 import 'rxjs/add/observable/merge';
 import 'rxjs/add/operator/map';
+import {MdDialog} from '@angular/material';
+import {ProjectDialogComponent} from '../../components/project-modal/project-dialog.component';
 
 @Component({
 	selector: 'wtc-projects',
@@ -16,12 +18,22 @@ export class ProjectsComponent implements OnInit {
 	displayedColumns = ['id', 'number', 'name'];
 	exampleDatabase = new ExampleProjectDatabase();
 	dataSource: ExampleProjectSource | null;
-	
-	constructor() {
+
+	constructor(public dialog: MdDialog) {
 	}
 
 	ngOnInit() {
 		this.dataSource = new ExampleProjectSource(this.exampleDatabase);
+	}
+
+	openProjectDialog(): void {
+		const newProject = new Project();
+		const dialogRef = this.dialog.open(ProjectDialogComponent, {
+			data: newProject
+		});
+		dialogRef.afterClosed().subscribe(result => {
+			console.log(result);
+		});
 	}
 
 }

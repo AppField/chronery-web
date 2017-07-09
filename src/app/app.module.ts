@@ -33,6 +33,7 @@ import {WorkCardComponent} from './components/work-card/work-card.component';
 import {NavlistComponent} from './components/navlist/navlist.component';
 import {DashboardComponent} from './pages/dashboard/dashboard.component';
 import {ProjectsComponent} from './pages/projects/projects.component';
+import {ProjectDialogComponent} from './components/project-modal/project-dialog.component';
 
 @NgModule({
 	declarations: [
@@ -46,9 +47,10 @@ import {ProjectsComponent} from './pages/projects/projects.component';
 		WorkCardComponent,
 		NavlistComponent,
 		DashboardComponent,
-		ProjectsComponent
+		ProjectsComponent,
+		ProjectDialogComponent
 	],
-	entryComponents: [MonthYearDialogComponent],
+	entryComponents: [MonthYearDialogComponent, ProjectDialogComponent],
 	imports: [
 		BrowserModule,
 		FormsModule,
