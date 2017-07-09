@@ -2,7 +2,7 @@ import * as moment from 'moment/moment';
 
 export class Work {
 	day: string;
-	projectId: string;
+	projectNumber: string;
 	projectName: string;
 	from: string;
 	to: string;
@@ -11,7 +11,7 @@ export class Work {
 	comment: string;
 
 	constructor() {
-		this.projectId = '';
+		this.projectNumber = '';
 		this.projectName = '';
 		this.from = '00:00';
 		this.to = '00:00';

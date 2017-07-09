@@ -20,10 +20,10 @@ export class WorkCardComponent implements OnInit {
 
 	filteredProjects: Observable<Project[]>;
 	projects = [
-		new Project('52342', 'Landing Pages'),
-		new Project('1234', 'Maintenance Interface'),
-		new Project('6576', 'Mobile Time Tracking app'),
-		new Project('52342', 'TYPO3 Website')
+		new Project(1, '52342', 'Landing Pages'),
+		new Project(2, '1234', 'Maintenance Interface'),
+		new Project(3, '6576', 'Mobile Time Tracking app'),
+		new Project(4, '52342', 'TYPO3 Website')
 	];
 
 	workForm: FormGroup;
@@ -71,7 +71,7 @@ export class WorkCardComponent implements OnInit {
 	}
 
 	projectChanged(project: Project): void {
-		this.work.projectId = project.id;
+		this.work.projectNumber = project.number;
 	}
 
 	timeChanged(): void {

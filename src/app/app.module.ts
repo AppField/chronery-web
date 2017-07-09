@@ -14,8 +14,10 @@ import {
 	MdInputModule,
 	MdTabsModule,
 	MdListModule,
-	MdToolbarModule
+	MdToolbarModule,
+	MdTableModule
 } from '@angular/material';
+import {CdkTableModule} from '@angular/cdk';
 
 import 'hammerjs';
 
@@ -30,7 +32,7 @@ import {AppRoutingModule} from './app-routing.module';
 import {WorkCardComponent} from './components/work-card/work-card.component';
 import {NavlistComponent} from './components/navlist/navlist.component';
 import {DashboardComponent} from './pages/dashboard/dashboard.component';
-import { ProjectsComponent } from './pages/projects/projects.component';
+import {ProjectsComponent} from './pages/projects/projects.component';
 
 @NgModule({
 	declarations: [
@@ -54,8 +56,9 @@ import { ProjectsComponent } from './pages/projects/projects.component';
 		HttpModule,
 		BrowserAnimationsModule,
 		MdButtonModule, MdDialogModule, MdSidenavModule, MdIconModule, MdMenuModule, MdCardModule, MdAutocompleteModule, MdInputModule,
-		MdTabsModule, MdListModule, MdToolbarModule,
-		AppRoutingModule
+		MdTabsModule, MdListModule, MdToolbarModule, MdTableModule,
+		AppRoutingModule,
+		CdkTableModule
 	],
 	providers: [],
 	bootstrap: [AppComponent]

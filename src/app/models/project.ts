@@ -1,9 +1,11 @@
 export class Project {
-	id: string;
+	id: number;
+	number: string;
 	name: string;
 
-	constructor(id?: string, name?: string) {
-		this.id = id || '';
+	constructor(id?: number, number?: string, name?: string) {
+		this.id = id || 0;
+		this.number = number || '';
 		this.name = name || '';
 	}
 }
