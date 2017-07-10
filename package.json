@@ -9,7 +9,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "deploy-ghpage": "ng build --prod && angular-cli-ghpages"
+    "deploy-ghpage": "ng build --prod --base-href /work-time-calculator/ && angular-cli-ghpages"
   },
   "private": true,
   "dependencies": {
