@@ -31,7 +31,6 @@ import {SettingsComponent} from './pages/settings/settings.component';
 import {WorkingHoursComponent} from './pages/working-hours/working-hours.component';
 import {AppRoutingModule} from './app-routing.module';
 import {WorkCardComponent} from './components/work-card/work-card.component';
-import {NavlistComponent} from './components/navlist/navlist.component';
 import {DashboardComponent} from './pages/dashboard/dashboard.component';
 import {ProjectsComponent} from './pages/projects/projects.component';
 import {ProjectDialogComponent} from './components/project-modal/project-dialog.component';
@@ -46,7 +45,6 @@ import {ProjectDialogComponent} from './components/project-modal/project-dialog.
 		SettingsComponent,
 		WorkingHoursComponent,
 		WorkCardComponent,
-		NavlistComponent,
 		DashboardComponent,
 		ProjectsComponent,
 		ProjectDialogComponent

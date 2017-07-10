@@ -10,16 +10,24 @@
     box-shadow: none;
   }
 
+  .mat-nav-list {
+    padding-top: 0;
+  }
+
+  .mat-nav-list .mat-list-item {
+    color: $sidenav-text;
+  }
+
+  .mat-nav-list .mat-list-item.active {
+    background-color: $subsidenav-bg;
+    color: mat-color($primary);
+  }
+
   .mat-sidenav {
     background-color: $sidenav-bg;
-
-    /deep/ .mat-nav-list .mat-list-item {
-      color: $sidenav-text;
-    }
   }
 
   .mat-sidenav-container {
     width: 100%;
   }
 }
-
