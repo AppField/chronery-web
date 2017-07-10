@@ -66,8 +66,8 @@ export class ExampleProjectDatabase {
 	constructor() {
 		// Fill up the database
 		this.addProject(new Project(1, '52342', 'Landing Pages'));
-		this.addProject(new Project(2, '1234', 'Maintenance Interface'),);
-		this.addProject(new Project(3, '6576', 'Mobile Time Tracking app'),);
+		this.addProject(new Project(2, '1234', 'Maintenance Interface'));
+		this.addProject(new Project(3, '6576', 'Mobile Time Tracking app'));
 		this.addProject(new Project(4, '52342', 'TYPO3 Website'));
 	}
 
