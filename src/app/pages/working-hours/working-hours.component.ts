@@ -21,7 +21,7 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
 	private sub: any;
 	private mediaSub: Subscription;
 
-	constructor(private router: Router, private route: ActivatedRoute, private media: ObservableMedia) {
+	constructor(private router: Router, private route: ActivatedRoute, public media: ObservableMedia) {
 		this.sub = this.route.params.subscribe(params => {
 			this.date = Utility.decodeDate(params['date']);
 		});
