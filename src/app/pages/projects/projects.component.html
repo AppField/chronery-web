@@ -9,19 +9,26 @@
 <div class="inner-sidenav-content">
 
     <div class="example-container mat-elevation-z5">
-        <md-table #table [dataSource]="dataSource">
+        <div class="table-header">
+            <md-input-container floatPlaceholder="never">
+                <input mdInput #filter placeholder="Filter projects">
+            </md-input-container>
+        </div>
 
-            <!-- ID Column -->
+        <md-table #table [dataSource]="dataSource">
+            <!-- ID column -->
             <ng-container cdkColumnDef="id">
                 <md-header-cell *cdkHeaderCellDef>ID</md-header-cell>
                 <md-cell *cdkCellDef="let row">{{row.id}}</md-cell>
             </ng-container>
 
+            <!-- Project number column -->
             <ng-container cdkColumnDef="number">
                 <md-header-cell *cdkHeaderCellDef>Number</md-header-cell>
                 <md-cell *cdkCellDef="let row">{{row.number}}</md-cell>
             </ng-container>
 
+            <!-- Project name column -->
             <ng-container cdkColumnDef="name">
                 <md-header-cell *cdkHeaderCellDef>Name</md-header-cell>
                 <md-cell *cdkCellDef="let row">{{row.name}}</md-cell>

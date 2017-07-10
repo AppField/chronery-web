@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {Project} from '../../models/project';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {DataSource} from '@angular/cdk';
@@ -6,6 +6,9 @@ import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/startWith';
 import 'rxjs/add/observable/merge';
 import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/distinctUntilChanged';
+import 'rxjs/add/observable/fromEvent';
 import {MdDialog} from '@angular/material';
 import {ProjectDialogComponent} from '../../components/project-modal/project-dialog.component';
 
@@ -19,11 +22,23 @@ export class ProjectsComponent implements OnInit {
 	exampleDatabase = new ExampleProjectDatabase();
 	dataSource: ExampleProjectSource | null;
 
+	@ViewChild('filter') filter: ElementRef;
+
 	constructor(public dialog: MdDialog) {
 	}
 
 	ngOnInit() {
 		this.dataSource = new ExampleProjectSource(this.exampleDatabase);
+
+		Observable.fromEvent(this.filter.nativeElement, 'keyup')
+			.debounceTime(150)
+			.distinctUntilChanged()
+			.subscribe(() => {
+				if (!this.dataSource) {
+					return;
+				}
+				this.dataSource.filter = this.filter.nativeElement.value;
+			});
 	}
 
 	openProjectDialog(): void {
@@ -32,7 +47,9 @@ export class ProjectsComponent implements OnInit {
 			data: newProject
 		});
 		dialogRef.afterClosed().subscribe(result => {
-			console.log(result);
+			if (result) {
+				this.exampleDatabase.addProject(result);
+			}
 		});
 	}
 
@@ -70,13 +87,33 @@ export class ExampleProjectDatabase {
  * should be rendered.
  */
 export class ExampleProjectSource extends DataSource<any> {
+	_filterChange = new BehaviorSubject('');
+
+	get filter(): string {
+		return this._filterChange.value;
+	}
+
+	set filter(filter: string) {
+		this._filterChange.next(filter);
+	}
+
 	constructor(private _exampleDatabase: ExampleProjectDatabase) {
 		super();
 	}
 
 	/** Connect function called by the table to retrieve one stream containing the data to render. */
 	connect(): Observable<Project[]> {
-		return this._exampleDatabase.dataChange;
+		const displayDataChanges = [
+			this._exampleDatabase.dataChange,
+			this._filterChange,
+		];
+
+		return Observable.merge(...displayDataChanges).map(() => {
+			return this._exampleDatabase.data.slice().filter((item: Project) => {
+				const searchStr = (item.number + item.name).toLowerCase();
+				return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
+			});
+		});
 	}
 
 	disconnect() {
