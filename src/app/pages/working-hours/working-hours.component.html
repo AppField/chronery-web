@@ -1,10 +1,13 @@
 <md-sidenav-container>
-    <md-sidenav #subsidenav mode="side" opened="true">
-        <wtc-sidenav-daypicker></wtc-sidenav-daypicker>
+    <md-sidenav #subsidenav mode="{{sidenavMode}}">
+        <wtc-sidenav-daypicker (daySelected)="checkSubsidenav()"></wtc-sidenav-daypicker>
     </md-sidenav>
 
     <div>
         <md-toolbar color="primary" class="mat-elevation-z8">
+            <button *ngIf="media.isActive('xs')" md-icon-button type="button" (click)="subsidenav.open()">
+                <md-icon>today</md-icon>
+            </button>
             Working Hours
             <span class="fill-remaining-space"></span>
             <button md-button (click)="SetActiveDateToToday()">
