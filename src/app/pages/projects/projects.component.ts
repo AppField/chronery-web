@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {Project} from '../../models/project';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {DataSource} from '@angular/cdk';
@@ -17,14 +17,14 @@ import {ProjectDialogComponent} from '../../components/project-modal/project-dia
 	templateUrl: './projects.component.html',
 	styleUrls: ['./projects.component.scss']
 })
-export class ProjectsComponent implements OnInit {
+export class ProjectsComponent implements OnInit, AfterViewInit {
 	displayedColumns = ['id', 'number', 'name'];
 	exampleDatabase = new ExampleProjectDatabase();
 	dataSource: ExampleProjectSource | null;
 
 	@ViewChild('filter') filter: ElementRef;
 
-	constructor(public dialog: MdDialog) {
+	constructor(public dialog: MdDialog, private detector: ChangeDetectorRef) {
 	}
 
 	ngOnInit() {
@@ -39,6 +39,11 @@ export class ProjectsComponent implements OnInit {
 				}
 				this.dataSource.filter = this.filter.nativeElement.value;
 			});
+	}
+
+	ngAfterViewInit() {
+		// TODO: Remove this as it is a workaround to make the table visible when the page got reloaded
+		this.detector.detectChanges();
 	}
 
 	openProjectDialog(): void {
