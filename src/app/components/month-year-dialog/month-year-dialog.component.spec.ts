@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AppbarComponent } from './appbar.component';
+import { MonthYearDialogComponent } from './month-year-dialog.component';
 
-describe('AppbarComponent', () => {
-  let component: AppbarComponent;
-  let fixture: ComponentFixture<AppbarComponent>;
+describe('MonthYearDialogComponent', () => {
+  let component: MonthYearDialogComponent;
+  let fixture: ComponentFixture<MonthYearDialogComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AppbarComponent ]
+      declarations: [ MonthYearDialogComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AppbarComponent);
+    fixture = TestBed.createComponent(MonthYearDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

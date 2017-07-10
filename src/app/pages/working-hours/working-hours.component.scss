@@ -1,0 +1,31 @@
+@import '../../../wtc-theme';
+
+:host {
+  .mat-sidenav-container {
+    height: 100vh;
+
+    .mat-sidenav {
+      min-width: 190px;
+      background-color: $subsidenav-bg;
+      color: $sidenav-text;
+    }
+  }
+
+  .title-container {
+    display: flex;
+
+    .title {
+      display: inline-block;
+    }
+  }
+
+  .container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+
+    .wtc-work-card {
+      flex-grow: 1;
+    }
+  }
+}

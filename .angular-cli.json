@@ -19,7 +19,8 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "wtc",
       "styles": [
-        "styles.scss"
+        "styles.scss",
+        "wtc-theme.scss"
       ],
       "scripts": [],
       "environmentSource": "environments/environment.ts",
