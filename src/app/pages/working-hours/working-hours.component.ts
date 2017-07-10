@@ -1,5 +1,5 @@
 import {Component, OnInit, OnDestroy, ViewChild} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {Utility} from '../../utils/utility';
 import {Work} from '../../models/work';
 import {MediaChange, ObservableMedia} from '@angular/flex-layout';
@@ -21,7 +21,7 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
 	private sub: any;
 	private mediaSub: Subscription;
 
-	constructor(private route: ActivatedRoute, private media: ObservableMedia) {
+	constructor(private router: Router, private route: ActivatedRoute, private media: ObservableMedia) {
 		this.sub = this.route.params.subscribe(params => {
 			this.date = Utility.decodeDate(params['date']);
 		});
