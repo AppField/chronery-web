@@ -9,7 +9,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "deploy-gh-page": "ng build --prod && angular-cli-ghpages --branch master"
+    "deploy-ghpage": "ng build --prod && angular-cli-ghpages"
   },
   "private": true,
   "dependencies": {
