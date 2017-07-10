@@ -1,0 +1,22 @@
+<form [formGroup]="projectForm">
+    <h2 md-dialog-title>Project</h2>
+    <md-dialog-content>
+
+        <md-input-container>
+            <input mdInput placeholder="Number" formControlName="number">
+            <md-error>Required</md-error>
+        </md-input-container>
+
+        <md-input-container>
+            <input mdInput placeholder="Name" formControlName="name">
+            <md-error>Required</md-error>
+        </md-input-container>
+
+    </md-dialog-content>
+
+    <md-dialog-actions>
+        <button md-button md-dialog-close>Cancel</button>
+        <!-- Can optionally provide a result for the closing dialog. -->
+        <button md-button color="primary" (click)="saveProject()">Save</button>
+    </md-dialog-actions>
+</form>

@@ -1,0 +1,18 @@
+<md-toolbar>
+    <button md-button id="btnMonthYear" (click)="openMonthYearDialog()" color="primary">{{monthYear | date:'MMMM yyyy'}}
+    </button>
+</md-toolbar>
+
+<div class="inner-sidenav-content subsidenav">
+    <md-nav-list>
+        <span *ngFor="let day of days; index as i" #dayList>
+            <a md-list-item
+               (click)="onDaySelect(day.date); activeLinkIndex = i"
+               [ngClass]="{'active': activeLinkIndex === i}">
+                <h4 md-line>{{ day.date | date:'EEEE dd.' }}</h4>
+                <p md-line>Projects: 3 | Hours: 8.5</p>
+            </a>
+            <md-divider></md-divider>
+        </span>
+    </md-nav-list>
+</div>

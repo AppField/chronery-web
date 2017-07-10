@@ -1,0 +1,25 @@
+@import '../../../wtc-theme';
+
+:host {
+  display: flex;
+  flex: 1;
+
+  .mat-toolbar {
+    background-color: $sidenav-bg;
+    color: white;
+    box-shadow: none;
+  }
+
+  .mat-sidenav {
+    background-color: $sidenav-bg;
+
+    /deep/ .mat-nav-list .mat-list-item {
+      color: $sidenav-text;
+    }
+  }
+
+  .mat-sidenav-container {
+    width: 100%;
+  }
+}
+
