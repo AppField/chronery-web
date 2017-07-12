@@ -34,6 +34,7 @@ import {WorkCardComponent} from './components/work-card/work-card.component';
 import {DashboardComponent} from './pages/dashboard/dashboard.component';
 import {ProjectsComponent} from './pages/projects/projects.component';
 import {ProjectDialogComponent} from './components/project-modal/project-dialog.component';
+import {ProjectsDbService} from './services/projects-db/projects-db.service';
 
 @NgModule({
 	declarations: [
@@ -62,7 +63,7 @@ import {ProjectDialogComponent} from './components/project-modal/project-dialog.
 		AppRoutingModule,
 		CdkTableModule
 	],
-	providers: [],
+	providers: [ProjectsDbService],
 	bootstrap: [AppComponent]
 })
 export class AppModule {
