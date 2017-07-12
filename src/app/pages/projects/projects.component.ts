@@ -11,6 +11,7 @@ import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/observable/fromEvent';
 import {MdDialog} from '@angular/material';
 import {ProjectDialogComponent} from '../../components/project-modal/project-dialog.component';
+import {ProjectsDbService} from '../../services/projects-db/projects-db.service';
 
 @Component({
 	selector: 'wtc-projects',
@@ -24,7 +25,12 @@ export class ProjectsComponent implements OnInit, AfterViewInit {
 
 	@ViewChild('filter') filter: ElementRef;
 
-	constructor(public dialog: MdDialog, private detector: ChangeDetectorRef) {
+	constructor(public dialog: MdDialog, private detector: ChangeDetectorRef, public projectsDB: ProjectsDbService) {
+
+		this.projectsDB.getProjects().then((data) => {
+			console.log('Projects in database:');
+			console.log(data);
+		});
 	}
 
 	ngOnInit() {
@@ -54,6 +60,7 @@ export class ProjectsComponent implements OnInit, AfterViewInit {
 		dialogRef.afterClosed().subscribe(result => {
 			if (result) {
 				this.exampleDatabase.addProject(result);
+				this.projectsDB.createProject(result);
 			}
 		});
 	}
@@ -70,10 +77,10 @@ export class ExampleProjectDatabase {
 
 	constructor() {
 		// Fill up the database
-		this.addProject(new Project(1, '52342', 'Landing Pages'));
-		this.addProject(new Project(2, '1234', 'Maintenance Interface'));
-		this.addProject(new Project(3, '6576', 'Mobile Time Tracking app'));
-		this.addProject(new Project(4, '52342', 'TYPO3 Website'));
+		this.addProject(new Project('52342', 'Landing Pages'));
+		this.addProject(new Project('1234', 'Maintenance Interface'));
+		this.addProject(new Project('6576', 'Mobile Time Tracking app'));
+		this.addProject(new Project('52342', 'TYPO3 Website'));
 	}
 
 	// Adds new project to the database
