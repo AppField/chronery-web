@@ -14,5 +14,9 @@
 
   .mat-table {
     overflow: auto;
+
+    .action {
+      flex: .1;
+    }
   }
 }

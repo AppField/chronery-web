@@ -1,7 +1,7 @@
 <md-toolbar color="primary" class="mat-elevation-z8">
     Projects
     <span class="fill-remaining-space"></span>
-    <button md-button (click)="openProjectDialog()">
+    <button md-icon-button (click)="openProjectDialog()">
         <md-icon>add</md-icon>
     </button>
 </md-toolbar>
@@ -26,6 +26,16 @@
             <ng-container cdkColumnDef="name">
                 <md-header-cell *cdkHeaderCellDef>Name</md-header-cell>
                 <md-cell *cdkCellDef="let row">{{row.name}}</md-cell>
+            </ng-container>
+
+            <!-- Edit Button -->
+            <ng-container cdkColumnDef="edit">
+                <md-header-cell *cdkHeaderCellDef class="action"></md-header-cell>
+                <md-cell *cdkCellDef="let row" class="action">
+                    <button md-icon-button (click)="openProjectDialog(row)">
+                        <md-icon>edit</md-icon>
+                    </button>
+                </md-cell>
             </ng-container>
 
             <md-header-row *cdkHeaderRowDef="displayedColumns"></md-header-row>

@@ -37,8 +37,7 @@ export class ProjectsDbService {
 
 	createProject(project: Project): void {
 		project._id = 'project' + Date.now();
-		console.log(project);
-		this.db.post(project).catch((error) => {
+		this.db.put(project).catch((error) => {
 			console.log(error);
 		});
 	}

@@ -19,7 +19,7 @@ import {ProjectsDbService} from '../../services/projects-db/projects-db.service'
 	styleUrls: ['./projects.component.scss']
 })
 export class ProjectsComponent implements OnInit, AfterViewInit {
-	displayedColumns = ['number', 'name'];
+	displayedColumns = ['number', 'name', 'edit'];
 	dataSource: ProjectSource | null;
 
 	@ViewChild('filter') filter: ElementRef;
@@ -46,14 +46,18 @@ export class ProjectsComponent implements OnInit, AfterViewInit {
 		this.detector.detectChanges();
 	}
 
-	openProjectDialog(): void {
-		const newProject = new Project();
+	openProjectDialog(project: Project = new Project()): void {
+		console.log(project);
 		const dialogRef = this.dialog.open(ProjectDialogComponent, {
-			data: newProject
+			data: project
 		});
 		dialogRef.afterClosed().subscribe(result => {
 			if (result) {
-				this.projectsDB.createProject(result);
+				if (result.hasOwnProperty('_id')) {
+					this.projectsDB.updateProject(result);
+				} else {
+					this.projectsDB.createProject(result);
+				}
 			}
 		});
 	}
