@@ -64,8 +64,8 @@ export class ProjectsDbService {
 				changedIndex = index;
 			}
 		});
-		// A document was deleted
 		const data = this.dataChange.getValue();
+		// A document was deleted
 		if (change.deleted) {
 			data.splice(changedIndex, 1);
 			this.dataChange.next(data);
@@ -75,6 +75,7 @@ export class ProjectsDbService {
 				data[changedIndex] = change.doc;
 				this.dataChange.next(data);
 			} else {
+				// a document was added
 				data.push(change.doc);
 				this.dataChange.next(data);
 			}

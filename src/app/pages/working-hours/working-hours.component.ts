@@ -25,13 +25,6 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
 		this.sub = this.route.params.subscribe(params => {
 			this.date = Utility.decodeDate(params['date']);
 		});
-
-		const work1 = new Work();
-		const work2 = new Work();
-		const work3 = new Work();
-		const work4 = new Work();
-		const work5 = new Work();
-		this.works = [work1, work2, work3, work4, work5];
 	}
 
 	ngOnInit() {
@@ -54,7 +47,7 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
 	}
 
 	newWork = function (): void {
-		const newWork = new Work();
+		const newWork = new Work(Utility.encodeDate(new Date()));
 		this.works.push(newWork);
 	};
 
