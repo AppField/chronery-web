@@ -35,6 +35,7 @@ import {DashboardComponent} from './pages/dashboard/dashboard.component';
 import {ProjectsComponent} from './pages/projects/projects.component';
 import {ProjectDialogComponent} from './components/project-modal/project-dialog.component';
 import {ProjectsDbService} from './services/projects-db/projects-db.service';
+import {WorkingHoursDbService} from './services/working-hours-db/working-hours-db.service';
 
 @NgModule({
 	declarations: [
@@ -63,7 +64,7 @@ import {ProjectsDbService} from './services/projects-db/projects-db.service';
 		AppRoutingModule,
 		CdkTableModule
 	],
-	providers: [ProjectsDbService],
+	providers: [WorkingHoursDbService, ProjectsDbService],
 	bootstrap: [AppComponent]
 })
 export class AppModule {
