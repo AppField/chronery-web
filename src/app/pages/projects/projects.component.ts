@@ -19,22 +19,16 @@ import {ProjectsDbService} from '../../services/projects-db/projects-db.service'
 	styleUrls: ['./projects.component.scss']
 })
 export class ProjectsComponent implements OnInit, AfterViewInit {
-	displayedColumns = ['id', 'number', 'name'];
-	exampleDatabase = new ExampleProjectDatabase();
-	dataSource: ExampleProjectSource | null;
+	displayedColumns = ['number', 'name'];
+	dataSource: ProjectSource | null;
 
 	@ViewChild('filter') filter: ElementRef;
 
 	constructor(public dialog: MdDialog, private detector: ChangeDetectorRef, public projectsDB: ProjectsDbService) {
-
-		this.projectsDB.getProjects().then((data) => {
-			console.log('Projects in database:');
-			console.log(data);
-		});
 	}
 
 	ngOnInit() {
-		this.dataSource = new ExampleProjectSource(this.exampleDatabase);
+		this.dataSource = new ProjectSource(this.projectsDB);
 
 		Observable.fromEvent(this.filter.nativeElement, 'keyup')
 			.debounceTime(150)
@@ -59,46 +53,13 @@ export class ProjectsComponent implements OnInit, AfterViewInit {
 		});
 		dialogRef.afterClosed().subscribe(result => {
 			if (result) {
-				this.exampleDatabase.addProject(result);
 				this.projectsDB.createProject(result);
 			}
 		});
 	}
-
 }
 
-export class ExampleProjectDatabase {
-	// Stream that emits whenever the data has been modified
-	dataChange: BehaviorSubject<Project[]> = new BehaviorSubject<Project[]>([]);
-
-	get data(): Project[] {
-		return this.dataChange.value;
-	}
-
-	constructor() {
-		// Fill up the database
-		this.addProject(new Project('52342', 'Landing Pages'));
-		this.addProject(new Project('1234', 'Maintenance Interface'));
-		this.addProject(new Project('6576', 'Mobile Time Tracking app'));
-		this.addProject(new Project('52342', 'TYPO3 Website'));
-	}
-
-	// Adds new project to the database
-	addProject(project: Project) {
-		const copiedData = this.data.slice();
-		copiedData.push(project);
-		this.dataChange.next(copiedData);
-	}
-}
-
-/**
- * Data source to provide what data should be rendered in the table. Note that the data source
- * can retrieve its data in any way. In this case, the data source is provided a reference
- * to a common data base, ExampleDatabase. It is not the data source's responsibility to manage
- * the underlying data. Instead, it only needs to take the data and send the table exactly what
- * should be rendered.
- */
-export class ExampleProjectSource extends DataSource<any> {
+export class ProjectSource extends DataSource<any> {
 	_filterChange = new BehaviorSubject('');
 
 	get filter(): string {
@@ -109,19 +70,19 @@ export class ExampleProjectSource extends DataSource<any> {
 		this._filterChange.next(filter);
 	}
 
-	constructor(private _exampleDatabase: ExampleProjectDatabase) {
+	constructor(private projectsDB: ProjectsDbService) {
 		super();
 	}
 
 	/** Connect function called by the table to retrieve one stream containing the data to render. */
 	connect(): Observable<Project[]> {
 		const displayDataChanges = [
-			this._exampleDatabase.dataChange,
-			this._filterChange,
+			this.projectsDB.dataChange,
+			this._filterChange
 		];
 
 		return Observable.merge(...displayDataChanges).map(() => {
-			return this._exampleDatabase.data.slice().filter((item: Project) => {
+			return this.projectsDB.dataChange.getValue().slice().filter((item: Project) => {
 				const searchStr = (item.number + item.name).toLowerCase();
 				return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
 			});

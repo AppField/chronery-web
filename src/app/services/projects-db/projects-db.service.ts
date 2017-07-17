@@ -2,40 +2,37 @@ import {Injectable} from '@angular/core';
 import * as PouchDB from 'pouchdb';
 import {Project} from '../../models/project';
 import Database = PouchDB.Database;
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 
 @Injectable()
 export class ProjectsDbService {
 
-	data: any;
+	dataChange: BehaviorSubject<Project[]> = new BehaviorSubject<Project[]>([]);
 	db: Database<Project>;
-
 
 	constructor() {
 		this.db = new PouchDB('wtc-projects');
+		this.db.allDocs({
+			include_docs: true
+		}).then((result) => {
 
+			const data: Project[] = [];
+			result.rows.map((row) => {
+				data.push(row.doc);
+			});
+			this.dataChange.next(data);
+			this.db.changes({live: true, since: 'now', include_docs: true}).on('change', (change) => {
+				this.handleChange(change);
+			});
+		}).catch((error) => {
+			console.log(error);
+		});
 	}
 
-	getProjects(): Promise<any> {
-		if (this.data) {
-			return Promise.resolve(this.data);
+	getProjects(): BehaviorSubject<Project[]> {
+		if (this.dataChange) {
+			return this.dataChange;
 		}
-		return new Promise(resolve => {
-			this.db.allDocs({
-				include_docs: true
-			}).then((result) => {
-
-				this.data = [];
-				const docs = result.rows.map((row) => {
-					this.data.push(row.doc);
-				});
-				resolve(this.data);
-				this.db.changes({live: true, since: 'now', include_docs: true}).on('change', (change) => {
-					this.handleChange(change);
-				});
-			}).catch((error) => {
-				console.log(error);
-			});
-		});
 	}
 
 	createProject(project: Project): void {
@@ -62,26 +59,28 @@ export class ProjectsDbService {
 		let changedDoc = null;
 		let changedIndex = null;
 
-		this.data.forEach((doc, index) => {
+		this.dataChange.getValue().forEach((doc, index) => {
 			if (doc._id === change.id) {
 				changedDoc = doc;
 				changedIndex = index;
 			}
 		});
 		// A document was deleted
+		const data = this.dataChange.getValue();
 		if (change.deleted) {
-			this.data.splice(changedIndex, 1);
+			data.splice(changedIndex, 1);
+			this.dataChange.next(data);
 		} else {
 			// a document was updated
 			if (changedDoc) {
-				this.data[changedIndex] = change.doc;
+				data[changedIndex] = change.doc;
+				this.dataChange.next(data);
 			} else {
-				// a document was added
-				this.data.push(change.doc);
+				data.push(change.doc);
+				this.dataChange.next(data);
 			}
 		}
 	}
-
 }
 
 
