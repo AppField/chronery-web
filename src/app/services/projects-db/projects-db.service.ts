@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import * as PouchDB from 'pouchdb';
+import PouchDB from 'pouchdb';
 import {Project} from '../../models/project';
 import Database = PouchDB.Database;
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';

@@ -1,11 +1,15 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {Work} from '../../models/work';
-import * as PouchDB from 'pouchdb';
-import * as PouchFind from 'pouchdb-find';
+
+
+// import * as PouchDB from 'pouchdb';
+// import * as PouchFind from 'pouchdb-find';
+import PouchDB from 'pouchdb';
+import PouchDBFind from 'pouchdb-find';
 import Database = PouchDB.Database;
 import FindResponse = PouchDB.Find.FindResponse;
-PouchDB.plugin(PouchFind);
+
 
 @Injectable()
 export class WorkingHoursDbService {
@@ -14,12 +18,13 @@ export class WorkingHoursDbService {
 	db: Database<Work>;
 
 	constructor() {
-		// this.db = new PouchDB('wtc-working-hours');
-		// this.db.createIndex({
-		// 	index: {fields: ['date', 'projectId']}
-		// }).catch(error => {
-		// 	console.log(error);
-		// });
+		PouchDB.plugin(PouchDBFind);
+		this.db = new PouchDB('wtc-working-hours');
+		this.db.createIndex({
+			index: {fields: ['date', 'projectId']}
+		}).catch(error => {
+			console.log(error);
+		});
 	}
 
 	getWorkingHours(date: string): Promise<FindResponse<Work>> {
