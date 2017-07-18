@@ -1,5 +1,5 @@
-<md-card>
-    <form [formGroup]="workForm" (ngSubmit)="saveWork()">
+<md-card tabindex="0" (blur)="checkValidation()">
+    <form [formGroup]="workForm" (ngSubmit)="checkValidation()">
         <md-card-content>
             <md-input-container class="project">
                 <input mdInput placeholder="Project" formControlName="project" [mdAutocomplete]="auto">
@@ -8,21 +8,24 @@
             <md-autocomplete #auto>
                 <md-option *ngFor="let project of filteredProjects | async" [value]="project.name"
                            (onSelectionChange)="projectChanged(project)">
-                    <span>{{ project.name }} | {{ project.id }} </span>
+                    <span>{{ project.name }} | {{ project.number }} </span>
                 </md-option>
             </md-autocomplete>
-            <button md-icon-button class="delete-button" (click)="deleteWork()" tabindex="-1">
+            <button md-icon-button type=" button" class="delete-button" (click)="removeWork()" tabindex="-1">
                 <md-icon>clear</md-icon>
             </button>
 
             <div class="flex-row">
                 <md-input-container>
-                    <input mdInput placeholder="From" formControlName="from" [(ngModel)]="work.from" (blur)="formatTime(work.from, 'from')">
+                    <input mdInput placeholder="From" formControlName="from" [(ngModel)]="work.from"
+                           (blur)="formatTime(work.from, 'from')">
                     <md-error>Required format: hh:mm</md-error>
                 </md-input-container>
                 <md-input-container>
-                    <input mdInput placeholder="To" formControlName="to" [(ngModel)]="work.to" (blur)="formatTime(work.to, 'to')">
-                    <md-error *ngIf="toControl.hasError('required') || toControl.hasError('pattern')">Required format:
+                    <input mdInput placeholder="To" formControlName="to" [(ngModel)]="work.to"
+                           (blur)="formatTime(work.to, 'to')">
+                    <md-error *ngIf="toControl.hasError('required') || toControl.hasError('pattern')">Required
+                        format:
                         hh:mm
                     </md-error>
                     <md-error

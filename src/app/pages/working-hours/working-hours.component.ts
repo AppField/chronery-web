@@ -15,7 +15,7 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
 	@ViewChild('subsidenav') subsidenav: MdSidenav;
 
 	date: Date;
-	works: Work[];
+	works: Work[] = [];
 	sidenavMode = 'side';
 
 	private sub: any;

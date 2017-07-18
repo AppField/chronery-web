@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChildren, ElementRef} from '@angular/core';
 import {Work} from '../../models/work';
 import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Project} from '../../models/project';
@@ -6,6 +6,9 @@ import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/startWith';
 import 'rxjs/add/operator/map';
 import * as moment from 'moment/moment';
+import {ProjectsDbService} from '../../services/projects-db/projects-db.service';
+import {Subscription} from 'rxjs/Subscription';
+import {MdInputContainer} from '@angular/material';
 
 @Component({
 	selector: 'wtc-work-card',
@@ -14,20 +17,19 @@ import * as moment from 'moment/moment';
 })
 
 
-export class WorkCardComponent implements OnInit {
+export class WorkCardComponent implements OnInit, OnDestroy {
 	@Input() work: Work;
-	@Output() workDeleted = new EventEmitter();
+	@Output() saveWork = new EventEmitter();
+	@Output() deleteWork = new EventEmitter();
+	@ViewChildren(MdInputContainer) inputContainers;
 
 	filteredProjects: Observable<Project[]>;
-	projects = [
-		new Project('52342', 'Landing Pages'),
-		new Project('1234', 'Maintenance Interface'),
-		new Project('6576', 'Mobile Time Tracking app'),
-		new Project('52342', 'TYPO3 Website')
-	];
+	projects: Project[] = [];
 
 	workForm: FormGroup;
 	toControl: AbstractControl;
+
+	private projectsSub: Subscription;
 
 	static isAfter(control: FormControl): any {
 		if (control.parent) {
@@ -40,8 +42,7 @@ export class WorkCardComponent implements OnInit {
 		return null;
 	}
 
-	constructor(public fb: FormBuilder) {
-
+	constructor(public fb: FormBuilder, private projectsDB: ProjectsDbService, private elRef: ElementRef) {
 	}
 
 	ngOnInit() {
@@ -54,11 +55,15 @@ export class WorkCardComponent implements OnInit {
 			comment: this.work.comment
 		});
 
-		// Autocomplete functionality
-		this.filteredProjects = this.workForm.controls['project'].valueChanges
-			.startWith(null)
-			.map(project => project && typeof project === 'object' ? project.name : project)
-			.map(name => name ? this.filterProjects(name) : this.projects.slice());
+		this.projectsSub = this.projectsDB.dataChange.subscribe((data) => {
+			this.projects = data;
+			// Autocomplete functionality
+			this.filteredProjects = this.workForm.controls['project'].valueChanges
+				.startWith(null)
+				.map(project => project && typeof project === 'object' ? project.name : project)
+				.map(name => name ? this.filterProjects(name) : this.projects.slice());
+
+		});
 
 		this.toControl = this.workForm.controls['to'];
 		this.workForm.controls['from'].valueChanges.subscribe((value) => {
@@ -106,15 +111,24 @@ export class WorkCardComponent implements OnInit {
 	}
 
 
-	saveWork(): void {
-		this.work.projectName = this.workForm.controls['project'].value;
-		this.work.from = this.workForm.controls['from'].value;
-		this.work.to = this.workForm.controls['to'].value;
-		this.work.comment = this.workForm.controls['comment'].value;
+	checkValidation(): void {
+		if (this.workForm.valid) {
+			this.work.projectName = this.workForm.controls['project'].value;
+			this.work.from = this.workForm.controls['from'].value;
+			this.work.to = this.workForm.controls['to'].value;
+			this.work.comment = this.workForm.controls['comment'].value;
+
+			this.saveWork.emit(this.work);
+		}
+
 	}
 
-	deleteWork(): void {
-		this.workDeleted.emit();
+	removeWork(): void {
+		this.deleteWork.emit(this.work);
+	}
+
+	ngOnDestroy() {
+		this.projectsSub.unsubscribe();
 	}
 
 }
