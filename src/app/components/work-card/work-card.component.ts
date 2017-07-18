@@ -81,6 +81,10 @@ export class WorkCardComponent implements OnInit, OnDestroy {
 		return this.projects.filter(project => new RegExp(val, 'i').test(project.name));
 	}
 
+	displayFn(project: Project) {
+		return project ? project.name + '  |  ' + project.number : project;
+	}
+
 	projectChanged(project: Project): void {
 		this.work.projectNumber = project.number;
 	}
@@ -92,6 +96,7 @@ export class WorkCardComponent implements OnInit, OnDestroy {
 	}
 
 	formatTime(value: string, name: string): void {
+		value = value.trim();
 		if (value.length === 1) {
 			if (Number(value)) {
 				value = '0' + value + ':00';
@@ -119,7 +124,9 @@ export class WorkCardComponent implements OnInit, OnDestroy {
 
 	checkValidation(): void {
 		if (this.workForm.valid) {
-			this.work.projectName = this.workForm.controls['project'].value;
+			this.work.projectId = this.workForm.controls['project'].value._id;
+			this.work.projectNumber = this.workForm.controls['project'].value.number;
+			this.work.projectName = this.workForm.controls['project'].value.name;
 			this.work.from = this.workForm.controls['from'].value;
 			this.work.to = this.workForm.controls['to'].value;
 			this.work.comment = this.workForm.controls['comment'].value;
