@@ -26,7 +26,8 @@
             </div>
 
             <div class="container">
-                <wtc-work-card *ngFor="let work of works" [work]="work" (saveWork)="saveWork(work)"
+                <wtc-work-card *ngFor="let work of works" [projects]="projects" [work]="work"
+                               (saveWork)="saveWork(work)"
                                (deleteWork)="deleteWork(work)"></wtc-work-card>
             </div>
         </div>

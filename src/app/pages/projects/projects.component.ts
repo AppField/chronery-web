@@ -47,7 +47,6 @@ export class ProjectsComponent implements OnInit, AfterViewInit {
 	}
 
 	openProjectDialog(project: Project = new Project()): void {
-		console.log(project);
 		const dialogRef = this.dialog.open(ProjectDialogComponent, {
 			data: project
 		});

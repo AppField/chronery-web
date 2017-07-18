@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnDestroy, OnInit, Output, ElementRef, HostListener} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ElementRef, HostListener} from '@angular/core';
 import {Work} from '../../models/work';
 import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Project} from '../../models/project';
@@ -6,8 +6,6 @@ import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/startWith';
 import 'rxjs/add/operator/map';
 import * as moment from 'moment/moment';
-import {ProjectsDbService} from '../../services/projects-db/projects-db.service';
-import {Subscription} from 'rxjs/Subscription';
 
 @Component({
 	selector: 'wtc-work-card',
@@ -16,18 +14,15 @@ import {Subscription} from 'rxjs/Subscription';
 })
 
 
-export class WorkCardComponent implements OnInit, OnDestroy {
+export class WorkCardComponent implements OnInit {
+	@Input() projects: Project[];
 	@Input() work: Work;
 	@Output() saveWork = new EventEmitter();
 	@Output() deleteWork = new EventEmitter();
 
 	filteredProjects: Observable<Project[]>;
-	projects: Project[] = [];
-
 	workForm: FormGroup;
 	toControl: AbstractControl;
-
-	private projectsSub: Subscription;
 
 	static isAfter(control: FormControl): any {
 		if (control.parent) {
@@ -48,7 +43,7 @@ export class WorkCardComponent implements OnInit, OnDestroy {
 		}
 	}
 
-	constructor(public fb: FormBuilder, private projectsDB: ProjectsDbService, private elRef: ElementRef) {
+	constructor(public fb: FormBuilder, private elRef: ElementRef) {
 	}
 
 	ngOnInit() {
@@ -68,22 +63,32 @@ export class WorkCardComponent implements OnInit, OnDestroy {
 			to: [this.work.to, [Validators.required, Validators.pattern(timeRegex), WorkCardComponent.isAfter]],
 			comment: this.work.comment
 		});
-		this.workForm.controls['project'].updateValueAndValidity();
 
-		this.projectsSub = this.projectsDB.dataChange.subscribe((data) => {
-			this.projects = data;
-			// Autocomplete functionality
-			this.filteredProjects = this.workForm.controls['project'].valueChanges
-				.startWith(null)
-				.map(project => project && typeof project === 'object' ? project.name : project)
-				.map(name => name ? this.filterProjects(name) : this.projects.slice());
-
-		});
+		// Autocomplete functionality
+		this.filteredProjects = this.workForm.controls['project'].valueChanges
+			.startWith(null)
+			.map(project => project && typeof project === 'object' ? project.name : project)
+			.map(name => name ? this.filterProjects(name) : this.projects.slice());
 
 		this.toControl = this.workForm.controls['to'];
 		this.workForm.controls['from'].valueChanges.subscribe((value) => {
 			this.workForm.controls['to'].updateValueAndValidity();
 		});
+
+		this.updatedExistingProject();
+	}
+
+	updatedExistingProject(): void {
+		if (this.work.hasOwnProperty('projectId')) {
+			const i = this.projects.map((el) => {
+				return el._id;
+			}).indexOf(this.work.projectId);
+
+			if (this.projects[i].number !== this.work.projectNumber || this.projects[i].name !== this.work.projectName) {
+				this.workForm.controls['project'].patchValue(this.projects[i]);
+				this.checkValidation();
+			}
+		}
 	}
 
 	filterProjects(val: string) {
@@ -92,10 +97,6 @@ export class WorkCardComponent implements OnInit, OnDestroy {
 
 	displayFn(project: Project) {
 		return project ? project.name + '  |  ' + project.number : project;
-	}
-
-	projectChanged(project: Project): void {
-		this.work.projectNumber = project.number;
 	}
 
 	timeChanged(): void {
@@ -157,9 +158,4 @@ export class WorkCardComponent implements OnInit, OnDestroy {
 	removeWork(): void {
 		this.deleteWork.emit(this.work);
 	}
-
-	ngOnDestroy() {
-		this.projectsSub.unsubscribe();
-	}
-
 }

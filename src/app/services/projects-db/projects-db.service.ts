@@ -29,10 +29,8 @@ export class ProjectsDbService {
 		});
 	}
 
-	getProjects(): BehaviorSubject<Project[]> {
-		if (this.dataChange) {
-			return this.dataChange;
-		}
+	getProject(id: string): Promise<Project> {
+		return this.db.get(id);
 	}
 
 	createProject(project: Project): void {
