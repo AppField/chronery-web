@@ -36,7 +36,7 @@ import {ProjectsComponent} from './pages/projects/projects.component';
 import {ProjectDialogComponent} from './components/project-modal/project-dialog.component';
 import {ProjectsDbService} from './services/projects-db/projects-db.service';
 import {WorkingHoursDbService} from './services/working-hours-db/working-hours-db.service';
-import { MaterialActiveDirective } from './directives/material-active.directive';
+import { MaterialActiveDirective } from './directives/material-active/material-active.directive';
 
 @NgModule({
 	declarations: [
