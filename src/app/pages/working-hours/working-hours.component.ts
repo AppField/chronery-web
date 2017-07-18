@@ -16,6 +16,7 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
 	@ViewChild('subsidenav') subsidenav: MdSidenav;
 
 	date: Date;
+	encodedDate: string;
 	works: Work[] = [];
 	sidenavMode = 'side';
 
@@ -26,7 +27,10 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
 	constructor(private router: Router, private route: ActivatedRoute, public media: ObservableMedia,
 				private workingHoursDb: WorkingHoursDbService) {
 		this.dateSub = this.route.params.subscribe(params => {
+			this.encodedDate = params['date'];
 			this.date = Utility.decodeDate(params['date']);
+
+			this.workingHoursDb.getWorkingHours(this.encodedDate);
 		});
 
 		this.workingHoursSub = this.workingHoursDb.dataChange.subscribe(data => {
@@ -54,12 +58,16 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
 	}
 
 	newWork = function (): void {
-		const newWork = new Work(Utility.encodeDate(new Date()));
-		this.works.push(newWork);
+		const newWork = new Work(this.encodedDate);
+		this.works.unshift(newWork);
 	};
 
 	saveWork(work: Work): void {
-		this.workingHoursDb.createWorkingHour(work);
+		if (work.hasOwnProperty('_id')) {
+			this.workingHoursDb.updateWorkingHour(work);
+		} else {
+			this.workingHoursDb.createWorkingHour(work);
+		}
 	}
 
 	deleteWork(work: Work): void {

@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChildren, ElementRef, HostListener} from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output, ElementRef, HostListener} from '@angular/core';
 import {Work} from '../../models/work';
 import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Project} from '../../models/project';
@@ -54,12 +54,21 @@ export class WorkCardComponent implements OnInit, OnDestroy {
 	ngOnInit() {
 		const timeRegex = '^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$';
 
+		let tempProject = null;
+		if (this.work.hasOwnProperty('projectId')) {
+			tempProject = new Project;
+			tempProject._id = this.work.projectId;
+			tempProject.number = this.work.projectNumber;
+			tempProject.name = this.work.projectName;
+		}
+
 		this.workForm = this.fb.group({
-			project: [this.work.projectName, Validators.required],
+			project: [tempProject, Validators.required],
 			from: [this.work.from, [Validators.required, Validators.pattern(timeRegex)]],
 			to: [this.work.to, [Validators.required, Validators.pattern(timeRegex), WorkCardComponent.isAfter]],
 			comment: this.work.comment
 		});
+		this.workForm.controls['project'].updateValueAndValidity();
 
 		this.projectsSub = this.projectsDB.dataChange.subscribe((data) => {
 			this.projects = data;
@@ -91,7 +100,7 @@ export class WorkCardComponent implements OnInit, OnDestroy {
 
 	timeChanged(): void {
 		if (this.workForm.controls['from'].valid && this.workForm.controls['to'].valid) {
-			this.work.setSpent();
+			this.setSpent();
 		}
 	}
 
@@ -120,6 +129,15 @@ export class WorkCardComponent implements OnInit, OnDestroy {
 		name === 'from' ? this.workForm.controls['from'].patchValue(value) : this.workForm.controls['to'].patchValue(value);
 		this.timeChanged();
 	}
+
+	setSpent = function (): void {
+		const from = this.workForm.controls['from'].value.split(':');
+		const to = this.workForm.controls['to'].value.split(':');
+		const fromDate = new Date(0, 0, 0, from[0], from[1], 0);
+		const toDate = new Date(0, 0, 0, to[0], to[1], 0);
+		const diff = moment.utc(moment(toDate).diff(moment(fromDate)));
+		this.work.spent = diff.format('HH:mm');
+	};
 
 
 	checkValidation(): void {

@@ -20,12 +20,12 @@
   }
 
   .container {
-    //display: flex;
-    //flex-wrap: wrap;
-    //justify-content: space-around;
-    //
-    //.wtc-work-card {
-    //  flex-grow: 1;
-    //}
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+
+    .wtc-work-card {
+      flex-grow: 1;
+    }
   }
 }

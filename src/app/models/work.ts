@@ -1,5 +1,3 @@
-import * as moment from 'moment/moment';
-
 export class Work {
 	_id: string;
 	_rev: string;
@@ -20,14 +18,4 @@ export class Work {
 		this.pause = '00:00';
 		this.spent = '00:00';
 	}
-
-	setSpent = function (): void {
-		const from = this.from.split(':');
-		const to = this.to.split(':');
-		const fromDate = new Date(0, 0, 0, from[0], from[1], 0);
-		const toDate = new Date(0, 0, 0, to[0], to[1], 0);
-		const diff = moment.utc(moment(toDate).diff(moment(fromDate)));
-		this.spent = diff.format('HH:mm');
-	};
-
 }

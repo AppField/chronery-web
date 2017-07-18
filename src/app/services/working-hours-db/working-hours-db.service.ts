@@ -22,16 +22,22 @@ export class WorkingHoursDbService {
 		this.db = new PouchDB('wtc-working-hours');
 		this.db.createIndex({
 			index: {fields: ['date', 'projectId']}
+		}).then(() => {
+			this.db.changes({live: true, since: 'now', include_docs: true}).on('change', (change) => {
+				this.handleChange(change);
+			});
 		}).catch(error => {
 			console.log(error);
 		});
 	}
 
-	getWorkingHours(date: string): Promise<FindResponse<Work>> {
-		return this.db.find({
+	getWorkingHours(date: string): void {
+		this.db.find({
 			selector: {
 				date: date
 			}
+		}).then(data => {
+			this.dataChange.next(data.docs);
 		});
 	}
 
@@ -59,7 +65,7 @@ export class WorkingHoursDbService {
 		let changedIndex = null;
 
 		this.dataChange.getValue().forEach((doc, index) => {
-			if (doc._id === change._id) {
+			if (doc._id === change.id) {
 				changedDoc = doc;
 				changedIndex = index;
 			}
@@ -71,8 +77,14 @@ export class WorkingHoursDbService {
 			this.dataChange.next(data);
 		} else {
 			// a document was updated
-			data.push(change.doc);
-			this.dataChange.next(data);
+			if (changedDoc) {
+				data[changedIndex] = change.doc;
+				this.dataChange.next(data);
+			} else {
+				// a document was added
+				data.push(change.doc);
+				this.dataChange.next(data);
+			}
 		}
 	}
 
