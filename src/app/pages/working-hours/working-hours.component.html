@@ -25,8 +25,8 @@
                 </button>
             </div>
 
-            <div class="container">
-                <wtc-work-card *ngFor="let work of works" [work]="work"
+            <div class="container" fxLayout="row">
+                <wtc-work-card *ngFor="let work of works" [work]="work" fxLayoutAlign="space-around center"
                                (workDeleted)="removeWork(index)" (saveWork)="saveWork(work)" (deleteWork)="deleteWork(work)"></wtc-work-card>
             </div>
         </div>

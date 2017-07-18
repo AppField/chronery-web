@@ -5,6 +5,7 @@ import {Work} from '../../models/work';
 import {MediaChange, ObservableMedia} from '@angular/flex-layout';
 import {Subscription} from 'rxjs/Subscription';
 import {MdSidenav} from '@angular/material';
+import {WorkingHoursDbService} from '../../services/working-hours-db/working-hours-db.service';
 
 @Component({
 	selector: 'wtc-working-hours',
@@ -18,12 +19,18 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
 	works: Work[] = [];
 	sidenavMode = 'side';
 
-	private sub: any;
+	private dateSub: Subscription;
+	private workingHoursSub: Subscription;
 	private mediaSub: Subscription;
 
-	constructor(private router: Router, private route: ActivatedRoute, public media: ObservableMedia) {
-		this.sub = this.route.params.subscribe(params => {
+	constructor(private router: Router, private route: ActivatedRoute, public media: ObservableMedia,
+				private workingHoursDb: WorkingHoursDbService) {
+		this.dateSub = this.route.params.subscribe(params => {
 			this.date = Utility.decodeDate(params['date']);
+		});
+
+		this.workingHoursSub = this.workingHoursDb.dataChange.subscribe(data => {
+			this.works = data;
 		});
 	}
 
@@ -52,14 +59,11 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
 	};
 
 	saveWork(work: Work): void {
-		console.log('save work');
-		console.log(work);
+		this.workingHoursDb.createWorkingHour(work);
 	}
 
 	deleteWork(work: Work): void {
-		// this.works.splice(index, 1);
-		console.log('Delete Work');
-		console.log(work);
+		this.workingHoursDb.deleteWorkingHour(work);
 	};
 
 	SetActiveDateToToday = function (): void {
@@ -75,7 +79,8 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
 	}
 
 	ngOnDestroy() {
-		this.sub.unsubscribe();
+		this.dateSub.unsubscribe();
+		this.workingHoursSub.unsubscribe();
 		this.mediaSub.unsubscribe();
 	}
 }

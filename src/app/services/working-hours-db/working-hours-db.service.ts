@@ -14,12 +14,12 @@ export class WorkingHoursDbService {
 	db: Database<Work>;
 
 	constructor() {
-		this.db = new PouchDB('wtc-work');
-		this.db.createIndex({
-			index: {fields: ['date', 'projectId']}
-		}).catch(error => {
-			console.log(error);
-		});
+		// this.db = new PouchDB('wtc-working-hours');
+		// this.db.createIndex({
+		// 	index: {fields: ['date', 'projectId']}
+		// }).catch(error => {
+		// 	console.log(error);
+		// });
 	}
 
 	getWorkingHours(date: string): Promise<FindResponse<Work>> {
