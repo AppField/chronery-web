@@ -30,7 +30,7 @@ export class MaterialActiveDirective {
 		}
 	}
 
-	constructor(public elRef: ElementRef) {
+	constructor(private elRef: ElementRef) {
 
 	}
 

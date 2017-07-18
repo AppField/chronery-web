@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChildren, ElementRef} from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChildren, ElementRef, HostListener} from '@angular/core';
 import {Work} from '../../models/work';
 import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Project} from '../../models/project';
@@ -8,7 +8,6 @@ import 'rxjs/add/operator/map';
 import * as moment from 'moment/moment';
 import {ProjectsDbService} from '../../services/projects-db/projects-db.service';
 import {Subscription} from 'rxjs/Subscription';
-import {MdInputContainer} from '@angular/material';
 
 @Component({
 	selector: 'wtc-work-card',
@@ -21,7 +20,6 @@ export class WorkCardComponent implements OnInit, OnDestroy {
 	@Input() work: Work;
 	@Output() saveWork = new EventEmitter();
 	@Output() deleteWork = new EventEmitter();
-	@ViewChildren(MdInputContainer) inputContainers;
 
 	filteredProjects: Observable<Project[]>;
 	projects: Project[] = [];
@@ -40,6 +38,14 @@ export class WorkCardComponent implements OnInit, OnDestroy {
 			return moment(toDate).isAfter(fromDate) ? true : {isNotAfter: true};
 		}
 		return null;
+	}
+
+	@HostListener('document:click', ['$event.target'])
+	public onClickOutside(targetElement) {
+		const clickedInside = this.elRef.nativeElement.contains(targetElement);
+		if (!clickedInside) {
+			this.checkValidation();
+		}
 	}
 
 	constructor(public fb: FormBuilder, private projectsDB: ProjectsDbService, private elRef: ElementRef) {

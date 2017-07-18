@@ -51,8 +51,15 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
 		this.works.push(newWork);
 	};
 
-	removeWork = function (index: string): void {
-		this.works.splice(index, 1);
+	saveWork(work: Work): void {
+		console.log('save work');
+		console.log(work);
+	}
+
+	deleteWork(work: Work): void {
+		// this.works.splice(index, 1);
+		console.log('Delete Work');
+		console.log(work);
 	};
 
 	SetActiveDateToToday = function (): void {
