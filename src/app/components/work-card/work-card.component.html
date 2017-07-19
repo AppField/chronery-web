@@ -10,7 +10,8 @@
                     <span>{{ project.name }}  |  {{ project.number }} </span>
                 </md-option>
             </md-autocomplete>
-            <button md-icon-button type=" button" class="delete-button" (click)="removeWork()" tabindex="-1">
+            <button md-icon-button type=" button" *ngIf="work._id" class="delete-button" (click)="removeWork()"
+                    tabindex="-1">
                 <md-icon>clear</md-icon>
             </button>
 
