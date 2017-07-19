@@ -23,6 +23,7 @@ export class WorkCardComponent implements OnInit {
 	filteredProjects: Observable<Project[]>;
 	workForm: FormGroup;
 	toControl: AbstractControl;
+	private backupWork: Work;
 
 	static isAfter(control: FormControl): any {
 		if (control.parent) {
@@ -48,6 +49,7 @@ export class WorkCardComponent implements OnInit {
 
 	ngOnInit() {
 		const timeRegex = '^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$';
+		this.backupWork = Object.assign({}, this.work);
 
 		let tempProject = null;
 		if (this.work.hasOwnProperty('projectId')) {
@@ -75,10 +77,10 @@ export class WorkCardComponent implements OnInit {
 			this.workForm.controls['to'].updateValueAndValidity();
 		});
 
-		this.updatedExistingProject();
+		this.updateExistingProject();
 	}
 
-	updatedExistingProject(): void {
+	updateExistingProject(): void {
 		if (this.work.hasOwnProperty('projectId')) {
 			const i = this.projects.map((el) => {
 				return el._id;
@@ -149,10 +151,14 @@ export class WorkCardComponent implements OnInit {
 			this.work.from = this.workForm.controls['from'].value;
 			this.work.to = this.workForm.controls['to'].value;
 			this.work.comment = this.workForm.controls['comment'].value;
-
-			this.saveWork.emit(this.work);
+			if (!this.checkWorkChanged()) {
+				this.saveWork.emit(this.work);
+			}
 		}
+	}
 
+	checkWorkChanged(): boolean {
+		return JSON.stringify(this.backupWork) === JSON.stringify(this.work);
 	}
 
 	removeWork(): void {
