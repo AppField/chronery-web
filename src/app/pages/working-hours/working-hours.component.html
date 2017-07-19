@@ -17,16 +17,19 @@
                 </md-icon>
             </button>
             </span>
-            <button md-fab *ngIf="!newCard" (click)="newWork()">
-                <md-icon>add</md-icon>
-            </button>
+            <!-- span is necessary because the browser doesn't show the tooltip when the button is disabled -->
+            <span class="btn-add" mdTooltip="You have an unfinished card open."
+                  [mdTooltipPosition]="'left'" [mdTooltipDisabled]="!newCard">
+                <button md-fab [disabled]="newCard" (click)="newWork()">
+                    <md-icon>add</md-icon>
+                </button>
+            </span>
         </md-toolbar>
         <div class="inner-sidenav-content">
 
             <h2 class="title">
                 {{ date | date:'dd. MMMM yyyy' }}
             </h2>
-
 
             <div class="container">
                 <wtc-work-card *ngFor="let work of works" [projects]="projects" [work]="work"

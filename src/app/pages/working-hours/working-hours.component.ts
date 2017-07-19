@@ -50,8 +50,13 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
 		this.workingHoursSub = this.workingHoursDb.dataChange.subscribe((worksData) => {
 			this.works = [];
 			const newCard = this.localStorage.getItem(this.encodedDate);
-			newCard ? this.newCard = true : this.newCard = false;
-			this.works = this.works.concat(worksData);
+			if (newCard) {
+				this.works = [newCard].concat(worksData);
+				this.newCard = true;
+			} else {
+				this.works = worksData;
+				this.newCard = false;
+			}
 		});
 	}
 

@@ -16,7 +16,8 @@ import {
 	MdTabsModule,
 	MdListModule,
 	MdToolbarModule,
-	MdTableModule
+	MdTableModule,
+	MdTooltipModule
 } from '@angular/material';
 import {CdkTableModule} from '@angular/cdk';
 
@@ -36,7 +37,7 @@ import {ProjectsComponent} from './pages/projects/projects.component';
 import {ProjectDialogComponent} from './components/project-modal/project-dialog.component';
 import {ProjectsDbService} from './services/projects-db/projects-db.service';
 import {WorkingHoursDbService} from './services/working-hours-db/working-hours-db.service';
-import { MaterialActiveDirective } from './directives/material-active/material-active.directive';
+import {MaterialActiveDirective} from './directives/material-active/material-active.directive';
 import {LocalStorageService} from './services/local-storage/local-storage.service';
 
 @NgModule({
@@ -63,7 +64,7 @@ import {LocalStorageService} from './services/local-storage/local-storage.servic
 		HttpModule,
 		BrowserAnimationsModule,
 		MdButtonModule, MdDialogModule, MdSidenavModule, MdIconModule, MdMenuModule, MdCardModule, MdAutocompleteModule, MdInputModule,
-		MdTabsModule, MdListModule, MdToolbarModule, MdTableModule,
+		MdTabsModule, MdListModule, MdToolbarModule, MdTableModule, MdTooltipModule,
 		AppRoutingModule,
 		CdkTableModule
 	],
