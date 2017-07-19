@@ -24,6 +24,7 @@ export class WorkCardComponent implements OnInit {
 	workForm: FormGroup;
 	toControl: AbstractControl;
 	private backupWork: Work;
+	private cardActive: boolean;
 
 	static isAfter(control: FormControl): any {
 		if (control.parent) {
@@ -40,7 +41,12 @@ export class WorkCardComponent implements OnInit {
 	public onClickOutside(targetElement) {
 		const clickedInside = this.elRef.nativeElement.contains(targetElement);
 		if (!clickedInside) {
-			this.checkValidation();
+			if (this.cardActive) {
+				this.checkValidation();
+				this.cardActive = false;
+			}
+		} else {
+			this.cardActive = true;
 		}
 	}
 
