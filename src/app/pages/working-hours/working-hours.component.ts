@@ -22,6 +22,7 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
 	works: Work[];
 	projects: Project[];
 	sidenavMode = 'side';
+	newCardAdded: boolean;
 
 	private dateSub: Subscription;
 	private projectsSub: Subscription;
@@ -31,6 +32,7 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
 	constructor(private router: Router, private route: ActivatedRoute, public media: ObservableMedia,
 				private projectsDB: ProjectsDbService,
 				private workingHoursDb: WorkingHoursDbService) {
+		this.newCardAdded = false;
 		this.dateSub = this.route.params.subscribe(params => {
 			this.encodedDate = params['date'];
 			this.date = Utility.decodeDate(params['date']);
@@ -69,6 +71,7 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
 	newWork = function (): void {
 		const newWork = new Work(this.encodedDate);
 		this.works.unshift(newWork);
+		this.newCardAdded = true;
 	};
 
 	saveWork(work: Work): void {
@@ -76,6 +79,7 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
 			this.workingHoursDb.updateWorkingHour(work);
 		} else {
 			this.workingHoursDb.createWorkingHour(work);
+			this.newCardAdded = false;
 		}
 	}
 

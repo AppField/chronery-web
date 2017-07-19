@@ -11,11 +11,15 @@
     }
   }
 
-  .title-container {
-    display: flex;
+  .mat-toolbar {
+    .btn-today {
+      display: block;
+      margin: 0 auto;
+    }
 
-    .title {
-      display: inline-block;
+    .mat-fab {
+      top: 35px;
+      right: 1rem;
     }
   }
 

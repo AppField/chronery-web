@@ -9,21 +9,24 @@
                 <md-icon>today</md-icon>
             </button>
             Working Hours
-            <span class="fill-remaining-space"></span>
-            <button md-button (click)="SetActiveDateToToday()">
+            <span class="fill-remaining-space">
+                <button md-button class="btn-today" (click)="SetActiveDateToToday()">
                 Today
+                <md-icon>
+                    today
+                </md-icon>
+            </button>
+            </span>
+            <button md-fab *ngIf="!newCardAdded" (click)="newWork()">
+                <md-icon>add</md-icon>
             </button>
         </md-toolbar>
         <div class="inner-sidenav-content">
-            <div class="title-container">
-                <h2 class="title">
-                    {{ date | date:'dd. MMMM yyyy' }}
-                </h2>
-                <span class="fill-remaining-space"></span>
-                <button md-fab (click)="newWork()">
-                    <md-icon>add</md-icon>
-                </button>
-            </div>
+
+            <h2 class="title">
+                {{ date | date:'dd. MMMM yyyy' }}
+            </h2>
+
 
             <div class="container">
                 <wtc-work-card *ngFor="let work of works" [projects]="projects" [work]="work"
