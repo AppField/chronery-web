@@ -1,5 +1,6 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
+import {FlexLayoutModule} from '@angular/flex-layout';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpModule} from '@angular/http';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -15,7 +16,8 @@ import {
 	MdTabsModule,
 	MdListModule,
 	MdToolbarModule,
-	MdTableModule
+	MdTableModule,
+	MdTooltipModule
 } from '@angular/material';
 import {CdkTableModule} from '@angular/cdk';
 
@@ -30,10 +32,13 @@ import {SettingsComponent} from './pages/settings/settings.component';
 import {WorkingHoursComponent} from './pages/working-hours/working-hours.component';
 import {AppRoutingModule} from './app-routing.module';
 import {WorkCardComponent} from './components/work-card/work-card.component';
-import {NavlistComponent} from './components/navlist/navlist.component';
 import {DashboardComponent} from './pages/dashboard/dashboard.component';
 import {ProjectsComponent} from './pages/projects/projects.component';
 import {ProjectDialogComponent} from './components/project-modal/project-dialog.component';
+import {ProjectsDbService} from './services/projects-db/projects-db.service';
+import {WorkingHoursDbService} from './services/working-hours-db/working-hours-db.service';
+import {MaterialActiveDirective} from './directives/material-active/material-active.directive';
+import {LocalStorageService} from './services/local-storage/local-storage.service';
 
 @NgModule({
 	declarations: [
@@ -45,24 +50,25 @@ import {ProjectDialogComponent} from './components/project-modal/project-dialog.
 		SettingsComponent,
 		WorkingHoursComponent,
 		WorkCardComponent,
-		NavlistComponent,
 		DashboardComponent,
 		ProjectsComponent,
-		ProjectDialogComponent
+		ProjectDialogComponent,
+		MaterialActiveDirective
 	],
 	entryComponents: [MonthYearDialogComponent, ProjectDialogComponent],
 	imports: [
 		BrowserModule,
+		FlexLayoutModule,
 		FormsModule,
 		ReactiveFormsModule,
 		HttpModule,
 		BrowserAnimationsModule,
 		MdButtonModule, MdDialogModule, MdSidenavModule, MdIconModule, MdMenuModule, MdCardModule, MdAutocompleteModule, MdInputModule,
-		MdTabsModule, MdListModule, MdToolbarModule, MdTableModule,
+		MdTabsModule, MdListModule, MdToolbarModule, MdTableModule, MdTooltipModule,
 		AppRoutingModule,
 		CdkTableModule
 	],
-	providers: [],
+	providers: [WorkingHoursDbService, ProjectsDbService, LocalStorageService],
 	bootstrap: [AppComponent]
 })
 export class AppModule {

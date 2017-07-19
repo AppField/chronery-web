@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ElementRef, HostListener} from '@angular/core';
 import {Work} from '../../models/work';
 import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Project} from '../../models/project';
@@ -15,19 +15,17 @@ import * as moment from 'moment/moment';
 
 
 export class WorkCardComponent implements OnInit {
+	@Input() projects: Project[];
 	@Input() work: Work;
-	@Output() workDeleted = new EventEmitter();
+	@Output() saveWork = new EventEmitter<Work>();
+	@Output() deleteWork = new EventEmitter<Work>();
+	@Output() persistNewWork = new EventEmitter<Work>();
 
 	filteredProjects: Observable<Project[]>;
-	projects = [
-		new Project(1, '52342', 'Landing Pages'),
-		new Project(2, '1234', 'Maintenance Interface'),
-		new Project(3, '6576', 'Mobile Time Tracking app'),
-		new Project(4, '52342', 'TYPO3 Website')
-	];
-
 	workForm: FormGroup;
 	toControl: AbstractControl;
+	private backupWork: Work;
+	private cardActive: boolean;
 
 	static isAfter(control: FormControl): any {
 		if (control.parent) {
@@ -40,15 +38,40 @@ export class WorkCardComponent implements OnInit {
 		return null;
 	}
 
-	constructor(public fb: FormBuilder) {
+	@HostListener('document:click', ['$event.target'])
+	public onClickOutside(targetElement) {
+		const clickedInside = this.elRef.nativeElement.contains(targetElement);
+		if (!clickedInside) {
+			// if (this.cardActive) {
+			this.checkValidation();
+			this.cardActive = false;
+			// }
+		} else {
+			this.cardActive = true;
+		}
+	}
 
+	// @HostListener('click') onClick() {
+	// 	this.cardActive = true;
+	// }
+
+	constructor(public fb: FormBuilder, private elRef: ElementRef) {
 	}
 
 	ngOnInit() {
 		const timeRegex = '^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$';
+		this.backupWork = Object.assign({}, this.work);
+
+		let tempProject = null;
+		if (this.work.hasOwnProperty('projectId')) {
+			tempProject = new Project;
+			tempProject._id = this.work.projectId;
+			tempProject.number = this.work.projectNumber;
+			tempProject.name = this.work.projectName;
+		}
 
 		this.workForm = this.fb.group({
-			project: [this.work.projectName, Validators.required],
+			project: [tempProject, Validators.required],
 			from: [this.work.from, [Validators.required, Validators.pattern(timeRegex)]],
 			to: [this.work.to, [Validators.required, Validators.pattern(timeRegex), WorkCardComponent.isAfter]],
 			comment: this.work.comment
@@ -64,23 +87,41 @@ export class WorkCardComponent implements OnInit {
 		this.workForm.controls['from'].valueChanges.subscribe((value) => {
 			this.workForm.controls['to'].updateValueAndValidity();
 		});
+
+		this.updateExistingProject();
+	}
+
+	updateExistingProject(): void {
+		if (this.work.hasOwnProperty('projectId')) {
+			const i = this.projects.map((el) => {
+				return el._id;
+			}).indexOf(this.work.projectId);
+
+			if (i > -1) {
+				if (this.projects[i].number !== this.work.projectNumber || this.projects[i].name !== this.work.projectName) {
+					this.workForm.controls['project'].patchValue(this.projects[i]);
+					this.checkValidation();
+				}
+			}
+		}
 	}
 
 	filterProjects(val: string) {
 		return this.projects.filter(project => new RegExp(val, 'i').test(project.name));
 	}
 
-	projectChanged(project: Project): void {
-		this.work.projectNumber = project.number;
+	displayFn(project: Project) {
+		return project ? project.name + '  |  ' + project.number : project;
 	}
 
 	timeChanged(): void {
 		if (this.workForm.controls['from'].valid && this.workForm.controls['to'].valid) {
-			this.work.setSpent();
+			this.setSpent();
 		}
 	}
 
 	formatTime(value: string, name: string): void {
+		value = value.trim();
 		if (value.length === 1) {
 			if (Number(value)) {
 				value = '0' + value + ':00';
@@ -105,16 +146,44 @@ export class WorkCardComponent implements OnInit {
 		this.timeChanged();
 	}
 
+	setSpent = function (): void {
+		const from = this.workForm.controls['from'].value.split(':');
+		const to = this.workForm.controls['to'].value.split(':');
+		const fromDate = new Date(0, 0, 0, from[0], from[1], 0);
+		const toDate = new Date(0, 0, 0, to[0], to[1], 0);
+		const diff = moment.utc(moment(toDate).diff(moment(fromDate)));
+		this.work.spent = diff.format('HH:mm');
+	};
 
-	saveWork(): void {
-		this.work.projectName = this.workForm.controls['project'].value;
+	checkValidation(): void {
+		this.copyFormDataToWork();
+		if (this.workForm.valid) {
+			if (!this.checkWorkChanged()) {
+				this.saveWork.emit(this.work);
+			}
+		} else {
+			if (!this.work.hasOwnProperty('_id')) {
+				this.persistNewWork.emit(this.work);
+			}
+		}
+	}
+
+	copyFormDataToWork(): void {
+		if (this.workForm.controls['project'].value) {
+			this.work.projectId = this.workForm.controls['project'].value._id;
+			this.work.projectNumber = this.workForm.controls['project'].value.number;
+			this.work.projectName = this.workForm.controls['project'].value.name;
+		}
 		this.work.from = this.workForm.controls['from'].value;
 		this.work.to = this.workForm.controls['to'].value;
 		this.work.comment = this.workForm.controls['comment'].value;
 	}
 
-	deleteWork(): void {
-		this.workDeleted.emit();
+	checkWorkChanged(): boolean {
+		return JSON.stringify(this.backupWork) === JSON.stringify(this.work);
 	}
 
+	removeWork(): void {
+		this.deleteWork.emit(this.work);
+	}
 }

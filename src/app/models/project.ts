@@ -1,10 +1,10 @@
 export class Project {
-	id: number;
+	_id: string;
+	_rev: string;
 	number: string;
 	name: string;
 
-	constructor(id?: number, number?: string, name?: string) {
-		this.id = id || 0;
+	constructor(number?: string, name?: string) {
 		this.number = number || '';
 		this.name = name || '';
 	}

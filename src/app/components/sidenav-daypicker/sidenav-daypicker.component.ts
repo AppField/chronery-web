@@ -1,4 +1,4 @@
-import {Component, OnDestroy, ViewChildren, AfterViewInit} from '@angular/core';
+import {Component, OnDestroy, ViewChildren, AfterViewInit, Output, EventEmitter} from '@angular/core';
 import {MonthYearDialogComponent} from '../month-year-dialog/month-year-dialog.component';
 import {MdDialog} from '@angular/material';
 import {Utility} from '../../utils/utility';
@@ -11,6 +11,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 })
 export class SidenavDaypickerComponent implements OnDestroy, AfterViewInit {
 	@ViewChildren('dayList') dayList;
+	@Output() daySelected = new EventEmitter();
 
 	days: Array<{}> = [];
 	activeLinkIndex = 0;
@@ -46,6 +47,7 @@ export class SidenavDaypickerComponent implements OnDestroy, AfterViewInit {
 	onDaySelect(date: Date) {
 		const encodedDate = Utility.encodeDate(date);
 		this.router.navigate(['working-hours', encodedDate]);
+		this.daySelected.emit();
 	}
 
 	openMonthYearDialog() {

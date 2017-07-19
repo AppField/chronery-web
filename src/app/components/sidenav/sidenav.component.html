@@ -1,10 +1,21 @@
 <md-sidenav-container>
     <md-sidenav mode="side" opened="true">
         <md-toolbar>
-            WTC
+            <span *ngIf="!media.isActive('xs'); else menuButton">WTC</span>
+            <ng-template #menuButton>
+                <button md-icon-button (click)="toggleCollapse()">
+                    <md-icon>menu</md-icon>
+                </button>
+            </ng-template>
         </md-toolbar>
-        <wtc-navlist></wtc-navlist>
+        <md-nav-list>
+            <a md-list-item *ngFor="let item of routerItems" routerLink="{{item.link}}" routerLinkActive="active"
+               (click)="collapsed=false">
+                <md-icon md-list-icon>{{item.icon}}</md-icon>
+                <span *ngIf="!media.isActive('xs') || collapsed">{{item.display}}</span>
+            </a>
+        </md-nav-list>
     </md-sidenav>
-        
+
     <router-outlet></router-outlet>
 </md-sidenav-container>

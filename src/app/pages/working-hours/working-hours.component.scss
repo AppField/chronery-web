@@ -11,11 +11,16 @@
     }
   }
 
-  .title-container {
-    display: flex;
+  .mat-toolbar {
+    .btn-today {
+      display: block;
+      margin: 0 auto;
+    }
 
-    .title {
-      display: inline-block;
+    .btn-add {
+      position: relative;
+      top: 35px;
+      right: 1rem;
     }
   }
 
