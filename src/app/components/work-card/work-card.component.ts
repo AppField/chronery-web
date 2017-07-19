@@ -17,8 +17,9 @@ import * as moment from 'moment/moment';
 export class WorkCardComponent implements OnInit {
 	@Input() projects: Project[];
 	@Input() work: Work;
-	@Output() saveWork = new EventEmitter();
-	@Output() deleteWork = new EventEmitter();
+	@Output() saveWork = new EventEmitter<Work>();
+	@Output() deleteWork = new EventEmitter<Work>();
+	@Output() persistNewWork = new EventEmitter<Work>();
 
 	filteredProjects: Observable<Project[]>;
 	workForm: FormGroup;
@@ -41,14 +42,18 @@ export class WorkCardComponent implements OnInit {
 	public onClickOutside(targetElement) {
 		const clickedInside = this.elRef.nativeElement.contains(targetElement);
 		if (!clickedInside) {
-			if (this.cardActive) {
-				this.checkValidation();
-				this.cardActive = false;
-			}
+			// if (this.cardActive) {
+			this.checkValidation();
+			this.cardActive = false;
+			// }
 		} else {
 			this.cardActive = true;
 		}
 	}
+
+	// @HostListener('click') onClick() {
+	// 	this.cardActive = true;
+	// }
 
 	constructor(public fb: FormBuilder, private elRef: ElementRef) {
 	}
@@ -92,9 +97,11 @@ export class WorkCardComponent implements OnInit {
 				return el._id;
 			}).indexOf(this.work.projectId);
 
-			if (this.projects[i].number !== this.work.projectNumber || this.projects[i].name !== this.work.projectName) {
-				this.workForm.controls['project'].patchValue(this.projects[i]);
-				this.checkValidation();
+			if (i > -1) {
+				if (this.projects[i].number !== this.work.projectNumber || this.projects[i].name !== this.work.projectName) {
+					this.workForm.controls['project'].patchValue(this.projects[i]);
+					this.checkValidation();
+				}
 			}
 		}
 	}
@@ -148,19 +155,28 @@ export class WorkCardComponent implements OnInit {
 		this.work.spent = diff.format('HH:mm');
 	};
 
-
 	checkValidation(): void {
+		this.copyFormDataToWork();
 		if (this.workForm.valid) {
-			this.work.projectId = this.workForm.controls['project'].value._id;
-			this.work.projectNumber = this.workForm.controls['project'].value.number;
-			this.work.projectName = this.workForm.controls['project'].value.name;
-			this.work.from = this.workForm.controls['from'].value;
-			this.work.to = this.workForm.controls['to'].value;
-			this.work.comment = this.workForm.controls['comment'].value;
 			if (!this.checkWorkChanged()) {
 				this.saveWork.emit(this.work);
 			}
+		} else {
+			if (!this.work.hasOwnProperty('_id')) {
+				this.persistNewWork.emit(this.work);
+			}
 		}
+	}
+
+	copyFormDataToWork(): void {
+		if (this.workForm.controls['project'].value) {
+			this.work.projectId = this.workForm.controls['project'].value._id;
+			this.work.projectNumber = this.workForm.controls['project'].value.number;
+			this.work.projectName = this.workForm.controls['project'].value.name;
+		}
+		this.work.from = this.workForm.controls['from'].value;
+		this.work.to = this.workForm.controls['to'].value;
+		this.work.comment = this.workForm.controls['comment'].value;
 	}
 
 	checkWorkChanged(): boolean {

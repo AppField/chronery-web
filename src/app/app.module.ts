@@ -37,6 +37,7 @@ import {ProjectDialogComponent} from './components/project-modal/project-dialog.
 import {ProjectsDbService} from './services/projects-db/projects-db.service';
 import {WorkingHoursDbService} from './services/working-hours-db/working-hours-db.service';
 import { MaterialActiveDirective } from './directives/material-active/material-active.directive';
+import {LocalStorageService} from './services/local-storage/local-storage.service';
 
 @NgModule({
 	declarations: [
@@ -66,7 +67,7 @@ import { MaterialActiveDirective } from './directives/material-active/material-a
 		AppRoutingModule,
 		CdkTableModule
 	],
-	providers: [WorkingHoursDbService, ProjectsDbService],
+	providers: [WorkingHoursDbService, ProjectsDbService, LocalStorageService],
 	bootstrap: [AppComponent]
 })
 export class AppModule {

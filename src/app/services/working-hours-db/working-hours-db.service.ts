@@ -1,10 +1,6 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {Work} from '../../models/work';
-
-
-// import * as PouchDB from 'pouchdb';
-// import * as PouchFind from 'pouchdb-find';
 import PouchDB from 'pouchdb';
 import PouchDBFind from 'pouchdb-find';
 import Database = PouchDB.Database;
@@ -35,7 +31,8 @@ export class WorkingHoursDbService {
 		this.db.find({
 			selector: {
 				date: date
-			}
+			},
+			sort: [{_id: 'desc'}]
 		}).then(data => {
 			this.dataChange.next(data.docs);
 		});
@@ -82,7 +79,7 @@ export class WorkingHoursDbService {
 				this.dataChange.next(data);
 			} else {
 				// a document was added
-				data.push(change.doc);
+				data.unshift(change.doc);
 				this.dataChange.next(data);
 			}
 		}

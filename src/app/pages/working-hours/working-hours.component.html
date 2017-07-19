@@ -17,7 +17,7 @@
                 </md-icon>
             </button>
             </span>
-            <button md-fab *ngIf="!newCardAdded" (click)="newWork()">
+            <button md-fab *ngIf="!newCard" (click)="newWork()">
                 <md-icon>add</md-icon>
             </button>
         </md-toolbar>
@@ -30,7 +30,7 @@
 
             <div class="container">
                 <wtc-work-card *ngFor="let work of works" [projects]="projects" [work]="work"
-                               (saveWork)="saveWork(work)"
+                               (saveWork)="saveWork(work)" (persistNewWork)="persistNewWork(work)"
                                (deleteWork)="deleteWork(work)"></wtc-work-card>
             </div>
         </div>

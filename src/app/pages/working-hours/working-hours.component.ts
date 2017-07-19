@@ -8,6 +8,7 @@ import {MdSidenav} from '@angular/material';
 import {WorkingHoursDbService} from '../../services/working-hours-db/working-hours-db.service';
 import {ProjectsDbService} from '../../services/projects-db/projects-db.service';
 import {Project} from '../../models/project';
+import {LocalStorageService} from '../../services/local-storage/local-storage.service';
 
 @Component({
 	selector: 'wtc-working-hours',
@@ -19,10 +20,10 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
 
 	date: Date;
 	encodedDate: string;
-	works: Work[];
-	projects: Project[];
+	works: Work[] = [];
+	projects: Project[] = [];
 	sidenavMode = 'side';
-	newCardAdded: boolean;
+	newCard: boolean;
 
 	private dateSub: Subscription;
 	private projectsSub: Subscription;
@@ -31,8 +32,9 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
 
 	constructor(private router: Router, private route: ActivatedRoute, public media: ObservableMedia,
 				private projectsDB: ProjectsDbService,
-				private workingHoursDb: WorkingHoursDbService) {
-		this.newCardAdded = false;
+				private workingHoursDb: WorkingHoursDbService,
+				private localStorage: LocalStorageService) {
+
 		this.dateSub = this.route.params.subscribe(params => {
 			this.encodedDate = params['date'];
 			this.date = Utility.decodeDate(params['date']);
@@ -40,12 +42,16 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
 			this.workingHoursDb.getWorkingHours(this.encodedDate);
 		});
 
-		this.projectsSub = this.projectsDB.dataChange.subscribe((data) => {
-			this.projects = data;
+		this.projectsSub = this.projectsDB.dataChange.subscribe((projectsData) => {
+			if (projectsData.length) {
+				this.projects = projectsData;
+			}
 		});
-
-		this.workingHoursSub = this.workingHoursDb.dataChange.subscribe(data => {
-			this.works = data;
+		this.workingHoursSub = this.workingHoursDb.dataChange.subscribe((worksData) => {
+			this.works = [];
+			const newCard = this.localStorage.getItem(this.encodedDate);
+			newCard ? this.newCard = true : this.newCard = false;
+			this.works = this.works.concat(worksData);
 		});
 	}
 
@@ -71,20 +77,31 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
 	newWork = function (): void {
 		const newWork = new Work(this.encodedDate);
 		this.works.unshift(newWork);
-		this.newCardAdded = true;
+		this.newCard = true;
 	};
 
 	saveWork(work: Work): void {
 		if (work.hasOwnProperty('_id')) {
 			this.workingHoursDb.updateWorkingHour(work);
 		} else {
+			this.localStorage.deleteItem(work.date);
 			this.workingHoursDb.createWorkingHour(work);
-			this.newCardAdded = false;
+			this.newCard = false;
 		}
 	}
 
+	persistNewWork(work: Work): void {
+		this.localStorage.saveItem(work.date, work);
+	}
+
 	deleteWork(work: Work): void {
-		this.workingHoursDb.deleteWorkingHour(work);
+		if (work.hasOwnProperty('_id')) {
+			this.workingHoursDb.deleteWorkingHour(work);
+		} else {
+			this.localStorage.deleteItem(work.date);
+			this.works.shift();
+			this.newCard = false;
+		}
 	};
 
 	SetActiveDateToToday = function (): void {
