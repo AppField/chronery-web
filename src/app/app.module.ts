@@ -17,7 +17,9 @@ import {
 	MdListModule,
 	MdToolbarModule,
 	MdTableModule,
-	MdTooltipModule
+	MdTooltipModule,
+	MdDatepickerModule,
+	MdNativeDateModule
 } from '@angular/material';
 import {CdkTableModule} from '@angular/cdk';
 
@@ -64,7 +66,7 @@ import {LocalStorageService} from './services/local-storage/local-storage.servic
 		HttpModule,
 		BrowserAnimationsModule,
 		MdButtonModule, MdDialogModule, MdSidenavModule, MdIconModule, MdMenuModule, MdCardModule, MdAutocompleteModule, MdInputModule,
-		MdTabsModule, MdListModule, MdToolbarModule, MdTableModule, MdTooltipModule,
+		MdTabsModule, MdListModule, MdToolbarModule, MdTableModule, MdTooltipModule, MdDatepickerModule, MdNativeDateModule,
 		AppRoutingModule,
 		CdkTableModule
 	],
