@@ -41,6 +41,17 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
 	ngOnInit() {
 	}
 
+	updateReport(project?: Project): void {
+		setTimeout(() => {
+			console.log('Updating report!');
+			if (project) {
+				console.log(`From: ${this.startDate}. To: ${this.endDate} and for project ${project.name}`);
+			} else {
+				console.log(`From: ${this.startDate}. To: ${this.endDate}`);
+			}
+		});
+	}
+
 	ngAfterViewInit() {
 		// TODO: Remove this as it is a workaround to make the table visible when the page got reloaded
 		this.detector.detectChanges();
