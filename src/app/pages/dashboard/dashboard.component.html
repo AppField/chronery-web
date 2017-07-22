@@ -1,9 +1,10 @@
 <md-toolbar color="primary" class="mat-elevation-z8">
-  Dashboard
+    Dashboard
 </md-toolbar>
 
 <div class="inner-sidenav-content">
-  <p>
-    dashboard works!
-  </p>
+    <h2>
+        Today's date:
+        <a md-button routerLink="{{todaysLink}}"><h2 class="inline-h2">{{ todaysDate | date:'dd. MMMM yyyy' }}</h2></a>
+    </h2>
 </div>
