@@ -3,7 +3,80 @@
 </md-toolbar>
 
 <div class="inner-sidenav-content">
-    <p>
-        Report works!
-    </p>
+    <div class="mat-elevation-z5">
+        <div class="table-header" fxLayout.gt-xs="row" fxLayout="column" fxLayoutGap="20px" fxLayoutGap.xs="0">
+
+            <!-- Start date -->
+            <md-input-container fxFlex="100">
+                <input mdInput [mdDatepicker]="fromPicker" placeholder="Starts at" value="{{startDate}}"
+                       [max]="endDate" [(ngModel)]="startDate">
+                <button mdSuffix [mdDatepickerToggle]="fromPicker"></button>
+            </md-input-container>
+            <md-datepicker #fromPicker [startAt]="startDate"
+                           (selectedChanged)="updateReport()"></md-datepicker>
+
+            <!-- End date -->
+            <md-input-container fxFlex="100">
+                <input mdInput [mdDatepicker]="toPicker" placeholder="Ends at"
+                       value="{{endDate}}" [min]="startDate" [(ngModel)]="endDate">
+                <button mdSuffix [mdDatepickerToggle]="toPicker"></button>
+            </md-input-container>
+            <md-datepicker #toPicker (selectedChanged)="updateReport()"></md-datepicker>
+
+            <!-- Proejct Autocomplete -->
+            <md-input-container fxFlex="100">
+                <input mdInput placeholder="Project" [mdAutocomplete]="auto" [formControl]="projectsCtrl">
+                <md-error>Required</md-error>
+            </md-input-container>
+            <md-autocomplete #auto="mdAutocomplete" [displayWith]="displayFn">
+                <md-option *ngFor="let project of filteredProjects | async" [value]="project"
+                           (onSelectionChange)="updateReport($event, project)">
+                    <span>{{ project.name }}  <span *ngIf="project._id">|</span>  {{ project.number }} </span>
+                </md-option>
+            </md-autocomplete>
+        </div>
+
+
+        <md-table #table [dataSource]="dataSource">
+            <!-- Project number column -->
+            <ng-container cdkColumnDef="date">
+                <md-header-cell *cdkHeaderCellDef>Date</md-header-cell>
+                <md-cell *cdkCellDef="let row">{{row.date}}</md-cell>
+            </ng-container>
+
+            <!-- Project name column -->
+            <ng-container cdkColumnDef="from">
+                <md-header-cell *cdkHeaderCellDef>From</md-header-cell>
+                <md-cell *cdkCellDef="let row">{{row.from}}</md-cell>
+            </ng-container>
+
+            <ng-container cdkColumnDef="to">
+                <md-header-cell *cdkHeaderCellDef>To</md-header-cell>
+                <md-cell *cdkCellDef="let row">{{row.to}}</md-cell>
+            </ng-container>
+
+            <ng-container cdkColumnDef="spent">
+                <md-header-cell *cdkHeaderCellDef>Spent</md-header-cell>
+                <md-cell *cdkCellDef="let row">{{row.spent}}</md-cell>
+            </ng-container>
+
+            <ng-container cdkColumnDef="projectNumber">
+                <md-header-cell *cdkHeaderCellDef>ProjectNumber</md-header-cell>
+                <md-cell *cdkCellDef="let row">{{row.projectNumber}}</md-cell>
+            </ng-container>
+
+            <ng-container cdkColumnDef="projectName">
+                <md-header-cell *cdkHeaderCellDef>Project Name</md-header-cell>
+                <md-cell *cdkCellDef="let row">{{row.projectName}}</md-cell>
+            </ng-container>
+
+            <ng-container cdkColumnDef="comment">
+                <md-header-cell *cdkHeaderCellDef>Comment</md-header-cell>
+                <md-cell *cdkCellDef="let row">{{row.comment}}</md-cell>
+            </ng-container>
+
+            <md-header-row *cdkHeaderRowDef="displayedColumns"></md-header-row>
+            <md-row *cdkRowDef="let row; columns: displayedColumns;"></md-row>
+        </md-table>
+    </div>
 </div>

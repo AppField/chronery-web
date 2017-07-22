@@ -9,6 +9,7 @@ import {WorkingHoursDbService} from '../../services/working-hours-db/working-hou
 import {ProjectsDbService} from '../../services/projects-db/projects-db.service';
 import {Project} from '../../models/project';
 import {LocalStorageService} from '../../services/local-storage/local-storage.service';
+import {WorkingHoursFilter} from '../../models/working-hours-filter';
 
 @Component({
 	selector: 'wtc-working-hours',
@@ -39,7 +40,9 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
 			this.encodedDate = params['date'];
 			this.date = Utility.decodeDate(params['date']);
 
-			this.workingHoursDb.getWorkingHours(this.encodedDate);
+			const filter = new WorkingHoursFilter();
+			filter.date = this.encodedDate;
+			this.workingHoursDb.getWorkingHours(filter);
 		});
 
 		this.projectsSub = this.projectsDB.dataChange.subscribe((projectsData) => {
