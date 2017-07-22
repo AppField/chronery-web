@@ -47,28 +47,28 @@
         <md-table #table [dataSource]="dataSource">
             <!-- Project number column -->
             <ng-container cdkColumnDef="date">
-                <md-header-cell *cdkHeaderCellDef>Date</md-header-cell>
+                <md-header-cell *cdkHeaderCellDef><strong>Date</strong></md-header-cell>
                 <md-cell *cdkCellDef="let row"><strong>{{row.date | encodedDate}}</strong></md-cell>
             </ng-container>
 
             <!-- Project name column -->
             <ng-container cdkColumnDef="from">
                 <md-header-cell *cdkHeaderCellDef>From</md-header-cell>
-                <md-cell *cdkCellDef="let row">{{row.from}}</md-cell>
+                <md-cell *cdkCellDef="let row">{{row.from}} h</md-cell>
             </ng-container>
 
             <ng-container cdkColumnDef="to">
                 <md-header-cell *cdkHeaderCellDef>To</md-header-cell>
-                <md-cell *cdkCellDef="let row">{{row.to}}</md-cell>
+                <md-cell *cdkCellDef="let row">{{row.to}} h</md-cell>
             </ng-container>
 
             <ng-container cdkColumnDef="spent">
-                <md-header-cell *cdkHeaderCellDef>Spent</md-header-cell>
-                <md-cell *cdkCellDef="let row"><strong>{{row.spent}}</strong></md-cell>
+                <md-header-cell *cdkHeaderCellDef><strong>Spent</strong></md-header-cell>
+                <md-cell *cdkCellDef="let row"><strong>{{row.spent}} h</strong></md-cell>
             </ng-container>
 
             <ng-container cdkColumnDef="projectNumber">
-                <md-header-cell *cdkHeaderCellDef>ProjectNumber</md-header-cell>
+                <md-header-cell *cdkHeaderCellDef>Project Number</md-header-cell>
                 <md-cell *cdkCellDef="let row">{{row.projectNumber}}</md-cell>
             </ng-container>
 
