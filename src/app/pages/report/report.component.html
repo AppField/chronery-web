@@ -29,6 +29,7 @@
                 <md-error>Required</md-error>
             </md-input-container>
             <md-autocomplete #auto="mdAutocomplete" [displayWith]="displayFn">
+                <md-option (onSelectionChange)="updateReport($event, project)"></md-option>
                 <md-option *ngFor="let project of filteredProjects | async" [value]="project"
                            (onSelectionChange)="updateReport($event, project)">
                     <span>{{ project.name }}  <span *ngIf="project._id">|</span>  {{ project.number }} </span>
