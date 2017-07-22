@@ -1,7 +1,7 @@
 import {Directive, ElementRef, HostListener} from '@angular/core';
 
 @Directive({
-	selector: '[wtcMaterialActive]'
+	selector: '[chyMaterialActive]'
 })
 export class MaterialActiveDirective {
 	private clicked: boolean;

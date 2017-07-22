@@ -12,7 +12,7 @@ import {WorkingHoursFilter} from '../../models/working-hours-filter';
 import {Utility} from '../../utils/utility';
 
 @Component({
-	selector: 'wtc-report',
+	selector: 'chy-report',
 	templateUrl: './report.component.html',
 	styleUrls: ['./report.component.scss']
 })

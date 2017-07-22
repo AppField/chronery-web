@@ -1,7 +1,7 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "project": {
-    "name": "work-time-calculator"
+    "name": "chronery-web"
   },
   "apps": [
     {
@@ -17,10 +17,10 @@
       "test": "test.ts",
       "tsconfig": "tsconfig.app.json",
       "testTsconfig": "tsconfig.spec.json",
-      "prefix": "wtc",
+      "prefix": "chy",
       "styles": [
         "styles.scss",
-        "wtc-theme.scss"
+        "chy-theme.scss"
       ],
       "scripts": [],
       "environmentSource": "environments/environment.ts",

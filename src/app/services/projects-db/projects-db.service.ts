@@ -11,7 +11,7 @@ export class ProjectsDbService {
 	db: Database<Project>;
 
 	constructor() {
-		this.db = new PouchDB('wtc-projects');
+		this.db = new PouchDB('chy-projects');
 		this.db.allDocs({
 			include_docs: true
 		}).then((result) => {

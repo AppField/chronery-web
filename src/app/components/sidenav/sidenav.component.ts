@@ -9,7 +9,7 @@ interface RouterItem {
 }
 
 @Component({
-	selector: 'wtc-sidenav',
+	selector: 'chy-sidenav',
 	templateUrl: './sidenav.component.html',
 	styleUrls: ['./sidenav.component.scss'],
 })
