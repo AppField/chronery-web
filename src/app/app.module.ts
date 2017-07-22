@@ -41,6 +41,7 @@ import {ProjectsDbService} from './services/projects-db/projects-db.service';
 import {WorkingHoursDbService} from './services/working-hours-db/working-hours-db.service';
 import {MaterialActiveDirective} from './directives/material-active/material-active.directive';
 import {LocalStorageService} from './services/local-storage/local-storage.service';
+import { EncodedDatePipe } from './pipes/encoded-date/encoded-date.pipe';
 
 @NgModule({
 	declarations: [
@@ -55,7 +56,8 @@ import {LocalStorageService} from './services/local-storage/local-storage.servic
 		DashboardComponent,
 		ProjectsComponent,
 		ProjectDialogComponent,
-		MaterialActiveDirective
+		MaterialActiveDirective,
+		EncodedDatePipe
 	],
 	entryComponents: [MonthYearDialogComponent, ProjectDialogComponent],
 	imports: [
