@@ -10,6 +10,7 @@ import {WorkingHoursDbService} from '../../services/working-hours-db/working-hou
 import {Work} from '../../models/work';
 import {WorkingHoursFilter} from '../../models/working-hours-filter';
 import {Utility} from '../../utils/utility';
+import {Angular2Csv} from 'angular2-csv';
 
 @Component({
 	selector: 'chy-report',
@@ -95,6 +96,11 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
 				return '';
 			}
 		}
+	}
+
+	exportReportToCSV(): void {
+		const data = this.workingHoursDB.dataChange.getValue();
+		const report = new Angular2Csv(data, `Chronery Report form ${this.startDate} to ${this.endDate}`, {showLabels: true});
 	}
 
 	ngOnDestroy() {
