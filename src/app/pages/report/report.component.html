@@ -42,7 +42,7 @@
             <!-- Project number column -->
             <ng-container cdkColumnDef="date">
                 <md-header-cell *cdkHeaderCellDef>Date</md-header-cell>
-                <md-cell *cdkCellDef="let row">{{row.date}}</md-cell>
+                <md-cell *cdkCellDef="let row"><strong>{{row.date | encodedDate}}</strong></md-cell>
             </ng-container>
 
             <!-- Project name column -->
@@ -58,7 +58,7 @@
 
             <ng-container cdkColumnDef="spent">
                 <md-header-cell *cdkHeaderCellDef>Spent</md-header-cell>
-                <md-cell *cdkCellDef="let row">{{row.spent}}</md-cell>
+                <md-cell *cdkCellDef="let row"><strong>{{row.spent}}</strong></md-cell>
             </ng-container>
 
             <ng-container cdkColumnDef="projectNumber">
