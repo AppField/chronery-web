@@ -12,7 +12,7 @@ import {WorkingHoursFilter} from '../../models/working-hours-filter';
 import {Utility} from '../../utils/utility';
 
 @Component({
-	selector: 'wtc-report',
+	selector: 'chy-report',
 	templateUrl: './report.component.html',
 	styleUrls: ['./report.component.scss']
 })
@@ -40,7 +40,6 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
 
 		this.projectsSub = this.projectsDB.dataChange.subscribe(data => {
 			this.projects = data;
-			this.projects.unshift(new Project());
 			this.filteredProjects = this.projectsCtrl.valueChanges
 				.startWith(null)
 				.map(project => project && typeof project === 'object' ? project.name : project)

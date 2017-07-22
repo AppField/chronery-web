@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'wtc-settings',
+  selector: 'chy-settings',
   templateUrl: './settings.component.html',
   styleUrls: ['./settings.component.scss']
 })

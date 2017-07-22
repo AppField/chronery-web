@@ -6,9 +6,9 @@ $primary: mat-palette($mat-teal);
 $accent: mat-palette($mat-deep-orange);
 $warn: mat-palette($mat-amber);
 
-$wtc-theme: mat-light-theme($primary, $accent, $warn);
+$chy-theme: mat-light-theme($primary, $accent, $warn);
 
-@include angular-material-theme($wtc-theme);
+@include angular-material-theme($chy-theme);
 
 
 $sidenav-bg: #212121;

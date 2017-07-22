@@ -12,7 +12,7 @@ import {LocalStorageService} from '../../services/local-storage/local-storage.se
 import {WorkingHoursFilter} from '../../models/working-hours-filter';
 
 @Component({
-	selector: 'wtc-working-hours',
+	selector: 'chy-working-hours',
 	templateUrl: './working-hours.component.html',
 	styleUrls: ['./working-hours.component.scss']
 })
@@ -84,6 +84,7 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
 
 	newWork = function (): void {
 		const newWork = new Work(this.encodedDate);
+		newWork.from = Utility.getCurrentTimeString();
 		this.works.unshift(newWork);
 		this.newCard = true;
 	};

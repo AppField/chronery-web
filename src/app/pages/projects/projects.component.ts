@@ -14,7 +14,7 @@ import {ProjectDialogComponent} from '../../components/project-modal/project-dia
 import {ProjectsDbService} from '../../services/projects-db/projects-db.service';
 
 @Component({
-	selector: 'wtc-projects',
+	selector: 'chy-projects',
 	templateUrl: './projects.component.html',
 	styleUrls: ['./projects.component.scss']
 })

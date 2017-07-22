@@ -1,6 +1,6 @@
 import { WorkTimeCalculatorPage } from './app.po';
 
-describe('work-time-calculator App', () => {
+describe('chronery-web App', () => {
   let page: WorkTimeCalculatorPage;
 
   beforeEach(() => {

@@ -5,7 +5,7 @@ import {Utility} from '../../utils/utility';
 import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
-	selector: 'wtc-sidenav-daypicker',
+	selector: 'chy-sidenav-daypicker',
 	templateUrl: './sidenav-daypicker.component.html',
 	styleUrls: ['./sidenav-daypicker.component.scss'],
 })

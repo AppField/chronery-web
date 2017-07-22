@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {MdDialogRef} from '@angular/material';
 
 @Component({
-	selector: 'wtc-month-year-dialog',
+	selector: 'chy-month-year-dialog',
 	templateUrl: './month-year-dialog.component.html',
 	styleUrls: ['./month-year-dialog.component.scss']
 })

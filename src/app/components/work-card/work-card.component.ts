@@ -8,7 +8,7 @@ import 'rxjs/add/operator/map';
 import * as moment from 'moment/moment';
 
 @Component({
-	selector: 'wtc-work-card',
+	selector: 'chy-work-card',
 	templateUrl: './work-card.component.html',
 	styleUrls: ['./work-card.component.scss']
 })

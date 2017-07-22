@@ -17,7 +17,7 @@ export class WorkingHoursDbService {
 	constructor() {
 		PouchDB.plugin(PouchDBFind);
 		PouchDB.debug.enable('pouchdb:find');
-		this.db = new PouchDB('wtc-working-hours');
+		this.db = new PouchDB('chy-working-hours');
 		this.db.createIndex({
 			index: {fields: ['date', 'projectId']}
 		}).then(() => {

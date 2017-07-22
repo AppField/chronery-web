@@ -1,4 +1,5 @@
 import {Injectable} from '@angular/core';
+import * as moment from 'moment/moment';
 
 @Injectable()
 export class Utility {
@@ -7,18 +8,23 @@ export class Utility {
 		const month = date.getMonth() + 1;
 		const year = date.getFullYear();
 
-		return year + (month < 10 ? '0' : '') + month + (day < 10 ? '0' : '') + day;
+		return year + '-' + (month < 10 ? '0' : '') + month + '-' + (day < 10 ? '0' : '') + day;
 	}
 
 	static decodeDate(encodedDate: string): Date {
 		if (encodedDate) {
-			const year = +(encodedDate.slice(0, 4));
-			const month = +(encodedDate.slice(4, 6)) - 1;
-			const day = +(encodedDate.slice(6, 8));
-			const decodedDate = new Date(year, month, day);
+			const dateValues = encodedDate.split('-');
+			const year = +dateValues[0];
+			const month = +dateValues[1];
+			const day = +dateValues[2];
+			const decodedDate = new Date(year, month - 1, day);
 			return new Date(decodedDate);
 		} else {
 			return null;
 		}
+	}
+
+	static getCurrentTimeString(): string {
+		return moment().format('HH:mm');
 	}
 }

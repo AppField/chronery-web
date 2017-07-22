@@ -4,7 +4,7 @@ import {Project} from '../../models/project';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 @Component({
-	selector: 'wtc-project-modal',
+	selector: 'chy-project-modal',
 	templateUrl: './project-dialog.component.html',
 	styleUrls: ['./project-dialog.component.scss']
 })
