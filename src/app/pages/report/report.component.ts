@@ -5,6 +5,11 @@ import {Observable} from 'rxjs/Observable';
 import {FormControl} from '@angular/forms';
 import {ProjectsDbService} from '../../services/projects-db/projects-db.service';
 import {Subscription} from 'rxjs/Subscription';
+import {DataSource} from '@angular/cdk';
+import {WorkingHoursDbService} from '../../services/working-hours-db/working-hours-db.service';
+import {Work} from '../../models/work';
+import {WorkingHoursFilter} from '../../models/working-hours-filter';
+import {Utility} from '../../utils/utility';
 
 @Component({
 	selector: 'wtc-report',
@@ -20,8 +25,13 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
 	filteredProjects: Observable<Project[]>;
 	projectsCtrl: FormControl;
 	projectsSub: Subscription;
+	emptyProject = new Project();
 
-	constructor(private projectsDB: ProjectsDbService, private detector: ChangeDetectorRef) {
+	dataSource: ReportSource | null;
+	displayedColumns = ['date', 'from', 'to', 'spent', 'projectNumber', 'projectName', 'comment'];
+
+	constructor(private projectsDB: ProjectsDbService, private workingHoursDB: WorkingHoursDbService, private detector: ChangeDetectorRef) {
+
 		// initialize start and end date for the date pickers
 		this.startDate = moment().startOf('month').toDate();
 		this.endDate = moment().endOf('month').toDate();
@@ -30,25 +40,42 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
 
 		this.projectsSub = this.projectsDB.dataChange.subscribe(data => {
 			this.projects = data;
+			this.projects.unshift(new Project());
 			this.filteredProjects = this.projectsCtrl.valueChanges
 				.startWith(null)
 				.map(project => project && typeof project === 'object' ? project.name : project)
 				.map(name => name ? this.filterProjects(name) : this.projects.slice());
 
 		});
+
+		this.dataSource = new ReportSource(this.workingHoursDB);
+		this.updateReport();
 	}
 
 	ngOnInit() {
 	}
 
-	updateReport(project?: Project): void {
+	updateReport(event?, project?: Project): void {
 		setTimeout(() => {
-			console.log('Updating report!');
-			if (project) {
-				console.log(`From: ${this.startDate}. To: ${this.endDate} and for project ${project.name}`);
-			} else {
-				console.log(`From: ${this.startDate}. To: ${this.endDate}`);
+			const filter = new WorkingHoursFilter();
+			if (this.startDate) {
+				filter.date = Utility.encodeDate(this.startDate);
 			}
+			if (this.endDate) {
+				filter.toDate = Utility.encodeDate(this.endDate);
+			}
+			if (project) {
+				if (event) {
+					if (event.source.selected) {
+						if (project._id) {
+							filter.project = project;
+						}
+					} else {
+						return
+					}
+				}
+			}
+			this.workingHoursDB.getWorkingHours(filter);
 		});
 	}
 
@@ -62,11 +89,30 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
 	}
 
 	displayFn(project: Project) {
-		return project ? project.name + '  |  ' + project.number : project;
+		if (project) {
+			if (project.name) {
+				return project.name + '  |  ' + project.number
+			} else {
+				return '';
+			}
+		}
 	}
 
 	ngOnDestroy() {
 		this.projectsSub.unsubscribe();
 	}
+}
 
+
+export class ReportSource extends DataSource<any> {
+	constructor(private workingHoursDB: WorkingHoursDbService) {
+		super();
+	}
+
+	connect(): Observable<Work[]> {
+		return this.workingHoursDB.dataChange;
+	}
+
+	disconnect() {
+	}
 }

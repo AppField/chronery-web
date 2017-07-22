@@ -13,7 +13,7 @@
                 <button mdSuffix [mdDatepickerToggle]="fromPicker"></button>
             </md-input-container>
             <md-datepicker #fromPicker [startAt]="startDate"
-                           (selectedChanged)="updateReport(startDate, endDate)"></md-datepicker>
+                           (selectedChanged)="updateReport()"></md-datepicker>
 
             <!-- End date -->
             <md-input-container fxFlex="100">
@@ -30,37 +30,53 @@
             </md-input-container>
             <md-autocomplete #auto="mdAutocomplete" [displayWith]="displayFn">
                 <md-option *ngFor="let project of filteredProjects | async" [value]="project"
-                           (onSelectionChange)="updateReport(project)">
-                    <span>{{ project.name }}  |  {{ project.number }} </span>
+                           (onSelectionChange)="updateReport($event, project)">
+                    <span>{{ project.name }}  <span *ngIf="project._id">|</span>  {{ project.number }} </span>
                 </md-option>
             </md-autocomplete>
         </div>
+
+
+        <md-table #table [dataSource]="dataSource">
+            <!-- Project number column -->
+            <ng-container cdkColumnDef="date">
+                <md-header-cell *cdkHeaderCellDef>Date</md-header-cell>
+                <md-cell *cdkCellDef="let row">{{row.date}}</md-cell>
+            </ng-container>
+
+            <!-- Project name column -->
+            <ng-container cdkColumnDef="from">
+                <md-header-cell *cdkHeaderCellDef>From</md-header-cell>
+                <md-cell *cdkCellDef="let row">{{row.from}}</md-cell>
+            </ng-container>
+
+            <ng-container cdkColumnDef="to">
+                <md-header-cell *cdkHeaderCellDef>To</md-header-cell>
+                <md-cell *cdkCellDef="let row">{{row.to}}</md-cell>
+            </ng-container>
+
+            <ng-container cdkColumnDef="spent">
+                <md-header-cell *cdkHeaderCellDef>Spent</md-header-cell>
+                <md-cell *cdkCellDef="let row">{{row.spent}}</md-cell>
+            </ng-container>
+
+            <ng-container cdkColumnDef="projectNumber">
+                <md-header-cell *cdkHeaderCellDef>ProjectNumber</md-header-cell>
+                <md-cell *cdkCellDef="let row">{{row.projectNumber}}</md-cell>
+            </ng-container>
+
+            <ng-container cdkColumnDef="projectName">
+                <md-header-cell *cdkHeaderCellDef>Project Name</md-header-cell>
+                <md-cell *cdkCellDef="let row">{{row.projectName}}</md-cell>
+            </ng-container>
+
+            <ng-container cdkColumnDef="comment">
+                <md-header-cell *cdkHeaderCellDef>Comment</md-header-cell>
+                <md-cell *cdkCellDef="let row">{{row.comment}}</md-cell>
+            </ng-container>
+
+            <md-header-row *cdkHeaderRowDef="displayedColumns"></md-header-row>
+            <md-row *cdkRowDef="let row; columns: displayedColumns;"></md-row>
+        </md-table>
     </div>
-
-    <!--<md-table #table [dataSource]="dataSource">-->
-    <!--&lt;!&ndash; Project number column &ndash;&gt;-->
-    <!--<ng-container cdkColumnDef="number">-->
-    <!--<md-header-cell *cdkHeaderCellDef>Number</md-header-cell>-->
-    <!--<md-cell *cdkCellDef="let row">{{row.number}}</md-cell>-->
-    <!--</ng-container>-->
-
-    <!--&lt;!&ndash; Project name column &ndash;&gt;-->
-    <!--<ng-container cdkColumnDef="name">-->
-    <!--<md-header-cell *cdkHeaderCellDef>Name</md-header-cell>-->
-    <!--<md-cell *cdkCellDef="let row">{{row.name}}</md-cell>-->
-    <!--</ng-container>-->
-
-    <!--&lt;!&ndash; Edit Button &ndash;&gt;-->
-    <!--<ng-container cdkColumnDef="edit">-->
-    <!--<md-header-cell *cdkHeaderCellDef class="action"></md-header-cell>-->
-    <!--<md-cell *cdkCellDef="let row" class="action">-->
-    <!--<button md-icon-button (click)="openProjectDialog(row)">-->
-    <!--<md-icon>edit</md-icon>-->
-    <!--</button>-->
-    <!--</md-cell>-->
-    <!--</ng-container>-->
-
-    <!--<md-header-row *cdkHeaderRowDef="displayedColumns"></md-header-row>-->
-    <!--<md-row *cdkRowDef="let row; columns: displayedColumns;"></md-row>-->
-    <!--</md-table>-->
 </div>

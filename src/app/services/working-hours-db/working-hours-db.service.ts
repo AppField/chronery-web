@@ -5,6 +5,7 @@ import PouchDB from 'pouchdb';
 import PouchDBFind from 'pouchdb-find';
 import Database = PouchDB.Database;
 import FindResponse = PouchDB.Find.FindResponse;
+import {WorkingHoursFilter} from '../../models/working-hours-filter';
 
 
 @Injectable()
@@ -15,6 +16,7 @@ export class WorkingHoursDbService {
 
 	constructor() {
 		PouchDB.plugin(PouchDBFind);
+		PouchDB.debug.enable('pouchdb:find');
 		this.db = new PouchDB('wtc-working-hours');
 		this.db.createIndex({
 			index: {fields: ['date', 'projectId']}
@@ -27,16 +29,33 @@ export class WorkingHoursDbService {
 		});
 	}
 
-	getWorkingHours(date: string): void {
+	getWorkingHours(filter: WorkingHoursFilter): void {
+		let selectors: any = {};
+		if (filter.date) {
+			if (filter.toDate) {
+				selectors = {
+					'date': {
+						$gte: filter.date,
+						$lte: filter.toDate
+					}
+				}
+			} else {
+				selectors.date = filter.date;
+			}
+		}
+		if (filter.project) {
+			selectors['projectId'] = filter.project._id;
+		}
+
 		this.db.find({
-			selector: {
-				date: date
-			},
-			sort: [{_id: 'desc'}]
+			selector: selectors
+			// sort: [{_id: 'desc'}]
 		}).then(data => {
+			console.log(data);
 			this.dataChange.next(data.docs);
 		});
 	}
+
 
 	createWorkingHour(work: Work): void {
 		work._id = 'workingHour' + Date.now();
