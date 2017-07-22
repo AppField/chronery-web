@@ -1,4 +1,5 @@
 import {Injectable} from '@angular/core';
+import * as moment from 'moment/moment';
 
 @Injectable()
 export class Utility {
@@ -20,5 +21,9 @@ export class Utility {
 		} else {
 			return null;
 		}
+	}
+
+	static getCurrentTimeString(): string {
+		return moment().format('HH:mm');
 	}
 }

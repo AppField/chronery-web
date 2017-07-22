@@ -84,6 +84,7 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
 
 	newWork = function (): void {
 		const newWork = new Work(this.encodedDate);
+		newWork.from = Utility.getCurrentTimeString();
 		this.works.unshift(newWork);
 		this.newCard = true;
 	};
