@@ -42,6 +42,7 @@ import {WorkingHoursDbService} from './services/working-hours-db/working-hours-d
 import {MaterialActiveDirective} from './directives/material-active/material-active.directive';
 import {LocalStorageService} from './services/local-storage/local-storage.service';
 import { EncodedDatePipe } from './pipes/encoded-date/encoded-date.pipe';
+import { WorkingHoursChartDirective } from './directives/working-hours-chart/working-hours-chart.directive';
 
 @NgModule({
 	declarations: [
@@ -57,7 +58,8 @@ import { EncodedDatePipe } from './pipes/encoded-date/encoded-date.pipe';
 		ProjectsComponent,
 		ProjectDialogComponent,
 		MaterialActiveDirective,
-		EncodedDatePipe
+		EncodedDatePipe,
+		WorkingHoursChartDirective
 	],
 	entryComponents: [MonthYearDialogComponent, ProjectDialogComponent],
 	imports: [

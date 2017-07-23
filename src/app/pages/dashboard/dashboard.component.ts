@@ -1,5 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {Utility} from '../../utils/utility';
+import {WorkingHoursDbService} from '../../services/working-hours-db/working-hours-db.service';
+import {Work} from '../../models/work';
+import {WorkingHoursFilter} from '../../models/working-hours-filter';
+import * as moment from  'moment/moment';
 
 @Component({
 	selector: 'chy-dashboard',
@@ -10,8 +14,24 @@ export class DashboardComponent implements OnInit {
 	todaysDate = new Date();
 	todaysLink: string;
 
-	constructor() {
+	data: Work[];
+
+	constructor(private workingHoursDb: WorkingHoursDbService) {
 		this.todaysLink = '/working-hours/' + Utility.encodeDate(this.todaysDate);
+
+		const startDate = Utility.encodeDate(moment().startOf('month').toDate());
+		const endDate = Utility.encodeDate(moment().endOf('month').toDate());
+
+		const filter = new WorkingHoursFilter();
+		filter.date = startDate;
+		filter.toDate = endDate;
+
+		this.workingHoursDb.getWorkingHours(filter);
+		this.workingHoursDb.dataChange.subscribe(data => {
+			this.data = data;
+		});
+
+
 	}
 
 	ngOnInit() {
