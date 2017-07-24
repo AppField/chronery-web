@@ -1,5 +1,22 @@
+@import '../../../chy-theme';
+
 :host {
   .bar-chart {
     height: 600px;
+
+    /deep/ svg {
+      .bar {
+        transition: fill 400ms;
+        fill: mat-color($primary);
+      }
+      .highlight {
+        transition: fill 400ms;
+        fill: mat-color($accent);
+      }
+
+      text {
+        fill: $sidenav-bg;
+      }
+    }
   }
 }
