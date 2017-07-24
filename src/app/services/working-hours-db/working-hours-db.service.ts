@@ -48,8 +48,8 @@ export class WorkingHoursDbService {
 		}
 
 		this.db.find({
-			selector: selectors
-			// sort: [{_id: 'desc'}]
+			selector: selectors,
+			sort: [{_id: 'desc'}]
 		}).then(data => {
 			console.log(data);
 			this.dataChange.next(data.docs);
