@@ -7,4 +7,10 @@
         Today's date:
         <a md-button routerLink="{{todaysLink}}"><h2 class="inline-h2">{{ todaysDate | date:'dd. MMMM yyyy' }}</h2></a>
     </h2>
+
+    <md-card class="bar-chart">
+        <md-card-content>
+            <chy-working-hours-chart [data]="chartData"></chy-working-hours-chart>
+        </md-card-content>
+    </md-card>
 </div>

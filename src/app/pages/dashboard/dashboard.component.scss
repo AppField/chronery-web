@@ -2,4 +2,10 @@
   .inline-h2 {
     margin: 0;
   }
+
+  .bar-chart {
+    .mat-card-content {
+      height: inherit;
+    }
+  }
 }
