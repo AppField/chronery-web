@@ -49,7 +49,7 @@ export class WorkingHoursDbService {
 
 		this.db.find({
 			selector: selectors,
-			sort: [{_id: 'desc'}]
+			sort: [{date: 'desc'}]
 		}).then(data => {
 			console.log(data);
 			this.dataChange.next(data.docs);

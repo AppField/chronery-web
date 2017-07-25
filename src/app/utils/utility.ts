@@ -27,4 +27,10 @@ export class Utility {
 	static getCurrentTimeString(): string {
 		return moment().format('HH:mm');
 	}
+
+	static timeToDate(timeString: string): Date {
+		const date = moment(timeString, ('HH:mm')).toDate();
+		date.setMilliseconds(0);
+		return date;
+	}
 }
