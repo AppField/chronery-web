@@ -12,6 +12,13 @@
       .highlight {
         transition: fill 400ms;
         fill: mat-color($accent);
+        cursor: pointer;
+      }
+
+      .tooltip {
+        background-color: $sidenav-bg;
+        color: $sidenav-text;
+        padding: 1em;
       }
 
       text {

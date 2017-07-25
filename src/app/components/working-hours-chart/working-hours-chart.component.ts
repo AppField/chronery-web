@@ -29,6 +29,7 @@ export class WorkingHoursChartComponent implements OnInit, OnChanges {
 	private xAxis: any;
 	private yAxis: any;
 	private parseTime = d3.timeParse('%H:%M');
+	private timeFormat = d3.timeFormat('%H:%M');
 
 	constructor() {
 	}
@@ -121,6 +122,12 @@ export class WorkingHoursChartComponent implements OnInit, OnChanges {
 			.enter()
 			.append('rect')
 			.attr('class', 'bar')
+			.on('mouseover', (d, i: number, r) => {
+				this.onMouseOver(d, i, r)
+			})
+			.on('mouseout', (d, i: number, r) => {
+				this.onMouseOut(d, i, r)
+			})
 			.attr('x', d => this.xScale(d.date.split('-')[2]))
 			.attr('y', d => this.height)
 			.attr('width', this.xScale.bandwidth())
@@ -166,16 +173,16 @@ export class WorkingHoursChartComponent implements OnInit, OnChanges {
 		d3.select(bars[i])
 			.transition()
 			.duration(400)
-			.attr('width', this.xScale.bandwidth() + 6)
-			.attr('x', () => this.xScale(d.year) - 3)
-			.attr('y', () => this.yScale(d.value) - 10)
-			.attr('height', () => this.height - this.yScale(d.value) + 10);
+			.attr('width', this.xScale.bandwidth() + 10)
+			.attr('x', () => this.xScale(d.date.split('-')[2]) - 5)
+			.attr('y', () => this.yScale(d.totalTime) - 10)
+			.attr('height', () => this.height - this.yScale(d.totalTime) + 10);
 
 		this.group.append('text')
 			.attr('class', 'tooltip')
-			.attr('x', () => this.xScale(d.year))
-			.attr('y', () => this.yScale(d.value) - 15)
-			.text(() => ['$' + d.value]);
+			.attr('x', () => this.xScale(d.date.split('-')[2]))
+			.attr('y', () => this.yScale(d.totalTime))
+			.text(() => [this.timeFormat(d.totalTime)]);
 
 	}
 
@@ -185,9 +192,9 @@ export class WorkingHoursChartComponent implements OnInit, OnChanges {
 			.transition()
 			.duration(400)
 			.attr('width', this.xScale.bandwidth())
-			.attr('x', this.xScale(d.year))
-			.attr('y', () => this.yScale(d.value))
-			.attr('height', () => this.height - this.yScale(d.value));
+			.attr('x', () => this.xScale(d.date.split('-')[2]))
+			.attr('y', () => this.yScale(d.totalTime))
+			.attr('height', () => this.height - this.yScale(d.totalTime));
 
 		d3.selectAll('.tooltip')
 			.remove();
