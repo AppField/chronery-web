@@ -16,10 +16,24 @@
       }
 
       .tooltip {
-        background-color: $sidenav-bg;
-        color: $sidenav-text;
-        padding: 1em;
+        fill: $subsidenav-bg;
       }
+      .tooltip-text {
+        fill: $sidenav-text;
+        width: 100%;
+      }
+
+      //.tooltip:after {
+      //  box-sizing: border-box;
+      //  display: inline;
+      //  font-size: 10px;
+      //  width: 100%;
+      //  line-height: 1;
+      //  color: rgba(0, 0, 0, 0.8);
+      //  content: "\25BC";
+      //  position: absolute;
+      //  text-align: center;
+      //}
 
       text {
         fill: $sidenav-bg;

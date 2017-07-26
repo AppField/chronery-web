@@ -1,7 +1,8 @@
-import {Component, ElementRef, Input, OnChanges, OnInit, ViewChild} from '@angular/core';
-import {Work} from '../../models/work';
+import { Component, ElementRef, Input, OnChanges, OnInit, ViewChild } from '@angular/core';
+import { Work } from '../../models/work';
 import * as moment from 'moment/moment';
 import * as d3 from 'd3';
+import { Router } from '@angular/router';
 
 interface WorkChartData {
 	date: string;
@@ -31,7 +32,7 @@ export class WorkingHoursChartComponent implements OnInit, OnChanges {
 	private parseTime = d3.timeParse('%H:%M');
 	private timeFormat = d3.timeFormat('%H:%M');
 
-	constructor() {
+	constructor(private router: Router) {
 	}
 
 	ngOnInit() {
@@ -103,12 +104,9 @@ export class WorkingHoursChartComponent implements OnInit, OnChanges {
 
 		bars.selectAll('rect')
 			.data(d => d)
-			.enter().append('rect')
-			.attr('x', d => this.xScale(d.date.split('-')[2]))
-			.attr('y', d => this.yScale(this.parseTime(d)));
 
 		// Remove existing bar
-		// update.exit().remove();
+		bars.exit().remove();
 
 		// Update existing bars
 		this.svg.selectAll('.bars').transition()
@@ -123,10 +121,13 @@ export class WorkingHoursChartComponent implements OnInit, OnChanges {
 			.append('rect')
 			.attr('class', 'bar')
 			.on('mouseover', (d, i: number, r) => {
-				this.onMouseOver(d, i, r)
+				this.onMouseOver(d, i, r);
 			})
 			.on('mouseout', (d, i: number, r) => {
-				this.onMouseOut(d, i, r)
+				this.onMouseOut(d, i, r);
+			})
+			.on('click', (d, i: number, r) => {
+				this.onClick(d, i, r);
 			})
 			.attr('x', d => this.xScale(d.date.split('-')[2]))
 			.attr('y', d => this.height)
@@ -178,10 +179,29 @@ export class WorkingHoursChartComponent implements OnInit, OnChanges {
 			.attr('y', () => this.yScale(d.totalTime) - 10)
 			.attr('height', () => this.height - this.yScale(d.totalTime) + 10);
 
-		this.group.append('text')
+		this.group.append('rect')
 			.attr('class', 'tooltip')
-			.attr('x', () => this.xScale(d.date.split('-')[2]))
-			.attr('y', () => this.yScale(d.totalTime))
+			.attr('opacity', 0)
+			.attr('width', this.xScale.bandwidth() + 10)
+			.attr('height', 30)
+			.attr('x', () => this.xScale(d.date.split('-')[2]) - 5)
+			.attr('y', () => this.yScale(d.totalTime) - 50)
+			.attr('height', 30)
+			.transition()
+			.duration(400)
+			.attr('opacity', 1);
+
+		this.group.append('text')
+			.attr('class', 'tooltip-text')
+			.style('text-anchor', 'middle')
+			.attr('opacity', 0)
+			.attr('height', 30)
+			.attr('x', () => this.xScale(d.date.split('-')[2]) + this.xScale.bandwidth() / 2)
+			.attr('y', () => this.yScale(d.totalTime) - 30)
+			.attr('height', 30)
+			.transition()
+			.duration(400)
+			.attr('opacity', 1)
 			.text(() => [this.timeFormat(d.totalTime)]);
 
 	}
@@ -197,6 +217,27 @@ export class WorkingHoursChartComponent implements OnInit, OnChanges {
 			.attr('height', () => this.height - this.yScale(d.totalTime));
 
 		d3.selectAll('.tooltip')
+			.transition()
+			.duration(400)
+			// .attr('width', this.xScale.bandwidth())
+			// .attr('x', () => this.xScale(d.date.split('-')[2]))
+			// .attr('y', () => this.yScale(d.totalTime) - 20)
+			.attr('opacity', 0)
 			.remove();
+
+		d3.selectAll('.tooltip-text')
+			.transition()
+			.duration(400)
+			// .attr('width', this.xScale.bandwidth())
+			// .attr('x', () => this.xScale(d.date.split('-')[2]))
+			// .attr('y', () => this.yScale(d.totalTime) - 20)
+			.attr('opacity', 0)
+			.remove();
+
+	}
+
+	private onClick(d, i: number, bars): void {
+		console.log(d);
+		this.router.navigate(['working-hours', d.date]);
 	}
 }
