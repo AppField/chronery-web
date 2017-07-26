@@ -1,10 +1,10 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Utility} from '../../utils/utility';
-import {WorkingHoursDbService} from '../../services/working-hours-db/working-hours-db.service';
-import {Work} from '../../models/work';
-import {WorkingHoursFilter} from '../../models/working-hours-filter';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Utility } from '../../utils/utility';
+import { WorkingHoursDbService } from '../../services/working-hours-db/working-hours-db.service';
+import { Work } from '../../models/work';
+import { WorkingHoursFilter } from '../../models/working-hours-filter';
 import * as moment from 'moment/moment';
-import {Subscription} from 'rxjs/Subscription';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
 	selector: 'chy-dashboard',

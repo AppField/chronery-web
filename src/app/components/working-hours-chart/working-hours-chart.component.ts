@@ -23,7 +23,6 @@ export class WorkingHoursChartComponent implements OnInit, OnChanges {
 	private width: number;
 	private height: number;
 	private svg: any;
-
 	private group: any;
 	private xScale: any;
 	private yScale: any;
@@ -51,23 +50,21 @@ export class WorkingHoursChartComponent implements OnInit, OnChanges {
 	private createChart(): void {
 		this.adaptData();
 		const element = this.chart.nativeElement;
-		this.width = element.offsetWidth;
-		this.height = element.offsetHeight;
 
-		const margin = 70;
+		const margin = {top: 60, right: 0, bottom: 20, left: 40};
 
 		this.svg = d3.select(element).append('svg')
-			.attr('width', this.width)
-			.attr('height', this.height);
+			.attr('width', element.offsetWidth)
+			.attr('height', element.offsetHeight);
 
-		this.width -= margin;
-		this.height -= margin;
+		this.width = element.offsetWidth - margin.left - margin.right;
+		this.height = element.offsetHeight - margin.top - margin.bottom;
 
 		this.xScale = d3.scaleBand().range([0, this.width]).padding(0.2);
 		this.yScale = d3.scaleTime().range([this.height, 0]);
 
 		this.group = this.svg.append('g')
-			.attr('transform', 'translate(' + margin / 2 + ',' + margin / 2 + ')');
+			.attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
 		this.xScale.domain(this.chartData.map(d => d.date.split('-')[2]));
 		this.yScale.domain(([this.parseTime('00:00'), d3.max(this.chartData, d => {
@@ -103,7 +100,7 @@ export class WorkingHoursChartComponent implements OnInit, OnChanges {
 			.data(this.chartData);
 
 		bars.selectAll('rect')
-			.data(d => d)
+			.data(d => d);
 
 		// Remove existing bar
 		bars.exit().remove();
@@ -179,14 +176,15 @@ export class WorkingHoursChartComponent implements OnInit, OnChanges {
 			.attr('y', () => this.yScale(d.totalTime) - 10)
 			.attr('height', () => this.height - this.yScale(d.totalTime) + 10);
 
+		const tooltipWidth = 130;
+		const tooltipHeight = 35;
 		this.group.append('rect')
 			.attr('class', 'tooltip')
 			.attr('opacity', 0)
-			.attr('width', this.xScale.bandwidth() + 10)
-			.attr('height', 30)
-			.attr('x', () => this.xScale(d.date.split('-')[2]) - 5)
-			.attr('y', () => this.yScale(d.totalTime) - 50)
-			.attr('height', 30)
+			.attr('width', tooltipWidth)
+			.attr('height', tooltipHeight)
+			.attr('x', () => this.xScale(d.date.split('-')[2]) - (tooltipWidth - this.xScale.bandwidth()) / 2)
+			.attr('y', () => this.yScale(d.totalTime) - 60)
 			.transition()
 			.duration(400)
 			.attr('opacity', 1);
@@ -195,15 +193,12 @@ export class WorkingHoursChartComponent implements OnInit, OnChanges {
 			.attr('class', 'tooltip-text')
 			.style('text-anchor', 'middle')
 			.attr('opacity', 0)
-			.attr('height', 30)
 			.attr('x', () => this.xScale(d.date.split('-')[2]) + this.xScale.bandwidth() / 2)
-			.attr('y', () => this.yScale(d.totalTime) - 30)
-			.attr('height', 30)
+			.attr('y', () => this.yScale(d.totalTime) - tooltipHeight - 2.5)
 			.transition()
 			.duration(400)
 			.attr('opacity', 1)
 			.text(() => [this.timeFormat(d.totalTime)]);
-
 	}
 
 	private onMouseOut(d, i: number, bars): void {
