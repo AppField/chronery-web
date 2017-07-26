@@ -87,10 +87,8 @@ export class WorkingHoursChartComponent implements OnInit, OnChanges {
 	private updateChart(): void {
 		this.data.reverse();
 		this.adaptData();
-		console.log('Updating chart: ');
-		console.log(this.chartData);
-		// Update scales and axis
 
+		// Update scales and axis
 		this.xScale.domain(this.chartData.map(d => d.date.split('-')[2]));
 		this.yScale.domain(([this.parseTime('00:00'), d3.max(this.chartData, d => d.totalTime)]));
 		this.xAxis.transition().call(d3.axisBottom(this.xScale));
@@ -232,7 +230,6 @@ export class WorkingHoursChartComponent implements OnInit, OnChanges {
 	}
 
 	private onClick(d, i: number, bars): void {
-		console.log(d);
 		this.router.navigate(['working-hours', d.date]);
 	}
 }
