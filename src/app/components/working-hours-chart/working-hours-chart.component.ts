@@ -15,17 +15,19 @@ interface WorkChartData {
 	templateUrl: './working-hours-chart.component.html',
 	styleUrls: ['./working-hours-chart.component.scss']
 })
-export class WorkingHoursChartComponent implements OnInit, OnChanges {
-	@ViewChild('chart') private chart: ElementRef;
+export class WorkingHoursChartComponent implements OnChanges {
+	@ViewChild('chart') private chartContainer: ElementRef;
 	@Input() data: Work[];
-
-	private chartData: WorkChartData[];
-	private width: number;
-	private height: number;
-	private svg: any;
-	private group: any;
 	private xScale: any;
 	private yScale: any;
+
+	private height: number;
+	private width: number;
+	private chartWidth: number;
+	private chartHeight: number;
+	private chartData: WorkChartData[];
+	private svg: any;
+	private group: any;
 	private xAxis: any;
 	private yAxis: any;
 	private parseTime = d3.timeParse('%H:%M');
@@ -34,81 +36,65 @@ export class WorkingHoursChartComponent implements OnInit, OnChanges {
 	constructor(private router: Router) {
 	}
 
-	ngOnInit() {
-		this.createChart();
-		if (this.data) {
-			this.updateChart();
-		}
-	}
-
 	ngOnChanges() {
-		if (this.svg) {
-			this.updateChart();
+		this.createBarChart();
+	}
+
+	createBarChart(): void {
+		this.adaptData();
+		const element = this.chartContainer.nativeElement;
+		if (!this.svg) {
+			this.svg = d3.select(element).append('svg');
 		}
-	}
+		const margin = {top: 75, right: 0, bottom: 20, left: 40};
 
-	private createChart(): void {
-		this.adaptData();
-		const element = this.chart.nativeElement;
+		this.width = element.offsetWidth;
+		this.height = element.offsetHeight;
 
-		const margin = {top: 60, right: 0, bottom: 20, left: 40};
+		this.svg
+			.attr('width', this.width)
+			.attr('height', this.height);
 
-		this.svg = d3.select(element).append('svg')
-			.attr('width', element.offsetWidth)
-			.attr('height', element.offsetHeight);
+		this.chartWidth = this.width - margin.left - margin.right;
+		this.chartHeight = this.height - margin.top - margin.bottom;
 
-		this.width = element.offsetWidth - margin.left - margin.right;
-		this.height = element.offsetHeight - margin.top - margin.bottom;
+		this.xScale = d3.scaleBand().range([0, this.chartWidth]).padding(0.2);
+		this.yScale = d3.scaleTime().range([this.chartHeight, 0]);
 
-		this.xScale = d3.scaleBand().range([0, this.width]).padding(0.2);
-		this.yScale = d3.scaleTime().range([this.height, 0]);
+		if (!this.group) {
+			this.group = this.svg.append('g');
+		}
+		this.group.attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
-		this.group = this.svg.append('g')
-			.attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
-
-		this.xScale.domain(this.chartData.map(d => d.date.split('-')[2]));
-		this.yScale.domain(([this.parseTime('00:00'), d3.max(this.chartData, d => {
-			const tempDate = this.parseTime('00:00');
-			let totalTime = moment(this.parseTime('00:00'));
-			d.works.map((work: Work) => {
-				totalTime = moment(totalTime).add(moment.duration(+this.parseTime(work.spent) - +tempDate));
-			});
-			return totalTime.toDate();
-		})]));
-
-		this.xAxis = this.group.append('g')
-			.attr('transform', 'translate(0,' + this.height + ')')
-			.call(d3.axisBottom(this.xScale));
-
-		this.yAxis = this.group.append('g')
-			.call(d3.axisLeft(this.yScale).tickFormat(d3.timeFormat('%H:%M')));
-	}
-
-	private updateChart(): void {
-		this.data.reverse();
-		this.adaptData();
-
-		// Update scales and axis
 		this.xScale.domain(this.chartData.map(d => d.date.split('-')[2]));
 		this.yScale.domain(([this.parseTime('00:00'), d3.max(this.chartData, d => d.totalTime)]));
-		this.xAxis.transition().call(d3.axisBottom(this.xScale));
-		this.yAxis.transition().call(d3.axisLeft(this.yScale).tickFormat(d3.timeFormat('%H:%M')));
 
+		if (!this.xAxis) {
+			this.xAxis = this.group.append('g')
+		}
+		this.xAxis
+			.attr('transform', 'translate(0,' + this.chartHeight + ')')
+			.call(d3.axisBottom(this.xScale).tickFormat(d => d + '.'));
+
+		if (!this.yAxis) {
+			this.yAxis = this.group.append('g')
+		}
+		this.yAxis
+			.call(d3.axisLeft(this.yScale).tickFormat(d3.timeFormat('%H:%M')));
+
+		// Draw bars
 		const bars = this.group.selectAll('.bar')
 			.data(this.chartData);
-
-		bars.selectAll('rect')
-			.data(d => d);
 
 		// Remove existing bar
 		bars.exit().remove();
 
 		// Update existing bars
-		this.svg.selectAll('.bars').transition()
+		bars
 			.attr('x', d => this.xScale(d.date.split('-')[2]))
-			.attr('y', d => this.yScale(this.parseTime(d)))
+			.attr('y', d => this.yScale(d.totalTime))
 			.attr('width', d => this.xScale.bandwidth())
-			.attr('height', d => this.height - this.yScale(d.totalTime));
+			.attr('height', d => this.chartHeight - this.yScale(d.totalTime));
 
 		// Add new bars
 		bars
@@ -125,11 +111,12 @@ export class WorkingHoursChartComponent implements OnInit, OnChanges {
 				this.onClick(d, i, r);
 			})
 			.attr('x', d => this.xScale(d.date.split('-')[2]))
-			.attr('y', d => this.height)
+			.attr('y', d => this.chartHeight)
 			.attr('width', this.xScale.bandwidth())
 			.attr('height', 0)
 			.transition()
-			.attr('height', d => this.height - this.yScale(d.totalTime))
+			.duration(400)
+			.attr('height', d => this.chartHeight - this.yScale(d.totalTime))
 			.attr('y', d => this.yScale(d.totalTime));
 	}
 
@@ -162,6 +149,7 @@ export class WorkingHoursChartComponent implements OnInit, OnChanges {
 			});
 			workChartData.totalTime = totalTime.toDate();
 		});
+		this.chartData.reverse();
 	}
 
 	private onMouseOver(d, i: number, bars) {
@@ -172,7 +160,7 @@ export class WorkingHoursChartComponent implements OnInit, OnChanges {
 			.attr('width', this.xScale.bandwidth() + 10)
 			.attr('x', () => this.xScale(d.date.split('-')[2]) - 5)
 			.attr('y', () => this.yScale(d.totalTime) - 10)
-			.attr('height', () => this.height - this.yScale(d.totalTime) + 10);
+			.attr('height', () => this.chartHeight - this.yScale(d.totalTime) + 10);
 
 		const tooltipWidth = 130;
 		const tooltipHeight = 35;
@@ -207,26 +195,19 @@ export class WorkingHoursChartComponent implements OnInit, OnChanges {
 			.attr('width', this.xScale.bandwidth())
 			.attr('x', () => this.xScale(d.date.split('-')[2]))
 			.attr('y', () => this.yScale(d.totalTime))
-			.attr('height', () => this.height - this.yScale(d.totalTime));
+			.attr('height', () => this.chartHeight - this.yScale(d.totalTime));
 
 		d3.selectAll('.tooltip')
 			.transition()
 			.duration(400)
-			// .attr('width', this.xScale.bandwidth())
-			// .attr('x', () => this.xScale(d.date.split('-')[2]))
-			// .attr('y', () => this.yScale(d.totalTime) - 20)
 			.attr('opacity', 0)
 			.remove();
 
 		d3.selectAll('.tooltip-text')
 			.transition()
 			.duration(400)
-			// .attr('width', this.xScale.bandwidth())
-			// .attr('x', () => this.xScale(d.date.split('-')[2]))
-			// .attr('y', () => this.yScale(d.totalTime) - 20)
 			.attr('opacity', 0)
 			.remove();
-
 	}
 
 	private onClick(d, i: number, bars): void {

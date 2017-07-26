@@ -3,6 +3,7 @@
 :host {
   .bar-chart {
     height: 600px;
+    width: 100%;
 
     /deep/ svg {
       .bar {
