@@ -46,7 +46,7 @@ export class WorkingHoursChartComponent implements OnChanges {
 		if (!this.svg) {
 			this.svg = d3.select(element).append('svg');
 		}
-		const margin = {top: 75, right: 0, bottom: 20, left: 40};
+		const margin = {top: 65, right: 0, bottom: 20, left: 40};
 
 		this.width = element.offsetWidth;
 		this.height = element.offsetHeight;
