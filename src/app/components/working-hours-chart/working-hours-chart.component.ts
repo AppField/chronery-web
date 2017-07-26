@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnChanges, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnChanges, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Work } from '../../models/work';
 import * as moment from 'moment/moment';
 import * as d3 from 'd3';
@@ -13,7 +13,8 @@ interface WorkChartData {
 @Component({
 	selector: 'chy-working-hours-chart',
 	templateUrl: './working-hours-chart.component.html',
-	styleUrls: ['./working-hours-chart.component.scss']
+	styleUrls: ['./working-hours-chart.component.scss'],
+	encapsulation: ViewEncapsulation.None
 })
 export class WorkingHoursChartComponent implements OnChanges {
 	@ViewChild('chart') private chartContainer: ElementRef;
