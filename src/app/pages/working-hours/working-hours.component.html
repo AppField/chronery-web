@@ -18,7 +18,7 @@
             </button>
             </span>
             <!-- span is necessary because the browser doesn't show the tooltip when the button is disabled -->
-            <span class="btn-add" mdTooltip="You have an unfinished card open."
+            <span class="btn-floating" mdTooltip="You have an unfinished card open."
                   [mdTooltipPosition]="'left'" [mdTooltipDisabled]="!newCard">
                 <button md-fab [disabled]="newCard" (click)="newWork()">
                     <md-icon>add</md-icon>
