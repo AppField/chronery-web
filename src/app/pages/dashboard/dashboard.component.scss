@@ -7,5 +7,10 @@
     .mat-card-title {
       margin: 0
     }
+
+    .mat-card-content {
+      overflow-x: auto;
+      overflow-y: hidden;
+    }
   }
 }

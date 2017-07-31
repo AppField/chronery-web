@@ -49,6 +49,12 @@ export class WorkingHoursChartComponent implements OnChanges {
 		}
 		const margin = {top: 65, right: 0, bottom: 20, left: 40};
 
+		const barWidth = 40;
+		const barPadding = 10;
+		const minWidth = (barWidth + barPadding) * this.chartData.length;
+
+		element.style.minWidth = minWidth + 'px';
+
 		this.width = element.offsetWidth;
 		this.height = element.offsetHeight;
 
