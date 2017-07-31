@@ -42,6 +42,9 @@ export class WorkingHoursChartComponent implements OnChanges {
 	}
 
 	createBarChart(): void {
+		if (!this.data) {
+			return
+		}
 		this.adaptData();
 		const element = this.chartContainer.nativeElement;
 		if (!this.svg) {

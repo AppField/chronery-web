@@ -1,15 +1,15 @@
-import {Component, OnInit, OnDestroy, ViewChild} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {Utility} from '../../utils/utility';
-import {Work} from '../../models/work';
-import {MediaChange, ObservableMedia} from '@angular/flex-layout';
-import {Subscription} from 'rxjs/Subscription';
-import {MdSidenav} from '@angular/material';
-import {WorkingHoursDbService} from '../../services/working-hours-db/working-hours-db.service';
-import {ProjectsDbService} from '../../services/projects-db/projects-db.service';
-import {Project} from '../../models/project';
-import {LocalStorageService} from '../../services/local-storage/local-storage.service';
-import {WorkingHoursFilter} from '../../models/working-hours-filter';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Utility } from '../../utils/utility';
+import { Work } from '../../models/work';
+import { MediaChange, ObservableMedia } from '@angular/flex-layout';
+import { Subscription } from 'rxjs/Subscription';
+import { MdSidenav } from '@angular/material';
+import { WorkingHoursDbService } from '../../services/working-hours-db/working-hours-db.service';
+import { ProjectsDbService } from '../../services/projects-db/projects-db.service';
+import { Project } from '../../models/project';
+import { LocalStorageService } from '../../services/local-storage/local-storage.service';
+import { WorkingHoursFilter } from '../../models/working-hours-filter';
 
 @Component({
 	selector: 'chy-working-hours',
@@ -27,7 +27,7 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
 	newCard: boolean;
 
 	private dateSub: Subscription;
-	private projectsSub: Subscription;
+	private projectsSub;
 	private workingHoursSub: Subscription;
 	private mediaSub: Subscription;
 
@@ -36,30 +36,29 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
 				private workingHoursDb: WorkingHoursDbService,
 				private localStorage: LocalStorageService) {
 
+		this.projectsSub = this.projectsDB.dataChange.subscribe(data => {
+			this.projects = data;
+		});
+
 		this.dateSub = this.route.params.subscribe(params => {
 			this.encodedDate = params['date'];
 			this.date = Utility.decodeDate(params['date']);
 
 			const filter = new WorkingHoursFilter();
 			filter.date = this.encodedDate;
-			this.workingHoursDb.getWorkingHours(filter);
-		});
-
-		this.projectsSub = this.projectsDB.dataChange.subscribe((projectsData) => {
-			if (projectsData.length) {
-				this.projects = projectsData;
-			}
-		});
-		this.workingHoursSub = this.workingHoursDb.dataChange.subscribe((worksData) => {
-			this.works = [];
-			const newCard = this.localStorage.getItem(this.encodedDate);
-			if (newCard) {
-				this.works = [newCard].concat(worksData);
-				this.newCard = true;
-			} else {
-				this.works = worksData;
-				this.newCard = false;
-			}
+			this.workingHoursDb.getWorkingHours(filter).then(() => {
+				this.workingHoursSub = this.workingHoursDb.dataChange.subscribe(data => {
+					this.works = [];
+					const newCard = this.localStorage.getItem(this.encodedDate);
+					if (newCard) {
+						this.works = [newCard].concat(data);
+						this.newCard = true;
+					} else {
+						this.works = data;
+						this.newCard = false;
+					}
+				});
+			});
 		});
 	}
 

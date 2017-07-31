@@ -1,11 +1,11 @@
-import {Injectable} from '@angular/core';
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
-import {Work} from '../../models/work';
+import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Work } from '../../models/work';
 import PouchDB from 'pouchdb';
 import PouchDBFind from 'pouchdb-find';
 import Database = PouchDB.Database;
 import FindResponse = PouchDB.Find.FindResponse;
-import {WorkingHoursFilter} from '../../models/working-hours-filter';
+import { WorkingHoursFilter } from '../../models/working-hours-filter';
 
 
 @Injectable()
@@ -13,6 +13,10 @@ export class WorkingHoursDbService {
 
 	dataChange: BehaviorSubject<Work[]> = new BehaviorSubject<Work[]>([]);
 	db: Database<Work>;
+
+	get data(): Work[] {
+		return this.dataChange.value;
+	}
 
 	constructor() {
 		PouchDB.plugin(PouchDBFind);
@@ -28,31 +32,33 @@ export class WorkingHoursDbService {
 		});
 	}
 
-	getWorkingHours(filter: WorkingHoursFilter): void {
-		let selectors: any = {};
-		if (filter.date) {
-			if (filter.toDate) {
-				selectors = {
-					'date': {
-						$gte: filter.date,
-						$lte: filter.toDate
+	getWorkingHours(filter: WorkingHoursFilter): Promise<Work[]> {
+		return new Promise<Work[]>(resolve => {
+			let selectors: any = {};
+			if (filter.date) {
+				if (filter.toDate) {
+					selectors = {
+						'date': {
+							$gte: filter.date,
+							$lte: filter.toDate
+						}
 					}
+				} else {
+					selectors.date = filter.date;
 				}
-			} else {
-				selectors.date = filter.date;
 			}
-		}
-		if (filter.project) {
-			selectors['projectId'] = filter.project._id;
-		}
+			if (filter.project) {
+				selectors['projectId'] = filter.project._id;
+			}
 
-		this.db.find({
-			selector: selectors,
-			sort: [{date: 'desc'}]
-		}).then(data => {
-			console.log(data);
-			this.dataChange.next(data.docs);
-		});
+			return this.db.find({
+				selector: selectors,
+				sort: [{date: 'desc'}]
+			}).then(data => {
+				this.dataChange.next(data.docs);
+				resolve(data.docs);
+			});
+		})
 	}
 
 

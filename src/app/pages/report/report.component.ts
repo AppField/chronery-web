@@ -1,16 +1,16 @@
-import {Component, OnInit, OnDestroy, ChangeDetectorRef, AfterViewInit} from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef, AfterViewInit } from '@angular/core';
 import * as moment from 'moment/moment';
-import {Project} from '../../models/project';
-import {Observable} from 'rxjs/Observable';
-import {FormControl} from '@angular/forms';
-import {ProjectsDbService} from '../../services/projects-db/projects-db.service';
-import {Subscription} from 'rxjs/Subscription';
-import {DataSource} from '@angular/cdk';
-import {WorkingHoursDbService} from '../../services/working-hours-db/working-hours-db.service';
-import {Work} from '../../models/work';
-import {WorkingHoursFilter} from '../../models/working-hours-filter';
-import {Utility} from '../../utils/utility';
-import {Angular2Csv} from 'angular2-csv';
+import { Project } from '../../models/project';
+import { Observable } from 'rxjs/Observable';
+import { FormControl } from '@angular/forms';
+import { ProjectsDbService } from '../../services/projects-db/projects-db.service';
+import { Subscription } from 'rxjs/Subscription';
+import { DataSource } from '@angular/cdk';
+import { WorkingHoursDbService } from '../../services/working-hours-db/working-hours-db.service';
+import { Work } from '../../models/work';
+import { WorkingHoursFilter } from '../../models/working-hours-filter';
+import { Utility } from '../../utils/utility';
+import { Angular2Csv } from 'angular2-csv';
 
 @Component({
 	selector: 'chy-report',
