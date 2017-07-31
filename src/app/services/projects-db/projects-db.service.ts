@@ -1,14 +1,18 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 import PouchDB from 'pouchdb';
-import {Project} from '../../models/project';
+import { Project } from '../../models/project';
 import Database = PouchDB.Database;
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 @Injectable()
 export class ProjectsDbService {
 
 	dataChange: BehaviorSubject<Project[]> = new BehaviorSubject<Project[]>([]);
 	db: Database<Project>;
+
+	get data(): Project[] {
+		return this.dataChange.value;
+	}
 
 	constructor() {
 		this.db = new PouchDB('chy-projects');

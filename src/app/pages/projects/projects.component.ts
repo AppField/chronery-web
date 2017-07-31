@@ -1,17 +1,17 @@
-import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {Project} from '../../models/project';
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
-import {DataSource} from '@angular/cdk';
-import {Observable} from 'rxjs/Observable';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Project } from '../../models/project';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { DataSource } from '@angular/cdk';
+import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/startWith';
 import 'rxjs/add/observable/merge';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/observable/fromEvent';
-import {MdDialog} from '@angular/material';
-import {ProjectDialogComponent} from '../../components/project-modal/project-dialog.component';
-import {ProjectsDbService} from '../../services/projects-db/projects-db.service';
+import { MdDialog } from '@angular/material';
+import { ProjectDialogComponent } from '../../components/project-modal/project-dialog.component';
+import { ProjectsDbService } from '../../services/projects-db/projects-db.service';
 
 @Component({
 	selector: 'chy-projects',
@@ -85,7 +85,7 @@ export class ProjectSource extends DataSource<any> {
 		];
 
 		return Observable.merge(...displayDataChanges).map(() => {
-			return this.projectsDB.dataChange.getValue().slice().filter((item: Project) => {
+			return this.projectsDB.data.slice().filter((item: Project) => {
 				const searchStr = (item.number + item.name).toLowerCase();
 				return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
 			});
