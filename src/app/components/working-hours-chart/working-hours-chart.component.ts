@@ -49,6 +49,7 @@ export class WorkingHoursChartComponent implements OnChanges {
 		}
 		const margin = {top: 65, right: 0, bottom: 20, left: 40};
 
+		// Dynamically calculated min Width of the chart, based on the amount of data.
 		const barWidth = 40;
 		const barPadding = 10;
 		const minWidth = (barWidth + barPadding) * this.chartData.length;
@@ -58,6 +59,7 @@ export class WorkingHoursChartComponent implements OnChanges {
 		this.width = element.offsetWidth;
 		this.height = element.offsetHeight;
 
+		// Set Width and height of the svg.
 		this.svg
 			.attr('width', this.width)
 			.attr('height', this.height);
@@ -65,6 +67,7 @@ export class WorkingHoursChartComponent implements OnChanges {
 		this.chartWidth = this.width - margin.left - margin.right;
 		this.chartHeight = this.height - margin.top - margin.bottom;
 
+		// Set the range (width and height) of the scales
 		this.xScale = d3.scaleBand().range([0, this.chartWidth]).padding(0.2);
 		this.yScale = d3.scaleTime().range([this.chartHeight, 0]);
 
@@ -73,9 +76,12 @@ export class WorkingHoursChartComponent implements OnChanges {
 		}
 		this.group.attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
+		// Set the data of the scales
 		this.xScale.domain(this.chartData.map(d => d.date.split('-')[2]));
 		this.yScale.domain(([this.parseTime('00:00'), d3.max(this.chartData, d => d.totalTime)]));
 
+
+		// Add the Scales/Axis to the svg
 		if (!this.xAxis) {
 			this.xAxis = this.group.append('g')
 		}
@@ -160,6 +166,7 @@ export class WorkingHoursChartComponent implements OnChanges {
 	}
 
 	private onMouseOver(d, i: number, bars) {
+		// increase the size of the bars.
 		d3.select(bars[i]).attr('class', 'highlight');
 		d3.select(bars[i])
 			.transition()
@@ -169,6 +176,7 @@ export class WorkingHoursChartComponent implements OnChanges {
 			.attr('y', () => this.yScale(d.totalTime) - 10)
 			.attr('height', () => this.chartHeight - this.yScale(d.totalTime) + 10);
 
+		// Show a tooltip
 		const tooltipWidth = 130;
 		const tooltipHeight = 35;
 		this.group.append('rect')
@@ -195,6 +203,7 @@ export class WorkingHoursChartComponent implements OnChanges {
 	}
 
 	private onMouseOut(d, i: number, bars): void {
+		// reduce the size of the bar to its actual size.
 		d3.select(bars[i]).attr('class', 'bar');
 		d3.select(bars[i])
 			.transition()
@@ -204,6 +213,7 @@ export class WorkingHoursChartComponent implements OnChanges {
 			.attr('y', () => this.yScale(d.totalTime))
 			.attr('height', () => this.chartHeight - this.yScale(d.totalTime));
 
+		// hide the tooltip
 		d3.selectAll('.tooltip')
 			.transition()
 			.duration(400)
@@ -217,6 +227,7 @@ export class WorkingHoursChartComponent implements OnChanges {
 			.remove();
 	}
 
+	// navigate to the clicked bar's date
 	private onClick(d, i: number, bars): void {
 		this.router.navigate(['working-hours', d.date]);
 	}
