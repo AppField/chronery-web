@@ -51,13 +51,15 @@ export class WorkingHoursChartComponent implements OnChanges {
 			this.svg = d3.select(element).append('svg');
 		}
 		const margin = {top: 65, right: 0, bottom: 20, left: 40};
+		const chartHeight = '600px';
 
 		// Dynamically calculated min Width of the chart, based on the amount of data.
 		const barWidth = 40;
 		const barPadding = 10;
-		const minWidth = (barWidth + barPadding) * this.chartData.length;
+		const minWidth = (barWidth + barPadding) * this.chartData.length + 'px';
 
-		element.style.minWidth = minWidth + 'px';
+		element.style.minWidth = minWidth;
+		element.style.height = chartHeight;
 
 		this.width = element.offsetWidth;
 		this.height = element.offsetHeight;

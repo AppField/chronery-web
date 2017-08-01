@@ -5,15 +5,45 @@
 <div class="inner-sidenav-content">
     <h2>
         Today's date:
-        <a md-button routerLink="{{todaysLink}}"><h2 class="inline-h2">{{ todaysDate | date:'dd. MMMM yyyy' }}</h2></a>
+        <button md-button (click)="navigateToWorkingHours()">
+            <h2 class="inline-h2">{{ todaysDate | date:'dd. MMMM yyyy'}}</h2>
+        </button>
     </h2>
 
-    <md-card class="chart-card">
+    <md-card class="chart-card" *ngIf="chartData || async; else loading">
         <md-card-header>
-            <md-card-title>{{ todaysDate | date:'MMMM' }}</md-card-title>
+            <md-card-title><h3>{{ todaysDate | date:'MMMM' }}</h3></md-card-title>
         </md-card-header>
-        <md-card-content>
+        <md-card-content *ngIf="chartData.length; else noData">
             <chy-working-hours-chart [data]="chartData"></chy-working-hours-chart>
         </md-card-content>
     </md-card>
+
+    <ng-template #loading>
+        <md-progress-spinner
+                color="primary"
+                mode="indeterminate">
+        </md-progress-spinner>
+    </ng-template>
+
+    <ng-template #noData>
+        <md-card-content class="no-data">
+            <p class="no-data-text">It's empty in this month.<br>
+                Go ahead and do something!</p>
+            <div fxLayout="row">
+                <button md-button fxFlex="50" class="no-data-action" (click)="navigateToWorkingHours()">
+                    <md-icon>
+                        timelapse
+                    </md-icon>
+                    <p>Add working hours!</p>
+                </button>
+                <button md-button fxFlex="50" class="no-data-action" (click)="navigateToProjects()">
+                    <md-icon>
+                        work
+                    </md-icon>
+                    <p>Add projects!</p>
+                </button>
+            </div>
+        </md-card-content>
+    </ng-template>
 </div>

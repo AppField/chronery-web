@@ -4,6 +4,7 @@ import { WorkingHoursDbService } from '../../services/working-hours-db/working-h
 import { Work } from '../../models/work';
 import { WorkingHoursFilter } from '../../models/working-hours-filter';
 import * as moment from 'moment/moment';
+import { Router } from '@angular/router';
 
 @Component({
 	selector: 'chy-dashboard',
@@ -13,9 +14,10 @@ import * as moment from 'moment/moment';
 export class DashboardComponent implements OnInit {
 	todaysDate = new Date();
 	todaysLink: string;
+	dataFound = true;
 	chartData: Work[];
 
-	constructor(private workingHoursDb: WorkingHoursDbService) {
+	constructor(private router: Router, private workingHoursDb: WorkingHoursDbService) {
 		this.todaysLink = '/working-hours/' + Utility.encodeDate(this.todaysDate);
 
 		const startDate = Utility.encodeDate(moment().startOf('month').toDate());
@@ -26,6 +28,7 @@ export class DashboardComponent implements OnInit {
 		filter.toDate = endDate;
 		this.workingHoursDb.getWorkingHours(filter).then(data => {
 			this.chartData = data;
+			(data.length > 0) ? this.dataFound = true : this.dataFound = false;
 		});
 
 	}
@@ -33,4 +36,11 @@ export class DashboardComponent implements OnInit {
 	ngOnInit() {
 	}
 
+	navigateToWorkingHours(): void {
+		this.router.navigate([this.todaysLink]);
+	}
+
+	navigateToProjects(): void {
+		this.router.navigate(['/projects']);
+	}
 }

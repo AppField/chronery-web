@@ -1,16 +1,39 @@
+@import '../../../chy-theme';
+
 :host {
-  .inline-h2 {
-    margin: 0;
-  }
 
   .chart-card {
     .mat-card-title {
-      margin: 0
+      //margin: 0
+
+      h3 {
+        margin-top: 0;
+      }
     }
 
     .mat-card-content {
       overflow-x: auto;
       overflow-y: hidden;
+    }
+  }
+
+  .no-data {
+    text-align: center;
+
+    .no-data-text {
+      font-size: 1.2em;
+      line-height: 2em;
+    }
+
+    .no-data-action {
+      font-size: 1.5em;
+      color: $subsidenav-bg;
+
+      .mat-icon {
+        font-size: 5em;
+        width: auto;
+        height: auto;
+      }
     }
   }
 }
