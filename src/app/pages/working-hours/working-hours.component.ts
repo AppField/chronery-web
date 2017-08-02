@@ -21,14 +21,13 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
 
 	date: Date;
 	encodedDate: string;
-	works: Work[] = [];
+	works: Work[];
 	projects: Project[] = [];
 	sidenavMode = 'side';
 	newCard: boolean;
 
 	private dateSub: Subscription;
 	private projectsSub;
-	private workingHoursSub: Subscription;
 	private mediaSub: Subscription;
 
 	constructor(private router: Router, private route: ActivatedRoute, public media: ObservableMedia,
@@ -46,18 +45,16 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
 
 			const filter = new WorkingHoursFilter();
 			filter.date = this.encodedDate;
-			this.workingHoursDb.getWorkingHours(filter).then(() => {
-				this.workingHoursSub = this.workingHoursDb.dataChange.subscribe(data => {
-					this.works = [];
-					const newCard = this.localStorage.getItem(this.encodedDate);
-					if (newCard) {
-						this.works = [newCard].concat(data);
-						this.newCard = true;
-					} else {
-						this.works = data;
-						this.newCard = false;
-					}
-				});
+			this.workingHoursDb.getWorkingHoursData(filter).then((data) => {
+				this.works = [];
+				const newCard = this.localStorage.getItem(this.encodedDate);
+				if (newCard) {
+					this.works = [newCard].concat(data);
+					this.newCard = true;
+				} else {
+					this.works = data;
+					this.newCard = false;
+				}
 			});
 		});
 	}
@@ -127,7 +124,6 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
 	ngOnDestroy() {
 		this.dateSub.unsubscribe();
 		this.projectsSub.unsubscribe();
-		this.workingHoursSub.unsubscribe();
 		this.mediaSub.unsubscribe();
 	}
 }

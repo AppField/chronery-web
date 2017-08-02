@@ -1,5 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 @import url('https://fonts.googleapis.com/css?family=Roboto');
+@import './chy-theme';
 
 html, body {
   font-family: 'Roboto', 'Segoe UI', Calibri, Arial, sans-serif;
@@ -35,5 +36,25 @@ html, body {
   position: relative;
   top: 32px;
   right: 1rem;
+}
 
+.no-data {
+  text-align: center;
+
+  .no-data-text {
+    font-size: 1.2em;
+    line-height: 2em;
+  }
+
+  .no-data-action {
+    font-size: 1.5em;
+    color: $subsidenav-bg;
+    padding-top: 1em;
+
+    .mat-icon {
+      font-size: 5em;
+      width: auto;
+      height: auto;
+    }
+  }
 }

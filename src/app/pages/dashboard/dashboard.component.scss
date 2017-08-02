@@ -17,27 +17,6 @@
     }
   }
 
-  .no-data {
-    text-align: center;
-
-    .no-data-text {
-      font-size: 1.2em;
-      line-height: 2em;
-    }
-
-    .no-data-action {
-      font-size: 1.5em;
-      color: $subsidenav-bg;
-      padding-top: 1em;
-
-      .mat-icon {
-        font-size: 5em;
-        width: auto;
-        height: auto;
-      }
-    }
-  }
-
   .mat-progress-spinner {
     margin: 0 auto;
   }
