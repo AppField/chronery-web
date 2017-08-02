@@ -34,28 +34,26 @@ export class WorkingHoursDbService {
 
 	getWorkingHours(filter: WorkingHoursFilter): Promise<Work[]> {
 		return new Promise<Work[]>(resolve => {
-			let selectors: any = {};
-			if (filter.date) {
-				if (filter.toDate) {
-					selectors = {
-						'date': {
-							$gte: filter.date,
-							$lte: filter.toDate
-						}
-					}
-				} else {
-					selectors.date = filter.date;
-				}
-			}
-			if (filter.project) {
-				selectors['projectId'] = filter.project._id;
-			}
+			const selectors = this.buildFilter(filter);
 
 			return this.db.find({
 				selector: selectors,
 				sort: [{date: 'desc'}]
 			}).then(data => {
 				this.dataChange.next(data.docs);
+				resolve(data.docs);
+			});
+		});
+	}
+
+	getWorkingHoursData(filter: WorkingHoursFilter): Promise<Work[]> {
+		return new Promise<Work[]>(resolve => {
+			const selectors = this.buildFilter(filter);
+
+			return this.db.find({
+				selector: selectors,
+				sort: [{date: 'desc'}]
+			}).then(data => {
 				resolve(data.docs);
 			});
 		})
@@ -107,6 +105,26 @@ export class WorkingHoursDbService {
 				this.dataChange.next(data);
 			}
 		}
+	}
+
+	private buildFilter(filter) {
+		let selectors: any = {};
+		if (filter.date) {
+			if (filter.toDate) {
+				selectors = {
+					'date': {
+						$gte: filter.date,
+						$lte: filter.toDate
+					}
+				}
+			} else {
+				selectors.date = filter.date;
+			}
+		}
+		if (filter.project) {
+			selectors['projectId'] = filter.project._id;
+		}
+		return selectors
 	}
 
 }
