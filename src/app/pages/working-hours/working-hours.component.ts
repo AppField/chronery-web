@@ -25,6 +25,8 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
 	projects: Project[] = [];
 	sidenavMode = 'side';
 	newCard: boolean;
+	// TODO: remove this workaround. Necessary as the async time causes an error whenn building the prod package.
+	async: any;
 
 	private dateSub: Subscription;
 	private projectsSub;

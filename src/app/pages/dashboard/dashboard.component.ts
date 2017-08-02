@@ -16,6 +16,8 @@ export class DashboardComponent implements OnInit {
 	todaysLink: string;
 	dataFound = true;
 	chartData: Work[];
+	// TODO: remove this workaround. Necessary as the async time causes an error whenn building the prod package.
+	async: any;
 
 	constructor(private router: Router, private workingHoursDb: WorkingHoursDbService) {
 		this.todaysLink = '/working-hours/' + Utility.encodeDate(this.todaysDate);
