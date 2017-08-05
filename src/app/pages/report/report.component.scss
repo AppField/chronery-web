@@ -1,3 +1,5 @@
+@import '../../../chy-theme';
+
 :host {
 
   .table-header {
@@ -9,6 +11,21 @@
 
     .mat-input-wrapper {
       width: 100% !important;
+    }
+  }
+
+  .table-footer {
+    text-align: center;
+    padding: 1em;
+
+    .total-header {
+      display: block;
+      padding-bottom: .5em;
+    }
+
+    .total-hours {
+      color: $subsidenav-bg;
+      font-size: 2.5em;
     }
   }
 }

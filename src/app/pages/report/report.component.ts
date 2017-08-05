@@ -27,6 +27,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
 	projectsCtrl: FormControl;
 	projectsSub: Subscription;
 	emptyProject = new Project();
+	totalTime: string;
 
 	dataSource: ReportSource | null;
 	displayedColumns = ['date', 'from', 'to', 'spent', 'projectNumber', 'projectName', 'comment'];
@@ -75,7 +76,16 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
 					}
 				}
 			}
-			this.workingHoursDB.getWorkingHours(filter);
+			this.workingHoursDB.getWorkingHours(filter).then(data => {
+				const times = data.map((work: Work) => {
+					return work.spent;
+				});
+				if (times.length) {
+					this.totalTime = Utility.sumTimes(times);
+				} else {
+					this.totalTime = null;
+				}
+			});
 		});
 	}
 

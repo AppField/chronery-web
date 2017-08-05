@@ -85,5 +85,10 @@
             <md-header-row *cdkHeaderRowDef="displayedColumns"></md-header-row>
             <md-row *cdkRowDef="let row; columns: displayedColumns;"></md-row>
         </md-table>
+
+        <div class="table-footer" *ngIf="totalTime">
+            <span class="total-header">Total:</span>
+            <span class="total-hours">{{totalTime}} h</span>
+        </div>
     </div>
 </div>
