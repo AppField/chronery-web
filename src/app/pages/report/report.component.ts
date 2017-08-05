@@ -120,11 +120,16 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
 export class ReportSource extends DataSource<any> {
+	hasData = false;
+
 	constructor(private workingHoursDB: WorkingHoursDbService) {
 		super();
 	}
 
 	connect(): Observable<Work[]> {
+		this.workingHoursDB.dataChange.subscribe(data => {
+			this.hasData = data.length > 0;
+		});
 		return this.workingHoursDB.dataChange;
 	}
 
