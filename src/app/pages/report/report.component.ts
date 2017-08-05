@@ -81,7 +81,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
 					return work.spent;
 				});
 				if (times.length) {
-					this.totalTime = Utility.sumTimes(times);
+					this.totalTime = Utility.sumTotalTimes(times);
 				} else {
 					this.totalTime = null;
 				}

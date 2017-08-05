@@ -43,4 +43,22 @@ export class Utility {
 
 		return totalTime.format('HH:mm');
 	}
+
+	static sumTotalTimes(times: string[]): string {
+		let hours = 0;
+		let minutes = 0;
+		times.map(time => {
+			const values = time.split(':');
+			// add hours
+			hours += +values[0];
+			// add minutes
+			minutes += +values[1];
+		});
+
+		const allMinutes = hours * 60 + minutes;
+		hours = Math.trunc(allMinutes / 60);
+		minutes = allMinutes - hours * 60;
+
+		return hours + ':' + minutes;
+	}
 }
