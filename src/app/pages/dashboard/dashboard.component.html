@@ -17,7 +17,9 @@
                     <button md-icon-button (click)="previousMonth()">
                         <md-icon>chevron_left</md-icon>
                     </button>
-                    {{ chartMonth | date:'MMMM yyyy' }}
+                    <span class="month-button-text">
+                        {{ chartMonth | date:'MMMM yyyy' }}
+                    </span>
                     <button md-icon-button (click)="nextMonth()">
                         <md-icon>chevron_right</md-icon>
                     </button>

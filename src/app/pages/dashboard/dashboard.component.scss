@@ -2,6 +2,12 @@
 
 :host {
 
+  .month-button-text {
+    text-align: center;
+    display: inline-block;
+    min-width: 120px;
+  }
+
   .chart-card {
     .mat-card-title {
       //margin: 0
