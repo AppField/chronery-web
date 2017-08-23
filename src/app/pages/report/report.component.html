@@ -19,7 +19,8 @@
                 <button mdSuffix [mdDatepickerToggle]="fromPicker"></button>
             </md-input-container>
             <md-datepicker #fromPicker [startAt]="startDate"
-                           (selectedChanged)="updateReport()"></md-datepicker>
+                           (selectedChanged)="updateReport()"
+                           [touchUi]="isMobile"></md-datepicker>
 
             <!-- End date -->
             <md-input-container fxFlex="100">
@@ -27,7 +28,7 @@
                        value="{{endDate}}" [min]="startDate" [(ngModel)]="endDate">
                 <button mdSuffix [mdDatepickerToggle]="toPicker"></button>
             </md-input-container>
-            <md-datepicker #toPicker (selectedChanged)="updateReport()"></md-datepicker>
+            <md-datepicker #toPicker (selectedChanged)="updateReport()" [touchUi]="isMobile"></md-datepicker>
 
             <!-- Proejct Autocomplete -->
             <md-input-container fxFlex="100">

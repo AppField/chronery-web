@@ -11,6 +11,7 @@ import { Work } from '../../models/work';
 import { WorkingHoursFilter } from '../../models/working-hours-filter';
 import { Utility } from '../../utils/utility';
 import { Angular2Csv } from 'angular2-csv';
+import { ObservableMedia } from '@angular/flex-layout';
 
 @Component({
 	selector: 'chy-report',
@@ -32,7 +33,10 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
 	dataSource: ReportSource | null;
 	displayedColumns = ['date', 'from', 'to', 'spent', 'projectNumber', 'projectName', 'comment'];
 
-	constructor(private projectsDB: ProjectsDbService, private workingHoursDB: WorkingHoursDbService, private detector: ChangeDetectorRef) {
+	constructor(private projectsDB: ProjectsDbService,
+				private workingHoursDB: WorkingHoursDbService,
+				private detector: ChangeDetectorRef,
+				private media: ObservableMedia) {
 
 		// initialize start and end date for the date pickers
 		this.startDate = moment().startOf('month').toDate();
@@ -51,6 +55,10 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
 
 		this.dataSource = new ReportSource(this.workingHoursDB);
 		this.updateReport();
+	}
+
+	get isMobile(): boolean {
+		return !this.media.isActive('gt-sm');
 	}
 
 	ngOnInit() {
