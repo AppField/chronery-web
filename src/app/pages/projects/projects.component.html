@@ -48,7 +48,7 @@
             </ng-container>
 
             <md-header-row *cdkHeaderRowDef="displayedColumns" fxHide.xs fxHide.sm></md-header-row>
-            <md-row *cdkRowDef="let row; columns: displayedColumns;" (click)="openMobileProjectDialog()"></md-row>
+            <md-row class="mobile-pointer" *cdkRowDef="let row; columns: displayedColumns;" (click)="openMobileProjectDialog()"></md-row>
         </md-table>
     </div>
 
