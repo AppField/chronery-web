@@ -1,7 +1,7 @@
 <md-sidenav-container>
-    <md-sidenav mode="side" opened="true">
+    <md-sidenav mode="side" opened="true" class="chy-sidenav">
         <md-toolbar>
-            <span *ngIf="!media.isActive('xs'); else menuButton">Chronery</span>
+            <span *ngIf="!isMobile; else menuButton">Chronery</span>
             <ng-template #menuButton>
                 <button md-icon-button (click)="toggleCollapse()">
                     <md-icon>menu</md-icon>
@@ -12,7 +12,7 @@
             <a md-list-item *ngFor="let item of routerItems" routerLink="{{item.link}}" routerLinkActive="active"
                (click)="collapsed=false">
                 <md-icon md-list-icon>{{item.icon}}</md-icon>
-                <span *ngIf="!media.isActive('xs') || collapsed">{{item.display}}</span>
+                <span *ngIf="!isMobile || !collapsed">{{item.display}}</span>
             </a>
         </md-nav-list>
     </md-sidenav>

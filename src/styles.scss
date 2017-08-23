@@ -58,6 +58,14 @@ html, body {
     }
   }
 }
+/* SIDENAV */
+.chy-sidenav {
+  .mat-toolbar, .mat-nav-list .mat-list-item .mat-list-item-content {
+    padding: 0 .5rem !important;
+  }
+}
+
+/* END SIDENAV */
 
 /* RESPONSIVE MD-TABLE */
 
