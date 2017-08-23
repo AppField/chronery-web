@@ -17,13 +17,13 @@
 
             <div class="flex-row">
                 <md-input-container>
-                    <input mdInput placeholder="From" formControlName="from" [(ngModel)]="work.from"
-                           (blur)="formatTime(work.from, 'from')">
+                    <input mdInput placeholder="From" #from formControlName="from" [(ngModel)]="work.from"
+                           (blur)="formatTime(work.from, 'from')" (focus)="from.select()">
                     <md-error>Required format: hh:mm</md-error>
                 </md-input-container>
                 <md-input-container>
-                    <input mdInput placeholder="To" formControlName="to" [(ngModel)]="work.to"
-                           (blur)="formatTime(work.to, 'to')">
+                    <input mdInput placeholder="To" #to formControlName="to" [(ngModel)]="work.to"
+                           (blur)="formatTime(work.to, 'to')" (focus)="to.select()">
                     <md-error *ngIf="toControl.hasError('required') || toControl.hasError('pattern')">Required
                         format:
                         hh:mm
