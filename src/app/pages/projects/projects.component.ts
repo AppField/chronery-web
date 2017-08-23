@@ -12,6 +12,7 @@ import 'rxjs/add/observable/fromEvent';
 import { MdDialog } from '@angular/material';
 import { ProjectDialogComponent } from '../../components/project-modal/project-dialog.component';
 import { ProjectsDbService } from '../../services/projects-db/projects-db.service';
+import { ObservableMedia } from '@angular/flex-layout';
 
 @Component({
 	selector: 'chy-projects',
@@ -19,12 +20,15 @@ import { ProjectsDbService } from '../../services/projects-db/projects-db.servic
 	styleUrls: ['./projects.component.scss']
 })
 export class ProjectsComponent implements OnInit, AfterViewInit {
-	displayedColumns = ['number', 'name', 'edit'];
+	displayedColumns = ['projectNumber', 'projectName', 'edit'];
 	dataSource: ProjectSource | null;
 
 	@ViewChild('filter') filter: ElementRef;
 
-	constructor(public dialog: MdDialog, private detector: ChangeDetectorRef, public projectsDB: ProjectsDbService) {
+	constructor(public dialog: MdDialog,
+				private detector: ChangeDetectorRef,
+				public projectsDB: ProjectsDbService,
+				private media: ObservableMedia) {
 	}
 
 	ngOnInit() {
@@ -59,6 +63,23 @@ export class ProjectsComponent implements OnInit, AfterViewInit {
 				}
 			}
 		});
+	}
+
+	openMobileProjectDialog(project: Project = new Project()): void {
+		if (!this.media.isActive('gt-sm')) {
+			const dialogRef = this.dialog.open(ProjectDialogComponent, {
+				data: project
+			});
+			dialogRef.afterClosed().subscribe(result => {
+				if (result) {
+					if (result.hasOwnProperty('_id')) {
+						this.projectsDB.updateProject(result);
+					} else {
+						this.projectsDB.createProject(result);
+					}
+				}
+			});
+		}
 	}
 }
 

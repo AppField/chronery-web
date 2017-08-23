@@ -20,29 +20,35 @@
 
         <md-table #table [dataSource]="dataSource">
             <!-- Project number column -->
-            <ng-container cdkColumnDef="number">
-                <md-header-cell *cdkHeaderCellDef>Number</md-header-cell>
-                <md-cell *cdkCellDef="let row">{{row.number}}</md-cell>
+            <ng-container cdkColumnDef="projectNumber">
+                <md-header-cell *cdkHeaderCellDef>Project Number</md-header-cell>
+                <md-cell *cdkCellDef="let row" fxLayout="row">
+                    <div fxHide.gt-sm fxFlex="50">Project Number</div>
+                    <div>{{row.number}}</div>
+                </md-cell>
             </ng-container>
 
             <!-- Project name column -->
-            <ng-container cdkColumnDef="name">
+            <ng-container cdkColumnDef="projectName">
                 <md-header-cell *cdkHeaderCellDef>Name</md-header-cell>
-                <md-cell *cdkCellDef="let row">{{row.name}}</md-cell>
+                <md-cell *cdkCellDef="let row" fxLayout="row">
+                    <div fxHide.gt-sm fxFlex="50">Name</div>
+                    <div>{{row.name}}</div>
+                </md-cell>
             </ng-container>
 
             <!-- Edit Button -->
             <ng-container cdkColumnDef="edit">
                 <md-header-cell *cdkHeaderCellDef class="action"></md-header-cell>
-                <md-cell *cdkCellDef="let row" class="action">
+                <md-cell *cdkCellDef="let row" class="action" fxHide.xs fxHide.sm>
                     <button md-icon-button (click)="openProjectDialog(row)">
                         <md-icon>edit</md-icon>
                     </button>
                 </md-cell>
             </ng-container>
 
-            <md-header-row *cdkHeaderRowDef="displayedColumns"></md-header-row>
-            <md-row *cdkRowDef="let row; columns: displayedColumns;"></md-row>
+            <md-header-row *cdkHeaderRowDef="displayedColumns" fxHide.xs fxHide.sm></md-header-row>
+            <md-row *cdkRowDef="let row; columns: displayedColumns;" (click)="openMobileProjectDialog()"></md-row>
         </md-table>
     </div>
 

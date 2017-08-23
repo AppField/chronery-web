@@ -65,12 +65,14 @@ html, body {
   .mat-row {
     height: auto !important;
     flex-direction: column;
+    cursor: pointer;
 
     .mat-cell {
       width: 100%;
-      padding: .5rem;
+      padding: .5rem 0;
 
       div:nth-of-type(1) {
+        font-weight:bold;
         text-align:right;
         padding-right: .5rem;
       }
