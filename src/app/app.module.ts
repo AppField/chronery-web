@@ -44,6 +44,7 @@ import { MaterialActiveDirective } from './directives/material-active/material-a
 import { LocalStorageService } from './services/local-storage/local-storage.service';
 import { EncodedDatePipe } from './pipes/encoded-date/encoded-date.pipe';
 import { WorkingHoursChartComponent } from './components/working-hours-chart/working-hours-chart.component';
+import { CommentsDbService } from './services/comments-db/comments-db.service';
 
 @NgModule({
 	declarations: [
@@ -75,7 +76,7 @@ import { WorkingHoursChartComponent } from './components/working-hours-chart/wor
 		AppRoutingModule, MdProgressSpinnerModule,
 		CdkTableModule
 	],
-	providers: [WorkingHoursDbService, ProjectsDbService, LocalStorageService],
+	providers: [WorkingHoursDbService, ProjectsDbService, CommentsDbService, LocalStorageService],
 	bootstrap: [AppComponent]
 })
 export class AppModule {

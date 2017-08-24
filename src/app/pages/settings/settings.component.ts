@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Comment } from '../../models/comment';
+import { CommentsDbService } from '../../services/comments-db/comments-db.service';
 
 @Component({
 	selector: 'chy-settings',
@@ -10,30 +11,31 @@ import { Comment } from '../../models/comment';
 
 export class SettingsComponent implements OnInit {
 
-	comments: Comment[];
 	newComment: Comment = new Comment();
 
-
-	constructor() {
-		this.comments = [
-			new Comment('1', 'Anfahrt'),
-			new Comment('2', 'Abfahrt')
-		]
+	constructor(public commentsDB: CommentsDbService) {
 	}
 
 	ngOnInit() {
 	}
 
-	updateComments() {
-		if (this.comments.length < 5) {
-			this.comments.push(this.newComment);
+	createComment(): void {
+		this.newComment.value.trim();
+		if (this.commentsDB.data.length < 5 && this.newComment.value !== '') {
+			this.commentsDB.createComment(this.newComment);
 
 			this.newComment = new Comment();
 		}
 	}
 
-	removeComment(index: number) {
-		this.comments.splice(index, 1);
+	updateComment(comment: Comment): void {
+		if (comment.value !== '') {
+			this.commentsDB.updateComment(comment);
+		}
+	}
+
+	deleteComment(comment: Comment): void {
+		this.commentsDB.deleteComment(comment);
 	}
 
 }

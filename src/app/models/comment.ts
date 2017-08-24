@@ -1,9 +1,9 @@
 export class Comment {
-	id: string;
+	_id: string;
+	_rev: string;
 	value: string;
 
-	constructor(id?: string, value?: string) {
-		this.id = id || null;
+	constructor(value?: string) {
 		this.value = value || '';
 	}
 }
