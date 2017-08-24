@@ -10,6 +10,8 @@ import { ProjectsDbService } from '../../services/projects-db/projects-db.servic
 import { Project } from '../../models/project';
 import { LocalStorageService } from '../../services/local-storage/local-storage.service';
 import { WorkingHoursFilter } from '../../models/working-hours-filter';
+import { CommentsDbService } from '../../services/comments-db/comments-db.service';
+import { Comment } from '../../models/comment';
 
 @Component({
 	selector: 'chy-working-hours',
@@ -23,22 +25,27 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
 	encodedDate: string;
 	works: Work[];
 	projects: Project[] = [];
+	comments: Comment[] = [];
 	sidenavMode = 'side';
 	newCard: boolean;
-	// TODO: remove this workaround. Necessary as the async time causes an error whenn building the prod package.
-	async: any;
 
 	private dateSub: Subscription;
-	private projectsSub;
+	private projectsSub: Subscription;
+	private commentsSub: Subscription;
 	private mediaSub: Subscription;
 
 	constructor(private router: Router, private route: ActivatedRoute, public media: ObservableMedia,
 				private projectsDB: ProjectsDbService,
 				private workingHoursDb: WorkingHoursDbService,
+				private commentsDb: CommentsDbService,
 				private localStorage: LocalStorageService) {
 
 		this.projectsSub = this.projectsDB.dataChange.subscribe(data => {
 			this.projects = data;
+		});
+
+		this.commentsSub = this.commentsDb.dataChange.subscribe(data => {
+			this.comments = data;
 		});
 
 		this.dateSub = this.route.params.subscribe(params => {
@@ -126,6 +133,7 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
 	ngOnDestroy() {
 		this.dateSub.unsubscribe();
 		this.projectsSub.unsubscribe();
+		this.commentsSub.unsubscribe();
 		this.mediaSub.unsubscribe();
 	}
 }

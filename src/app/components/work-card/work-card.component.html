@@ -35,9 +35,16 @@
                 </md-input-container>
             </div>
 
+            <!--<input mdInput placeholder="Comment" formControlName="comment">-->
             <md-input-container class="comment">
-                <input mdInput placeholder="Comment" formControlName="comment">
+                <input mdInput placeholder="Comment" formControlName="comment" [mdAutocomplete]="commentAuto">
+                <md-error>Required</md-error>
             </md-input-container>
+            <md-autocomplete #commentAuto="mdAutocomplete">
+                <md-option *ngFor="let comment of filteredComments | async" [value]="comment.value">
+                    <span>{{ comment.value }}</span>
+                </md-option>
+            </md-autocomplete>
 
         </md-card-content>
         <md-card-footer>
