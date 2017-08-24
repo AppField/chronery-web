@@ -15,7 +15,7 @@ interface RouterItem {
 })
 export class SidenavComponent implements OnInit {
 	routerItems: RouterItem[];
-	collapsed = false;
+	collapsed = true;
 
 	constructor(private media: ObservableMedia,
 				private detector: ChangeDetectorRef) {
