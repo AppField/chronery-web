@@ -1,0 +1,11 @@
+.comments-list {
+
+  .mat-list-item {
+    transition: box-shadow 280ms cubic-bezier(.4, 0, .2, 1)
+  }
+
+  .mat-input-container {
+    display: block;
+    width: 100%
+  }
+}
