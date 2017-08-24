@@ -28,6 +28,7 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
 	comments: Comment[] = [];
 	sidenavMode = 'side';
 	newCard: boolean;
+	async: any;
 
 	private dateSub: Subscription;
 	private projectsSub: Subscription;
