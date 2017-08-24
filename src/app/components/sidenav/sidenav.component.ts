@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { MediaChange, ObservableMedia } from '@angular/flex-layout';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ObservableMedia } from '@angular/flex-layout';
 import { Utility } from '../../utils/utility';
 
 interface RouterItem {
@@ -17,7 +17,8 @@ export class SidenavComponent implements OnInit {
 	routerItems: RouterItem[];
 	collapsed = false;
 
-	constructor(private media: ObservableMedia) {
+	constructor(private media: ObservableMedia,
+				private detector: ChangeDetectorRef) {
 		// ToDo: Working Hours should remain active when another day is selected in subsidenav
 		this.routerItems = [
 			{
@@ -47,21 +48,27 @@ export class SidenavComponent implements OnInit {
 			}
 		];
 
-		this.media.subscribe((mediaChange: MediaChange) => {
-			if (mediaChange.mqAlias === 'xs') {
-				this.collapsed = true;
-			}
-		})
+	}
+
+	ngOnInit() {
+		if (this.media.isActive('xs')) {
+			this.collapsed = true;
+		}
 	}
 
 	get isMobile(): boolean {
 		return this.media.isActive('xs');
 	}
 
-	ngOnInit() {
-	}
 
 	toggleCollapse(): void {
 		this.collapsed = !this.collapsed;
+	}
+
+	recollapseNav(): void {
+		if (this.isMobile) {
+			this.collapsed = true;
+			this.detector.detectChanges();
+		}
 	}
 }
