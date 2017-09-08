@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ChangeDetectorRef, AfterViewInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import * as moment from 'moment/moment';
 import { Project } from '../../models/project';
 import { Observable } from 'rxjs/Observable';
@@ -18,7 +18,7 @@ import { ObservableMedia } from '@angular/flex-layout';
 	templateUrl: './report.component.html',
 	styleUrls: ['./report.component.scss']
 })
-export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
+export class ReportComponent implements OnInit, OnDestroy {
 	date: Date;
 
 	startDate: Date;
@@ -95,11 +95,6 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
 				}
 			});
 		});
-	}
-
-	ngAfterViewInit() {
-		// TODO: Remove this as it is a workaround to make the table visible when the page got reloaded
-		this.detector.detectChanges();
 	}
 
 	filterProjects(val: string) {

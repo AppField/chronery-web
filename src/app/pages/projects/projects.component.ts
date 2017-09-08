@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Project } from '../../models/project';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { DataSource } from '@angular/cdk/collections';
@@ -19,7 +19,7 @@ import { ObservableMedia } from '@angular/flex-layout';
 	templateUrl: './projects.component.html',
 	styleUrls: ['./projects.component.scss']
 })
-export class ProjectsComponent implements OnInit, AfterViewInit {
+export class ProjectsComponent implements OnInit {
 	displayedColumns = ['projectNumber', 'projectName', 'edit'];
 	dataSource: ProjectSource | null;
 
@@ -45,11 +45,6 @@ export class ProjectsComponent implements OnInit, AfterViewInit {
 			});
 	}
 
-	ngAfterViewInit() {
-		// TODO: Remove this as it is a workaround to make the table visible when the page got reloaded
-		this.detector.detectChanges();
-	}
-
 	openProjectDialog(project: Project = new Project()): void {
 		const dialogRef = this.dialog.open(ProjectDialogComponent, {
 			data: project
@@ -58,6 +53,7 @@ export class ProjectsComponent implements OnInit, AfterViewInit {
 			if (result) {
 				if (result.hasOwnProperty('_id')) {
 					this.projectsDB.updateProject(result);
+					this.detector.detectChanges();
 				} else {
 					this.projectsDB.createProject(result);
 				}
