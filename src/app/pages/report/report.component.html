@@ -13,28 +13,29 @@
         <div class="table-header" fxLayout.gt-xs="row" fxLayout="column" fxLayoutGap="20px" fxLayoutGap.xs="0">
 
             <!-- Start date -->
-            <md-input-container fxFlex="100">
-                <input mdInput [mdDatepicker]="fromPicker" placeholder="Starts at" value="{{startDate}}"
+            <md-form-field fxFlex="100">
+                <input mdInput [mdDatepicker]="fromPicker" placeholder="Starts at"
                        [max]="endDate" [(ngModel)]="startDate">
-                <button mdSuffix [mdDatepickerToggle]="fromPicker"></button>
-            </md-input-container>
-            <md-datepicker #fromPicker [startAt]="startDate"
-                           (selectedChanged)="updateReport()"
-                           [touchUi]="isMobile"></md-datepicker>
+                <md-datepicker-toggle mdSuffix [for]="fromPicker"></md-datepicker-toggle>
+                <md-datepicker #fromPicker [startAt]="startDate"
+                               (selectedChanged)="updateReport()"
+                               [touchUi]="isMobile">
+                </md-datepicker>
+            </md-form-field>
 
             <!-- End date -->
-            <md-input-container fxFlex="100">
+            <md-form-field fxFlex="100">
                 <input mdInput [mdDatepicker]="toPicker" placeholder="Ends at"
-                       value="{{endDate}}" [min]="startDate" [(ngModel)]="endDate">
-                <button mdSuffix [mdDatepickerToggle]="toPicker"></button>
-            </md-input-container>
-            <md-datepicker #toPicker (selectedChanged)="updateReport()" [touchUi]="isMobile"></md-datepicker>
+                       [min]="startDate" [(ngModel)]="endDate">
+                <md-datepicker-toggle mdSuffix [for]="toPicker"></md-datepicker-toggle>
+                <md-datepicker #toPicker (selectedChanged)="updateReport()" [touchUi]="isMobile"></md-datepicker>
+            </md-form-field>
 
             <!-- Proejct Autocomplete -->
-            <md-input-container fxFlex="100">
+            <md-form-field fxFlex="100">
                 <input mdInput placeholder="Project" [mdAutocomplete]="auto" [formControl]="projectsCtrl">
                 <md-error>Required</md-error>
-            </md-input-container>
+            </md-form-field>
             <md-autocomplete #auto="mdAutocomplete" [displayWith]="displayFn">
                 <md-option (onSelectionChange)="updateReport($event, emptyProject)"></md-option>
                 <md-option *ngFor="let project of filteredProjects | async" [value]="project"

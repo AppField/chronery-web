@@ -1,10 +1,10 @@
 <md-card tabindex="0" (blur)="checkValidation()" chyMaterialActive>
     <form [formGroup]="workForm" (ngSubmit)="checkValidation()">
         <md-card-content>
-            <md-input-container class="project">
+            <md-form-field class="project">
                 <input mdInput placeholder="Project" formControlName="project" [mdAutocomplete]="auto">
                 <md-error>Required</md-error>
-            </md-input-container>
+            </md-form-field>
             <md-autocomplete #auto="mdAutocomplete" [displayWith]="displayFn">
                 <md-option *ngFor="let project of filteredProjects | async" [value]="project">
                     <span>{{ project.name }}  |  {{ project.number }} </span>
@@ -16,12 +16,12 @@
             </button>
 
             <div class="flex-row">
-                <md-input-container>
+                <md-form-field>
                     <input mdInput placeholder="From" #from formControlName="from" [(ngModel)]="work.from"
                            (blur)="formatTime(work.from, 'from')" (focus)="from.select()">
                     <md-error>Required format: hh:mm</md-error>
-                </md-input-container>
-                <md-input-container>
+                </md-form-field>
+                <md-form-field>
                     <input mdInput placeholder="To" #to formControlName="to" [(ngModel)]="work.to"
                            (blur)="formatTime(work.to, 'to')" (focus)="to.select()">
                     <md-error *ngIf="toControl.hasError('required') || toControl.hasError('pattern')">Required
@@ -32,14 +32,14 @@
                             *ngIf="!(toControl.hasError('required') || toControl.hasError('pattern')) && toControl.hasError('isNotAfter')">
                         "To time" isn't after from time
                     </md-error>
-                </md-input-container>
+                </md-form-field>
             </div>
 
             <!--<input mdInput placeholder="Comment" formControlName="comment">-->
-            <md-input-container class="comment">
+            <md-form-field class="comment">
                 <input mdInput placeholder="Comment" formControlName="comment" [mdAutocomplete]="commentAuto">
                 <md-error>Required</md-error>
-            </md-input-container>
+            </md-form-field>
             <md-autocomplete #commentAuto="mdAutocomplete">
                 <md-option *ngFor="let comment of filteredComments | async" [value]="comment.value">
                     <span>{{ comment.value }}</span>
