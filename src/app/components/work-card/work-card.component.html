@@ -23,7 +23,7 @@
                 </md-form-field>
                 <md-form-field>
                     <input mdInput placeholder="To" #to formControlName="to" [(ngModel)]="work.to"
-                           (blur)="formatTime(work.to, 'to')" (focus)="to.select()">
+                           (blur)="formatTime(work.to, 'to')" (focus)="to.select(); checkTo()">
                     <md-error *ngIf="toControl.hasError('required') || toControl.hasError('pattern')">Required
                         format:
                         hh:mm

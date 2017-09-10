@@ -7,6 +7,7 @@ import { Comment } from '../../models/comment';
 import 'rxjs/add/operator/startWith';
 import 'rxjs/add/operator/map';
 import * as moment from 'moment/moment';
+import { Utility } from '../../utils/utility';
 
 @Component({
 	selector: 'chy-work-card',
@@ -174,6 +175,12 @@ export class WorkCardComponent implements OnInit {
 			if (!this.work.hasOwnProperty('_id')) {
 				this.persistNewWork.emit(this.work);
 			}
+		}
+	}
+
+	checkTo(): void {
+		if(this.workForm.controls['to'].value === '00:00') {
+			this.workForm.controls['to'].setValue(Utility.getCurrentTimeString());
 		}
 	}
 
