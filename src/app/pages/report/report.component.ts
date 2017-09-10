@@ -57,12 +57,17 @@ export class ReportComponent implements OnInit, OnDestroy {
 		this.updateReport();
 	}
 
+	ngOnInit() {
+	}
+
 	get isMobile(): boolean {
 		return !this.media.isActive('gt-sm');
 	}
 
-	ngOnInit() {
+	get hasData(): boolean {
+		return this.workingHoursDB.data.length > 0;
 	}
+
 
 	updateReport(event?, project?: Project): void {
 		setTimeout(() => {
@@ -123,16 +128,12 @@ export class ReportComponent implements OnInit, OnDestroy {
 
 
 export class ReportSource extends DataSource<any> {
-	hasData = false;
 
 	constructor(private workingHoursDB: WorkingHoursDbService) {
 		super();
 	}
 
 	connect(): Observable<Work[]> {
-		this.workingHoursDB.dataChange.subscribe(data => {
-			this.hasData = data.length > 0;
-		});
 		return this.workingHoursDB.dataChange;
 	}
 

@@ -111,7 +111,7 @@
             <md-row *cdkRowDef="let row; columns: displayedColumns;"></md-row>
         </md-table>
 
-        <div class="table-footer" *ngIf="!dataSource.hasData">
+        <div class="table-footer" *ngIf="!hasData">
             <span class="total-header">No times found for the selected period and project</span>
         </div>
 
