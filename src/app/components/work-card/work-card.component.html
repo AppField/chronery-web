@@ -2,7 +2,7 @@
     <form [formGroup]="workForm" (ngSubmit)="checkValidation()">
         <md-card-content>
             <md-form-field class="project">
-                <input mdInput placeholder="Project" formControlName="project" [mdAutocomplete]="auto">
+                <input mdInput placeholder="Project" formControlName="project" [mdAutocomplete]="auto" autocomplete="off">
                 <md-error>Required</md-error>
             </md-form-field>
             <md-autocomplete #auto="mdAutocomplete" [displayWith]="displayFn">
@@ -18,12 +18,12 @@
             <div class="flex-row">
                 <md-form-field>
                     <input mdInput placeholder="From" #from formControlName="from" [(ngModel)]="work.from"
-                           (blur)="formatTime(work.from, 'from')" (focus)="from.select()">
+                           (blur)="formatTime(work.from, 'from')" (focus)="from.select()" autocomplete="off">
                     <md-error>Required format: hh:mm</md-error>
                 </md-form-field>
                 <md-form-field>
                     <input mdInput placeholder="To" #to formControlName="to" [(ngModel)]="work.to"
-                           (blur)="formatTime(work.to, 'to')" (focus)="to.select(); checkTo()">
+                           (blur)="formatTime(work.to, 'to')" (focus)="to.select(); checkTo()" autocomplete="off">
                     <md-error *ngIf="toControl.hasError('required') || toControl.hasError('pattern')">Required
                         format:
                         hh:mm
@@ -37,7 +37,7 @@
 
             <!--<input mdInput placeholder="Comment" formControlName="comment">-->
             <md-form-field class="comment">
-                <input mdInput placeholder="Comment" formControlName="comment" [mdAutocomplete]="commentAuto">
+                <input mdInput placeholder="Comment" formControlName="comment" [mdAutocomplete]="commentAuto" autocomplete="off">
                 <md-error>Required</md-error>
             </md-form-field>
             <md-autocomplete #commentAuto="mdAutocomplete">

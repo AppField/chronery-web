@@ -15,7 +15,7 @@
             <!-- Start date -->
             <md-form-field fxFlex="100">
                 <input mdInput [mdDatepicker]="fromPicker" placeholder="Starts at"
-                       [max]="endDate" [(ngModel)]="startDate">
+                       [max]="endDate" [(ngModel)]="startDate" autocomplete="off">
                 <md-datepicker-toggle mdSuffix [for]="fromPicker"></md-datepicker-toggle>
                 <md-datepicker #fromPicker [startAt]="startDate"
                                (selectedChanged)="updateReport()"
@@ -26,7 +26,7 @@
             <!-- End date -->
             <md-form-field fxFlex="100">
                 <input mdInput [mdDatepicker]="toPicker" placeholder="Ends at"
-                       [min]="startDate" [(ngModel)]="endDate">
+                       [min]="startDate" [(ngModel)]="endDate" autocomplete="off">
                 <md-datepicker-toggle mdSuffix [for]="toPicker"></md-datepicker-toggle>
                 <md-datepicker #toPicker (selectedChanged)="updateReport()" [touchUi]="isMobile"></md-datepicker>
             </md-form-field>
