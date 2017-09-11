@@ -25,9 +25,9 @@ export class ReportComponent implements OnInit, OnDestroy {
 	endDate: Date;
 	projects: Project[];
 	filteredProjects: Observable<Project[]>;
+	selectedProject: Project;
 	projectsCtrl: FormControl;
 	projectsSub: Subscription;
-	emptyProject = new Project();
 	totalTime: string;
 
 	dataSource: ReportSource | null;
@@ -38,14 +38,17 @@ export class ReportComponent implements OnInit, OnDestroy {
 				private detector: ChangeDetectorRef,
 				private media: ObservableMedia) {
 
+
 		// initialize start and end date for the date pickers
 		this.startDate = moment().startOf('month').toDate();
 		this.endDate = moment().endOf('month').toDate();
 
 		this.projectsCtrl = new FormControl();
-
+		const allProjects = new Project(undefined, 'All');
+		this.selectedProject = allProjects;
 		this.projectsSub = this.projectsDB.dataChange.subscribe(data => {
 			this.projects = data;
+			this.projects.unshift(allProjects);
 			this.filteredProjects = this.projectsCtrl.valueChanges
 				.startWith(null)
 				.map(project => project && typeof project === 'object' ? project.name : project)
@@ -69,36 +72,28 @@ export class ReportComponent implements OnInit, OnDestroy {
 	}
 
 
-	updateReport(event?, project?: Project): void {
-		setTimeout(() => {
-			const filter = new WorkingHoursFilter();
-			if (this.startDate) {
-				filter.date = Utility.encodeDate(this.startDate);
+	updateReport(): void {
+		const filter = new WorkingHoursFilter();
+		if (this.startDate) {
+			filter.date = Utility.encodeDate(this.startDate);
+		}
+		if (this.endDate) {
+			filter.toDate = Utility.encodeDate(this.endDate);
+		}
+		if (this.selectedProject) {
+			if (this.selectedProject.hasOwnProperty('_id')) {
+				filter.project = this.selectedProject;
 			}
-			if (this.endDate) {
-				filter.toDate = Utility.encodeDate(this.endDate);
-			}
-			if (project) {
-				if (event) {
-					if (event.source.selected) {
-						if (project._id) {
-							filter.project = project;
-						}
-					} else {
-						return
-					}
-				}
-			}
-			this.workingHoursDB.getWorkingHours(filter).then(data => {
-				const times = data.map((work: Work) => {
-					return work.spent;
-				});
-				if (times.length) {
-					this.totalTime = Utility.sumTotalTimes(times);
-				} else {
-					this.totalTime = null;
-				}
+		}
+		this.workingHoursDB.getWorkingHours(filter).then(data => {
+			const times = data.map((work: Work) => {
+				return work.spent;
 			});
+			if (times.length) {
+				this.totalTime = Utility.sumTotalTimes(times);
+			} else {
+				this.totalTime = null;
+			}
 		});
 	}
 
@@ -109,7 +104,7 @@ export class ReportComponent implements OnInit, OnDestroy {
 	displayFn(project: Project) {
 		if (project) {
 			if (project.name) {
-				return project.name + '  |  ' + project.number
+				return project.number ? `${project.name} | ${project.number}` : project.name;
 			} else {
 				return '';
 			}

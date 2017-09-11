@@ -33,14 +33,12 @@
 
             <!-- Proejct Autocomplete -->
             <md-form-field fxFlex="100">
-                <input mdInput placeholder="Project" [mdAutocomplete]="auto" [formControl]="projectsCtrl">
+                <input mdInput placeholder="Project" [mdAutocomplete]="auto" [formControl]="projectsCtrl" [(ngModel)]="selectedProject">
                 <md-error>Required</md-error>
             </md-form-field>
-            <md-autocomplete #auto="mdAutocomplete" [displayWith]="displayFn">
-                <md-option (onSelectionChange)="updateReport($event, emptyProject)"></md-option>
-                <md-option *ngFor="let project of filteredProjects | async" [value]="project"
-                           (onSelectionChange)="updateReport($event, project)">
-                    <span>{{ project.name }}  <span *ngIf="project._id">|</span>  {{ project.number }} </span>
+            <md-autocomplete #auto="mdAutocomplete" [displayWith]="displayFn" (optionSelected)="updateReport()">
+                <md-option *ngFor="let project of filteredProjects | async" [value]="project">
+                    <span>{{ project.name }}  <span *ngIf="project.number">|</span>  <small>{{ project.number }} </small></span>
                 </md-option>
             </md-autocomplete>
         </div>
