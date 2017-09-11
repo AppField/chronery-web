@@ -46,7 +46,7 @@ export class SidenavComponent implements OnInit, AfterViewInit {
 	routerItems: RouterItem[];
 	state = 'expandedState';
 
-	@ViewChild('sidenavContainer') sidenav;
+	@ViewChild('sidenavContainer') private sidenav;
 
 	constructor(private media: ObservableMedia,
 				private detector: ChangeDetectorRef) {
