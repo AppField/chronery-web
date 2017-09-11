@@ -46,9 +46,9 @@ export class ReportComponent implements OnInit, OnDestroy {
 		this.projectsCtrl = new FormControl();
 		const allProjects = new Project(undefined, 'All');
 		this.selectedProject = allProjects;
+		this.projects = [allProjects];
 		this.projectsSub = this.projectsDB.dataChange.subscribe(data => {
-			this.projects = data;
-			this.projects.unshift(allProjects);
+			this.projects = this.projects.concat(data);
 			this.filteredProjects = this.projectsCtrl.valueChanges
 				.startWith(null)
 				.map(project => project && typeof project === 'object' ? project.name : project)
