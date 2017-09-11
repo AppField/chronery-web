@@ -1,7 +1,7 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Project } from '../../models/project';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { DataSource } from '@angular/cdk';
+import { DataSource } from '@angular/cdk/collections';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/startWith';
 import 'rxjs/add/observable/merge';
@@ -19,7 +19,7 @@ import { ObservableMedia } from '@angular/flex-layout';
 	templateUrl: './projects.component.html',
 	styleUrls: ['./projects.component.scss']
 })
-export class ProjectsComponent implements OnInit, AfterViewInit {
+export class ProjectsComponent implements OnInit {
 	displayedColumns = ['projectNumber', 'projectName', 'edit'];
 	dataSource: ProjectSource | null;
 
@@ -45,9 +45,18 @@ export class ProjectsComponent implements OnInit, AfterViewInit {
 			});
 	}
 
-	ngAfterViewInit() {
-		// TODO: Remove this as it is a workaround to make the table visible when the page got reloaded
-		this.detector.detectChanges();
+	trackByFn(index, item): string {
+		return item._id;
+	}
+
+	editProject(project: Project): void {
+		this.openProjectDialog(project);
+	}
+
+	editMobileProject(project: Project): void {
+		if (!this.media.isActive('gt-sm')) {
+			this.openProjectDialog(project);
+		}
 	}
 
 	openProjectDialog(project: Project = new Project()): void {
@@ -60,31 +69,18 @@ export class ProjectsComponent implements OnInit, AfterViewInit {
 					this.projectsDB.updateProject(result);
 				} else {
 					this.projectsDB.createProject(result);
+					// TODO: Remove workaraound which makes shure that the newly created project is correctly shown.
+					setTimeout(() => {
+						this.detector.detectChanges();
+					}, 100)
 				}
 			}
 		});
 	}
-
-	openMobileProjectDialog(project: Project = new Project()): void {
-		if (!this.media.isActive('gt-sm')) {
-			const dialogRef = this.dialog.open(ProjectDialogComponent, {
-				data: project
-			});
-			dialogRef.afterClosed().subscribe(result => {
-				if (result) {
-					if (result.hasOwnProperty('_id')) {
-						this.projectsDB.updateProject(result);
-					} else {
-						this.projectsDB.createProject(result);
-					}
-				}
-			});
-		}
-	}
 }
 
 export class ProjectSource extends DataSource<any> {
-	_filterChange = new BehaviorSubject('');
+	private _filterChange = new BehaviorSubject('');
 
 	get filter(): string {
 		return this._filterChange.value;
@@ -106,7 +102,7 @@ export class ProjectSource extends DataSource<any> {
 		];
 
 		return Observable.merge(...displayDataChanges).map(() => {
-			return this.projectsDB.data.slice().filter((item: Project) => {
+			return this.projectsDB.dataChange.value.slice().filter((item: Project) => {
 				const searchStr = (item.number + item.name).toLowerCase();
 				return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
 			});

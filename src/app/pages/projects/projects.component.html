@@ -13,12 +13,12 @@
 
     <div class="mat-elevation-z5">
         <div class="table-header">
-            <md-input-container floatPlaceholder="never">
-                <input mdInput #filter placeholder="Filter projects">
-            </md-input-container>
+            <md-form-field floatPlaceholder="never">
+                <input mdInput #filter placeholder="Filter projects" autocomplete="off" autocomplete="off">
+            </md-form-field>
         </div>
 
-        <md-table #table [dataSource]="dataSource">
+        <md-table #table [dataSource]="dataSource" [trackBy]="trackByFn">
             <!-- Project number column -->
             <ng-container cdkColumnDef="projectNumber">
                 <md-header-cell *cdkHeaderCellDef>Project Number</md-header-cell>
@@ -41,14 +41,14 @@
             <ng-container cdkColumnDef="edit">
                 <md-header-cell *cdkHeaderCellDef class="action"></md-header-cell>
                 <md-cell *cdkCellDef="let row" class="action" fxHide.xs fxHide.sm>
-                    <button md-icon-button (click)="openProjectDialog(row)">
+                    <button md-icon-button (click)="editProject(row)">
                         <md-icon>edit</md-icon>
                     </button>
                 </md-cell>
             </ng-container>
 
             <md-header-row *cdkHeaderRowDef="displayedColumns" fxHide.xs fxHide.sm></md-header-row>
-            <md-row class="mobile-pointer" *cdkRowDef="let row; columns: displayedColumns;" (click)="openMobileProjectDialog()"></md-row>
+            <md-row class="mobile-pointer" *cdkRowDef="let row; columns: displayedColumns;" (click)="editMobileProject(row)"></md-row>
         </md-table>
     </div>
 

@@ -13,33 +13,32 @@
         <div class="table-header" fxLayout.gt-xs="row" fxLayout="column" fxLayoutGap="20px" fxLayoutGap.xs="0">
 
             <!-- Start date -->
-            <md-input-container fxFlex="100">
-                <input mdInput [mdDatepicker]="fromPicker" placeholder="Starts at" value="{{startDate}}"
-                       [max]="endDate" [(ngModel)]="startDate">
-                <button mdSuffix [mdDatepickerToggle]="fromPicker"></button>
-            </md-input-container>
-            <md-datepicker #fromPicker [startAt]="startDate"
-                           (selectedChanged)="updateReport()"
-                           [touchUi]="isMobile"></md-datepicker>
+            <md-form-field fxFlex="100">
+                <input mdInput [mdDatepicker]="fromPicker" placeholder="Starts at"
+                       [max]="endDate" [(ngModel)]="startDate" autocomplete="off">
+                <md-datepicker-toggle mdSuffix [for]="fromPicker"></md-datepicker-toggle>
+                <md-datepicker #fromPicker [startAt]="startDate"
+                               (selectedChanged)="updateReport()"
+                               [touchUi]="isMobile">
+                </md-datepicker>
+            </md-form-field>
 
             <!-- End date -->
-            <md-input-container fxFlex="100">
+            <md-form-field fxFlex="100">
                 <input mdInput [mdDatepicker]="toPicker" placeholder="Ends at"
-                       value="{{endDate}}" [min]="startDate" [(ngModel)]="endDate">
-                <button mdSuffix [mdDatepickerToggle]="toPicker"></button>
-            </md-input-container>
-            <md-datepicker #toPicker (selectedChanged)="updateReport()" [touchUi]="isMobile"></md-datepicker>
+                       [min]="startDate" [(ngModel)]="endDate" autocomplete="off">
+                <md-datepicker-toggle mdSuffix [for]="toPicker"></md-datepicker-toggle>
+                <md-datepicker #toPicker (selectedChanged)="updateReport()" [touchUi]="isMobile"></md-datepicker>
+            </md-form-field>
 
             <!-- Proejct Autocomplete -->
-            <md-input-container fxFlex="100">
-                <input mdInput placeholder="Project" [mdAutocomplete]="auto" [formControl]="projectsCtrl">
+            <md-form-field fxFlex="100">
+                <input mdInput placeholder="Project" [mdAutocomplete]="auto" [formControl]="projectsCtrl" [(ngModel)]="selectedProject">
                 <md-error>Required</md-error>
-            </md-input-container>
-            <md-autocomplete #auto="mdAutocomplete" [displayWith]="displayFn">
-                <md-option (onSelectionChange)="updateReport($event, emptyProject)"></md-option>
-                <md-option *ngFor="let project of filteredProjects | async" [value]="project"
-                           (onSelectionChange)="updateReport($event, project)">
-                    <span>{{ project.name }}  <span *ngIf="project._id">|</span>  {{ project.number }} </span>
+            </md-form-field>
+            <md-autocomplete #auto="mdAutocomplete" [displayWith]="displayFn" (optionSelected)="updateReport()">
+                <md-option *ngFor="let project of filteredProjects | async" [value]="project">
+                    <span>{{ project.name }}  <span *ngIf="project.number">|</span>  <small>{{ project.number }} </small></span>
                 </md-option>
             </md-autocomplete>
         </div>
@@ -110,7 +109,7 @@
             <md-row *cdkRowDef="let row; columns: displayedColumns;"></md-row>
         </md-table>
 
-        <div class="table-footer" *ngIf="!dataSource.hasData">
+        <div class="table-footer" *ngIf="!hasData">
             <span class="total-header">No times found for the selected period and project</span>
         </div>
 

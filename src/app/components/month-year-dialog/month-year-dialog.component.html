@@ -4,9 +4,9 @@
         <button md-button (click)="nextMonth()">
             <md-icon>keyboard_arrow_up</md-icon>
         </button>
-        <md-input-container type="month" dividerColor="accent">
+        <md-form-field type="month" dividerColor="accent">
             <input mdInput readonly [ngModel]="selectedDate | date:'MM.'"/>
-        </md-input-container>
+        </md-form-field>
         <button md-button (click)="previousMonth()">
             <md-icon>keyboard_arrow_down</md-icon>
         </button>
@@ -16,9 +16,9 @@
         <button md-button (click)="nextYear()">
             <md-icon>keyboard_arrow_up</md-icon>
         </button>
-        <md-input-container dividerColor="accent">
+        <md-form-field dividerColor="accent">
             <input readonly mdInput [ngModel]="selectedDate | date:'yyyy'"/>
-        </md-input-container>
+        </md-form-field>
         <button md-button (click)="previousYear()">
             <md-icon>keyboard_arrow_down</md-icon>
         </button>
