@@ -1,29 +1,30 @@
 import { Injectable } from '@angular/core';
-import PouchDB from 'pouchdb';
-import { Project } from '../../models/project';
-import Database = PouchDB.Database;
+import { Comment } from '../../models/comment';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import PouchDB from 'pouchdb';
+import Database = PouchDB.Database;
 
 @Injectable()
-export class ProjectsDbService {
+export class CommentsDbService {
 
-	dataChange: BehaviorSubject<Project[]> = new BehaviorSubject<Project[]>([]);
-	db: Database<Project>;
+	dataChange: BehaviorSubject<Comment[]> = new BehaviorSubject<Comment[]>([]);
+	db: Database<Comment>;
 
-	get data(): Project[] {
+	get data(): Comment[] {
 		return this.dataChange.value;
 	}
 
 	constructor() {
-		this.db = new PouchDB('chy-projects');
+		this.db = new PouchDB('chy-comments');
 		this.db.allDocs({
 			include_docs: true
 		}).then((result) => {
 
-			const data: Project[] = [];
+			const data: Comment[] = [];
 			result.rows.map((row) => {
 				data.push(row.doc);
 			});
+
 			this.dataChange.next(data);
 			this.db.changes({live: true, since: 'now', include_docs: true}).on('change', (change) => {
 				this.handleChange(change);
@@ -33,25 +34,21 @@ export class ProjectsDbService {
 		});
 	}
 
-	getProject(id: string): Promise<Project> {
-		return this.db.get(id);
-	}
-
-	createProject(project: Project): void {
-		project._id = 'project' + Date.now();
-		this.db.put(project).catch((error) => {
+	createComment(comment: Comment): void {
+		comment._id = 'comment' + Date.now();
+		this.db.put(comment).catch((error) => {
 			console.log(error);
 		});
 	}
 
-	updateProject(project: Project): void {
-		this.db.put(project).catch((error) => {
+	updateComment(comment: Comment): void {
+		this.db.put(comment).catch((error) => {
 			console.log(error);
 		});
 	}
 
-	deleteProject(project: Project): void {
-		this.db.remove(project).catch((error) => {
+	deleteComment(comment: Comment): void {
+		this.db.remove(comment).catch((error) => {
 			console.log(error);
 		})
 	}
@@ -81,18 +78,7 @@ export class ProjectsDbService {
 				data.push(change.doc);
 				this.dataChange.next(data);
 			}
+
 		}
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-

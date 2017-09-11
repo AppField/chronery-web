@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 import * as moment from 'moment/moment';
 
 @Injectable()
@@ -26,5 +26,39 @@ export class Utility {
 
 	static getCurrentTimeString(): string {
 		return moment().format('HH:mm');
+	}
+
+	static timeToDate(timeString: string): Date {
+		const date = moment(timeString, ('HH:mm')).toDate();
+		date.setMilliseconds(0);
+		return date;
+	}
+
+	static sumTimes(times: string[]): string {
+		const tempDate = moment('00:00', 'HH:mm');
+		let totalTime = moment('00:00', 'HH:mm');
+		times.map(time => {
+			totalTime = totalTime.add(moment.duration(+(moment(time, 'HH:mm')) - +tempDate));
+		});
+
+		return totalTime.format('HH:mm');
+	}
+
+	static sumTotalTimes(times: string[]): string {
+		let hours = 0;
+		let minutes = 0;
+		times.map(time => {
+			const values = time.split(':');
+			// add hours
+			hours += +values[0];
+			// add minutes
+			minutes += +values[1];
+		});
+
+		const allMinutes = hours * 60 + minutes;
+		hours = Math.trunc(allMinutes / 60);
+		minutes = allMinutes - hours * 60;
+
+		return hours + ':' + minutes;
 	}
 }

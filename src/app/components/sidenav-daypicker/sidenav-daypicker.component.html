@@ -10,7 +10,9 @@
                (click)="onDaySelect(day.date); activeLinkIndex = i"
                [ngClass]="{'active': activeLinkIndex === i}">
                 <h4 md-line>{{ day.date | date:'EEEE dd.' }}</h4>
-                <p md-line>Projects: 3 | Hours: 8.5</p>
+                <!--<p md-line>Projects: 3 | Hours: 8.5</p>-->
+                <p md-line *ngIf="day.projects.length"><span>Projects: {{day.projects.length}}</span> | <span>Hours: {{day.totalTime}}</span></p>
+
             </a>
             <md-divider></md-divider>
         </span>

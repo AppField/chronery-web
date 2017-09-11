@@ -1,0 +1,29 @@
+@import '../../../chy-theme';
+
+:host {
+
+  .month-button-text {
+    text-align: center;
+    display: inline-block;
+    min-width: 120px;
+  }
+
+  .chart-card {
+    .mat-card-title {
+      //margin: 0
+
+      h3 {
+        margin-top: 0;
+      }
+    }
+
+    .mat-card-content {
+      overflow-x: auto;
+      overflow-y: hidden;
+    }
+  }
+
+  .mat-progress-spinner {
+    margin: 0 auto;
+  }
+}

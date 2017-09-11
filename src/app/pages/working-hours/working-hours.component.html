@@ -6,7 +6,7 @@
     <div>
         <md-toolbar color="primary" class="mat-elevation-z8">
             <button *ngIf="media.isActive('xs')" md-icon-button type="button" (click)="subsidenav.open()">
-                <md-icon>today</md-icon>
+                <md-icon>date_range</md-icon>
             </button>
             Working Hours
             <span class="fill-remaining-space">
@@ -18,7 +18,7 @@
             </button>
             </span>
             <!-- span is necessary because the browser doesn't show the tooltip when the button is disabled -->
-            <span class="btn-add" mdTooltip="You have an unfinished card open."
+            <span class="btn-floating" mdTooltip="You have an unfinished card open."
                   [mdTooltipPosition]="'left'" [mdTooltipDisabled]="!newCard">
                 <button md-fab [disabled]="newCard" (click)="newWork()">
                     <md-icon>add</md-icon>
@@ -32,9 +32,29 @@
             </h2>
 
             <div class="container">
-                <chy-work-card *ngFor="let work of works" [projects]="projects" [work]="work"
-                               (saveWork)="saveWork(work)" (persistNewWork)="persistNewWork(work)"
-                               (deleteWork)="deleteWork(work)"></chy-work-card>
+                <span *ngIf="works || async">
+                    <span *ngIf="works.length; else noData">
+                        <chy-work-card *ngFor="let work of works"
+                                       [work]="work"
+                                       [projects]="projects"
+                                       [comments]="comments"
+                                       (saveWork)="saveWork(work)" (persistNewWork)="persistNewWork(work)"
+                                       (deleteWork)="deleteWork(work)"></chy-work-card>
+                    </span>
+
+                    <ng-template #noData>
+                        <md-card class="no-data">
+                            <md-card-content>
+                                <button md-button class="no-data-action" (click)="newWork()">
+                                    <md-icon>
+                                        timelapse
+                                    </md-icon>
+                                    <p>Add working hours for this day!</p>
+                                </button>
+                            </md-card-content>
+                        </md-card>
+                    </ng-template>
+                </span>
             </div>
         </div>
     </div>

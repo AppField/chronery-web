@@ -5,7 +5,7 @@
     height: 100vh;
 
     .mat-sidenav {
-      min-width: 190px;
+      min-width: 205px;
       background-color: $subsidenav-bg;
       color: $sidenav-text;
     }
@@ -15,12 +15,6 @@
     .btn-today {
       display: block;
       margin: 0 auto;
-    }
-
-    .btn-add {
-      position: relative;
-      top: 35px;
-      right: 1rem;
     }
   }
 

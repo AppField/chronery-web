@@ -3,7 +3,22 @@
 </md-toolbar>
 
 <div class="inner-sidenav-content">
-    <p>
-        settings works!
-    </p>
+    <md-list class="comments-list">
+        <h3 md-subheader>Predefined Comments (max. 5)</h3>
+        <md-list-item *ngFor="let comment of commentsDB.dataChange | async" chyMaterialActive>
+            <md-form-field floatPlaceholder="never">
+                <input mdInput placeholder="Comment" [(ngModel)]="comment.value" (blur)="updateComment(comment)"
+                       (keyup.enter)="updateComment(comment)" autocomplete="off"/>
+            </md-form-field>
+            <button md-icon-button (click)="deleteComment(comment)">
+                <md-icon>close</md-icon>
+            </button>
+        </md-list-item>
+        <md-list-item chyMaterialActive *ngIf="commentsDB.data?.length < 5">
+            <md-form-field floatPlaceholder="never">
+                <input mdInput placeholder="New Comment" [(ngModel)]="newComment.value" (blur)="createComment()"
+                       (keyup.enter)="createComment()" autocomplete="off"/>
+            </md-form-field>
+        </md-list-item>
+    </md-list>
 </div>

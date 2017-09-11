@@ -1,9 +1,61 @@
 <md-toolbar color="primary" class="mat-elevation-z8">
-  Dashboard
+    Dashboard
 </md-toolbar>
 
 <div class="inner-sidenav-content">
-  <p>
-    dashboard works!
-  </p>
+    <h2>
+        Today's date:
+        <button md-button (click)="navigateToWorkingHours()">
+            <h2 class="inline-h2">{{ todaysDate | date:'dd. MMMM yyyy'}}</h2>
+        </button>
+    </h2>
+
+    <md-card class="chart-card" *ngIf="chartData || async; else loading">
+        <md-card-header>
+            <md-card-title>
+                <h3>
+                    <button md-icon-button (click)="previousMonth()">
+                        <md-icon>chevron_left</md-icon>
+                    </button>
+                    <span class="month-button-text">
+                        {{ chartMonth | date:'MMMM yyyy' }}
+                    </span>
+                    <button md-icon-button (click)="nextMonth()">
+                        <md-icon>chevron_right</md-icon>
+                    </button>
+                </h3>
+            </md-card-title>
+        </md-card-header>
+        <md-card-content *ngIf="chartData.length; else noData">
+            <chy-working-hours-chart [data]="chartData"></chy-working-hours-chart>
+        </md-card-content>
+    </md-card>
+
+    <ng-template #loading>
+        <md-progress-spinner
+                color="primary"
+                mode="indeterminate">
+        </md-progress-spinner>
+    </ng-template>
+
+    <ng-template #noData>
+        <md-card-content class="no-data">
+            <p class="no-data-text">It's empty in this month.<br>
+                Go ahead and do something!</p>
+            <div fxLayout="row" fxLayout.lt-sm="column">
+                <button md-button fxFlex="50" class="no-data-action" (click)="navigateToChartMonth()">
+                    <md-icon>
+                        timelapse
+                    </md-icon>
+                    <p>Add working hours!</p>
+                </button>
+                <button md-button fxFlex="50" class="no-data-action" (click)="navigateToProjects()">
+                    <md-icon>
+                        work
+                    </md-icon>
+                    <p>Add projects!</p>
+                </button>
+            </div>
+        </md-card-content>
+    </ng-template>
 </div>

@@ -1,11 +1,13 @@
-import {Component, EventEmitter, Input, OnInit, Output, ElementRef, HostListener} from '@angular/core';
-import {Work} from '../../models/work';
-import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {Project} from '../../models/project';
-import {Observable} from 'rxjs/Observable';
+import { Component, EventEmitter, Input, OnInit, Output, ElementRef, HostListener } from '@angular/core';
+import { Work } from '../../models/work';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Project } from '../../models/project';
+import { Observable } from 'rxjs/Observable';
+import { Comment } from '../../models/comment';
 import 'rxjs/add/operator/startWith';
 import 'rxjs/add/operator/map';
 import * as moment from 'moment/moment';
+import { Utility } from '../../utils/utility';
 
 @Component({
 	selector: 'chy-work-card',
@@ -16,12 +18,14 @@ import * as moment from 'moment/moment';
 
 export class WorkCardComponent implements OnInit {
 	@Input() projects: Project[];
+	@Input() comments: Comment[];
 	@Input() work: Work;
 	@Output() saveWork = new EventEmitter<Work>();
 	@Output() deleteWork = new EventEmitter<Work>();
 	@Output() persistNewWork = new EventEmitter<Work>();
 
 	filteredProjects: Observable<Project[]>;
+	filteredComments: Observable<Comment[]>;
 	workForm: FormGroup;
 	toControl: AbstractControl;
 	private backupWork: Work;
@@ -51,9 +55,6 @@ export class WorkCardComponent implements OnInit {
 		}
 	}
 
-	// @HostListener('click') onClick() {
-	// 	this.cardActive = true;
-	// }
 
 	constructor(public fb: FormBuilder, private elRef: ElementRef) {
 	}
@@ -83,6 +84,11 @@ export class WorkCardComponent implements OnInit {
 			.map(project => project && typeof project === 'object' ? project.name : project)
 			.map(name => name ? this.filterProjects(name) : this.projects.slice());
 
+		this.filteredComments = this.workForm.controls['comment'].valueChanges
+			.startWith(null)
+			.map(comment => comment && typeof comment === 'object' ? comment.value : comment)
+			.map(value => value ? this.filterComments(value) : this.comments.slice());
+
 		this.toControl = this.workForm.controls['to'];
 		this.workForm.controls['from'].valueChanges.subscribe((value) => {
 			this.workForm.controls['to'].updateValueAndValidity();
@@ -107,7 +113,11 @@ export class WorkCardComponent implements OnInit {
 	}
 
 	filterProjects(val: string) {
-		return this.projects.filter(project => new RegExp(val, 'i').test(project.name));
+		return this.projects.filter((project: Project) => new RegExp(val, 'i').test(project.name));
+	}
+
+	filterComments(val: string) {
+		return this.comments.filter((comment: Comment) => new RegExp(val, 'i').test(comment.value));
 	}
 
 	displayFn(project: Project) {
@@ -165,6 +175,12 @@ export class WorkCardComponent implements OnInit {
 			if (!this.work.hasOwnProperty('_id')) {
 				this.persistNewWork.emit(this.work);
 			}
+		}
+	}
+
+	checkTo(): void {
+		if (this.workForm.controls['to'].value === '00:00') {
+			this.workForm.controls['to'].setValue(Utility.getCurrentTimeString());
 		}
 	}
 

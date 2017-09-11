@@ -1,45 +1,54 @@
-import {Component, OnInit, OnDestroy, ChangeDetectorRef, AfterViewInit} from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import * as moment from 'moment/moment';
-import {Project} from '../../models/project';
-import {Observable} from 'rxjs/Observable';
-import {FormControl} from '@angular/forms';
-import {ProjectsDbService} from '../../services/projects-db/projects-db.service';
-import {Subscription} from 'rxjs/Subscription';
-import {DataSource} from '@angular/cdk';
-import {WorkingHoursDbService} from '../../services/working-hours-db/working-hours-db.service';
-import {Work} from '../../models/work';
-import {WorkingHoursFilter} from '../../models/working-hours-filter';
-import {Utility} from '../../utils/utility';
+import { Project } from '../../models/project';
+import { Observable } from 'rxjs/Observable';
+import { FormControl } from '@angular/forms';
+import { ProjectsDbService } from '../../services/projects-db/projects-db.service';
+import { Subscription } from 'rxjs/Subscription';
+import { DataSource } from '@angular/cdk/collections';
+import { WorkingHoursDbService } from '../../services/working-hours-db/working-hours-db.service';
+import { Work } from '../../models/work';
+import { WorkingHoursFilter } from '../../models/working-hours-filter';
+import { Utility } from '../../utils/utility';
+import { Angular2Csv } from 'angular2-csv';
+import { ObservableMedia } from '@angular/flex-layout';
 
 @Component({
 	selector: 'chy-report',
 	templateUrl: './report.component.html',
 	styleUrls: ['./report.component.scss']
 })
-export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
+export class ReportComponent implements OnInit, OnDestroy {
 	date: Date;
 
 	startDate: Date;
 	endDate: Date;
 	projects: Project[];
 	filteredProjects: Observable<Project[]>;
+	selectedProject: Project;
 	projectsCtrl: FormControl;
 	projectsSub: Subscription;
-	emptyProject = new Project();
+	totalTime: string;
 
 	dataSource: ReportSource | null;
 	displayedColumns = ['date', 'from', 'to', 'spent', 'projectNumber', 'projectName', 'comment'];
 
-	constructor(private projectsDB: ProjectsDbService, private workingHoursDB: WorkingHoursDbService, private detector: ChangeDetectorRef) {
+	constructor(private projectsDB: ProjectsDbService,
+				private workingHoursDB: WorkingHoursDbService,
+				private detector: ChangeDetectorRef,
+				private media: ObservableMedia) {
+
 
 		// initialize start and end date for the date pickers
 		this.startDate = moment().startOf('month').toDate();
 		this.endDate = moment().endOf('month').toDate();
 
 		this.projectsCtrl = new FormControl();
-
+		const allProjects = new Project(undefined, 'All');
+		this.selectedProject = allProjects;
+		this.projects = [allProjects];
 		this.projectsSub = this.projectsDB.dataChange.subscribe(data => {
-			this.projects = data;
+			this.projects = this.projects.concat(data);
 			this.filteredProjects = this.projectsCtrl.valueChanges
 				.startWith(null)
 				.map(project => project && typeof project === 'object' ? project.name : project)
@@ -54,33 +63,38 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
 	ngOnInit() {
 	}
 
-	updateReport(event?, project?: Project): void {
-		setTimeout(() => {
-			const filter = new WorkingHoursFilter();
-			if (this.startDate) {
-				filter.date = Utility.encodeDate(this.startDate);
-			}
-			if (this.endDate) {
-				filter.toDate = Utility.encodeDate(this.endDate);
-			}
-			if (project) {
-				if (event) {
-					if (event.source.selected) {
-						if (project._id) {
-							filter.project = project;
-						}
-					} else {
-						return
-					}
-				}
-			}
-			this.workingHoursDB.getWorkingHours(filter);
-		});
+	get isMobile(): boolean {
+		return !this.media.isActive('gt-sm');
 	}
 
-	ngAfterViewInit() {
-		// TODO: Remove this as it is a workaround to make the table visible when the page got reloaded
-		this.detector.detectChanges();
+	get hasData(): boolean {
+		return this.workingHoursDB.data.length > 0;
+	}
+
+
+	updateReport(): void {
+		const filter = new WorkingHoursFilter();
+		if (this.startDate) {
+			filter.date = Utility.encodeDate(this.startDate);
+		}
+		if (this.endDate) {
+			filter.toDate = Utility.encodeDate(this.endDate);
+		}
+		if (this.selectedProject) {
+			if (this.selectedProject.hasOwnProperty('_id')) {
+				filter.project = this.selectedProject;
+			}
+		}
+		this.workingHoursDB.getWorkingHours(filter).then(data => {
+			const times = data.map((work: Work) => {
+				return work.spent;
+			});
+			if (times.length) {
+				this.totalTime = Utility.sumTotalTimes(times);
+			} else {
+				this.totalTime = null;
+			}
+		});
 	}
 
 	filterProjects(val: string) {
@@ -90,11 +104,16 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
 	displayFn(project: Project) {
 		if (project) {
 			if (project.name) {
-				return project.name + '  |  ' + project.number
+				return project.number ? `${project.name} | ${project.number}` : project.name;
 			} else {
 				return '';
 			}
 		}
+	}
+
+	exportReportToCSV(): void {
+		const data = this.workingHoursDB.dataChange.getValue();
+		const report = new Angular2Csv(data, `Chronery Report form ${Utility.encodeDate(this.startDate)} to ${Utility.encodeDate(this.endDate)}`, {showLabels: true});
 	}
 
 	ngOnDestroy() {
@@ -104,6 +123,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
 export class ReportSource extends DataSource<any> {
+
 	constructor(private workingHoursDB: WorkingHoursDbService) {
 		super();
 	}

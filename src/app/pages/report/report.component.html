@@ -1,5 +1,11 @@
 <md-toolbar color="primary" class="mat-elevation-z8">
     Report
+    <span class="fill-remaining-space">
+    </span>
+    <button md-button (click)="exportReportToCSV()">
+        Export
+        <md-icon>import_export</md-icon>
+    </button>
 </md-toolbar>
 
 <div class="inner-sidenav-content">
@@ -7,32 +13,32 @@
         <div class="table-header" fxLayout.gt-xs="row" fxLayout="column" fxLayoutGap="20px" fxLayoutGap.xs="0">
 
             <!-- Start date -->
-            <md-input-container fxFlex="100">
-                <input mdInput [mdDatepicker]="fromPicker" placeholder="Starts at" value="{{startDate}}"
-                       [max]="endDate" [(ngModel)]="startDate">
-                <button mdSuffix [mdDatepickerToggle]="fromPicker"></button>
-            </md-input-container>
-            <md-datepicker #fromPicker [startAt]="startDate"
-                           (selectedChanged)="updateReport()"></md-datepicker>
+            <md-form-field fxFlex="100">
+                <input mdInput [mdDatepicker]="fromPicker" placeholder="Starts at"
+                       [max]="endDate" [(ngModel)]="startDate" autocomplete="off">
+                <md-datepicker-toggle mdSuffix [for]="fromPicker"></md-datepicker-toggle>
+                <md-datepicker #fromPicker [startAt]="startDate"
+                               (selectedChanged)="updateReport()"
+                               [touchUi]="isMobile">
+                </md-datepicker>
+            </md-form-field>
 
             <!-- End date -->
-            <md-input-container fxFlex="100">
+            <md-form-field fxFlex="100">
                 <input mdInput [mdDatepicker]="toPicker" placeholder="Ends at"
-                       value="{{endDate}}" [min]="startDate" [(ngModel)]="endDate">
-                <button mdSuffix [mdDatepickerToggle]="toPicker"></button>
-            </md-input-container>
-            <md-datepicker #toPicker (selectedChanged)="updateReport()"></md-datepicker>
+                       [min]="startDate" [(ngModel)]="endDate" autocomplete="off">
+                <md-datepicker-toggle mdSuffix [for]="toPicker"></md-datepicker-toggle>
+                <md-datepicker #toPicker (selectedChanged)="updateReport()" [touchUi]="isMobile"></md-datepicker>
+            </md-form-field>
 
             <!-- Proejct Autocomplete -->
-            <md-input-container fxFlex="100">
-                <input mdInput placeholder="Project" [mdAutocomplete]="auto" [formControl]="projectsCtrl">
+            <md-form-field fxFlex="100">
+                <input mdInput placeholder="Project" [mdAutocomplete]="auto" [formControl]="projectsCtrl" [(ngModel)]="selectedProject">
                 <md-error>Required</md-error>
-            </md-input-container>
-            <md-autocomplete #auto="mdAutocomplete" [displayWith]="displayFn">
-                <md-option (onSelectionChange)="updateReport($event, emptyProject)"></md-option>
-                <md-option *ngFor="let project of filteredProjects | async" [value]="project"
-                           (onSelectionChange)="updateReport($event, project)">
-                    <span>{{ project.name }}  <span *ngIf="project._id">|</span>  {{ project.number }} </span>
+            </md-form-field>
+            <md-autocomplete #auto="mdAutocomplete" [displayWith]="displayFn" (optionSelected)="updateReport()">
+                <md-option *ngFor="let project of filteredProjects | async" [value]="project">
+                    <span>{{ project.name }}  <span *ngIf="project.number">|</span>  <small>{{ project.number }} </small></span>
                 </md-option>
             </md-autocomplete>
         </div>
@@ -41,43 +47,75 @@
         <md-table #table [dataSource]="dataSource">
             <!-- Project number column -->
             <ng-container cdkColumnDef="date">
-                <md-header-cell *cdkHeaderCellDef>Date</md-header-cell>
-                <md-cell *cdkCellDef="let row"><strong>{{row.date | encodedDate}}</strong></md-cell>
+                <md-header-cell *cdkHeaderCellDef><strong>Date</strong></md-header-cell>
+                <md-cell *cdkCellDef="let row" fxLayout="row">
+                    <div fxHide.gt-sm fxFlex="50"><strong>Date</strong></div>
+                    <div fxFlex="50"><strong>{{row.date | encodedDate}}</strong></div>
+                </md-cell>
             </ng-container>
 
             <!-- Project name column -->
             <ng-container cdkColumnDef="from">
                 <md-header-cell *cdkHeaderCellDef>From</md-header-cell>
-                <md-cell *cdkCellDef="let row">{{row.from}}</md-cell>
+                <md-cell *cdkCellDef="let row" fxLayout="row">
+                    <div fxHide.gt-sm fxFlex="50"><strong>From</strong></div>
+                    <div fxFlex="50">{{row.from}} h</div>
+                </md-cell>
             </ng-container>
 
             <ng-container cdkColumnDef="to">
                 <md-header-cell *cdkHeaderCellDef>To</md-header-cell>
-                <md-cell *cdkCellDef="let row">{{row.to}}</md-cell>
+                <md-cell *cdkCellDef="let row" fxLayout="row">
+                    <div fxHide.gt-sm fxFlex="50">
+                        <strong>To</strong>
+                    </div>
+                    <div fxFlex="50">{{row.to}} h</div>
+                </md-cell>
             </ng-container>
 
             <ng-container cdkColumnDef="spent">
-                <md-header-cell *cdkHeaderCellDef>Spent</md-header-cell>
-                <md-cell *cdkCellDef="let row"><strong>{{row.spent}}</strong></md-cell>
+                <md-header-cell *cdkHeaderCellDef><strong>Spent</strong></md-header-cell>
+                <md-cell *cdkCellDef="let row" fxLayout="row">
+                    <div fxHide.gt-sm fxFlex="50"><strong>Spent</strong></div>
+                    <div fxFlex="50"><strong>{{row.spent}} h</strong></div>
+                </md-cell>
             </ng-container>
 
             <ng-container cdkColumnDef="projectNumber">
-                <md-header-cell *cdkHeaderCellDef>ProjectNumber</md-header-cell>
-                <md-cell *cdkCellDef="let row">{{row.projectNumber}}</md-cell>
+                <md-header-cell *cdkHeaderCellDef>Project Number</md-header-cell>
+                <md-cell *cdkCellDef="let row" fxLayout="row">
+                    <div fxHide.gt-sm fxFlex="50"><strong>Project Number</strong></div>
+                    <div fxFlex="50">{{row.projectNumber}}</div>
+                </md-cell>
             </ng-container>
 
             <ng-container cdkColumnDef="projectName">
                 <md-header-cell *cdkHeaderCellDef>Project Name</md-header-cell>
-                <md-cell *cdkCellDef="let row">{{row.projectName}}</md-cell>
+                <md-cell *cdkCellDef="let row" fxLayout="row">
+                    <div fxHide.gt-sm fxFlex="50"><strong>Project Name</strong></div>
+                    <div fxFlex="50">{{row.projectName}}</div>
+                </md-cell>
             </ng-container>
 
             <ng-container cdkColumnDef="comment">
                 <md-header-cell *cdkHeaderCellDef>Comment</md-header-cell>
-                <md-cell *cdkCellDef="let row">{{row.comment}}</md-cell>
+                <md-cell *cdkCellDef="let row" fxLayout="row">
+                    <div fxHide.gt-sm fxFlex="50"><strong>Comment</strong></div>
+                    <div fxFlex="50">{{row.comment}}</div>
+                </md-cell>
             </ng-container>
 
-            <md-header-row *cdkHeaderRowDef="displayedColumns"></md-header-row>
+            <md-header-row *cdkHeaderRowDef="displayedColumns" fxHide.xs fxHide.sm></md-header-row>
             <md-row *cdkRowDef="let row; columns: displayedColumns;"></md-row>
         </md-table>
+
+        <div class="table-footer" *ngIf="!hasData">
+            <span class="total-header">No times found for the selected period and project</span>
+        </div>
+
+        <div class="table-footer" *ngIf="totalTime">
+            <span class="total-header">Total:</span>
+            <span class="total-hours">{{totalTime}} h</span>
+        </div>
     </div>
 </div>

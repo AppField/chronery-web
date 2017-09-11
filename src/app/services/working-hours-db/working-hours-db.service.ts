@@ -1,11 +1,11 @@
-import {Injectable} from '@angular/core';
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
-import {Work} from '../../models/work';
+import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Work } from '../../models/work';
 import PouchDB from 'pouchdb';
 import PouchDBFind from 'pouchdb-find';
 import Database = PouchDB.Database;
 import FindResponse = PouchDB.Find.FindResponse;
-import {WorkingHoursFilter} from '../../models/working-hours-filter';
+import { WorkingHoursFilter } from '../../models/working-hours-filter';
 
 
 @Injectable()
@@ -14,9 +14,12 @@ export class WorkingHoursDbService {
 	dataChange: BehaviorSubject<Work[]> = new BehaviorSubject<Work[]>([]);
 	db: Database<Work>;
 
+	get data(): Work[] {
+		return this.dataChange.value;
+	}
+
 	constructor() {
 		PouchDB.plugin(PouchDBFind);
-		PouchDB.debug.enable('pouchdb:find');
 		this.db = new PouchDB('chy-working-hours');
 		this.db.createIndex({
 			index: {fields: ['date', 'projectId']}
@@ -29,31 +32,31 @@ export class WorkingHoursDbService {
 		});
 	}
 
-	getWorkingHours(filter: WorkingHoursFilter): void {
-		let selectors: any = {};
-		if (filter.date) {
-			if (filter.toDate) {
-				selectors = {
-					'date': {
-						$gte: filter.date,
-						$lte: filter.toDate
-					}
-				}
-			} else {
-				selectors.date = filter.date;
-			}
-		}
-		if (filter.project) {
-			selectors['projectId'] = filter.project._id;
-		}
+	getWorkingHours(filter: WorkingHoursFilter): Promise<Work[]> {
+		return new Promise<Work[]>(resolve => {
+			const selectors = this.buildFilter(filter);
 
-		this.db.find({
-			selector: selectors
-			// sort: [{_id: 'desc'}]
-		}).then(data => {
-			console.log(data);
-			this.dataChange.next(data.docs);
+			return this.db.find({
+				selector: selectors,
+				sort: [{date: 'desc'}]
+			}).then(data => {
+				this.dataChange.next(data.docs);
+				resolve(data.docs);
+			});
 		});
+	}
+
+	getWorkingHoursData(filter: WorkingHoursFilter): Promise<Work[]> {
+		return new Promise<Work[]>(resolve => {
+			const selectors = this.buildFilter(filter);
+
+			return this.db.find({
+				selector: selectors,
+				sort: [{date: 'desc'}]
+			}).then(data => {
+				resolve(data.docs);
+			});
+		})
 	}
 
 
@@ -102,6 +105,26 @@ export class WorkingHoursDbService {
 				this.dataChange.next(data);
 			}
 		}
+	}
+
+	private buildFilter(filter) {
+		let selectors: any = {};
+		if (filter.date) {
+			if (filter.toDate) {
+				selectors = {
+					'date': {
+						$gte: filter.date,
+						$lte: filter.toDate
+					}
+				}
+			} else {
+				selectors.date = filter.date;
+			}
+		}
+		if (filter.project) {
+			selectors['projectId'] = filter.project._id;
+		}
+		return selectors
 	}
 
 }

@@ -1,0 +1,33 @@
+@import '../../../chy-theme';
+
+.bar-chart {
+  width: 100%;
+
+  svg {
+    .bar {
+      transition: fill 400ms;
+      fill: mat-color($primary);
+    }
+    .highlight {
+      transition: fill 400ms;
+      fill: mat-color($accent);
+      cursor: pointer;
+    }
+
+    .tooltip {
+      fill: $subsidenav-bg;
+      border-radius: 4px;
+    }
+    .tooltip-text {
+      fill: $sidenav-text;
+      width: 100%;
+    }
+
+    .tooltip:after {
+    }
+
+    text {
+      fill: $sidenav-bg;
+    }
+  }
+}
