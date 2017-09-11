@@ -179,7 +179,7 @@ export class WorkCardComponent implements OnInit {
 	}
 
 	checkTo(): void {
-		if(this.workForm.controls['to'].value === '00:00') {
+		if (this.workForm.controls['to'].value === '00:00') {
 			this.workForm.controls['to'].setValue(Utility.getCurrentTimeString());
 		}
 	}

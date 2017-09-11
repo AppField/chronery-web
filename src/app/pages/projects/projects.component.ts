@@ -45,6 +45,20 @@ export class ProjectsComponent implements OnInit {
 			});
 	}
 
+	trackByFn(index, item): string {
+		return item._id;
+	}
+
+	editProject(project: Project): void {
+		this.openProjectDialog(project);
+	}
+
+	editMobileProject(project: Project): void {
+		if (!this.media.isActive('gt-sm')) {
+			this.openProjectDialog(project);
+		}
+	}
+
 	openProjectDialog(project: Project = new Project()): void {
 		const dialogRef = this.dialog.open(ProjectDialogComponent, {
 			data: project
@@ -53,34 +67,20 @@ export class ProjectsComponent implements OnInit {
 			if (result) {
 				if (result.hasOwnProperty('_id')) {
 					this.projectsDB.updateProject(result);
-					this.detector.detectChanges();
 				} else {
 					this.projectsDB.createProject(result);
+					// TODO: Remove workaraound which makes shure that the newly created project is correctly shown.
+					setTimeout(() => {
+						this.detector.detectChanges();
+					}, 100)
 				}
 			}
 		});
 	}
-
-	openMobileProjectDialog(project: Project = new Project()): void {
-		if (!this.media.isActive('gt-sm')) {
-			const dialogRef = this.dialog.open(ProjectDialogComponent, {
-				data: project
-			});
-			dialogRef.afterClosed().subscribe(result => {
-				if (result) {
-					if (result.hasOwnProperty('_id')) {
-						this.projectsDB.updateProject(result);
-					} else {
-						this.projectsDB.createProject(result);
-					}
-				}
-			});
-		}
-	}
 }
 
 export class ProjectSource extends DataSource<any> {
-	_filterChange = new BehaviorSubject('');
+	private _filterChange = new BehaviorSubject('');
 
 	get filter(): string {
 		return this._filterChange.value;
@@ -102,7 +102,7 @@ export class ProjectSource extends DataSource<any> {
 		];
 
 		return Observable.merge(...displayDataChanges).map(() => {
-			return this.projectsDB.data.slice().filter((item: Project) => {
+			return this.projectsDB.dataChange.value.slice().filter((item: Project) => {
 				const searchStr = (item.number + item.name).toLowerCase();
 				return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
 			});
