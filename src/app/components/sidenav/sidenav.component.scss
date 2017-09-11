@@ -25,6 +25,10 @@
 
   .mat-sidenav {
     background-color: $sidenav-bg;
+
+    .sidenav-label {
+      white-space: nowrap;
+    }
   }
 
   .mat-sidenav-container {

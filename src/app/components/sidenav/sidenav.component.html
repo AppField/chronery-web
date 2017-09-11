@@ -1,19 +1,20 @@
-<md-sidenav-container>
-    <md-sidenav mode="side" opened="true" class="chy-sidenav">
+<md-sidenav-container #sidenavContainer>
+    <md-sidenav mode="side" opened="true" class="chy-sidenav" [@sidenavState]="state">
         <md-toolbar>
             <span *ngIf="!isMobile">Chronery</span>
-            <!--<span *ngIf="!isMobile; else menuButton">Chronery</span>-->
-            <!--<ng-template #menuButton>-->
-                <!--<button md-icon-button (click)="toggleCollapse()">-->
-                    <!--<md-icon>menu</md-icon>-->
-                <!--</button>-->
-            <!--</ng-template>-->
+            <span *ngIf="!isMobile; else menuButton">Chronery</span>
+            <ng-template #menuButton>
+                <button md-icon-button (click)="toggleCollapse()">
+                    <md-icon>menu</md-icon>
+                </button>
+            </ng-template>
         </md-toolbar>
         <md-nav-list>
             <a md-list-item *ngFor="let item of routerItems" routerLink="{{item.link}}" routerLinkActive="active"
                (click)="recollapseNav()">
                 <md-icon md-list-icon>{{item.icon}}</md-icon>
-                <span *ngIf="!isMobile || !collapsed">{{item.display}}</span>
+                <!--<span *ngIf="!isMobile || !collapsed">{{item.display}}</span>-->
+                <span class="sidenav-label" [@labelState]="state">{{item.display}}</span>
             </a>
         </md-nav-list>
     </md-sidenav>
