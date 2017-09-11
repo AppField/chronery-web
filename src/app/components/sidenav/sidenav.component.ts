@@ -32,12 +32,10 @@ interface RouterItem {
 		]),
 		trigger('labelState', [
 			state('expandedState', style({
-				opacity: 1,
-				visibility: 'visible',
+				opacity: 1
 			})),
 			state('collapsedState', style({
-				opacity: 0,
-				visibility: 'hidden'
+				opacity: 0
 			})),
 			transition('expandedState => collapsedState', animate('400ms cubic-bezier(0.25, 0.8, 0.25, 1)')),
 			transition('collapsedState => expandedState', animate('400ms cubic-bezier(0.25, 0.8, 0.25, 1)'))
@@ -46,7 +44,6 @@ interface RouterItem {
 })
 export class SidenavComponent implements OnInit, AfterViewInit {
 	routerItems: RouterItem[];
-	collapsed = true;
 	state = 'expandedState';
 
 	@ViewChild('sidenavContainer') sidenav;
@@ -85,10 +82,10 @@ export class SidenavComponent implements OnInit, AfterViewInit {
 	}
 
 	ngOnInit() {
-		if (this.media.isActive('xs')) {
-			this.collapsed = true;
-			this.state = 'collapsedState';
-		}
+		this.state = (this.media.isActive('xs')) ? 'collapsedState' : 'expandedState';
+		this.media.subscribe(media => {
+			this.state = (media.mqAlias === 'xs') ? 'collapsedState' : 'expandedState';
+		});
 	}
 
 	ngAfterViewInit() {
@@ -107,13 +104,11 @@ export class SidenavComponent implements OnInit, AfterViewInit {
 	}
 
 	toggleCollapse(): void {
-		this.collapsed = !this.collapsed;
 		this.state = (this.state === 'expandedState') ? 'collapsedState' : 'expandedState';
 	}
 
 	recollapseNav(): void {
 		if (this.isMobile) {
-			this.collapsed = true;
 			this.state = 'collapsedState';
 		}
 	}
