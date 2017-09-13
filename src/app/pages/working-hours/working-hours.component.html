@@ -31,9 +31,8 @@
                 {{ date | date:'dd. MMMM yyyy' }}
             </h2>
 
-            <div class="container">
                 <span *ngIf="works || async">
-                    <span *ngIf="works.length; else noData">
+                    <span class="container" *ngIf="works.length; else noData">
                         <chy-work-card *ngFor="let work of works"
                                        [work]="work"
                                        [projects]="projects"
@@ -55,7 +54,6 @@
                         </md-card>
                     </ng-template>
                 </span>
-            </div>
         </div>
     </div>
 </md-sidenav-container>
