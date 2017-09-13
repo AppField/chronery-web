@@ -12,7 +12,7 @@
             <a md-list-item *ngFor="let item of routerItems" routerLink="{{item.link}}" routerLinkActive="active"
                (click)="recollapseNav()">
                 <md-icon md-list-icon>{{item.icon}}</md-icon>
-                <!--<span *ngIf="!isMobile || !collapsed">{{item.display}}</span>-->
+                <!--<span *ngIf="!isMobile || state === 'expandedState'">{{item.display}}</span>-->
                 <span class="sidenav-label" [@labelState]="state">{{item.display}}</span>
             </a>
         </md-nav-list>
