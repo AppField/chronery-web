@@ -35,4 +35,14 @@
   .mat-sidenav-container {
     width: 100%;
   }
+
+  .version-container {
+    color: mat-color($primary);
+    text-align: center;
+    padding: 1rem 0;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%,  0)
+  }
 }
