@@ -1,5 +1,9 @@
 :host {
 
+  .mat-form-field {
+    width: auto;
+  }
+
   .mat-dialog-content {
     display: flex;
     max-width:250px;
