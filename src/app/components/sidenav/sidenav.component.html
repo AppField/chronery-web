@@ -16,8 +16,15 @@
                 <span class="sidenav-label" [@labelState]="state">{{item.display}}</span>
             </a>
         </md-nav-list>
-        <div class="version-container">
-            V 0.4.1
+
+        <div class="bottom-container">
+            <div class="version">
+                V 0.4.1
+            </div>
+
+            <button md-raised-button class="login-button" color="primary" (click)="openLogin()">
+                Login
+            </button>
         </div>
     </md-sidenav>
 

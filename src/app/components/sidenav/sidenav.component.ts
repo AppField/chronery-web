@@ -8,6 +8,8 @@ import {
 	animate,
 	transition
 } from '@angular/animations';
+import { LoginDialogComponent } from '../../user/login-dialog/login-dialog.component';
+import { MdDialog } from '@angular/material';
 
 interface RouterItem {
 	link: string;
@@ -49,7 +51,8 @@ export class SidenavComponent implements OnInit, AfterViewInit {
 	@ViewChild('sidenavContainer') private sidenav;
 
 	constructor(private media: ObservableMedia,
-				private detector: ChangeDetectorRef) {
+				private detector: ChangeDetectorRef,
+				private dialog: MdDialog) {
 		// ToDo: Working Hours should remain active when another day is selected in subsidenav
 		this.routerItems = [
 			{
@@ -111,5 +114,9 @@ export class SidenavComponent implements OnInit, AfterViewInit {
 		if (this.isMobile) {
 			this.state = 'collapsedState';
 		}
+	}
+
+	openLogin(): void {
+		const dialogRef = this.dialog.open(LoginDialogComponent);
 	}
 }

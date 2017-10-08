@@ -45,6 +45,7 @@ import { LocalStorageService } from './services/local-storage/local-storage.serv
 import { EncodedDatePipe } from './pipes/encoded-date/encoded-date.pipe';
 import { WorkingHoursChartComponent } from './components/working-hours-chart/working-hours-chart.component';
 import { CommentsDbService } from './services/comments-db/comments-db.service';
+import { LoginDialogComponent } from './user/login-dialog/login-dialog.component';
 
 @NgModule({
 	declarations: [
@@ -61,9 +62,10 @@ import { CommentsDbService } from './services/comments-db/comments-db.service';
 		ProjectDialogComponent,
 		MaterialActiveDirective,
 		EncodedDatePipe,
-		WorkingHoursChartComponent
+		WorkingHoursChartComponent,
+		LoginDialogComponent
 	],
-	entryComponents: [MonthYearDialogComponent, ProjectDialogComponent],
+	entryComponents: [MonthYearDialogComponent, ProjectDialogComponent, LoginDialogComponent],
 	imports: [
 		BrowserModule,
 		FlexLayoutModule,
