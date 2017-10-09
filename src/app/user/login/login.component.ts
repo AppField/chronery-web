@@ -25,9 +25,12 @@ export class LoginComponent implements OnInit {
 	}
 
 	login(): void {
-		const email = this.loginForm.controls['email'].value;
-		const password = this.loginForm.controls['password'].value;
-		this.authService.signIn(email, password);
+		if (this.loginForm.valid) {
+			alert('LOGING IN');
+			const email = this.loginForm.controls['email'].value;
+			const password = this.loginForm.controls['password'].value;
+			this.authService.signIn(email, password);
+		}
 	}
 
 	get emailErrorMessage(): string {
