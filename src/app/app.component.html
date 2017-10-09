@@ -1,2 +1,3 @@
-<chy-sidenav>
+<chy-sidenav *ngIf="isAuthenticated">
 </chy-sidenav>
+<chy-authenticate *ngIf="!isAuthenticated"></chy-authenticate>

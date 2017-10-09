@@ -45,7 +45,10 @@ import { LocalStorageService } from './services/local-storage/local-storage.serv
 import { EncodedDatePipe } from './pipes/encoded-date/encoded-date.pipe';
 import { WorkingHoursChartComponent } from './components/working-hours-chart/working-hours-chart.component';
 import { CommentsDbService } from './services/comments-db/comments-db.service';
-import { LoginDialogComponent } from './user/login-dialog/login-dialog.component';
+import { LoginComponent } from './user/login/login.component';
+import { AuthService } from './user/auth.service';
+import { RegisterComponent } from './user/register/register.component';
+import { AuthenticateComponent } from './user/authenticate/authenticate.component';
 
 @NgModule({
 	declarations: [
@@ -63,9 +66,11 @@ import { LoginDialogComponent } from './user/login-dialog/login-dialog.component
 		MaterialActiveDirective,
 		EncodedDatePipe,
 		WorkingHoursChartComponent,
-		LoginDialogComponent
+		LoginComponent,
+		RegisterComponent,
+		AuthenticateComponent
 	],
-	entryComponents: [MonthYearDialogComponent, ProjectDialogComponent, LoginDialogComponent],
+	entryComponents: [MonthYearDialogComponent, ProjectDialogComponent],
 	imports: [
 		BrowserModule,
 		FlexLayoutModule,
@@ -78,7 +83,7 @@ import { LoginDialogComponent } from './user/login-dialog/login-dialog.component
 		AppRoutingModule, MdProgressSpinnerModule,
 		CdkTableModule
 	],
-	providers: [WorkingHoursDbService, ProjectsDbService, CommentsDbService, LocalStorageService],
+	providers: [AuthService, WorkingHoursDbService, ProjectsDbService, CommentsDbService, LocalStorageService],
 	bootstrap: [AppComponent]
 })
 export class AppModule {

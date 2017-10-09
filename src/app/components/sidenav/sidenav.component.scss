@@ -45,14 +45,6 @@
     left: 50%;
     transform: translate(-50%,  0);
 
-    .login-button {
-      text-transform: uppercase;
-      font-size: 1.5rem;
-      padding: 1rem;
-      border-radius: 0;
-      width: 100%;
-    }
-
     .version {
       color: mat-color($primary);
       padding: .5rem 0 1rem 0;
