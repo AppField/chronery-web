@@ -30,6 +30,14 @@
                        type="password">
                 <md-error>Required</md-error>
             </md-form-field>
+
+            <!-- Repeat Password -->
+            <md-form-field>
+                <input mdInput placeholder="REPEAT PASSWORD" formControlName="repeatPassword" autocomplete="off"
+                       type="password">
+                <md-error *ngIf="!isPasswordMismatch">Required</md-error>
+                <md-error *ngIf="isPasswordMismatch">Password does not match</md-error>
+            </md-form-field>
         </md-card-content>
 
         <md-card-actions>

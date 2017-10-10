@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../auth.service';
 
 @Component({
@@ -7,9 +7,20 @@ import { AuthService } from '../auth.service';
 	templateUrl: './register.component.html',
 	styleUrls: ['./register.component.scss']
 })
+
+
 export class RegisterComponent implements OnInit {
 	registerForm: FormGroup;
 	email: AbstractControl;
+
+	static matchPasswordValidator(control: FormControl): any {
+		if (control.parent) {
+			const password = control.parent.controls['password'].value;
+			const repeatPassword = control.value;
+			return password === repeatPassword ? true : {mismatch: true};
+		}
+		return null;
+	}
 
 	constructor(public fb: FormBuilder, private authService: AuthService) {
 	}
@@ -20,7 +31,8 @@ export class RegisterComponent implements OnInit {
 			given_name: ['', [Validators.required]],
 			family_name: ['', [Validators.required]],
 			email: ['', [Validators.required, Validators.email]],
-			password: ['', [Validators.required]]
+			password: ['', [Validators.required]],
+			repeatPassword: ['', [Validators.required, RegisterComponent.matchPasswordValidator]]
 		});
 
 		this.email = this.registerForm.controls['email'];
@@ -40,5 +52,9 @@ export class RegisterComponent implements OnInit {
 	get emailErrorMessage(): string {
 		return this.email.hasError('required') ? 'Please enter your E-Mail Address' :
 			this.email.hasError('email') ? 'Not a valid email' : '';
+	}
+
+	get isPasswordMismatch(): boolean {
+		return this.registerForm.controls['repeatPassword'].hasError('mismatch');
 	}
 }
