@@ -5,7 +5,7 @@ import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
-import { CognitoUser, CognitoUserAttribute, CognitoUserPool } from 'amazon-cognito-identity-js';
+import { AuthenticationDetails, CognitoUser, CognitoUserAttribute, CognitoUserPool, CognitoUserSession } from 'amazon-cognito-identity-js';
 
 import { User } from '../models/user';
 
@@ -83,27 +83,44 @@ export class AuthService {
 		return;
 	}
 
-	confirmUser(email: string, code: string) {
-		this.authIsLoading.next(true);
-		const userData = {
-			Email: email,
-		};
-	}
 
 	signIn(email: string, password: string): void {
 		this.authIsLoading.next(true);
 		const authData = {
-			Email: email,
+			Username: email,
 			Password: password
 		};
+
+		const authDetails = new AuthenticationDetails(authData);
+		const userData = {
+			Username: email,
+			Pool: userPool
+		};
+		const cognitoUser = new CognitoUser(userData);
+		const self = this;
+		cognitoUser.authenticateUser(authDetails, {
+			onSuccess(result: CognitoUserSession) {
+				self.authStatusChanged.next(true);
+				self.authDidFail.next(false);
+				self.authIsLoading.next(false);
+				console.log(result);
+			},
+			onFailure(err) {
+				self.authDidFail.next(true);
+				self.authIsLoading.next(false);
+				console.log(err);
+			}
+		});
 		this.authStatusChanged.next(true);
 		return;
 	}
 
 	getAuthenticatedUser() {
+		return userPool.getCurrentUser();
 	}
 
 	logout() {
+		this.getAuthenticatedUser().signOut();
 		this.authStatusChanged.next(false);
 	}
 
@@ -113,7 +130,17 @@ export class AuthService {
 			if (!user) {
 				observer.next(false);
 			} else {
-				observer.next(false);
+				user.getSession((err, session) => {
+					if (err) {
+						observer.next(false);
+					} else {
+						if (session.isValid()) {
+							observer.next(true);
+						} else {
+							observer.next(false);
+						}
+					}
+				});
 			}
 			observer.complete();
 		});
