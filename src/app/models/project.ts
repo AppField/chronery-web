@@ -1,6 +1,5 @@
 export class Project {
 	_id: string;
-	_rev: string;
 	number: string;
 	name: string;
 

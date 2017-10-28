@@ -11,8 +11,9 @@ import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/observable/fromEvent';
 import { MdDialog } from '@angular/material';
 import { ProjectDialogComponent } from '../../components/project-modal/project-dialog.component';
-import { ProjectsDbService } from '../../services/projects-db/projects-db.service';
 import { ObservableMedia } from '@angular/flex-layout';
+import { ProjectsService } from '../../services/projects/projects.service';
+import { ProjectsDbService } from '../../services/projects-db/projects-db.service';
 
 @Component({
 	selector: 'chy-projects',
@@ -26,13 +27,13 @@ export class ProjectsComponent implements OnInit {
 	@ViewChild('filter') filter: ElementRef;
 
 	constructor(public dialog: MdDialog,
-				private detector: ChangeDetectorRef,
-				public projectsDB: ProjectsDbService,
+				private projectsService: ProjectsService,
+				private projectsDB: ProjectsDbService,
 				private media: ObservableMedia) {
 	}
 
 	ngOnInit() {
-		this.dataSource = new ProjectSource(this.projectsDB);
+		this.dataSource = new ProjectSource(this.projectsService);
 
 		Observable.fromEvent(this.filter.nativeElement, 'keyup')
 			.debounceTime(150)
@@ -65,15 +66,16 @@ export class ProjectsComponent implements OnInit {
 		});
 		dialogRef.afterClosed().subscribe(result => {
 			if (result) {
-				if (result.hasOwnProperty('_id')) {
-					this.projectsDB.updateProject(result);
-				} else {
-					this.projectsDB.createProject(result);
-					// TODO: Remove workaraound which makes shure that the newly created project is correctly shown.
-					setTimeout(() => {
-						this.detector.detectChanges();
-					}, 100)
-				}
+				this.projectsService.onStoreData(result);
+				// if (result.hasOwnProperty('_id')) {
+				// 	this.projectsDB.updateProject(result);
+				// } else {
+				// 	this.projectsDB.createProject(result);
+				// 	// TODO: Remove workaraound which makes shure that the newly created project is correctly shown.
+				// 	setTimeout(() => {
+				// 		this.detector.detectChanges();
+				// 	}, 100)
+				// }
 			}
 		});
 	}
@@ -90,22 +92,25 @@ export class ProjectSource extends DataSource<any> {
 		this._filterChange.next(filter);
 	}
 
-	constructor(private projectsDB: ProjectsDbService) {
+	constructor(private projectsService: ProjectsService) {
 		super();
 	}
 
 	/** Connect function called by the table to retrieve one stream containing the data to render. */
 	connect(): Observable<Project[]> {
 		const displayDataChanges = [
-			this.projectsDB.dataChange,
+			this.projectsService.dataLoaded,
 			this._filterChange
 		];
 
 		return Observable.merge(...displayDataChanges).map(() => {
-			return this.projectsDB.dataChange.value.slice().filter((item: Project) => {
-				const searchStr = (item.number + item.name).toLowerCase();
-				return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
-			});
+			if (this.projectsService.data) {
+				return this.projectsService.data.slice().filter((item: Project) => {
+					const searchStr = (item.number + item.name).toLowerCase();
+					return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
+				});
+			} else return [];
+
 		});
 	}
 
