@@ -15,7 +15,7 @@ export class ProjectsService implements OnInit {
 
 
 	get data(): Project[] {
-		if (this.dataLoaded) {
+		if (this.dataLoaded.value) {
 			return this.dataLoaded.value;
 		}
 	}
@@ -31,6 +31,10 @@ export class ProjectsService implements OnInit {
 	}
 
 	onStoreData(data: Project) {
+		if (!data.id) {
+			data.id = 'project' + Date.now();
+		}
+
 		this.dataLoadFailed.next(false);
 		this.dataIsLoading.next(true);
 
@@ -43,12 +47,17 @@ export class ProjectsService implements OnInit {
 				})
 					.subscribe(
 						(result) => {
-
 							this.dataLoadFailed.next(false);
 							this.dataIsLoading.next(false);
-							console.log(result);
+
+							const newData = this.data.slice();
+							const obj = JSON.parse(result['_body']).Attributes;
+							const project = new Project(obj.userId, obj.id, obj.number, obj.name);
+							newData.push(project);
+							this.dataLoaded.next(newData);
 						},
 						(error) => {
+							console.log(error);
 							this.dataIsLoading.next(false);
 							this.dataLoadFailed.next(true);
 						}
@@ -56,6 +65,44 @@ export class ProjectsService implements OnInit {
 			}
 		});
 	}
+
+	onUpdateData(data: Project) {
+		this.dataLoadFailed.next(false);
+		this.dataIsLoading.next(true);
+
+		this.authService.getAuthenticatedUser().getSession((err, session) => {
+			if (err) {
+				console.log(err);
+			} else {
+				this.http.put('https://qa1nu08638.execute-api.eu-central-1.amazonaws.com/dev/projects', data, {
+					headers: new Headers({'Authorization': session.getIdToken().getJwtToken()})
+				})
+					.subscribe(
+						(result) => {
+							console.log(result);
+							this.dataLoadFailed.next(false);
+							this.dataIsLoading.next(false);
+							// clone array to prevent change detection issues
+							const newData = this.data.slice(0);
+							const updatedProject = JSON.parse(result['_body']).Attributes;
+
+							const index = newData.map(project => {
+								return project.id;
+							}).indexOf(updatedProject.id);
+							newData[index] = updatedProject;
+
+							this.dataLoaded.next(newData);
+						},
+						(error) => {
+							console.log(error);
+							this.dataIsLoading.next(false);
+							this.dataLoadFailed.next(true);
+						}
+					);
+			}
+		});
+	}
+
 
 	onRetrieveData() {
 		this.dataLoaded.next(null);

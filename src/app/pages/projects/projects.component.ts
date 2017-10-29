@@ -28,8 +28,8 @@ export class ProjectsComponent implements OnInit {
 
 	constructor(public dialog: MdDialog,
 				private projectsService: ProjectsService,
-				private projectsDB: ProjectsDbService,
-				private media: ObservableMedia) {
+				private media: ObservableMedia,
+				private detector: ChangeDetectorRef) {
 	}
 
 	ngOnInit() {
@@ -44,6 +44,12 @@ export class ProjectsComponent implements OnInit {
 				}
 				this.dataSource.filter = this.filter.nativeElement.value;
 			});
+
+
+		this.projectsService.dataLoaded.subscribe(data => {
+			console.log('Data updated!', data);
+			this.detector.detectChanges();
+		})
 	}
 
 	trackByFn(index, item): string {
@@ -53,6 +59,7 @@ export class ProjectsComponent implements OnInit {
 	editProject(project: Project): void {
 		this.openProjectDialog(project);
 	}
+
 
 	editMobileProject(project: Project): void {
 		if (!this.media.isActive('gt-sm')) {
@@ -66,16 +73,12 @@ export class ProjectsComponent implements OnInit {
 		});
 		dialogRef.afterClosed().subscribe(result => {
 			if (result) {
-				this.projectsService.onStoreData(result);
-				// if (result.hasOwnProperty('_id')) {
-				// 	this.projectsDB.updateProject(result);
-				// } else {
-				// 	this.projectsDB.createProject(result);
-				// 	// TODO: Remove workaraound which makes shure that the newly created project is correctly shown.
-				// 	setTimeout(() => {
-				// 		this.detector.detectChanges();
-				// 	}, 100)
-				// }
+				if (result.userId) {
+					// TODO: Table doesn't get updated. Fix this.
+					this.projectsService.onUpdateData(result);
+				} else {
+					this.projectsService.onStoreData(result);
+				}
 			}
 		});
 	}
