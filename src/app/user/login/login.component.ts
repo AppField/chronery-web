@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../auth.service';
+import { Router } from '@angular/router';
 
 @Component({
 	selector: 'chy-login',
@@ -11,7 +12,8 @@ export class LoginComponent implements OnInit {
 	loginForm: FormGroup;
 	email: AbstractControl;
 
-	constructor(public fb: FormBuilder, private authService: AuthService) {
+
+	constructor(public fb: FormBuilder, private authService: AuthService, private router: Router) {
 	}
 
 	ngOnInit() {
@@ -22,6 +24,19 @@ export class LoginComponent implements OnInit {
 		});
 
 		this.email = this.loginForm.controls['email'];
+
+
+		if (this.authService.isAuthenticated()) {
+			this.router.navigate(['dashboard']);
+		}
+
+
+		this.authService.authStatusChanged
+			.subscribe(authenticated => {
+				if (authenticated) {
+					this.router.navigate(['dashboard']);
+				}
+			});
 	}
 
 	login(): void {

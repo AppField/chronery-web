@@ -13,6 +13,11 @@ import { SidenavComponent } from './components/sidenav/sidenav.component';
 const routes: Routes = [
 	{
 		path: '',
+		redirectTo: 'dashboard',
+		pathMatch: 'full'
+	},
+	{
+		path: '',
 		component: SidenavComponent,
 		canActivate: [AuthGuard],
 		children: [
@@ -48,8 +53,8 @@ const routes: Routes = [
 	},
 	{
 		path: '**',
-		redirectTo: ''
-		// pathMatch: 'full'
+		redirectTo: 'dashboard',
+		pathMatch: 'full'
 	}
 ];
 

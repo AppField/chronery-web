@@ -8,21 +8,11 @@ import { Router } from '@angular/router';
 	styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-	isAuthenticated = false;
 
-	constructor(private authService: AuthService,
-				private router: Router) {
+	constructor(private authService: AuthService) {
 	}
 
 	ngOnInit() {
-		this.authService.authStatusChanged.subscribe(authenticated => {
-			this.isAuthenticated = authenticated;
-			if (authenticated) {
-				this.router.navigate(['/dashboard']);
-			} else {
-				this.router.navigate(['/']);
-			}
-		});
 		this.authService.initAuth();
 	}
 }
