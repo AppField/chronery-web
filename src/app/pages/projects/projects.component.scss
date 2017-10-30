@@ -1,22 +1,26 @@
-:host {
+// position loading-bar on top of a parent element
+.top-loader {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
 
-  .table-header {
-    min-height: 64px;
-    display: flex;
-    align-items: center;
-    padding: 0 24px;
-    font-size: 20px;
+.table-header {
+  min-height: 64px;
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  font-size: 20px;
 
-    .mat-form-field {
-      width: 100%;
-    }
+  .mat-form-field {
+    width: 100%;
   }
+}
 
-  .mat-table {
-    overflow: auto;
+.mat-table {
+  overflow: auto;
 
-    .action {
-      flex: .1;
-    }
+  .action {
+    flex: .1;
   }
 }

@@ -107,6 +107,7 @@ export class ProjectsService implements OnInit {
 	onRetrieveData() {
 		this.dataLoaded.next(null);
 		this.dataLoadFailed.next(false);
+		this.dataIsLoading.next(true);
 
 		this.authService.getAuthenticatedUser().getSession((err, session) => {
 			const queryParam = '?accessToken=' + session.getAccessToken().getJwtToken();
@@ -124,10 +125,12 @@ export class ProjectsService implements OnInit {
 						} else {
 							this.dataLoadFailed.next(true);
 						}
+						this.dataIsLoading.next(false);
 					},
 					(error) => {
 						console.log(error);
 						this.dataLoadFailed.next(true);
+						this.dataIsLoading.next(false);
 						this.dataLoaded.next(null);
 					}
 				);

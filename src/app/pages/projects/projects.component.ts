@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Project } from '../../models/project';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { DataSource } from '@angular/cdk/collections';
@@ -13,7 +13,6 @@ import { MdDialog } from '@angular/material';
 import { ProjectDialogComponent } from '../../components/project-modal/project-dialog.component';
 import { ObservableMedia } from '@angular/flex-layout';
 import { ProjectsService } from '../../services/projects/projects.service';
-import { ProjectsDbService } from '../../services/projects-db/projects-db.service';
 
 @Component({
 	selector: 'chy-projects',
@@ -23,16 +22,18 @@ import { ProjectsDbService } from '../../services/projects-db/projects-db.servic
 export class ProjectsComponent implements OnInit {
 	displayedColumns = ['projectNumber', 'projectName', 'edit'];
 	dataSource: ProjectSource | null;
+	isLoading = false;
 
 	@ViewChild('filter') filter: ElementRef;
 
 	constructor(public dialog: MdDialog,
 				private projectsService: ProjectsService,
-				private media: ObservableMedia,
-				private detector: ChangeDetectorRef) {
+				private media: ObservableMedia) {
 	}
 
 	ngOnInit() {
+		this.projectsService.dataIsLoading.subscribe((isLoading: boolean) => this.isLoading = isLoading);
+
 		this.dataSource = new ProjectSource(this.projectsService);
 
 		Observable.fromEvent(this.filter.nativeElement, 'keyup')
@@ -44,12 +45,6 @@ export class ProjectsComponent implements OnInit {
 				}
 				this.dataSource.filter = this.filter.nativeElement.value;
 			});
-
-
-		this.projectsService.dataLoaded.subscribe(data => {
-			console.log('Data updated!', data);
-			this.detector.detectChanges();
-		})
 	}
 
 	trackByFn(index, item): string {
@@ -112,7 +107,9 @@ export class ProjectSource extends DataSource<any> {
 					const searchStr = (item.number + item.name).toLowerCase();
 					return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
 				});
-			} else return [];
+			} else {
+				return [];
+			}
 
 		});
 	}
