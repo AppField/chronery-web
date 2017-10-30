@@ -20,7 +20,8 @@ import {
 	MdTooltipModule,
 	MdDatepickerModule,
 	MdNativeDateModule,
-	MdProgressSpinnerModule
+	MdProgressSpinnerModule,
+	MdProgressBarModule
 } from '@angular/material';
 import { CdkTableModule } from '@angular/cdk/table';
 
@@ -81,7 +82,7 @@ import { ProjectsService } from './services/projects/projects.service';
 		BrowserAnimationsModule,
 		MdButtonModule, MdDialogModule, MdSidenavModule, MdIconModule, MdMenuModule, MdCardModule, MdAutocompleteModule, MdInputModule,
 		MdTabsModule, MdListModule, MdToolbarModule, MdTableModule, MdTooltipModule, MdDatepickerModule, MdNativeDateModule,
-		AppRoutingModule, MdProgressSpinnerModule,
+		AppRoutingModule, MdProgressSpinnerModule, MdProgressBarModule,
 		CdkTableModule
 	],
 	providers: [AuthService, WorkingHoursDbService, ProjectsDbService, ProjectsService, CommentsDbService, LocalStorageService],

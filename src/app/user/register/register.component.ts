@@ -12,6 +12,8 @@ import { AuthService } from '../auth.service';
 export class RegisterComponent implements OnInit {
 	registerForm: FormGroup;
 	email: AbstractControl;
+	didFail = false;
+	signupSent = false;
 
 	static matchPasswordValidator(control: FormControl): any {
 		if (control.parent) {
@@ -26,6 +28,9 @@ export class RegisterComponent implements OnInit {
 	}
 
 	ngOnInit() {
+		this.authService.authDidFail.subscribe((didFail: boolean) => this.didFail = didFail);
+
+
 		// Setup Form
 		this.registerForm = this.fb.group({
 			given_name: ['', [Validators.required]],
@@ -46,6 +51,7 @@ export class RegisterComponent implements OnInit {
 			const password = this.registerForm.controls['password'].value;
 
 			this.authService.signUp(givenName, family_name, email, password);
+			this.signupSent = true;
 		}
 	}
 
@@ -56,5 +62,9 @@ export class RegisterComponent implements OnInit {
 
 	get isPasswordMismatch(): boolean {
 		return this.registerForm.controls['repeatPassword'].hasError('mismatch');
+	}
+
+	get didRegisterFail(): boolean {
+		return this.didFail && this.signupSent;
 	}
 }

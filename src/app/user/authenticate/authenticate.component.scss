@@ -1,5 +1,12 @@
 @import '../../../chy-theme';
 
+// position loading-bar on top of a parent element
+.top-loader {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
 .auth-container {
   background-color: mat-color($primary);
   width: 100vw;

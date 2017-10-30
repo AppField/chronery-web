@@ -11,12 +11,17 @@ import { Router } from '@angular/router';
 export class LoginComponent implements OnInit {
 	loginForm: FormGroup;
 	email: AbstractControl;
-
+	didFail = false;
+	loginSent = false;
 
 	constructor(public fb: FormBuilder, private authService: AuthService, private router: Router) {
 	}
 
 	ngOnInit() {
+		this.authService.authDidFail.subscribe(
+			(didFail: boolean) => this.didFail = didFail
+		);
+
 		// Setup form
 		this.loginForm = this.fb.group({
 			email: ['', [Validators.required, Validators.email]],
@@ -44,12 +49,17 @@ export class LoginComponent implements OnInit {
 			const email = this.loginForm.controls['email'].value;
 			const password = this.loginForm.controls['password'].value;
 			this.authService.signIn(email, password);
+			this.loginSent = true;
 		}
 	}
 
 	get emailErrorMessage(): string {
 		return this.email.hasError('required') ? 'Please enter your E-Mail Address' :
 			this.email.hasError('email') ? 'Not a valid email' : '';
+	}
+
+	get didLoginFail(): boolean {
+		return this.didFail && this.loginSent;
 	}
 
 }

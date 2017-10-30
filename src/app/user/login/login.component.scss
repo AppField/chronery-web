@@ -23,7 +23,11 @@
       margin-bottom: 0;
       padding-bottom: 0;
     }
+  }
 
+  .login-error {
+    display: inline-block;
+    margin-left: 1rem;
   }
 
   .mat-form-field {

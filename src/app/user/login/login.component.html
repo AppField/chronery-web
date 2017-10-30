@@ -1,5 +1,6 @@
 <form [formGroup]="loginForm" (ngSubmit)="login()">
     <md-card>
+        <md-progress-bar mode="indeterminate" color="accent" *ngIf="isLoading" class="top-loader"></md-progress-bar>
         <md-card-header>
             <md-card-title>Login</md-card-title>
         </md-card-header>
@@ -19,6 +20,7 @@
 
         <md-card-actions>
             <button md-raised-button color="accent">Login</button>
+            <md-error class="login-error" *ngIf="didLoginFail">E-Mail or password wrong.</md-error>
         </md-card-actions>
     </md-card>
 </form>
