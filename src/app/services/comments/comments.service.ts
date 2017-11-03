@@ -1,20 +1,19 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers, Response } from '@angular/http';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Subject } from 'rxjs/Subject';
-import 'rxjs/add/operator/map';
-import { Project } from '../../models/project';
+import { Http, Headers, Response } from '@angular/http';
 import { AuthService } from '../../user/auth.service';
-
+import { Comment } from '../../models/comment';
 
 @Injectable()
-export class ProjectsService {
+export class CommentsService {
+
 	dataIsLoading = new BehaviorSubject<boolean>(false);
-	dataLoaded: BehaviorSubject<Project[]> = new BehaviorSubject<Project[]>([]);
+	dataLoaded: BehaviorSubject<Comment[]> = new BehaviorSubject<Comment[]>([]);
 	dataLoadFailed = new Subject<boolean>();
 
 
-	get data(): Project[] {
+	get data(): Comment[] {
 		if (this.dataLoaded.value) {
 			return this.dataLoaded.value;
 		}
@@ -26,11 +25,7 @@ export class ProjectsService {
 		this.onRetrieveData();
 	}
 
-	onStoreData(data: Project) {
-		if (!data.id) {
-			data.id = 'project' + Date.now();
-		}
-
+	onStoreData(data: Comment, callback) {
 		this.dataLoadFailed.next(false);
 		this.dataIsLoading.next(true);
 
@@ -38,7 +33,7 @@ export class ProjectsService {
 			if (err) {
 				console.log(err);
 			} else {
-				this.http.post('https://qa1nu08638.execute-api.eu-central-1.amazonaws.com/dev/projects', data, {
+				this.http.post('https://qa1nu08638.execute-api.eu-central-1.amazonaws.com/dev/comments', data, {
 					headers: new Headers({'Authorization': session.getIdToken().getJwtToken()})
 				})
 					.subscribe(
@@ -46,11 +41,15 @@ export class ProjectsService {
 							this.dataLoadFailed.next(false);
 							this.dataIsLoading.next(false);
 
+							console.log(result);
+
 							const newData = this.data.slice();
-							const obj = JSON.parse(result['_body']).Attributes;
-							const project = new Project(obj.userId, obj.id, obj.number, obj.name);
-							newData.push(project);
+							const obj = JSON.parse(result['_body']);
+							const comment = new Comment(obj.userId, obj.id, obj.comment);
+							newData.push(comment);
 							this.dataLoaded.next(newData);
+
+							callback();
 						},
 						(error) => {
 							console.log(error);
@@ -62,7 +61,13 @@ export class ProjectsService {
 		});
 	}
 
-	onUpdateData(data: Project) {
+	onUpdateData(comment: Comment) {
+		const index = this.data.map((obj: Comment) => obj.id).indexOf(comment.id);
+
+		if (this.data[index].comment === comment.comment) {
+			return;
+		}
+		
 		this.dataLoadFailed.next(false);
 		this.dataIsLoading.next(true);
 
@@ -70,7 +75,7 @@ export class ProjectsService {
 			if (err) {
 				console.log(err);
 			} else {
-				this.http.put('https://qa1nu08638.execute-api.eu-central-1.amazonaws.com/dev/projects', data, {
+				this.http.put('https://qa1nu08638.execute-api.eu-central-1.amazonaws.com/dev/comments', comment, {
 					headers: new Headers({'Authorization': session.getIdToken().getJwtToken()})
 				})
 					.subscribe(
@@ -78,16 +83,6 @@ export class ProjectsService {
 							console.log(result);
 							this.dataLoadFailed.next(false);
 							this.dataIsLoading.next(false);
-							// clone array to prevent change detection issues
-							const newData = this.data.slice(0);
-							const updatedProject = JSON.parse(result['_body']).Attributes;
-
-							const index = newData.map(project => {
-								return project.id;
-							}).indexOf(updatedProject.id);
-							newData[index] = updatedProject;
-
-							this.dataLoaded.next(newData);
 						},
 						(error) => {
 							console.log(error);
@@ -106,9 +101,8 @@ export class ProjectsService {
 		this.dataIsLoading.next(true);
 
 		this.authService.getAuthenticatedUser().getSession((err, session) => {
-			const queryParam = '?accessToken=' + session.getAccessToken().getJwtToken();
 
-			this.http.get('https://qa1nu08638.execute-api.eu-central-1.amazonaws.com/dev/projects/' + queryParam, {
+			this.http.get('https://qa1nu08638.execute-api.eu-central-1.amazonaws.com/dev/comments', {
 				headers: new Headers({'Authorization': session.getIdToken().getJwtToken()})
 			})
 				.map(
@@ -133,16 +127,33 @@ export class ProjectsService {
 		});
 	}
 
-	onDeleteData() {
+	onDeleteData(comment: Comment) {
 		this.dataLoadFailed.next(false);
-		this.http.delete('https://API_ID.execute-api.REGION.amazonaws.com/dev/', {
-			headers: new Headers({'Authorization': 'XXX'})
-		})
-			.subscribe(
-				(data) => {
-					console.log(data);
-				},
-				(error) => this.dataLoadFailed.next(true)
-			);
+		this.dataIsLoading.next(true);
+		this.authService.getAuthenticatedUser().getSession((err, session) => {
+			this.http.delete('https://qa1nu08638.execute-api.eu-central-1.amazonaws.com/dev/comments/' + comment.id, {
+				headers: new Headers({'Authorization': session.getIdToken().getJwtToken()})
+			})
+				.subscribe(
+					(data) => {
+						console.log(data);
+
+						const newData = this.data.slice();
+						const obj = JSON.parse(data['_body']).Attributes;
+						const deletedId = obj.id;
+						const index = newData.map((com: Comment) => com.id).indexOf(deletedId);
+						newData.splice(index, 1);
+						this.dataLoaded.next(newData);
+
+						this.dataLoadFailed.next(false);
+						this.dataIsLoading.next(false);
+					},
+					(error) => {
+						this.dataLoadFailed.next(true)
+						this.dataIsLoading.next(false);
+					}
+				);
+		});
 	}
+
 }

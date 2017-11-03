@@ -51,6 +51,7 @@ import { AuthService } from './user/auth.service';
 import { RegisterComponent } from './user/register/register.component';
 import { AuthenticateComponent } from './user/authenticate/authenticate.component';
 import { ProjectsService } from './services/projects/projects.service';
+import { CommentsService } from './services/comments/comments.service';
 
 @NgModule({
 	declarations: [
@@ -85,7 +86,7 @@ import { ProjectsService } from './services/projects/projects.service';
 		AppRoutingModule, MdProgressSpinnerModule, MdProgressBarModule,
 		CdkTableModule
 	],
-	providers: [AuthService, WorkingHoursDbService, ProjectsDbService, ProjectsService, CommentsDbService, LocalStorageService],
+	providers: [AuthService, WorkingHoursDbService, ProjectsDbService, ProjectsService, CommentsDbService, CommentsService, LocalStorageService],
 	bootstrap: [AppComponent]
 })
 export class AppModule {
