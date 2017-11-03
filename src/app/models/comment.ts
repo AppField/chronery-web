@@ -3,10 +3,6 @@ export class Comment {
 	id: string;
 	comment: string;
 
-	_id: string;
-	_rev: string;
-	value: string;
-
 	constructor(userId?: string, id?: string, comment?: string) {
 		if (userId) {
 			this.userId = userId;

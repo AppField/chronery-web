@@ -39,13 +39,11 @@ import { WorkCardComponent } from './components/work-card/work-card.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { ProjectsComponent } from './pages/projects/projects.component';
 import { ProjectDialogComponent } from './components/project-modal/project-dialog.component';
-import { ProjectsDbService } from './services/projects-db/projects-db.service';
 import { WorkingHoursDbService } from './services/working-hours-db/working-hours-db.service';
 import { MaterialActiveDirective } from './directives/material-active/material-active.directive';
 import { LocalStorageService } from './services/local-storage/local-storage.service';
 import { EncodedDatePipe } from './pipes/encoded-date/encoded-date.pipe';
 import { WorkingHoursChartComponent } from './components/working-hours-chart/working-hours-chart.component';
-import { CommentsDbService } from './services/comments-db/comments-db.service';
 import { LoginComponent } from './user/login/login.component';
 import { AuthService } from './user/auth.service';
 import { RegisterComponent } from './user/register/register.component';
@@ -86,7 +84,7 @@ import { CommentsService } from './services/comments/comments.service';
 		AppRoutingModule, MdProgressSpinnerModule, MdProgressBarModule,
 		CdkTableModule
 	],
-	providers: [AuthService, WorkingHoursDbService, ProjectsDbService, ProjectsService, CommentsDbService, CommentsService, LocalStorageService],
+	providers: [AuthService, WorkingHoursDbService, ProjectsService, CommentsService, LocalStorageService],
 	bootstrap: [AppComponent]
 })
 export class AppModule {

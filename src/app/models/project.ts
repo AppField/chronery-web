@@ -1,5 +1,4 @@
 export class Project {
-	_id: string;
 	userId: string;
 	id: string;
 	number: string;

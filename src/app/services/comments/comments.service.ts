@@ -9,13 +9,13 @@ import { Comment } from '../../models/comment';
 export class CommentsService {
 
 	dataIsLoading = new BehaviorSubject<boolean>(false);
-	dataLoaded: BehaviorSubject<Comment[]> = new BehaviorSubject<Comment[]>([]);
+	dataChange: BehaviorSubject<Comment[]> = new BehaviorSubject<Comment[]>([]);
 	dataLoadFailed = new Subject<boolean>();
 
 
 	get data(): Comment[] {
-		if (this.dataLoaded.value) {
-			return this.dataLoaded.value;
+		if (this.dataChange.value) {
+			return this.dataChange.value;
 		}
 	}
 
@@ -47,7 +47,7 @@ export class CommentsService {
 							const obj = JSON.parse(result['_body']);
 							const comment = new Comment(obj.userId, obj.id, obj.comment);
 							newData.push(comment);
-							this.dataLoaded.next(newData);
+							this.dataChange.next(newData);
 
 							callback();
 						},
@@ -67,7 +67,7 @@ export class CommentsService {
 		if (this.data[index].comment === comment.comment) {
 			return;
 		}
-		
+
 		this.dataLoadFailed.next(false);
 		this.dataIsLoading.next(true);
 
@@ -96,7 +96,7 @@ export class CommentsService {
 
 
 	onRetrieveData() {
-		this.dataLoaded.next(null);
+		this.dataChange.next(null);
 		this.dataLoadFailed.next(false);
 		this.dataIsLoading.next(true);
 
@@ -111,7 +111,7 @@ export class CommentsService {
 				.subscribe((data) => {
 						console.log('DATA: ', data);
 						if (data) {
-							this.dataLoaded.next(data);
+							this.dataChange.next(data);
 						} else {
 							this.dataLoadFailed.next(true);
 						}
@@ -121,7 +121,7 @@ export class CommentsService {
 						console.log(error);
 						this.dataLoadFailed.next(true);
 						this.dataIsLoading.next(false);
-						this.dataLoaded.next(null);
+						this.dataChange.next(null);
 					}
 				);
 		});
@@ -143,7 +143,7 @@ export class CommentsService {
 						const deletedId = obj.id;
 						const index = newData.map((com: Comment) => com.id).indexOf(deletedId);
 						newData.splice(index, 1);
-						this.dataLoaded.next(newData);
+						this.dataChange.next(newData);
 
 						this.dataLoadFailed.next(false);
 						this.dataIsLoading.next(false);

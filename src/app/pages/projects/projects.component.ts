@@ -48,7 +48,7 @@ export class ProjectsComponent implements OnInit {
 	}
 
 	trackByFn(index, item): string {
-		return item._id;
+		return item.id;
 	}
 
 	editProject(project: Project): void {
@@ -97,7 +97,7 @@ export class ProjectSource extends DataSource<any> {
 	/** Connect function called by the table to retrieve one stream containing the data to render. */
 	connect(): Observable<Project[]> {
 		const displayDataChanges = [
-			this.projectsService.dataLoaded,
+			this.projectsService.dataChange,
 			this._filterChange
 		];
 

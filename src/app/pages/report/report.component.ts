@@ -1,9 +1,8 @@
-import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import * as moment from 'moment/moment';
 import { Project } from '../../models/project';
 import { Observable } from 'rxjs/Observable';
 import { FormControl } from '@angular/forms';
-import { ProjectsDbService } from '../../services/projects-db/projects-db.service';
 import { Subscription } from 'rxjs/Subscription';
 import { DataSource } from '@angular/cdk/collections';
 import { WorkingHoursDbService } from '../../services/working-hours-db/working-hours-db.service';
@@ -12,6 +11,7 @@ import { WorkingHoursFilter } from '../../models/working-hours-filter';
 import { Utility } from '../../utils/utility';
 import { Angular2Csv } from 'angular2-csv';
 import { ObservableMedia } from '@angular/flex-layout';
+import { ProjectsService } from '../../services/projects/projects.service';
 
 @Component({
 	selector: 'chy-report',
@@ -23,7 +23,7 @@ export class ReportComponent implements OnInit, OnDestroy {
 
 	startDate: Date;
 	endDate: Date;
-	projects: Project[];
+	projects: Project[] = [];
 	filteredProjects: Observable<Project[]>;
 	selectedProject: Project;
 	projectsCtrl: FormControl;
@@ -33,9 +33,8 @@ export class ReportComponent implements OnInit, OnDestroy {
 	dataSource: ReportSource | null;
 	displayedColumns = ['date', 'from', 'to', 'spent', 'projectNumber', 'projectName', 'comment'];
 
-	constructor(private projectsDB: ProjectsDbService,
+	constructor(private projectsService: ProjectsService,
 				private workingHoursDB: WorkingHoursDbService,
-				private detector: ChangeDetectorRef,
 				private media: ObservableMedia) {
 
 
@@ -47,7 +46,7 @@ export class ReportComponent implements OnInit, OnDestroy {
 		const allProjects = new Project(undefined, 'All');
 		this.selectedProject = allProjects;
 		this.projects = [allProjects];
-		this.projectsSub = this.projectsDB.dataChange.subscribe(data => {
+		this.projectsSub = this.projectsService.dataChange.subscribe(data => {
 			this.projects = this.projects.concat(data);
 			this.filteredProjects = this.projectsCtrl.valueChanges
 				.startWith(null)

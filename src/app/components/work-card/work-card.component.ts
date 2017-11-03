@@ -65,8 +65,8 @@ export class WorkCardComponent implements OnInit {
 
 		let tempProject = null;
 		if (this.work.hasOwnProperty('projectId')) {
-			tempProject = new Project;
-			tempProject._id = this.work.projectId;
+			tempProject = new Project();
+			tempProject.id = this.work.projectId;
 			tempProject.number = this.work.projectNumber;
 			tempProject.name = this.work.projectName;
 		}
@@ -98,9 +98,12 @@ export class WorkCardComponent implements OnInit {
 	}
 
 	updateExistingProject(): void {
+		if (!this.projects) {
+			return;
+		}
 		if (this.work.hasOwnProperty('projectId')) {
 			const i = this.projects.map((el) => {
-				return el._id;
+				return el.id;
 			}).indexOf(this.work.projectId);
 
 			if (i > -1) {
@@ -117,7 +120,7 @@ export class WorkCardComponent implements OnInit {
 	}
 
 	filterComments(val: string) {
-		return this.comments.filter((comment: Comment) => new RegExp(val, 'i').test(comment.value));
+		return this.comments.filter((comment: Comment) => new RegExp(val, 'i').test(comment.comment));
 	}
 
 	displayFn(project: Project) {
@@ -172,7 +175,7 @@ export class WorkCardComponent implements OnInit {
 				this.saveWork.emit(this.work);
 			}
 		} else {
-			if (!this.work.hasOwnProperty('_id')) {
+			if (!this.work.hasOwnProperty('id')) {
 				this.persistNewWork.emit(this.work);
 			}
 		}
@@ -186,7 +189,7 @@ export class WorkCardComponent implements OnInit {
 
 	copyFormDataToWork(): void {
 		if (this.workForm.controls['project'].value) {
-			this.work.projectId = this.workForm.controls['project'].value._id;
+			this.work.projectId = this.workForm.controls['project'].value.id;
 			this.work.projectNumber = this.workForm.controls['project'].value.number;
 			this.work.projectName = this.workForm.controls['project'].value.name;
 		}

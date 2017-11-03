@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Comment } from '../../models/comment';
-import { CommentsDbService } from '../../services/comments-db/comments-db.service';
 import { CommentsService } from '../../services/comments/comments.service';
 
 @Component({
@@ -25,7 +24,7 @@ export class SettingsComponent implements OnInit {
 		this.newComment.comment = this.newComment.comment.trim();
 		if (this.commentsService.data.length < 5 && this.newComment.comment !== '') {
 
-			this.commentsService.onStoreData(this.newComment, ()=>{
+			this.commentsService.onStoreData(this.newComment, () => {
 				// Reset new comment
 				this.newComment = new Comment();
 			});

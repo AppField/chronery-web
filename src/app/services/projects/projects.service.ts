@@ -10,13 +10,13 @@ import { AuthService } from '../../user/auth.service';
 @Injectable()
 export class ProjectsService {
 	dataIsLoading = new BehaviorSubject<boolean>(false);
-	dataLoaded: BehaviorSubject<Project[]> = new BehaviorSubject<Project[]>([]);
+	dataChange: BehaviorSubject<Project[]> = new BehaviorSubject<Project[]>([]);
 	dataLoadFailed = new Subject<boolean>();
 
 
 	get data(): Project[] {
-		if (this.dataLoaded.value) {
-			return this.dataLoaded.value;
+		if (this.dataChange.value) {
+			return this.dataChange.value;
 		}
 	}
 
@@ -50,7 +50,7 @@ export class ProjectsService {
 							const obj = JSON.parse(result['_body']).Attributes;
 							const project = new Project(obj.userId, obj.id, obj.number, obj.name);
 							newData.push(project);
-							this.dataLoaded.next(newData);
+							this.dataChange.next(newData);
 						},
 						(error) => {
 							console.log(error);
@@ -87,7 +87,7 @@ export class ProjectsService {
 							}).indexOf(updatedProject.id);
 							newData[index] = updatedProject;
 
-							this.dataLoaded.next(newData);
+							this.dataChange.next(newData);
 						},
 						(error) => {
 							console.log(error);
@@ -101,7 +101,7 @@ export class ProjectsService {
 
 
 	onRetrieveData() {
-		this.dataLoaded.next(null);
+		this.dataChange.next(null);
 		this.dataLoadFailed.next(false);
 		this.dataIsLoading.next(true);
 
@@ -117,7 +117,7 @@ export class ProjectsService {
 				.subscribe((data) => {
 						console.log('DATA: ', data);
 						if (data) {
-							this.dataLoaded.next(data);
+							this.dataChange.next(data);
 						} else {
 							this.dataLoadFailed.next(true);
 						}
@@ -127,7 +127,7 @@ export class ProjectsService {
 						console.log(error);
 						this.dataLoadFailed.next(true);
 						this.dataIsLoading.next(false);
-						this.dataLoaded.next(null);
+						this.dataChange.next(null);
 					}
 				);
 		});

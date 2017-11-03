@@ -1,17 +1,17 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Utility } from '../../utils/utility';
 import { Work } from '../../models/work';
 import { MediaChange, ObservableMedia } from '@angular/flex-layout';
 import { Subscription } from 'rxjs/Subscription';
 import { MdSidenav } from '@angular/material';
 import { WorkingHoursDbService } from '../../services/working-hours-db/working-hours-db.service';
-import { ProjectsDbService } from '../../services/projects-db/projects-db.service';
 import { Project } from '../../models/project';
 import { LocalStorageService } from '../../services/local-storage/local-storage.service';
 import { WorkingHoursFilter } from '../../models/working-hours-filter';
-import { CommentsDbService } from '../../services/comments-db/comments-db.service';
 import { Comment } from '../../models/comment';
+import { ProjectsService } from '../../services/projects/projects.service';
+import { CommentsService } from '../../services/comments/comments.service';
 
 @Component({
 	selector: 'chy-working-hours',
@@ -35,17 +35,17 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
 	private commentsSub: Subscription;
 	private mediaSub: Subscription;
 
-	constructor(private router: Router, private route: ActivatedRoute, public media: ObservableMedia,
-				private projectsDB: ProjectsDbService,
+	constructor(private route: ActivatedRoute, public media: ObservableMedia,
+				private projectsService: ProjectsService,
 				private workingHoursDb: WorkingHoursDbService,
-				private commentsDb: CommentsDbService,
+				private commentsService: CommentsService,
 				private localStorage: LocalStorageService) {
 
-		this.projectsSub = this.projectsDB.dataChange.subscribe(data => {
+		this.projectsSub = this.projectsService.dataChange.subscribe(data => {
 			this.projects = data;
 		});
 
-		this.commentsSub = this.commentsDb.dataChange.subscribe(data => {
+		this.commentsSub = this.commentsService.dataChange.subscribe(data => {
 			this.comments = data;
 		});
 
