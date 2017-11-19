@@ -9,8 +9,7 @@
 
 .auth-container {
   background-color: mat-color($primary);
-  width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
 
   h1 {
     color: white;
@@ -30,4 +29,12 @@
     width: 400px;
   }
 
+  .mobile-login {
+    .login, .register {
+      padding: 0 0 2rem 0;
+      display: inherit;
+      margin: 0 auto;
+      max-width: 350px;
+    }
+  }
 }
