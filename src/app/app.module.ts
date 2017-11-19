@@ -51,6 +51,7 @@ import { AuthenticateComponent } from './user/authenticate/authenticate.componen
 import { ProjectsService } from './services/projects/projects.service';
 import { CommentsService } from './services/comments/comments.service';
 import { WorkingHoursService } from './services/working-hours/working-hours.service';
+import { ConfirmAccountDeletionComponent } from './components/confirm-account-deletion/confirm-account-deletion.component';
 
 @NgModule({
 	declarations: [
@@ -70,9 +71,10 @@ import { WorkingHoursService } from './services/working-hours/working-hours.serv
 		WorkingHoursChartComponent,
 		LoginComponent,
 		RegisterComponent,
-		AuthenticateComponent
+		AuthenticateComponent,
+		ConfirmAccountDeletionComponent
 	],
-	entryComponents: [MonthYearDialogComponent, ProjectDialogComponent],
+	entryComponents: [MonthYearDialogComponent, ProjectDialogComponent, ConfirmAccountDeletionComponent],
 	imports: [
 		BrowserModule,
 		FlexLayoutModule,

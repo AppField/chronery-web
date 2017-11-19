@@ -22,4 +22,10 @@
             </md-form-field>
         </md-list-item>
     </md-list>
+
+    <div class="dange-zoner">
+        <h2>Account</h2>
+        <button md-button color="warn" (click)="deleteAccount()">Delete my account</button>
+        <md-error *ngIf="accountDeletFailed ">Error while deleting account.</md-error>
+    </div>
 </div>

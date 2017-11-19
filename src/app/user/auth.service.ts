@@ -5,7 +5,13 @@ import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
-import { AuthenticationDetails, CognitoUser, CognitoUserAttribute, CognitoUserPool, CognitoUserSession } from 'amazon-cognito-identity-js';
+import {
+	AuthenticationDetails,
+	CognitoUser,
+	CognitoUserAttribute,
+	CognitoUserPool,
+	CognitoUserSession
+} from 'amazon-cognito-identity-js';
 
 import { User } from '../models/user';
 
@@ -146,6 +152,31 @@ export class AuthService {
 			observer.complete();
 		});
 		return obs;
+	}
+
+	deleteAccount(): void {
+
+		const cognitoUser = this.getAuthenticatedUser();
+		if (cognitoUser) {
+			cognitoUser.getSession((err, result) => {
+				if (err) {
+					this.authDidFail.next(true);
+					console.log(err);
+					return;
+				}
+
+				cognitoUser.deleteUser((error, response) => {
+					if (error) {
+						this.authDidFail.next(true);
+						console.log(err);
+						return;
+					}
+					window.location.reload();
+				});
+
+			});
+		}
+		console.log(cognitoUser);
 	}
 
 	initAuth() {
