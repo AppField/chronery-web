@@ -1,17 +1,16 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Utility } from '../../utils/utility';
-import { Work } from '../../models/work';
 import { MediaChange, ObservableMedia } from '@angular/flex-layout';
 import { Subscription } from 'rxjs/Subscription';
 import { MdSidenav } from '@angular/material';
-import { WorkingHoursDbService } from '../../services/working-hours-db/working-hours-db.service';
 import { Project } from '../../models/project';
 import { LocalStorageService } from '../../services/local-storage/local-storage.service';
-import { WorkingHoursFilter } from '../../models/working-hours-filter';
 import { Comment } from '../../models/comment';
 import { ProjectsService } from '../../services/projects/projects.service';
 import { CommentsService } from '../../services/comments/comments.service';
+import { WorkingHours } from '../../models/working-hours';
+import { WorkingHoursService } from '../../services/working-hours/working-hours.service';
 
 @Component({
 	selector: 'chy-working-hours',
@@ -23,7 +22,7 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
 
 	date: Date;
 	encodedDate: string;
-	works: Work[];
+	works: WorkingHours[] = [];
 	projects: Project[] = [];
 	comments: Comment[] = [];
 	sidenavMode = 'side';
@@ -36,8 +35,9 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
 	private mediaSub: Subscription;
 
 	constructor(private route: ActivatedRoute, public media: ObservableMedia,
+				private router: Router,
 				private projectsService: ProjectsService,
-				private workingHoursDb: WorkingHoursDbService,
+				private workingHoursService: WorkingHoursService,
 				private commentsService: CommentsService,
 				private localStorage: LocalStorageService) {
 
@@ -49,23 +49,21 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
 			this.comments = data;
 		});
 
+		this.workingHoursService.dataChange.subscribe((data) => {
+			// const newCard = this.localStorage.getItem(this.encodedDate);
+			// if (newCard) {
+			// 	this.works = [newCard].concat(data);
+			// 	this.newCard = true;
+			// } else {
+				this.works = data;
+				// this.newCard = false;
+			// }
+		});
+
 		this.dateSub = this.route.params.subscribe(params => {
 			this.encodedDate = params['date'];
 			this.date = Utility.decodeDate(params['date']);
-
-			const filter = new WorkingHoursFilter();
-			filter.date = this.encodedDate;
-			this.workingHoursDb.getWorkingHoursData(filter).then((data) => {
-				this.works = [];
-				const newCard = this.localStorage.getItem(this.encodedDate);
-				if (newCard) {
-					this.works = [newCard].concat(data);
-					this.newCard = true;
-				} else {
-					this.works = data;
-					this.newCard = false;
-				}
-			});
+			this.workingHoursService.onRetrieveData(this.encodedDate);
 		});
 	}
 
@@ -88,33 +86,35 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
 		}
 	}
 
-	newWork = function (): void {
-		const newWork = new Work(this.encodedDate);
+	newWork(): void {
+		const newWork = new WorkingHours();
 		newWork.from = Utility.getCurrentTimeString();
 		this.works.unshift(newWork);
 		this.newCard = true;
 	};
 
-	saveWork(work: Work): void {
-		if (work.hasOwnProperty('_id')) {
-			this.workingHoursDb.updateWorkingHour(work);
-		} else {
-			this.localStorage.deleteItem(work.date);
-			this.workingHoursDb.createWorkingHour(work);
-			this.newCard = false;
-		}
+	saveWork(work: WorkingHours): void {
+		// if (work.hasOwnProperty('_id')) {
+		// 	this.workingHoursDb.updateWorkingHour(work);
+		// } else {
+		// 	this.localStorage.deleteItem(work.date);
+		// 	this.workingHoursDb.createWorkingHour(work);
+		// 	this.newCard = false;
+		// }
+		this.workingHoursService.onStoreData(work, this.encodedDate);
+		this.newCard = false;
 	}
 
-	persistNewWork(work: Work): void {
-		this.localStorage.saveItem(work.date, work);
+	persistNewWork(work: WorkingHours): void {
+		this.localStorage.saveItem(this.encodedDate, work);
 	}
 
-	deleteWork(work: Work): void {
+	deleteWork(work: WorkingHours): void {
 		if (work.hasOwnProperty('_id')) {
-			this.workingHoursDb.deleteWorkingHour(work);
+			// this.workingHoursDb.deleteWorkingHour(work);
 		} else {
-			this.localStorage.deleteItem(work.date);
-			this.works.shift();
+			// this.localStorage.deleteItem(work.date);
+			// this.works.shift();
 			this.newCard = false;
 		}
 	};

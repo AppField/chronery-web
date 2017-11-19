@@ -1,4 +1,5 @@
 export class WorkingHours {
+	id: string;
 	from: string;
 	to: string;
 	spent: string;
@@ -10,5 +11,8 @@ export class WorkingHours {
 	};
 
 	constructor() {
+		this.from = '00:00';
+		this.to = '00:00';
+		this.spent = '00:00';
 	}
 }

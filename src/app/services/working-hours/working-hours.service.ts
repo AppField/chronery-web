@@ -3,7 +3,6 @@ import { Http, Headers, Response } from '@angular/http';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/map';
-import { Project } from '../../models/project';
 import { AuthService } from '../../user/auth.service';
 import { WorkingHours } from '../../models/working-hours';
 
@@ -11,11 +10,11 @@ import { WorkingHours } from '../../models/working-hours';
 @Injectable()
 export class WorkingHoursService {
 	dataIsLoading = new BehaviorSubject<boolean>(false);
-	dataChange: BehaviorSubject<Project[]> = new BehaviorSubject<Project[]>([]);
+	dataChange: BehaviorSubject<WorkingHours[]> = new BehaviorSubject<WorkingHours[]>([]);
 	dataLoadFailed = new Subject<boolean>();
 
 
-	get data(): Project[] {
+	get data(): WorkingHours[] {
 		if (this.dataChange.value) {
 			return this.dataChange.value;
 		}
@@ -43,6 +42,9 @@ export class WorkingHoursService {
 							this.dataIsLoading.next(false);
 
 							console.log(result);
+							const obj = JSON.parse(data['_body']);
+							console.log(obj);
+							this.dataChange.next(obj);
 							// const newData = this.data.slice();
 							// newData.push(project);
 							// this.dataChange.next(newData);
@@ -63,8 +65,6 @@ export class WorkingHoursService {
 		this.dataIsLoading.next(true);
 
 		this.authService.getAuthenticatedUser().getSession((err, session) => {
-			const queryParam = '?accessToken=' + session.getAccessToken().getJwtToken();
-
 			this.http.get(`https://qa1nu08638.execute-api.eu-central-1.amazonaws.com/dev/working-hours/${date}`, {
 				headers: new Headers({'Authorization': session.getIdToken().getJwtToken()})
 			})
@@ -90,16 +90,31 @@ export class WorkingHoursService {
 		});
 	}
 
-	onDeleteData() {
+	onUpdateData(data: WorkingHours) {
+
+	}
+
+	onDeleteData(date: string, index: number) {
 		this.dataLoadFailed.next(false);
-		this.http.delete('https://API_ID.execute-api.REGION.amazonaws.com/dev/', {
-			headers: new Headers({'Authorization': 'XXX'})
-		})
-			.subscribe(
-				(data) => {
-					console.log(data);
-				},
-				(error) => this.dataLoadFailed.next(true)
-			);
+
+		this.authService.getAuthenticatedUser().getSession((err, session) => {
+			this.http.delete(`https://qa1nu08638.execute-api.eu-central-1.amazonaws.com/dev/working-hours/${date}?index=${index}`, {
+				headers: new Headers({'Authorization': session.getIdToken().getJwtToken()})
+			})
+				.subscribe(
+					(data) => {
+						console.log(data);
+
+						this.dataChange.next(data['events']);
+
+						this.dataLoadFailed.next(false);
+						this.dataIsLoading.next(false);
+					},
+					(error) => {
+						this.dataLoadFailed.next(true)
+						this.dataIsLoading.next(false);
+					}
+				);
+		});
 	}
 }

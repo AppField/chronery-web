@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, OnInit, Output, ElementRef, HostListener } from '@angular/core';
-import { Work } from '../../models/work';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Project } from '../../models/project';
 import { Observable } from 'rxjs/Observable';
@@ -8,6 +7,7 @@ import 'rxjs/add/operator/startWith';
 import 'rxjs/add/operator/map';
 import * as moment from 'moment/moment';
 import { Utility } from '../../utils/utility';
+import { WorkingHours } from '../../models/working-hours';
 
 @Component({
 	selector: 'chy-work-card',
@@ -17,18 +17,18 @@ import { Utility } from '../../utils/utility';
 
 
 export class WorkCardComponent implements OnInit {
-	@Input() projects: Project[];
+	@Input() projects: Project[] = [];
 	@Input() comments: Comment[];
-	@Input() work: Work;
-	@Output() saveWork = new EventEmitter<Work>();
-	@Output() deleteWork = new EventEmitter<Work>();
-	@Output() persistNewWork = new EventEmitter<Work>();
+	@Input() work: WorkingHours;
+	@Output() saveWork = new EventEmitter<WorkingHours>();
+	@Output() deleteWork = new EventEmitter<WorkingHours>();
+	@Output() persistNewWork = new EventEmitter<WorkingHours>();
 
 	filteredProjects: Observable<Project[]>;
 	filteredComments: Observable<Comment[]>;
 	workForm: FormGroup;
 	toControl: AbstractControl;
-	private backupWork: Work;
+	private backupWork: WorkingHours;
 	private cardActive: boolean;
 
 	static isAfter(control: FormControl): any {
@@ -64,14 +64,17 @@ export class WorkCardComponent implements OnInit {
 		this.backupWork = Object.assign({}, this.work);
 
 		let tempProject = null;
-		if (this.work.hasOwnProperty('projectId')) {
+		if (this.work.hasOwnProperty('project')) {
 			tempProject = new Project();
-			tempProject.id = this.work.projectId;
-			tempProject.number = this.work.projectNumber;
-			tempProject.name = this.work.projectName;
+			tempProject.project = {
+				id: this.work.project.id,
+				number: this.work.project.number,
+				name: this.work.project.name
+			}
 		}
 
 		this.workForm = this.fb.group({
+			// project: [tempProject, Validators.required],
 			project: [tempProject, Validators.required],
 			from: [this.work.from, [Validators.required, Validators.pattern(timeRegex)]],
 			to: [this.work.to, [Validators.required, Validators.pattern(timeRegex), WorkCardComponent.isAfter]],
@@ -86,7 +89,7 @@ export class WorkCardComponent implements OnInit {
 
 		this.filteredComments = this.workForm.controls['comment'].valueChanges
 			.startWith(null)
-			.map(comment => comment && typeof comment === 'object' ? comment.value : comment)
+			.map(comment => comment && typeof comment === 'object' ? comment.comment : comment)
 			.map(value => value ? this.filterComments(value) : this.comments.slice());
 
 		this.toControl = this.workForm.controls['to'];
@@ -104,10 +107,10 @@ export class WorkCardComponent implements OnInit {
 		if (this.work.hasOwnProperty('projectId')) {
 			const i = this.projects.map((el) => {
 				return el.id;
-			}).indexOf(this.work.projectId);
+			}).indexOf(this.work.project.id);
 
 			if (i > -1) {
-				if (this.projects[i].number !== this.work.projectNumber || this.projects[i].name !== this.work.projectName) {
+				if (this.projects[i].number !== this.work.project.number || this.projects[i].name !== this.work.project.name) {
 					this.workForm.controls['project'].patchValue(this.projects[i]);
 					this.checkValidation();
 				}
@@ -189,13 +192,15 @@ export class WorkCardComponent implements OnInit {
 
 	copyFormDataToWork(): void {
 		if (this.workForm.controls['project'].value) {
-			this.work.projectId = this.workForm.controls['project'].value.id;
-			this.work.projectNumber = this.workForm.controls['project'].value.number;
-			this.work.projectName = this.workForm.controls['project'].value.name;
+			this.work.project = {
+				id: this.workForm.controls['project'].value.id,
+				number: this.workForm.controls['project'].value.number,
+				name: this.workForm.controls['project'].value.name
+			};
 		}
 		this.work.from = this.workForm.controls['from'].value;
 		this.work.to = this.workForm.controls['to'].value;
-		this.work.comment = this.workForm.controls['comment'].value;
+		this.work.comment = this.workForm.controls['comment'].value || '';
 	}
 
 	checkWorkChanged(): boolean {
