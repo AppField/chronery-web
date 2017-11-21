@@ -14,6 +14,8 @@ import {
 } from 'amazon-cognito-identity-js';
 
 import { User } from '../models/user';
+import { MdDialog } from '@angular/material';
+import { ForgotPasswordDialogComponent } from '../components/forgot-password-dialog/forgot-password-dialog.component';
 
 const POOL_DATA = {
 	UserPoolId: 'eu-central-1_kdg6hHeXX',
@@ -25,68 +27,74 @@ const userPool = new CognitoUserPool(POOL_DATA);
 export class AuthService {
 	authIsLoading = new BehaviorSubject<boolean>(false);
 	authDidFail = new BehaviorSubject<boolean>(false);
+	errorChange = new BehaviorSubject<{}>({});
 	authStatusChanged = new Subject<boolean>();
 	registeredUser: CognitoUser;
 
-	constructor(private router: Router) {
+	constructor(private router: Router, public dialog: MdDialog) {
 	}
 
-	signUp(givenName: string, familyName: string, email: string, password: string): void {
-		this.authIsLoading.next(true);
-		const user: User = {
-			given_name: givenName,
-			family_name: familyName,
-			email: email,
-			password: password,
-			createdAt: Date.now().toString(),
-			updated_at: Date.now().toString()
-		};
+	signUp(givenName: string, familyName: string, email: string, password: string): Promise<{}> {
+		return new Promise<{}>((resolve, reject) => {
 
-		const attrList: CognitoUserAttribute[] = [];
-		const emailAttribute = {
-			Name: 'email',
-			Value: user.email
-		};
+			this.authIsLoading.next(true);
+			const user: User = {
+				given_name: givenName,
+				family_name: familyName,
+				email: email,
+				password: password,
+				createdAt: Date.now().toString(),
+				updated_at: Date.now().toString()
+			};
 
-		const givenNameAttribute = {
-			Name: 'given_name',
-			Value: user.given_name
-		};
+			const attrList: CognitoUserAttribute[] = [];
+			const emailAttribute = {
+				Name: 'email',
+				Value: user.email
+			};
 
-		const familyNameAttribute = {
-			Name: 'family_name',
-			Value: user.family_name
-		};
+			const givenNameAttribute = {
+				Name: 'given_name',
+				Value: user.given_name
+			};
 
-		const createdAtAttribute = {
-			Name: 'custom:createdAt',
-			Value: user.createdAt
-		};
+			const familyNameAttribute = {
+				Name: 'family_name',
+				Value: user.family_name
+			};
 
-		const updatedAtAttribute = {
-			Name: 'updated_at',
-			Value: user.updated_at
-		};
+			const createdAtAttribute = {
+				Name: 'custom:createdAt',
+				Value: user.createdAt
+			};
 
-		attrList.push(new CognitoUserAttribute(givenNameAttribute));
-		attrList.push(new CognitoUserAttribute(familyNameAttribute));
-		attrList.push(new CognitoUserAttribute(emailAttribute));
-		attrList.push(new CognitoUserAttribute(createdAtAttribute));
-		attrList.push(new CognitoUserAttribute(updatedAtAttribute));
+			const updatedAtAttribute = {
+				Name: 'updated_at',
+				Value: user.updated_at
+			};
 
-		userPool.signUp(user.email, user.password, attrList, null, (err, result) => {
-			if (err) {
-				console.log(err);
-				this.authDidFail.next(true);
+			attrList.push(new CognitoUserAttribute(givenNameAttribute));
+			attrList.push(new CognitoUserAttribute(familyNameAttribute));
+			attrList.push(new CognitoUserAttribute(emailAttribute));
+			attrList.push(new CognitoUserAttribute(createdAtAttribute));
+			attrList.push(new CognitoUserAttribute(updatedAtAttribute));
+
+			userPool.signUp(user.email, user.password, attrList, null, (err, result) => {
+				if (err) {
+					console.log(err);
+					this.authDidFail.next(true);
+					this.authIsLoading.next(false);
+					this.errorChange.next(err);
+					reject(err);
+					return;
+				}
+				this.authDidFail.next(false);
 				this.authIsLoading.next(false);
-				return;
-			}
-			this.authDidFail.next(false);
-			this.authIsLoading.next(false);
-			this.registeredUser = result.user;
-		});
+				resolve(result);
+				this.registeredUser = result.user;
+			});
 
-		return;
+		});
 	}
 
 
@@ -114,6 +122,7 @@ export class AuthService {
 			onFailure(err) {
 				self.authDidFail.next(true);
 				self.authIsLoading.next(false);
+				self.errorChange.next(err);
 				console.log(err);
 			}
 		});
@@ -177,6 +186,47 @@ export class AuthService {
 			});
 		}
 		console.log(cognitoUser);
+	}
+
+	forgotPassword(email: string): Promise<boolean> {
+		return new Promise((resolve, reject) => {
+			const userData = {
+				Username: email,
+				Pool: userPool
+			};
+			const cognitoUser = new CognitoUser(userData);
+
+			cognitoUser.forgotPassword({
+				onSuccess: (data) => {
+					console.log('CodeDeliveryData from forgotPassword: ' + data);
+				},
+				onFailure: (err) => {
+					console.log(err);
+				},
+				inputVerificationCode: (data) => {
+					console.log('Code sent to: ' + data);
+
+					const dialogRef = this.dialog.open(ForgotPasswordDialogComponent, {disableClose: true});
+
+					dialogRef.afterClosed().subscribe((resetData) => {
+						if (resetData) {
+							cognitoUser.confirmPassword(resetData.code, resetData.password, {
+								onSuccess() {
+									console.log('Password confirmed!');
+									resolve(true);
+								},
+								onFailure(err) {
+									console.log('Password not confirmed!');
+									reject();
+								}
+							});
+						} else {
+							resolve(false);
+						}
+					});
+				}
+			});
+		});
 	}
 
 	initAuth() {

@@ -21,7 +21,8 @@ import {
 	MdDatepickerModule,
 	MdNativeDateModule,
 	MdProgressSpinnerModule,
-	MdProgressBarModule
+	MdProgressBarModule,
+	MdSnackBarModule
 } from '@angular/material';
 import { CdkTableModule } from '@angular/cdk/table';
 
@@ -52,6 +53,7 @@ import { ProjectsService } from './services/projects/projects.service';
 import { CommentsService } from './services/comments/comments.service';
 import { WorkingHoursService } from './services/working-hours/working-hours.service';
 import { ConfirmAccountDeletionComponent } from './components/confirm-account-deletion/confirm-account-deletion.component';
+import { ForgotPasswordDialogComponent } from './components/forgot-password-dialog/forgot-password-dialog.component';
 
 @NgModule({
 	declarations: [
@@ -72,9 +74,10 @@ import { ConfirmAccountDeletionComponent } from './components/confirm-account-de
 		LoginComponent,
 		RegisterComponent,
 		AuthenticateComponent,
-		ConfirmAccountDeletionComponent
+		ConfirmAccountDeletionComponent,
+		ForgotPasswordDialogComponent
 	],
-	entryComponents: [MonthYearDialogComponent, ProjectDialogComponent, ConfirmAccountDeletionComponent],
+	entryComponents: [MonthYearDialogComponent, ProjectDialogComponent, ConfirmAccountDeletionComponent, ForgotPasswordDialogComponent],
 	imports: [
 		BrowserModule,
 		FlexLayoutModule,
@@ -84,7 +87,7 @@ import { ConfirmAccountDeletionComponent } from './components/confirm-account-de
 		BrowserAnimationsModule,
 		MdButtonModule, MdDialogModule, MdSidenavModule, MdIconModule, MdMenuModule, MdCardModule, MdAutocompleteModule, MdInputModule,
 		MdTabsModule, MdListModule, MdToolbarModule, MdTableModule, MdTooltipModule, MdDatepickerModule, MdNativeDateModule,
-		AppRoutingModule, MdProgressSpinnerModule, MdProgressBarModule,
+		AppRoutingModule, MdProgressSpinnerModule, MdProgressBarModule, MdSnackBarModule,
 		CdkTableModule
 	],
 	providers: [AuthService, WorkingHoursDbService, WorkingHoursService, ProjectsService, CommentsService, LocalStorageService],

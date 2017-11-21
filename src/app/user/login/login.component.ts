@@ -46,11 +46,25 @@ export class LoginComponent implements OnInit {
 
 	login(): void {
 		if (this.loginForm.valid) {
-			const email = this.loginForm.controls['email'].value;
+			const email = this.loginForm.controls['email'].value.toLowerCase();
 			const password = this.loginForm.controls['password'].value;
+
+			this.didFail = false;
 			this.authService.signIn(email, password);
 			this.loginSent = true;
 		}
+	}
+
+	forgotPassword(): void {
+		const email = this.loginForm.controls['email'].value;
+		this.authService.forgotPassword(email)
+			.then((result) => {
+				if (result) {
+					this.loginForm.reset();
+				}
+			})
+			.catch(err => {
+			});
 	}
 
 	get emailErrorMessage(): string {

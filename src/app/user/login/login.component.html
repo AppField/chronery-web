@@ -20,7 +20,10 @@
 
         <md-card-actions>
             <button md-raised-button color="accent">Login</button>
-            <md-error class="login-error" *ngIf="didLoginFail">E-Mail or password wrong.</md-error>
+            <button md-button color="warn" type="button" class="forgot-button" *ngIf="didLoginFail"
+                    (click)="forgotPassword()">Forgot
+                Password?
+            </button>
         </md-card-actions>
     </md-card>
 </form>
