@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MdDialogRef } from '@angular/material';
+import { CustomValidators } from '../../utils/CustomValidators';
 
 @Component({
 	selector: 'chy-forgot-password-dialog',
@@ -27,8 +28,8 @@ export class ForgotPasswordDialogComponent implements OnInit {
 	ngOnInit() {
 		this.forgotPasswordForm = this.fb.group({
 			code: ['', [Validators.required]],
-			password: ['', [Validators.required]],
-			repeatPassword: ['', [Validators.required, ForgotPasswordDialogComponent.matchPasswordValidator]]
+			password: ['', [Validators.required, CustomValidators.hasLengthEight, CustomValidators.containsNumbersValidator, CustomValidators.containsUpperValidator, CustomValidators.containsLowerValidator]],
+			repeatPassword: ['', [Validators.required, CustomValidators.matchPasswordValidator]]
 		});
 	}
 
@@ -44,6 +45,10 @@ export class ForgotPasswordDialogComponent implements OnInit {
 
 	get isPasswordMismatch(): boolean {
 		return this.forgotPasswordForm.controls['repeatPassword'].hasError('mismatch');
+	}
+
+	get getPasswordErrorMessage(): string {
+		return CustomValidators.getPasswordErrorMessage(this.forgotPasswordForm.controls['password']);
 	}
 
 }

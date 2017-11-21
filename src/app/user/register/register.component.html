@@ -28,7 +28,7 @@
             <md-form-field>
                 <input mdInput placeholder="PASSWORD" formControlName="password" autocomplete="off"
                        type="password">
-                <md-error>Required</md-error>
+                <md-error>{{getPasswordErrorMessage}}</md-error>
             </md-form-field>
 
             <!-- Repeat Password -->
@@ -40,8 +40,12 @@
             </md-form-field>
         </md-card-content>
 
-        <md-card-actions>
+        <md-card-actions *ngIf="!justRegisted; else verifyMail">
             <button md-raised-button color="accent">Register</button>
         </md-card-actions>
+        <ng-template #verifyMail>
+            <p class="verify-mail">We have sent you an E-Mail. Please click the link it contains to verify that it is
+                yours</p>
+        </ng-template>
     </md-card>
 </form>

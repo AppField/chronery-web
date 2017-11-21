@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../auth.service';
+import { CustomValidators } from '../../utils/CustomValidators';
 
 @Component({
 	selector: 'chy-register',
@@ -13,15 +14,8 @@ export class RegisterComponent implements OnInit {
 	registerForm: FormGroup;
 	email: AbstractControl;
 	signupSent = false;
+	justRegisted = false;
 
-	static matchPasswordValidator(control: FormControl): any {
-		if (control.parent) {
-			const password = control.parent.controls['password'].value;
-			const repeatPassword = control.value;
-			return password === repeatPassword ? true : {mismatch: true};
-		}
-		return null;
-	}
 
 	constructor(public fb: FormBuilder, private authService: AuthService) {
 	}
@@ -32,8 +26,8 @@ export class RegisterComponent implements OnInit {
 			given_name: ['', [Validators.required]],
 			family_name: ['', [Validators.required]],
 			email: ['', [Validators.required, Validators.email]],
-			password: ['', [Validators.required]],
-			repeatPassword: ['', [Validators.required, RegisterComponent.matchPasswordValidator]]
+			password: ['', [Validators.required, CustomValidators.hasLengthEight, CustomValidators.containsNumbersValidator, CustomValidators.containsUpperValidator, CustomValidators.containsLowerValidator]],
+			repeatPassword: ['', [Validators.required, CustomValidators.matchPasswordValidator]]
 		});
 
 		this.email = this.registerForm.controls['email'];
@@ -48,7 +42,7 @@ export class RegisterComponent implements OnInit {
 
 			this.authService.signUp(givenName, family_name, email, password)
 				.then((result) => {
-					console.log(result);
+					this.justRegisted = true;
 				})
 				.catch((error) => {
 					console.log(error)
@@ -64,5 +58,9 @@ export class RegisterComponent implements OnInit {
 
 	get isPasswordMismatch(): boolean {
 		return this.registerForm.controls['repeatPassword'].hasError('mismatch');
+	}
+
+	get getPasswordErrorMessage(): string {
+		return CustomValidators.getPasswordErrorMessage(this.registerForm.controls['password']);
 	}
 }
