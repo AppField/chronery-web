@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers, Response } from '@angular/http';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/map';
 import { AuthService } from '../../user/auth.service';
 import { WorkingHours } from '../../models/working-hours';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 
 @Injectable()
@@ -20,7 +20,7 @@ export class WorkingHoursService {
 		}
 	}
 
-	constructor(private http: Http,
+	constructor(private http: HttpClient,
 				private authService: AuthService) {
 	}
 
@@ -34,20 +34,15 @@ export class WorkingHoursService {
 				console.log(err);
 			} else {
 				this.http.post(`https://qa1nu08638.execute-api.eu-central-1.amazonaws.com/dev/working-hours/${date}`, data, {
-					headers: new Headers({'Authorization': session.getIdToken().getJwtToken()})
+					headers: new HttpHeaders().set('Authorization', session.getIdToken().getJwtToken())
 				})
 					.subscribe(
-						(result) => {
+						(result: WorkingHours[]) => {
 							this.dataLoadFailed.next(false);
 							this.dataIsLoading.next(false);
 
 							console.log(result);
-							const obj = JSON.parse(data['_body']);
-							console.log(obj);
-							this.dataChange.next(obj);
-							// const newData = this.data.slice();
-							// newData.push(project);
-							// this.dataChange.next(newData);
+							this.dataChange.next(result);
 						},
 						(error) => {
 							console.log(error);
@@ -66,12 +61,9 @@ export class WorkingHoursService {
 
 		this.authService.getAuthenticatedUser().getSession((err, session) => {
 			this.http.get(`https://qa1nu08638.execute-api.eu-central-1.amazonaws.com/dev/working-hours/${date}`, {
-				headers: new Headers({'Authorization': session.getIdToken().getJwtToken()})
+				headers: new HttpHeaders().set('Authorization', session.getIdToken().getJwtToken())
 			})
-				.map(
-					(response: Response) => response.json()
-				)
-				.subscribe((data) => {
+				.subscribe((data: WorkingHours[]) => {
 						console.log('DATA: ', data);
 						if (data) {
 							this.dataChange.next(data);
@@ -99,7 +91,7 @@ export class WorkingHoursService {
 
 		this.authService.getAuthenticatedUser().getSession((err, session) => {
 			this.http.delete(`https://qa1nu08638.execute-api.eu-central-1.amazonaws.com/dev/working-hours/${date}?index=${index}`, {
-				headers: new Headers({'Authorization': session.getIdToken().getJwtToken()})
+				headers: new HttpHeaders().set('Authorization', session.getIdToken().getJwtToken())
 			})
 				.subscribe(
 					(data) => {

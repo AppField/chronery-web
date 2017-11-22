@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Subject } from 'rxjs/Subject';
-import { Http, Headers, Response } from '@angular/http';
 import { AuthService } from '../../user/auth.service';
 import { Comment } from '../../models/comment';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable()
 export class CommentsService {
@@ -19,7 +19,7 @@ export class CommentsService {
 		}
 	}
 
-	constructor(private http: Http,
+	constructor(private http: HttpClient,
 				private authService: AuthService) {
 
 		this.onRetrieveData();
@@ -34,7 +34,7 @@ export class CommentsService {
 				console.log(err);
 			} else {
 				this.http.post('https://qa1nu08638.execute-api.eu-central-1.amazonaws.com/dev/comments', data, {
-					headers: new Headers({'Authorization': session.getIdToken().getJwtToken()})
+					headers: new HttpHeaders().set('Authorization', session.getIdToken().getJwtToken())
 				})
 					.subscribe(
 						(result) => {
@@ -76,7 +76,7 @@ export class CommentsService {
 				console.log(err);
 			} else {
 				this.http.put('https://qa1nu08638.execute-api.eu-central-1.amazonaws.com/dev/comments', comment, {
-					headers: new Headers({'Authorization': session.getIdToken().getJwtToken()})
+					headers: new HttpHeaders().set('Authorization', session.getIdToken().getJwtToken())
 				})
 					.subscribe(
 						(result) => {
@@ -103,12 +103,9 @@ export class CommentsService {
 		this.authService.getAuthenticatedUser().getSession((err, session) => {
 
 			this.http.get('https://qa1nu08638.execute-api.eu-central-1.amazonaws.com/dev/comments', {
-				headers: new Headers({'Authorization': session.getIdToken().getJwtToken()})
+				headers: new HttpHeaders().set('Authorization', session.getIdToken().getJwtToken())
 			})
-				.map(
-					(response: Response) => response.json()
-				)
-				.subscribe((data) => {
+				.subscribe((data: Comment[]) => {
 						console.log('DATA: ', data);
 						if (data) {
 							this.dataChange.next(data);
@@ -132,7 +129,7 @@ export class CommentsService {
 		this.dataIsLoading.next(true);
 		this.authService.getAuthenticatedUser().getSession((err, session) => {
 			this.http.delete('https://qa1nu08638.execute-api.eu-central-1.amazonaws.com/dev/comments/' + comment.id, {
-				headers: new Headers({'Authorization': session.getIdToken().getJwtToken()})
+				headers: new HttpHeaders().set('Authorization', session.getIdToken().getJwtToken())
 			})
 				.subscribe(
 					(data) => {

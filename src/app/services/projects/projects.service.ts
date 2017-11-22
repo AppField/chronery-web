@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers, Response } from '@angular/http';
+import { Headers, Response } from '@angular/http';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/map';
 import { Project } from '../../models/project';
 import { AuthService } from '../../user/auth.service';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 
 @Injectable()
@@ -20,7 +21,7 @@ export class ProjectsService {
 		}
 	}
 
-	constructor(private http: Http,
+	constructor(private http: HttpClient,
 				private authService: AuthService) {
 
 		this.onRetrieveData();
@@ -39,7 +40,7 @@ export class ProjectsService {
 				console.log(err);
 			} else {
 				this.http.post('https://qa1nu08638.execute-api.eu-central-1.amazonaws.com/dev/projects', data, {
-					headers: new Headers({'Authorization': session.getIdToken().getJwtToken()})
+					headers: new HttpHeaders().set('Authorization', session.getIdToken().getJwtToken())
 				})
 					.subscribe(
 						(result) => {
@@ -71,7 +72,7 @@ export class ProjectsService {
 				console.log(err);
 			} else {
 				this.http.put('https://qa1nu08638.execute-api.eu-central-1.amazonaws.com/dev/projects', data, {
-					headers: new Headers({'Authorization': session.getIdToken().getJwtToken()})
+					headers: new HttpHeaders().set('Authorization', session.getIdToken().getJwtToken())
 				})
 					.subscribe(
 						(result) => {
@@ -109,7 +110,7 @@ export class ProjectsService {
 			const queryParam = '?accessToken=' + session.getAccessToken().getJwtToken();
 
 			this.http.get('https://qa1nu08638.execute-api.eu-central-1.amazonaws.com/dev/projects/' + queryParam, {
-				headers: new Headers({'Authorization': session.getIdToken().getJwtToken()})
+				headers: new HttpHeaders().set('Authorization', session.getIdToken().getJwtToken())
 			})
 				.map(
 					(response: Response) => response.json()
@@ -136,7 +137,7 @@ export class ProjectsService {
 	onDeleteData() {
 		this.dataLoadFailed.next(false);
 		this.http.delete('https://API_ID.execute-api.REGION.amazonaws.com/dev/', {
-			headers: new Headers({'Authorization': 'XXX'})
+			// headers: new HttpHeaders().set('Authorization', session.getIdToken().getJwtToken())
 		})
 			.subscribe(
 				(data) => {

@@ -1,4 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -80,6 +81,7 @@ import { ForgotPasswordDialogComponent } from './components/forgot-password-dial
 	entryComponents: [MonthYearDialogComponent, ProjectDialogComponent, ConfirmAccountDeletionComponent, ForgotPasswordDialogComponent],
 	imports: [
 		BrowserModule,
+		HttpClientModule,
 		FlexLayoutModule,
 		FormsModule,
 		ReactiveFormsModule,
