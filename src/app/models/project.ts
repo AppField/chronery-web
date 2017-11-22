@@ -5,7 +5,9 @@ export class Project {
 	name: string;
 
 	constructor(userId?: string, id?: string, number?: string, name?: string) {
-		this.userId = userId || null;
+		if (userId) {
+			this.userId = userId;
+		}
 		this.id = id || '';
 		this.number = number || '';
 		this.name = name || '';
