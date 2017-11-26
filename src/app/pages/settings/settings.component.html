@@ -17,7 +17,8 @@
         </md-list-item>
         <md-list-item chyMaterialActive *ngIf="commentsService.data?.length < 5">
             <md-form-field floatPlaceholder="never">
-                <input mdInput placeholder="New Comment" [(ngModel)]="newComment.comment" (blur)="createComment()"
+                <input mdInput placeholder="New Comment" [(ngModel)]="newComment.comment"
+                       (blur)="createComment()"
                        (keyup.enter)="createComment()" autocomplete="off"/>
             </md-form-field>
         </md-list-item>

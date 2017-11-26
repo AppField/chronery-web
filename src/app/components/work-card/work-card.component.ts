@@ -17,7 +17,7 @@ import { WorkingHours } from '../../models/working-hours';
 
 
 export class WorkCardComponent implements OnInit {
-	@Input() projects: Project[] = [];
+	@Input() projects: Project[];
 	@Input() comments: Comment[];
 	@Input() work: WorkingHours;
 	@Output() saveWork = new EventEmitter<WorkingHours>();
@@ -55,7 +55,6 @@ export class WorkCardComponent implements OnInit {
 		}
 	}
 
-
 	constructor(public fb: FormBuilder, private elRef: ElementRef) {
 	}
 
@@ -63,34 +62,35 @@ export class WorkCardComponent implements OnInit {
 		const timeRegex = '^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$';
 		this.backupWork = Object.assign({}, this.work);
 
-		let tempProject = null;
-		if (this.work.hasOwnProperty('project')) {
-			tempProject = new Project();
-			tempProject.project = {
-				id: this.work.project.id,
-				number: this.work.project.number,
-				name: this.work.project.name
-			}
-		}
+		// let tempProject = null;
+		// if (this.work.hasOwnProperty('project')) {
+		// 	tempProject: Project = this.work.project
+		// 	tempProject.project = {
+		// 		id: this.work.project.id,
+		// 		number: this.work.project.number,
+		// 		name: this.work.project.name
+		// 	}
+		// }
 
 		this.workForm = this.fb.group({
 			// project: [tempProject, Validators.required],
-			project: [tempProject, Validators.required],
+			project: [this.work.project, Validators.required],
 			from: [this.work.from, [Validators.required, Validators.pattern(timeRegex)]],
 			to: [this.work.to, [Validators.required, Validators.pattern(timeRegex), WorkCardComponent.isAfter]],
 			comment: this.work.comment
 		});
 
+
 		// Autocomplete functionality
 		this.filteredProjects = this.workForm.controls['project'].valueChanges
 			.startWith(null)
 			.map(project => project && typeof project === 'object' ? project.name : project)
-			.map(name => name ? this.filterProjects(name) : this.projects.slice());
+			.map(name => name ? this.filterProjects(name) : this.projects ? this.projects.slice() : []);
 
 		this.filteredComments = this.workForm.controls['comment'].valueChanges
 			.startWith(null)
 			.map(comment => comment && typeof comment === 'object' ? comment.comment : comment)
-			.map(value => value ? this.filterComments(value) : this.comments.slice());
+			.map(value => value ? this.filterComments(value) : this.comments ? this.comments.slice() : []);
 
 		this.toControl = this.workForm.controls['to'];
 		this.workForm.controls['from'].valueChanges.subscribe((value) => {

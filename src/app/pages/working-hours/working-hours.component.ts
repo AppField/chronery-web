@@ -4,9 +4,7 @@ import { Utility } from '../../utils/utility';
 import { MediaChange, ObservableMedia } from '@angular/flex-layout';
 import { Subscription } from 'rxjs/Subscription';
 import { MdSidenav } from '@angular/material';
-import { Project } from '../../models/project';
 import { LocalStorageService } from '../../services/local-storage/local-storage.service';
-import { Comment } from '../../models/comment';
 import { ProjectsService } from '../../services/projects/projects.service';
 import { CommentsService } from '../../services/comments/comments.service';
 import { WorkingHours } from '../../models/working-hours';
@@ -23,31 +21,19 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
 	date: Date;
 	encodedDate: string;
 	works: WorkingHours[] = [];
-	projects: Project[] = [];
-	comments: Comment[] = [];
 	sidenavMode = 'side';
 	newCard: boolean;
 	async: any;
 
 	private dateSub: Subscription;
-	private projectsSub: Subscription;
-	private commentsSub: Subscription;
 	private mediaSub: Subscription;
 
 	constructor(private route: ActivatedRoute, public media: ObservableMedia,
 				private router: Router,
-				private projectsService: ProjectsService,
+				public projectsService: ProjectsService,
 				private workingHoursService: WorkingHoursService,
-				private commentsService: CommentsService,
+				public commentsService: CommentsService,
 				private localStorage: LocalStorageService) {
-
-		this.projectsSub = this.projectsService.dataChange.subscribe(data => {
-			this.projects = data;
-		});
-
-		this.commentsSub = this.commentsService.dataChange.subscribe(data => {
-			this.comments = data;
-		});
 
 		this.workingHoursService.dataChange.subscribe((data) => {
 			// const newCard = this.localStorage.getItem(this.encodedDate);
@@ -55,8 +41,8 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
 			// 	this.works = [newCard].concat(data);
 			// 	this.newCard = true;
 			// } else {
-				this.works = data;
-				// this.newCard = false;
+			this.works = data;
+			// this.newCard = false;
 			// }
 		});
 
@@ -133,8 +119,6 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
 
 	ngOnDestroy() {
 		this.dateSub.unsubscribe();
-		this.projectsSub.unsubscribe();
-		this.commentsSub.unsubscribe();
 		this.mediaSub.unsubscribe();
 	}
 }

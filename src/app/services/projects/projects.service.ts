@@ -43,14 +43,12 @@ export class ProjectsService {
 					headers: new HttpHeaders().set('Authorization', session.getIdToken().getJwtToken())
 				})
 					.subscribe(
-						(result) => {
+						(result: Project) => {
 							this.dataLoadFailed.next(false);
 							this.dataIsLoading.next(false);
 
 							const newData = this.data.slice();
-							const obj = JSON.parse(result['_body']).Attributes;
-							const project = new Project(obj.userId, obj.id, obj.number, obj.name);
-							newData.push(project);
+							newData.push(result);
 							this.dataChange.next(newData);
 						},
 						(error) => {
@@ -75,18 +73,17 @@ export class ProjectsService {
 					headers: new HttpHeaders().set('Authorization', session.getIdToken().getJwtToken())
 				})
 					.subscribe(
-						(result) => {
-							console.log(result);
+						(result: Project) => {
+							console.log('PROJECT', result);
 							this.dataLoadFailed.next(false);
 							this.dataIsLoading.next(false);
 							// clone array to prevent change detection issues
-							const newData = this.data.slice(0);
-							const updatedProject = JSON.parse(result['_body']).Attributes;
+							const newData = this.data.slice();
 
 							const index = newData.map(project => {
 								return project.id;
-							}).indexOf(updatedProject.id);
-							newData[index] = updatedProject;
+							}).indexOf(result.id);
+							newData[index] = result;
 
 							this.dataChange.next(newData);
 						},
@@ -112,10 +109,7 @@ export class ProjectsService {
 			this.http.get('https://qa1nu08638.execute-api.eu-central-1.amazonaws.com/dev/projects/' + queryParam, {
 				headers: new HttpHeaders().set('Authorization', session.getIdToken().getJwtToken())
 			})
-				.map(
-					(response: Response) => response.json()
-				)
-				.subscribe((data) => {
+				.subscribe((data: Project[]) => {
 						console.log('DATA: ', data);
 						if (data) {
 							this.dataChange.next(data);

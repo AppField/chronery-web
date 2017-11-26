@@ -37,18 +37,13 @@ export class CommentsService {
 					headers: new HttpHeaders().set('Authorization', session.getIdToken().getJwtToken())
 				})
 					.subscribe(
-						(result) => {
+						(result: Comment) => {
 							this.dataLoadFailed.next(false);
 							this.dataIsLoading.next(false);
-
-							console.log(result);
-
+							console.log('COMMENTS', result);
 							const newData = this.data.slice();
-							const obj = JSON.parse(result['_body']);
-							const comment = new Comment(obj.userId, obj.id, obj.comment);
-							newData.push(comment);
+							newData.push(result);
 							this.dataChange.next(newData);
-
 							callback();
 						},
 						(error) => {
@@ -62,12 +57,6 @@ export class CommentsService {
 	}
 
 	onUpdateData(comment: Comment) {
-		const index = this.data.map((obj: Comment) => obj.id).indexOf(comment.id);
-
-		if (this.data[index].comment === comment.comment) {
-			return;
-		}
-
 		this.dataLoadFailed.next(false);
 		this.dataIsLoading.next(true);
 
@@ -75,12 +64,18 @@ export class CommentsService {
 			if (err) {
 				console.log(err);
 			} else {
-				this.http.put('https://qa1nu08638.execute-api.eu-central-1.amazonaws.com/dev/comments', comment, {
+				this.http.post('https://qa1nu08638.execute-api.eu-central-1.amazonaws.com/dev/comments', comment, {
 					headers: new HttpHeaders().set('Authorization', session.getIdToken().getJwtToken())
 				})
 					.subscribe(
-						(result) => {
-							console.log(result);
+						(data: Comment) => {
+							console.log(data);
+
+							const newData = this.data.slice();
+							const idx = newData.map((com: Comment) => com.id).indexOf(data.id);
+							newData[idx] = data;
+							this.dataChange.next(newData);
+
 							this.dataLoadFailed.next(false);
 							this.dataIsLoading.next(false);
 						},
@@ -132,13 +127,11 @@ export class CommentsService {
 				headers: new HttpHeaders().set('Authorization', session.getIdToken().getJwtToken())
 			})
 				.subscribe(
-					(data) => {
-						console.log(data);
+					(data: Comment) => {
+						console.log('DELETED COMMENT', data);
 
 						const newData = this.data.slice();
-						const obj = JSON.parse(data['_body']).Attributes;
-						const deletedId = obj.id;
-						const index = newData.map((com: Comment) => com.id).indexOf(deletedId);
+						const index = newData.map((com: Comment) => com.id).indexOf(data.id);
 						newData.splice(index, 1);
 						this.dataChange.next(newData);
 

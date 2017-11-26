@@ -35,8 +35,8 @@
                     <span class="container" *ngIf="works.length; else noData">
                         <chy-work-card *ngFor="let work of works"
                                        [work]="work"
-                                       [projects]="projects"
-                                       [comments]="comments"
+                                       [projects]="projectsService.dataChange | async"
+                                       [comments]="commentsService.dataChange | async"
                                        (saveWork)="saveWork(work)" (persistNewWork)="persistNewWork(work)"
                                        (deleteWork)="deleteWork(work)"></chy-work-card>
                     </span>
