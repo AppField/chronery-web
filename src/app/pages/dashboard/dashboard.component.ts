@@ -17,6 +17,8 @@ export class DashboardComponent implements OnInit {
 	chartLink: string;
 	dataFound = true;
 	chartData: WorkingHours[];
+	isLoading = false;
+
 	// TODO: remove this workaround. Necessary as the async time causes an error whenn building the prod package.
 	async: any;
 
@@ -26,6 +28,7 @@ export class DashboardComponent implements OnInit {
 	}
 
 	ngOnInit() {
+		this.workingHoursService.dataIsLoading.subscribe((isLoading: boolean) => this.isLoading = isLoading);
 	}
 
 	nextMonth(): void {

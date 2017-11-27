@@ -26,6 +26,7 @@ export class ReportComponent implements OnInit, OnDestroy {
 	selectedProject: Project;
 	projectsCtrl: FormControl;
 	totalTime: string;
+	isLoading = false;
 
 	dataSource: ReportSource | null;
 	displayedColumns = ['date', 'from', 'to', 'spent', 'projectNumber', 'projectName', 'comment'];
@@ -58,6 +59,7 @@ export class ReportComponent implements OnInit, OnDestroy {
 	}
 
 	ngOnInit() {
+		this.workingHoursService.dataIsLoading.subscribe((isLoading: boolean) => this.isLoading = isLoading);
 	}
 
 	get isMobile(): boolean {
