@@ -39,14 +39,14 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
 		this.workingHoursService.dataIsLoading.subscribe((isLoading: boolean) => this.isLoading = isLoading);
 
 		this.workingHoursService.dataChange.subscribe((data) => {
-			// const newCard = this.localStorage.getItem(this.encodedDate);
-			// if (newCard) {
-			// 	this.works = [newCard].concat(data);
-			// 	this.newCard = true;
-			// } else {
-			this.works = data ? data.slice().reverse() : [];
-			// this.newCard = false;
-			// }
+			const newCard = this.localStorage.getItem(this.encodedDate);
+			if (newCard) {
+				this.works = data ? [newCard].concat(data.slice().reverse()) : [newCard];
+				this.newCard = true;
+			} else {
+				this.works = data ? data.slice().reverse() : [];
+				this.newCard = false;
+			}
 		});
 
 		this.dateSub = this.route.params.subscribe(params => {
@@ -100,8 +100,8 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
 		if (work.hasOwnProperty('id')) {
 			this.workingHoursService.onDeleteData(work, this.encodedDate);
 		} else {
-			// this.localStorage.deleteItem(work.date);
-			// this.works.shift();
+			this.localStorage.deleteItem(this.encodedDate);
+			this.works.shift();
 			this.newCard = false;
 		}
 	};
