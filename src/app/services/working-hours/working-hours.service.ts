@@ -85,6 +85,7 @@ export class WorkingHoursService {
 	onUpdateData(data: WorkingHours, date: string) {
 
 		this.dataLoadFailed.next(false);
+		this.dataIsLoading.next(true);
 
 		const index = this.data.map((wh: WorkingHours) => wh.id).indexOf(data.id);
 

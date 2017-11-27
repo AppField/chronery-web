@@ -5,6 +5,8 @@
 
     <div>
         <md-toolbar color="primary" class="mat-elevation-z8">
+            <md-progress-bar mode="indeterminate" color="accent" *ngIf="isLoading" class="top-loader"></md-progress-bar>
+
             <button *ngIf="media.isActive('xs')" md-icon-button type="button" (click)="subsidenav.open()">
                 <md-icon>date_range</md-icon>
             </button>

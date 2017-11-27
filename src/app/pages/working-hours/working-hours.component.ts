@@ -24,6 +24,7 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
 	sidenavMode = 'side';
 	newCard: boolean;
 	async: any;
+	isLoading = false;
 
 	private dateSub: Subscription;
 	private mediaSub: Subscription;
@@ -34,6 +35,8 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
 				private workingHoursService: WorkingHoursService,
 				public commentsService: CommentsService,
 				private localStorage: LocalStorageService) {
+
+		this.workingHoursService.dataIsLoading.subscribe((isLoading: boolean) => this.isLoading = isLoading);
 
 		this.workingHoursService.dataChange.subscribe((data) => {
 			// const newCard = this.localStorage.getItem(this.encodedDate);
