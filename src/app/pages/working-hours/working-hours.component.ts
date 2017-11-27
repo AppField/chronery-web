@@ -41,7 +41,7 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
 			// 	this.works = [newCard].concat(data);
 			// 	this.newCard = true;
 			// } else {
-			this.works = data;
+			this.works = data ? data.slice().reverse() : [];
 			// this.newCard = false;
 			// }
 		});
@@ -80,15 +80,13 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
 	};
 
 	saveWork(work: WorkingHours): void {
-		// if (work.hasOwnProperty('_id')) {
-		// 	this.workingHoursDb.updateWorkingHour(work);
-		// } else {
-		// 	this.localStorage.deleteItem(work.date);
-		// 	this.workingHoursDb.createWorkingHour(work);
-		// 	this.newCard = false;
-		// }
-		this.workingHoursService.onStoreData(work, this.encodedDate);
-		this.newCard = false;
+		if (work.hasOwnProperty('id')) {
+			this.workingHoursService.onUpdateData(work, this.encodedDate);
+		} else {
+			this.localStorage.deleteItem(this.encodedDate);
+			this.workingHoursService.onStoreData(work, this.encodedDate);
+			this.newCard = false;
+		}
 	}
 
 	persistNewWork(work: WorkingHours): void {
@@ -96,8 +94,8 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
 	}
 
 	deleteWork(work: WorkingHours): void {
-		if (work.hasOwnProperty('_id')) {
-			// this.workingHoursDb.deleteWorkingHour(work);
+		if (work.hasOwnProperty('id')) {
+			this.workingHoursService.onDeleteData(work, this.encodedDate);
 		} else {
 			// this.localStorage.deleteItem(work.date);
 			// this.works.shift();
