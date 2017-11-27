@@ -4,8 +4,6 @@ import { MdDialog } from '@angular/material';
 import { Utility } from '../../utils/utility';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment/moment';
-import { WorkingHoursFilter } from '../../models/working-hours-filter';
-import { Work } from '../../models/work';
 import { WorkingHoursService } from '../../services/working-hours/working-hours.service';
 import { WorkingHours } from '../../models/working-hours';
 
