@@ -116,7 +116,7 @@ export class WorkingHoursService {
 		});
 	}
 
-	onFilterData(from: string, to: string): Promise<WorkingHours[]> {
+	onFilterData(from: string, to: string, notNext?: boolean): Promise<WorkingHours[]> {
 		return new Promise<WorkingHours[]>((resolve, reject) => {
 			this.dataChange.next(null);
 			this.dataLoadFailed.next(false);
@@ -137,10 +137,11 @@ export class WorkingHoursService {
 									const whs = day.events.map((work: WorkingHours) => work);
 									workingHours = workingHours.concat(whs);
 								});
-								this.dataChange.next(workingHours);
+								if (!notNext) {
+									this.dataChange.next(workingHours);
+								}
 								resolve(workingHours);
 							} else {
-								this.dataLoadFailed.next(true);
 								reject('Failed filtering working hours.');
 							}
 							this.dataIsLoading.next(false);

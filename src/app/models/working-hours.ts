@@ -1,4 +1,5 @@
 export class WorkingHours {
+	date: string;
 	id: string;
 	from: string;
 	to: string;

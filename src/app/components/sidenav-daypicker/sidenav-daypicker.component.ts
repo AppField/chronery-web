@@ -3,10 +3,11 @@ import { MonthYearDialogComponent } from '../month-year-dialog/month-year-dialog
 import { MdDialog } from '@angular/material';
 import { Utility } from '../../utils/utility';
 import { ActivatedRoute, Router } from '@angular/router';
-import { WorkingHoursDbService } from '../../services/working-hours-db/working-hours-db.service';
 import * as moment from 'moment/moment';
 import { WorkingHoursFilter } from '../../models/working-hours-filter';
 import { Work } from '../../models/work';
+import { WorkingHoursService } from '../../services/working-hours/working-hours.service';
+import { WorkingHours } from '../../models/working-hours';
 
 interface DayMeta {
 	date: Date;
@@ -31,7 +32,7 @@ export class SidenavDaypickerComponent implements OnDestroy, AfterViewInit {
 	constructor(private dialog: MdDialog,
 				private router: Router,
 				private activeRoute: ActivatedRoute,
-				private workingHoursDB: WorkingHoursDbService) {
+				private workingHoursService: WorkingHoursService) {
 		this.getDays();
 		this.getMeta();
 
@@ -97,12 +98,11 @@ export class SidenavDaypickerComponent implements OnDestroy, AfterViewInit {
 		const startDate = moment(this.monthYear).startOf('month').toDate();
 		const endDate = moment(this.monthYear).endOf('month').toDate();
 
-		const filter = new WorkingHoursFilter();
-		filter.date = Utility.encodeDate(startDate);
-		filter.toDate = Utility.encodeDate(endDate);
+		const from = Utility.encodeDate(startDate);
+		const to = Utility.encodeDate(endDate);
 
-		this.workingHoursDB.getWorkingHoursData(filter).then(data => {
-			data.map((work: Work) => {
+		this.workingHoursService.onFilterData(from, to, true).then(data => {
+			data.map((work: WorkingHours) => {
 				const dateIndex = this.days.map((meta: DayMeta) => {
 					return Utility.encodeDate(meta.date);
 				}).indexOf(work.date);
@@ -110,9 +110,9 @@ export class SidenavDaypickerComponent implements OnDestroy, AfterViewInit {
 				const totalTime = Utility.sumTimes([this.days[dateIndex].totalTime, work.spent]);
 				this.days[dateIndex].totalTime = totalTime;
 
-				const projectAdded = this.days[dateIndex].projects.indexOf(work.projectId);
+				const projectAdded = this.days[dateIndex].projects.indexOf(work.project.id);
 				if (projectAdded) {
-					this.days[dateIndex].projects.push(work.projectId);
+					this.days[dateIndex].projects.push(work.project.id);
 				}
 
 			});
