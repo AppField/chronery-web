@@ -85,7 +85,7 @@
                 <md-header-cell *cdkHeaderCellDef>Project Number</md-header-cell>
                 <md-cell *cdkCellDef="let row" fxLayout="row">
                     <div fxHide.gt-sm fxFlex="50"><strong>Project Number</strong></div>
-                    <div fxFlex="50">{{row.projectNumber}}</div>
+                    <div fxFlex="50">{{row.project.number}}</div>
                 </md-cell>
             </ng-container>
 
@@ -93,7 +93,7 @@
                 <md-header-cell *cdkHeaderCellDef>Project Name</md-header-cell>
                 <md-cell *cdkCellDef="let row" fxLayout="row">
                     <div fxHide.gt-sm fxFlex="50"><strong>Project Name</strong></div>
-                    <div fxFlex="50">{{row.projectName}}</div>
+                    <div fxFlex="50">{{row.project.name}}</div>
                 </md-cell>
             </ng-container>
 

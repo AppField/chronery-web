@@ -5,6 +5,7 @@ import 'rxjs/add/operator/map';
 import { AuthService } from '../../user/auth.service';
 import { WorkingHours } from '../../models/working-hours';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { DayWorkingHours } from '../../models/day-working-hours';
 
 
 @Injectable()
@@ -115,6 +116,46 @@ export class WorkingHoursService {
 		});
 	}
 
+	onFilterData(from: string, to: string): Promise<WorkingHours[]> {
+		return new Promise<WorkingHours[]>((resolve, reject) => {
+			this.dataChange.next(null);
+			this.dataLoadFailed.next(false);
+			this.dataIsLoading.next(true);
+
+			this.authService.getAuthenticatedUser().getSession((err, session) => {
+				this.http.get('https://qa1nu08638.execute-api.eu-central-1.amazonaws.com/dev/working-hours', {
+					headers: new HttpHeaders().set('Authorization', session.getIdToken().getJwtToken()),
+					params: new HttpParams()
+						.set('from', from)
+						.set('to', to)
+				})
+					.subscribe((data: DayWorkingHours[]) => {
+							console.log('DATA: ', data);
+							if (data) {
+								let workingHours = [];
+								data.map((day: DayWorkingHours) => {
+									const whs = day.events.map((work: WorkingHours) => work);
+									workingHours = workingHours.concat(whs);
+								});
+								this.dataChange.next(workingHours);
+								resolve(workingHours);
+							} else {
+								this.dataLoadFailed.next(true);
+								reject('Failed filtering working hours.');
+							}
+							this.dataIsLoading.next(false);
+						},
+						(error) => {
+							console.log(error);
+							this.dataLoadFailed.next(true);
+							this.dataIsLoading.next(false);
+						}
+					);
+			});
+
+		})
+	}
+
 	onDeleteData(data: WorkingHours, date: string) {
 		this.dataLoadFailed.next(false);
 		this.dataIsLoading.next(true);
@@ -135,7 +176,7 @@ export class WorkingHoursService {
 						this.dataIsLoading.next(false);
 					},
 					(error) => {
-						this.dataLoadFailed.next(true)
+						this.dataLoadFailed.next(true);
 						this.dataIsLoading.next(false);
 					}
 				);

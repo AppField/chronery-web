@@ -3,15 +3,13 @@ import * as moment from 'moment/moment';
 import { Project } from '../../models/project';
 import { Observable } from 'rxjs/Observable';
 import { FormControl } from '@angular/forms';
-import { Subscription } from 'rxjs/Subscription';
 import { DataSource } from '@angular/cdk/collections';
-import { WorkingHoursDbService } from '../../services/working-hours-db/working-hours-db.service';
-import { Work } from '../../models/work';
-import { WorkingHoursFilter } from '../../models/working-hours-filter';
 import { Utility } from '../../utils/utility';
 import { Angular2Csv } from 'angular2-csv';
 import { ObservableMedia } from '@angular/flex-layout';
 import { ProjectsService } from '../../services/projects/projects.service';
+import { WorkingHoursService } from '../../services/working-hours/working-hours.service';
+import { WorkingHours } from '../../models/working-hours';
 
 @Component({
 	selector: 'chy-report',
@@ -27,14 +25,13 @@ export class ReportComponent implements OnInit, OnDestroy {
 	filteredProjects: Observable<Project[]>;
 	selectedProject: Project;
 	projectsCtrl: FormControl;
-	projectsSub: Subscription;
 	totalTime: string;
 
 	dataSource: ReportSource | null;
 	displayedColumns = ['date', 'from', 'to', 'spent', 'projectNumber', 'projectName', 'comment'];
 
 	constructor(private projectsService: ProjectsService,
-				private workingHoursDB: WorkingHoursDbService,
+				private workingHoursService: WorkingHoursService,
 				private media: ObservableMedia) {
 
 
@@ -46,8 +43,9 @@ export class ReportComponent implements OnInit, OnDestroy {
 		const allProjects = new Project(undefined, 'All');
 		this.selectedProject = allProjects;
 		this.projects = [allProjects];
-		this.projectsSub = this.projectsService.dataChange.subscribe(data => {
-			this.projects = this.projects.concat(data);
+
+		this.projectsService.dataChange.subscribe((data: Project[]) => {
+			this.projects = data ? this.projects.concat(data) : this.projects;
 			this.filteredProjects = this.projectsCtrl.valueChanges
 				.startWith(null)
 				.map(project => project && typeof project === 'object' ? project.name : project)
@@ -55,7 +53,7 @@ export class ReportComponent implements OnInit, OnDestroy {
 
 		});
 
-		this.dataSource = new ReportSource(this.workingHoursDB);
+		this.dataSource = new ReportSource(this.workingHoursService);
 		this.updateReport();
 	}
 
@@ -67,33 +65,29 @@ export class ReportComponent implements OnInit, OnDestroy {
 	}
 
 	get hasData(): boolean {
-		return this.workingHoursDB.data.length > 0;
+		return this.workingHoursService.data ? this.workingHoursService.data.length > 0 : false;
 	}
 
 
 	updateReport(): void {
-		const filter = new WorkingHoursFilter();
-		if (this.startDate) {
-			filter.date = Utility.encodeDate(this.startDate);
+		if (!this.startDate && !this.endDate) {
+			return;
 		}
-		if (this.endDate) {
-			filter.toDate = Utility.encodeDate(this.endDate);
-		}
-		if (this.selectedProject) {
-			if (this.selectedProject.hasOwnProperty('_id')) {
-				filter.project = this.selectedProject;
-			}
-		}
-		this.workingHoursDB.getWorkingHours(filter).then(data => {
-			const times = data.map((work: Work) => {
-				return work.spent;
+
+		const from = Utility.encodeDate(this.startDate);
+		const to = Utility.encodeDate(this.endDate);
+
+		this.workingHoursService.onFilterData(from, to)
+			.then((data: WorkingHours[]) => {
+				const times = data.map((work: WorkingHours) => {
+					return work.spent;
+				});
+				if (times.length) {
+					this.totalTime = Utility.sumTotalTimes(times);
+				} else {
+					this.totalTime = null;
+				}
 			});
-			if (times.length) {
-				this.totalTime = Utility.sumTotalTimes(times);
-			} else {
-				this.totalTime = null;
-			}
-		});
 	}
 
 	filterProjects(val: string) {
@@ -111,24 +105,23 @@ export class ReportComponent implements OnInit, OnDestroy {
 	}
 
 	exportReportToCSV(): void {
-		const data = this.workingHoursDB.dataChange.getValue();
+		const data = this.workingHoursService.dataChange.getValue();
 		const report = new Angular2Csv(data, `Chronery Report form ${Utility.encodeDate(this.startDate)} to ${Utility.encodeDate(this.endDate)}`, {showLabels: true});
 	}
 
 	ngOnDestroy() {
-		this.projectsSub.unsubscribe();
 	}
 }
 
 
 export class ReportSource extends DataSource<any> {
 
-	constructor(private workingHoursDB: WorkingHoursDbService) {
+	constructor(private workingHoursService: WorkingHoursService) {
 		super();
 	}
 
-	connect(): Observable<Work[]> {
-		return this.workingHoursDB.dataChange;
+	connect(): Observable<WorkingHours[]> {
+		return this.workingHoursService.dataChange;
 	}
 
 	disconnect() {
