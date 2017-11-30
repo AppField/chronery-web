@@ -41,7 +41,6 @@ import { WorkCardComponent } from './components/work-card/work-card.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { ProjectsComponent } from './pages/projects/projects.component';
 import { ProjectDialogComponent } from './components/project-modal/project-dialog.component';
-import { WorkingHoursDbService } from './services/working-hours-db/working-hours-db.service';
 import { MaterialActiveDirective } from './directives/material-active/material-active.directive';
 import { LocalStorageService } from './services/local-storage/local-storage.service';
 import { EncodedDatePipe } from './pipes/encoded-date/encoded-date.pipe';
@@ -92,7 +91,7 @@ import { ForgotPasswordDialogComponent } from './components/forgot-password-dial
 		AppRoutingModule, MdProgressSpinnerModule, MdProgressBarModule, MdSnackBarModule,
 		CdkTableModule
 	],
-	providers: [AuthService, WorkingHoursDbService, WorkingHoursService, ProjectsService, CommentsService, LocalStorageService],
+	providers: [AuthService, WorkingHoursService, ProjectsService, CommentsService, LocalStorageService],
 	bootstrap: [AppComponent]
 })
 export class AppModule {
