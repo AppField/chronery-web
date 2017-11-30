@@ -1,3 +1,10 @@
+// position loading-bar on top of a parent element
+.top-loader {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
 .comments-list {
 
   .mat-list-item {
@@ -8,4 +15,8 @@
     display: block;
     width: 100%
   }
+}
+
+.danger-zone {
+
 }

@@ -1,9 +1,13 @@
 export class Comment {
-	_id: string;
-	_rev: string;
-	value: string;
+	userId: string;
+	id: string;
+	comment: string;
 
-	constructor(value?: string) {
-		this.value = value || '';
+	constructor(userId?: string, id?: string, comment?: string) {
+		if (userId) {
+			this.userId = userId;
+		}
+		this.id = id || 'comment' + Date.now();
+		this.comment = comment || '';
 	}
 }

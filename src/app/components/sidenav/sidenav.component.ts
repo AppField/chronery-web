@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { ObservableMedia } from '@angular/flex-layout';
 import { Utility } from '../../utils/utility';
 import {
@@ -8,6 +8,7 @@ import {
 	animate,
 	transition
 } from '@angular/animations';
+import { AuthService } from '../../user/auth.service';
 
 interface RouterItem {
 	link: string;
@@ -48,8 +49,7 @@ export class SidenavComponent implements OnInit, AfterViewInit {
 
 	@ViewChild('sidenavContainer') private sidenav;
 
-	constructor(private media: ObservableMedia,
-				private detector: ChangeDetectorRef) {
+	constructor(private media: ObservableMedia, private authService: AuthService) {
 		// ToDo: Working Hours should remain active when another day is selected in subsidenav
 		this.routerItems = [
 			{
@@ -111,5 +111,9 @@ export class SidenavComponent implements OnInit, AfterViewInit {
 		if (this.isMobile) {
 			this.state = 'collapsedState';
 		}
+	}
+
+	logout(): void {
+		this.authService.logout();
 	}
 }

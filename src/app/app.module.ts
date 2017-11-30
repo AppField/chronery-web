@@ -1,4 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -20,7 +21,9 @@ import {
 	MdTooltipModule,
 	MdDatepickerModule,
 	MdNativeDateModule,
-	MdProgressSpinnerModule
+	MdProgressSpinnerModule,
+	MdProgressBarModule,
+	MdSnackBarModule
 } from '@angular/material';
 import { CdkTableModule } from '@angular/cdk/table';
 
@@ -38,13 +41,19 @@ import { WorkCardComponent } from './components/work-card/work-card.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { ProjectsComponent } from './pages/projects/projects.component';
 import { ProjectDialogComponent } from './components/project-modal/project-dialog.component';
-import { ProjectsDbService } from './services/projects-db/projects-db.service';
-import { WorkingHoursDbService } from './services/working-hours-db/working-hours-db.service';
 import { MaterialActiveDirective } from './directives/material-active/material-active.directive';
 import { LocalStorageService } from './services/local-storage/local-storage.service';
 import { EncodedDatePipe } from './pipes/encoded-date/encoded-date.pipe';
 import { WorkingHoursChartComponent } from './components/working-hours-chart/working-hours-chart.component';
-import { CommentsDbService } from './services/comments-db/comments-db.service';
+import { LoginComponent } from './user/login/login.component';
+import { AuthService } from './user/auth.service';
+import { RegisterComponent } from './user/register/register.component';
+import { AuthenticateComponent } from './user/authenticate/authenticate.component';
+import { ProjectsService } from './services/projects/projects.service';
+import { CommentsService } from './services/comments/comments.service';
+import { WorkingHoursService } from './services/working-hours/working-hours.service';
+import { ConfirmAccountDeletionComponent } from './components/confirm-account-deletion/confirm-account-deletion.component';
+import { ForgotPasswordDialogComponent } from './components/forgot-password-dialog/forgot-password-dialog.component';
 
 @NgModule({
 	declarations: [
@@ -61,11 +70,17 @@ import { CommentsDbService } from './services/comments-db/comments-db.service';
 		ProjectDialogComponent,
 		MaterialActiveDirective,
 		EncodedDatePipe,
-		WorkingHoursChartComponent
+		WorkingHoursChartComponent,
+		LoginComponent,
+		RegisterComponent,
+		AuthenticateComponent,
+		ConfirmAccountDeletionComponent,
+		ForgotPasswordDialogComponent
 	],
-	entryComponents: [MonthYearDialogComponent, ProjectDialogComponent],
+	entryComponents: [MonthYearDialogComponent, ProjectDialogComponent, ConfirmAccountDeletionComponent, ForgotPasswordDialogComponent],
 	imports: [
 		BrowserModule,
+		HttpClientModule,
 		FlexLayoutModule,
 		FormsModule,
 		ReactiveFormsModule,
@@ -73,10 +88,10 @@ import { CommentsDbService } from './services/comments-db/comments-db.service';
 		BrowserAnimationsModule,
 		MdButtonModule, MdDialogModule, MdSidenavModule, MdIconModule, MdMenuModule, MdCardModule, MdAutocompleteModule, MdInputModule,
 		MdTabsModule, MdListModule, MdToolbarModule, MdTableModule, MdTooltipModule, MdDatepickerModule, MdNativeDateModule,
-		AppRoutingModule, MdProgressSpinnerModule,
+		AppRoutingModule, MdProgressSpinnerModule, MdProgressBarModule, MdSnackBarModule,
 		CdkTableModule
 	],
-	providers: [WorkingHoursDbService, ProjectsDbService, CommentsDbService, LocalStorageService],
+	providers: [AuthService, WorkingHoursService, ProjectsService, CommentsService, LocalStorageService],
 	bootstrap: [AppComponent]
 })
 export class AppModule {

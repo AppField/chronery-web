@@ -5,6 +5,8 @@
 
     <div>
         <md-toolbar color="primary" class="mat-elevation-z8">
+            <md-progress-bar mode="indeterminate" color="accent" *ngIf="isLoading" class="top-loader"></md-progress-bar>
+
             <button *ngIf="media.isActive('xs')" md-icon-button type="button" (click)="subsidenav.open()">
                 <md-icon>date_range</md-icon>
             </button>
@@ -31,12 +33,12 @@
                 {{ date | date:'dd. MMMM yyyy' }}
             </h2>
 
-                <span *ngIf="works || async">
+            <span *ngIf="works|| async">
                     <span class="container" *ngIf="works.length; else noData">
                         <chy-work-card *ngFor="let work of works"
                                        [work]="work"
-                                       [projects]="projects"
-                                       [comments]="comments"
+                                       [projects]="projectsService.dataChange | async"
+                                       [comments]="commentsService.dataChange | async"
                                        (saveWork)="saveWork(work)" (persistNewWork)="persistNewWork(work)"
                                        (deleteWork)="deleteWork(work)"></chy-work-card>
                     </span>

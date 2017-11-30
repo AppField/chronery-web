@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Comment } from '../../models/comment';
-import { CommentsDbService } from '../../services/comments-db/comments-db.service';
+import { CommentsService } from '../../services/comments/comments.service';
+import { ConfirmAccountDeletionComponent } from '../../components/confirm-account-deletion/confirm-account-deletion.component';
+import { MdDialog } from '@angular/material';
+import { AuthService } from '../../user/auth.service';
 
 @Component({
 	selector: 'chy-settings',
@@ -10,32 +13,52 @@ import { CommentsDbService } from '../../services/comments-db/comments-db.servic
 
 
 export class SettingsComponent implements OnInit {
-
 	newComment: Comment = new Comment();
+	isLoading = false;
+	accountDeletFailed = false;
 
-	constructor(public commentsDB: CommentsDbService) {
+	constructor(public commentsService: CommentsService, public dialog: MdDialog, public authService: AuthService) {
 	}
 
 	ngOnInit() {
+		this.commentsService.dataIsLoading.subscribe((isLoading: boolean) => this.isLoading = isLoading);
+
+		this.authService.authDidFail.subscribe((didFail: boolean) => this.accountDeletFailed = didFail);
 	}
 
 	createComment(): void {
-		this.newComment.value.trim();
-		if (this.commentsDB.data.length < 5 && this.newComment.value !== '') {
-			this.commentsDB.createComment(this.newComment);
+		this.newComment.comment = this.newComment.comment.trim();
+		if (this.commentsService.data.length < 5 && this.newComment.comment !== '') {
 
-			this.newComment = new Comment();
+			this.commentsService.onStoreData(this.newComment, () => {
+				// Reset new comment
+				this.newComment = new Comment();
+			});
+
+
 		}
 	}
 
 	updateComment(comment: Comment): void {
-		if (comment.value !== '') {
-			this.commentsDB.updateComment(comment);
+		comment.comment = comment.comment.trim();
+		if (comment.comment !== '') {
+			this.commentsService.onUpdateData(comment);
 		}
 	}
 
 	deleteComment(comment: Comment): void {
-		this.commentsDB.deleteComment(comment);
+		this.commentsService.onDeleteData(comment);
+	}
+
+	deleteAccount(): void {
+		const dialogRef = this.dialog.open(ConfirmAccountDeletionComponent);
+
+		dialogRef.afterClosed().subscribe(result => {
+			if (result) {
+				// delete account
+				this.authService.deleteAccount();
+			}
+		});
 	}
 
 }

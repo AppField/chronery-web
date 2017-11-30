@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, OnInit, Output, ElementRef, HostListener } from '@angular/core';
-import { Work } from '../../models/work';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Project } from '../../models/project';
 import { Observable } from 'rxjs/Observable';
@@ -8,6 +7,7 @@ import 'rxjs/add/operator/startWith';
 import 'rxjs/add/operator/map';
 import * as moment from 'moment/moment';
 import { Utility } from '../../utils/utility';
+import { WorkingHours } from '../../models/working-hours';
 
 @Component({
 	selector: 'chy-work-card',
@@ -19,16 +19,16 @@ import { Utility } from '../../utils/utility';
 export class WorkCardComponent implements OnInit {
 	@Input() projects: Project[];
 	@Input() comments: Comment[];
-	@Input() work: Work;
-	@Output() saveWork = new EventEmitter<Work>();
-	@Output() deleteWork = new EventEmitter<Work>();
-	@Output() persistNewWork = new EventEmitter<Work>();
+	@Input() work: WorkingHours;
+	@Output() saveWork = new EventEmitter<WorkingHours>();
+	@Output() deleteWork = new EventEmitter<WorkingHours>();
+	@Output() persistNewWork = new EventEmitter<WorkingHours>();
 
 	filteredProjects: Observable<Project[]>;
 	filteredComments: Observable<Comment[]>;
 	workForm: FormGroup;
 	toControl: AbstractControl;
-	private backupWork: Work;
+	private backupWork: WorkingHours;
 	private cardActive: boolean;
 
 	static isAfter(control: FormControl): any {
@@ -55,7 +55,6 @@ export class WorkCardComponent implements OnInit {
 		}
 	}
 
-
 	constructor(public fb: FormBuilder, private elRef: ElementRef) {
 	}
 
@@ -63,31 +62,35 @@ export class WorkCardComponent implements OnInit {
 		const timeRegex = '^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$';
 		this.backupWork = Object.assign({}, this.work);
 
-		let tempProject = null;
-		if (this.work.hasOwnProperty('projectId')) {
-			tempProject = new Project;
-			tempProject._id = this.work.projectId;
-			tempProject.number = this.work.projectNumber;
-			tempProject.name = this.work.projectName;
-		}
+		// let tempProject = null;
+		// if (this.work.hasOwnProperty('project')) {
+		// 	tempProject: Project = this.work.project
+		// 	tempProject.project = {
+		// 		id: this.work.project.id,
+		// 		number: this.work.project.number,
+		// 		name: this.work.project.name
+		// 	}
+		// }
 
 		this.workForm = this.fb.group({
-			project: [tempProject, Validators.required],
+			// project: [tempProject, Validators.required],
+			project: [this.work.project, Validators.required],
 			from: [this.work.from, [Validators.required, Validators.pattern(timeRegex)]],
 			to: [this.work.to, [Validators.required, Validators.pattern(timeRegex), WorkCardComponent.isAfter]],
 			comment: this.work.comment
 		});
 
+
 		// Autocomplete functionality
 		this.filteredProjects = this.workForm.controls['project'].valueChanges
 			.startWith(null)
 			.map(project => project && typeof project === 'object' ? project.name : project)
-			.map(name => name ? this.filterProjects(name) : this.projects.slice());
+			.map(name => name ? this.filterProjects(name) : this.projects ? this.projects.slice() : []);
 
 		this.filteredComments = this.workForm.controls['comment'].valueChanges
 			.startWith(null)
-			.map(comment => comment && typeof comment === 'object' ? comment.value : comment)
-			.map(value => value ? this.filterComments(value) : this.comments.slice());
+			.map(comment => comment && typeof comment === 'object' ? comment.comment : comment)
+			.map(value => value ? this.filterComments(value) : this.comments ? this.comments.slice() : []);
 
 		this.toControl = this.workForm.controls['to'];
 		this.workForm.controls['from'].valueChanges.subscribe((value) => {
@@ -98,13 +101,16 @@ export class WorkCardComponent implements OnInit {
 	}
 
 	updateExistingProject(): void {
+		if (!this.projects) {
+			return;
+		}
 		if (this.work.hasOwnProperty('projectId')) {
 			const i = this.projects.map((el) => {
-				return el._id;
-			}).indexOf(this.work.projectId);
+				return el.id;
+			}).indexOf(this.work.project.id);
 
 			if (i > -1) {
-				if (this.projects[i].number !== this.work.projectNumber || this.projects[i].name !== this.work.projectName) {
+				if (this.projects[i].number !== this.work.project.number || this.projects[i].name !== this.work.project.name) {
 					this.workForm.controls['project'].patchValue(this.projects[i]);
 					this.checkValidation();
 				}
@@ -117,7 +123,7 @@ export class WorkCardComponent implements OnInit {
 	}
 
 	filterComments(val: string) {
-		return this.comments.filter((comment: Comment) => new RegExp(val, 'i').test(comment.value));
+		return this.comments.filter((comment: Comment) => new RegExp(val, 'i').test(comment.comment));
 	}
 
 	displayFn(project: Project) {
@@ -172,7 +178,7 @@ export class WorkCardComponent implements OnInit {
 				this.saveWork.emit(this.work);
 			}
 		} else {
-			if (!this.work.hasOwnProperty('_id')) {
+			if (!this.work.hasOwnProperty('id')) {
 				this.persistNewWork.emit(this.work);
 			}
 		}
@@ -186,13 +192,15 @@ export class WorkCardComponent implements OnInit {
 
 	copyFormDataToWork(): void {
 		if (this.workForm.controls['project'].value) {
-			this.work.projectId = this.workForm.controls['project'].value._id;
-			this.work.projectNumber = this.workForm.controls['project'].value.number;
-			this.work.projectName = this.workForm.controls['project'].value.name;
+			this.work.project = {
+				id: this.workForm.controls['project'].value.id,
+				number: this.workForm.controls['project'].value.number,
+				name: this.workForm.controls['project'].value.name
+			};
 		}
 		this.work.from = this.workForm.controls['from'].value;
 		this.work.to = this.workForm.controls['to'].value;
-		this.work.comment = this.workForm.controls['comment'].value;
+		this.work.comment = this.workForm.controls['comment'].value || '';
 	}
 
 	checkWorkChanged(): boolean {

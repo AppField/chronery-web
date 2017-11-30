@@ -1,0 +1,51 @@
+<form [formGroup]="registerForm" (ngSubmit)="register()">
+    <md-card>
+        <md-card-header>
+            <md-card-title>Register</md-card-title>
+        </md-card-header>
+        <md-card-content>
+            <!-- First Name -->
+            <md-form-field>
+                <input mdInput placeholder="FIRST NAME" formControlName="given_name" autocomplete="off">
+                <md-error>Required</md-error>
+            </md-form-field>
+
+            <!-- Family Name -->
+            <md-form-field>
+                <input mdInput placeholder="FAMILY NAME" formControlName="family_name" autocomplete="off">
+                <md-error>Required</md-error>
+            </md-form-field>
+
+            <!-- E-Mail Address -->
+            <md-form-field>
+                <input mdInput placeholder="E-MAIL ADDRESS" formControlName="email" autocomplete="off">
+                <md-error *ngIf="email.invalid">
+                    {{ emailErrorMessage }}
+                </md-error>
+            </md-form-field>
+
+            <!-- Password -->
+            <md-form-field>
+                <input mdInput placeholder="PASSWORD" formControlName="password" autocomplete="off"
+                       type="password">
+                <md-error>{{getPasswordErrorMessage}}</md-error>
+            </md-form-field>
+
+            <!-- Repeat Password -->
+            <md-form-field>
+                <input mdInput placeholder="REPEAT PASSWORD" formControlName="repeatPassword" autocomplete="off"
+                       type="password">
+                <md-error *ngIf="!isPasswordMismatch">Required</md-error>
+                <md-error *ngIf="isPasswordMismatch">Password does not match</md-error>
+            </md-form-field>
+        </md-card-content>
+
+        <md-card-actions *ngIf="!justRegisted; else verifyMail">
+            <button md-raised-button color="accent">Register</button>
+        </md-card-actions>
+        <ng-template #verifyMail>
+            <p class="verify-mail">We have sent you an E-Mail. Please click the link it contains to verify that it is
+                yours</p>
+        </ng-template>
+    </md-card>
+</form>

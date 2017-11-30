@@ -1,0 +1,17 @@
+<div class="auth-container">
+    <md-progress-bar mode="indeterminate" color="accent" *ngIf="isLoading" class="top-loader"></md-progress-bar>
+    <h1>
+        Welcome to Chronery!
+    </h1>
+
+    <div fxLayout="row" class="flex-row"
+         fxLayout.xs="column" fxLayoutAlign="center"
+         [ngClass.xs]="'mobile-login'">
+        <div class="login">
+            <chy-login></chy-login>
+        </div>
+        <div class="register">
+            <chy-register></chy-register>
+        </div>
+    </div>
+</div>

@@ -2,7 +2,8 @@
     <form [formGroup]="workForm" (ngSubmit)="checkValidation()">
         <md-card-content>
             <md-form-field class="project">
-                <input mdInput placeholder="Project" formControlName="project" [mdAutocomplete]="auto" autocomplete="off">
+                <input mdInput placeholder="Project" formControlName="project" [mdAutocomplete]="auto"
+                       autocomplete="off">
                 <md-error>Required</md-error>
             </md-form-field>
             <md-autocomplete #auto="mdAutocomplete" [displayWith]="displayFn">
@@ -37,12 +38,13 @@
 
             <!--<input mdInput placeholder="Comment" formControlName="comment">-->
             <md-form-field class="comment">
-                <input mdInput placeholder="Comment" formControlName="comment" [mdAutocomplete]="commentAuto" autocomplete="off">
+                <input mdInput placeholder="Comment" formControlName="comment" [mdAutocomplete]="commentAuto"
+                       autocomplete="off">
                 <md-error>Required</md-error>
             </md-form-field>
             <md-autocomplete #commentAuto="mdAutocomplete">
-                <md-option *ngFor="let comment of filteredComments | async" [value]="comment.value">
-                    <span>{{ comment.value }}</span>
+                <md-option *ngFor="let comment of filteredComments | async" [value]="comment.comment">
+                    <span>{{ comment.comment }}</span>
                 </md-option>
             </md-autocomplete>
 
