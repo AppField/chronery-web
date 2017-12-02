@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MdDialogRef } from '@angular/material';
+import { MatDialogRef } from '@angular/material';
 import { CustomValidators } from '../../utils/CustomValidators';
 
 @Component({
@@ -22,7 +22,7 @@ export class ForgotPasswordDialogComponent implements OnInit {
 
 	// order matters
 	constructor(public fb: FormBuilder,
-				public dialogRef: MdDialogRef<ForgotPasswordDialogComponent>) {
+				public dialogRef: MatDialogRef<ForgotPasswordDialogComponent>) {
 	}
 
 	ngOnInit() {

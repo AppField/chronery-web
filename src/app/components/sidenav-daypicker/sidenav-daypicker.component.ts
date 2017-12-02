@@ -1,6 +1,6 @@
 import { Component, OnDestroy, ViewChildren, AfterViewInit, Output, EventEmitter } from '@angular/core';
 import { MonthYearDialogComponent } from '../month-year-dialog/month-year-dialog.component';
-import { MdDialog } from '@angular/material';
+import { MatDialog } from '@angular/material';
 import { Utility } from '../../utils/utility';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment/moment';
@@ -27,7 +27,7 @@ export class SidenavDaypickerComponent implements OnDestroy, AfterViewInit {
 	monthYear: Date = new Date();
 	private sub: any;
 
-	constructor(private dialog: MdDialog,
+	constructor(private dialog: MatDialog,
 				private router: Router,
 				private activeRoute: ActivatedRoute,
 				private workingHoursService: WorkingHoursService) {

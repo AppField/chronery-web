@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
-import { MdSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
 	selector: 'chy-authenticate',
@@ -11,7 +11,7 @@ export class AuthenticateComponent implements OnInit {
 
 	isLoading = false;
 
-	constructor(private authService: AuthService, public snackBar: MdSnackBar) {
+	constructor(private authService: AuthService, public snackBar: MatSnackBar) {
 	}
 
 	ngOnInit() {

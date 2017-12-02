@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { Project } from '../../models/project';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -13,8 +13,8 @@ export class ProjectDialogComponent implements OnInit {
 	projectForm: FormGroup;
 
 	// order matters
-	constructor(public fb: FormBuilder, @Inject(MD_DIALOG_DATA) public data: Project,
-				public dialogRef: MdDialogRef<ProjectDialogComponent>) {
+	constructor(public fb: FormBuilder, @Inject(MAT_DIALOG_DATA) public data: Project,
+				public dialogRef: MatDialogRef<ProjectDialogComponent>) {
 
 		this.project = Object.assign({}, data);
 	}

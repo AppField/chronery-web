@@ -6,24 +6,24 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
-	MdButtonModule,
-	MdDialogModule,
-	MdSidenavModule,
-	MdIconModule,
-	MdMenuModule,
-	MdCardModule,
-	MdAutocompleteModule,
-	MdInputModule,
-	MdTabsModule,
-	MdListModule,
-	MdToolbarModule,
-	MdTableModule,
-	MdTooltipModule,
-	MdDatepickerModule,
-	MdNativeDateModule,
-	MdProgressSpinnerModule,
-	MdProgressBarModule,
-	MdSnackBarModule
+	MatButtonModule,
+	MatDialogModule,
+	MatSidenavModule,
+	MatIconModule,
+	MatMenuModule,
+	MatCardModule,
+	MatAutocompleteModule,
+	MatInputModule,
+	MatTabsModule,
+	MatListModule,
+	MatToolbarModule,
+	MatTableModule,
+	MatTooltipModule,
+	MatDatepickerModule,
+	MatNativeDateModule,
+	MatProgressSpinnerModule,
+	MatProgressBarModule,
+	MatSnackBarModule
 } from '@angular/material';
 import { CdkTableModule } from '@angular/cdk/table';
 
@@ -84,11 +84,10 @@ import { ForgotPasswordDialogComponent } from './components/forgot-password-dial
 		FlexLayoutModule,
 		FormsModule,
 		ReactiveFormsModule,
-		HttpModule,
 		BrowserAnimationsModule,
-		MdButtonModule, MdDialogModule, MdSidenavModule, MdIconModule, MdMenuModule, MdCardModule, MdAutocompleteModule, MdInputModule,
-		MdTabsModule, MdListModule, MdToolbarModule, MdTableModule, MdTooltipModule, MdDatepickerModule, MdNativeDateModule,
-		AppRoutingModule, MdProgressSpinnerModule, MdProgressBarModule, MdSnackBarModule,
+		MatButtonModule, MatDialogModule, MatSidenavModule, MatIconModule, MatMenuModule, MatCardModule, MatAutocompleteModule, MatInputModule,
+		MatTabsModule, MatListModule, MatToolbarModule, MatTableModule, MatTooltipModule, MatDatepickerModule, MatNativeDateModule,
+		AppRoutingModule, MatProgressSpinnerModule, MatProgressBarModule, MatSnackBarModule,
 		CdkTableModule
 	],
 	providers: [AuthService, WorkingHoursService, ProjectsService, CommentsService, LocalStorageService],

@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {MdDialogRef} from '@angular/material';
+import {MatDialogRef} from '@angular/material';
 
 @Component({
 	selector: 'chy-month-year-dialog',
@@ -9,7 +9,7 @@ import {MdDialogRef} from '@angular/material';
 export class MonthYearDialogComponent implements OnInit {
 	selectedDate: Date = new Date();
 
-	constructor(public dialogRef: MdDialogRef<MonthYearDialogComponent>) {
+	constructor(public dialogRef: MatDialogRef<MonthYearDialogComponent>) {
 	}
 
 	ngOnInit() {

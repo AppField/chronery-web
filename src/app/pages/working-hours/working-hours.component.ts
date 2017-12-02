@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Utility } from '../../utils/utility';
 import { MediaChange, ObservableMedia } from '@angular/flex-layout';
 import { Subscription } from 'rxjs/Subscription';
-import { MdSidenav } from '@angular/material';
+import { MatSidenav } from '@angular/material';
 import { LocalStorageService } from '../../services/local-storage/local-storage.service';
 import { ProjectsService } from '../../services/projects/projects.service';
 import { CommentsService } from '../../services/comments/comments.service';
@@ -16,7 +16,7 @@ import { WorkingHoursService } from '../../services/working-hours/working-hours.
 	styleUrls: ['./working-hours.component.scss']
 })
 export class WorkingHoursComponent implements OnInit, OnDestroy {
-	@ViewChild('subsidenav') subsidenav: MdSidenav;
+	@ViewChild('subsidenav') subsidenav: MatSidenav;
 
 	date: Date;
 	encodedDate: string;

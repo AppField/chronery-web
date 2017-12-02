@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MdDialogRef } from '@angular/material';
+import { MatDialogRef } from '@angular/material';
 
 @Component({
 	selector: 'chy-confirm-account-deletion',
@@ -8,7 +8,7 @@ import { MdDialogRef } from '@angular/material';
 })
 export class ConfirmAccountDeletionComponent implements OnInit {
 
-	constructor(public dialogRef: MdDialogRef<ConfirmAccountDeletionComponent>) {
+	constructor(public dialogRef: MatDialogRef<ConfirmAccountDeletionComponent>) {
 	}
 
 	ngOnInit() {

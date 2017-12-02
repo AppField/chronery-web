@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ObservableMedia } from '@angular/flex-layout';
 import { Utility } from '../../utils/utility';
 import {
@@ -43,7 +43,7 @@ interface RouterItem {
 		])
 	]
 })
-export class SidenavComponent implements OnInit, AfterViewInit {
+export class SidenavComponent implements OnInit {
 	routerItems: RouterItem[];
 	state = 'expandedState';
 
@@ -85,17 +85,6 @@ export class SidenavComponent implements OnInit, AfterViewInit {
 		this.state = (this.media.isActive('xs')) ? 'collapsedState' : 'expandedState';
 		this.media.subscribe(media => {
 			this.state = (media.mqAlias === 'xs') ? 'collapsedState' : 'expandedState';
-		});
-	}
-
-	ngAfterViewInit() {
-		// TODO: Remove this workaround as it is a bug in angular material 2 beta 10
-		// Necessary to recalculate sidenav-containers width when the sidenav width gets changed.
-		this.sidenav._ngZone.onMicrotaskEmpty.subscribe(() => {
-			setTimeout(() => {
-				this.sidenav._updateStyles();
-				this.sidenav._changeDetectorRef.markForCheck();
-			});
 		});
 	}
 

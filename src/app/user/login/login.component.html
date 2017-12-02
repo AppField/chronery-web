@@ -1,28 +1,28 @@
 <form [formGroup]="loginForm" (ngSubmit)="login()">
-    <md-card>
-        <md-card-header>
-            <md-card-title>Login</md-card-title>
-        </md-card-header>
-        <md-card-content>
-            <md-form-field>
-                <input mdInput placeholder="E-MAIL" formControlName="email" autocomplete="off">
-                <md-error *ngIf="email.invalid">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>Login</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <mat-form-field>
+                <input matInput placeholder="E-MAIL" formControlName="email" autocomplete="off">
+                <mat-error *ngIf="email.invalid">
                     {{ emailErrorMessage }}
-                </md-error>
-            </md-form-field>
-            <md-form-field>
-                <input mdInput placeholder="PASSWORD" formControlName="password" autocomplete="off"
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput placeholder="PASSWORD" formControlName="password" autocomplete="off"
                        type="password">
-                <md-error>Required</md-error>
-            </md-form-field>
-        </md-card-content>
+                <mat-error>Required</mat-error>
+            </mat-form-field>
+        </mat-card-content>
 
-        <md-card-actions>
+        <mat-card-actions>
             <button md-raised-button color="accent">Login</button>
-            <button md-button color="warn" type="button" class="forgot-button" *ngIf="didLoginFail"
+            <button mat-button color="warn" type="button" class="forgot-button" *ngIf="didLoginFail"
                     (click)="forgotPassword()">Forgot
                 Password?
             </button>
-        </md-card-actions>
-    </md-card>
+        </mat-card-actions>
+    </mat-card>
 </form>

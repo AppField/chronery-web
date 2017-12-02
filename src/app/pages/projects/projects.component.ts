@@ -9,7 +9,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/observable/fromEvent';
-import { MdDialog } from '@angular/material';
+import { MatDialog } from '@angular/material';
 import { ProjectDialogComponent } from '../../components/project-modal/project-dialog.component';
 import { ObservableMedia } from '@angular/flex-layout';
 import { ProjectsService } from '../../services/projects/projects.service';
@@ -26,7 +26,7 @@ export class ProjectsComponent implements OnInit {
 
 	@ViewChild('filter') filter: ElementRef;
 
-	constructor(public dialog: MdDialog,
+	constructor(public dialog: MatDialog,
 				private projectsService: ProjectsService,
 				private media: ObservableMedia) {
 	}

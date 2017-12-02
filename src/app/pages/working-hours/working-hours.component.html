@@ -1,32 +1,33 @@
-<md-sidenav-container>
-    <md-sidenav #subsidenav mode="{{sidenavMode}}">
+<mat-sidenav-container>
+    <mat-sidenav #subsidenav mode="{{sidenavMode}}">
         <chy-sidenav-daypicker (daySelected)="checkSubsidenav()"></chy-sidenav-daypicker>
-    </md-sidenav>
+    </mat-sidenav>
 
     <div>
-        <md-toolbar color="primary" class="mat-elevation-z8">
-            <md-progress-bar mode="indeterminate" color="accent" *ngIf="isLoading" class="top-loader"></md-progress-bar>
+        <mat-toolbar color="primary" class="mat-elevation-z8">
+            <mat-progress-bar mode="indeterminate" color="accent" *ngIf="isLoading"
+                              class="top-loader"></mat-progress-bar>
 
-            <button *ngIf="media.isActive('xs')" md-icon-button type="button" (click)="subsidenav.open()">
-                <md-icon>date_range</md-icon>
+            <button *ngIf="media.isActive('xs')" mat-icon-button type="button" (click)="subsidenav.open()">
+                <mat-icon>date_range</mat-icon>
             </button>
             Working Hours
             <span class="fill-remaining-space">
-                <button md-button class="btn-today" (click)="SetActiveDateToToday()">
+                <button mat-button class="btn-today" (click)="SetActiveDateToToday()">
                 Today
-                <md-icon>
+                <mat-icon>
                     today
-                </md-icon>
+                </mat-icon>
             </button>
             </span>
             <!-- span is necessary because the browser doesn't show the tooltip when the button is disabled -->
-            <span class="btn-floating" mdTooltip="You have an unfinished card open."
-                  [mdTooltipPosition]="'left'" [mdTooltipDisabled]="!newCard">
-                <button md-fab [disabled]="newCard" (click)="newWork()">
-                    <md-icon>add</md-icon>
+            <span class="btn-floating" matTooltip="You have an unfinished card open."
+                  [matTooltipPosition]="'left'" [matTooltipDisabled]="!newCard">
+                <button mat-fab [disabled]="newCard" (click)="newWork()">
+                    <mat-icon>add</mat-icon>
                 </button>
             </span>
-        </md-toolbar>
+        </mat-toolbar>
         <div class="inner-sidenav-content">
 
             <h2 class="title">
@@ -44,18 +45,18 @@
                     </span>
 
                     <ng-template #noData>
-                        <md-card class="no-data">
-                            <md-card-content>
-                                <button md-button class="no-data-action" (click)="newWork()">
-                                    <md-icon>
+                        <mat-card class="no-data">
+                            <mat-card-content>
+                                <button mat-button class="no-data-action" (click)="newWork()">
+                                    <mat-icon>
                                         timelapse
-                                    </md-icon>
+                                    </mat-icon>
                                     <p>Add working hours for this day!</p>
                                 </button>
-                            </md-card-content>
-                        </md-card>
+                            </mat-card-content>
+                        </mat-card>
                     </ng-template>
                 </span>
         </div>
     </div>
-</md-sidenav-container>
+</mat-sidenav-container>

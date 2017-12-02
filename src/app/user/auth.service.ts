@@ -14,7 +14,7 @@ import {
 } from 'amazon-cognito-identity-js';
 
 import { User } from '../models/user';
-import { MdDialog } from '@angular/material';
+import { MatDialog } from '@angular/material';
 import { ForgotPasswordDialogComponent } from '../components/forgot-password-dialog/forgot-password-dialog.component';
 
 const POOL_DATA = {
@@ -31,7 +31,7 @@ export class AuthService {
 	authStatusChanged = new Subject<boolean>();
 	registeredUser: CognitoUser;
 
-	constructor(private router: Router, public dialog: MdDialog) {
+	constructor(private router: Router, public dialog: MatDialog) {
 	}
 
 	signUp(givenName: string, familyName: string, email: string, password: string): Promise<{}> {

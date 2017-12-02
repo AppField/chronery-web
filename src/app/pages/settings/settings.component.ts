@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Comment } from '../../models/comment';
 import { CommentsService } from '../../services/comments/comments.service';
 import { ConfirmAccountDeletionComponent } from '../../components/confirm-account-deletion/confirm-account-deletion.component';
-import { MdDialog } from '@angular/material';
+import { MatDialog } from '@angular/material';
 import { AuthService } from '../../user/auth.service';
 
 @Component({
@@ -17,7 +17,7 @@ export class SettingsComponent implements OnInit {
 	isLoading = false;
 	accountDeletFailed = false;
 
-	constructor(public commentsService: CommentsService, public dialog: MdDialog, public authService: AuthService) {
+	constructor(public commentsService: CommentsService, public dialog: MatDialog, public authService: AuthService) {
 	}
 
 	ngOnInit() {
