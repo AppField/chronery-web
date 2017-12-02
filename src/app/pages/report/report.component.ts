@@ -109,7 +109,19 @@ export class ReportComponent implements OnInit, OnDestroy {
 
 	exportReportToCSV(): void {
 		const data = this.workingHoursService.dataChange.getValue();
-		const report = new Angular2Csv(data, `Chronery Report form ${Utility.encodeDate(this.startDate)} to ${Utility.encodeDate(this.endDate)}`, {showLabels: true});
+		const csvData = data.map((work: WorkingHours) => {
+			const csvObject: any = {};
+			csvObject.date = work.date;
+			csvObject.from = work.from;
+			csvObject.to = work.to;
+			csvObject.spent = work.spent;
+			csvObject.comment = work.comment || '';
+			csvObject.projectId = work.project.id;
+			csvObject.projectNumber = work.project.number;
+			csvObject.projectName = work.project.name;
+			return csvObject;
+		});
+		const report = new Angular2Csv(csvData, `Chronery Report form ${Utility.encodeDate(this.startDate)} to ${Utility.encodeDate(this.endDate)}`, {showLabels: true});
 	}
 
 	ngOnDestroy() {
