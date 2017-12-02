@@ -3,13 +3,16 @@
 .table-header {
   min-height: 64px;
   width: 100%;
-  align-items: center;
+  align-items: baseline;
   padding: 1em 1em 0 1em;
-  //font-size: 20px;
 
   .mat-input-wrapper {
     width: 100% !important;
   }
+}
+
+.mat-header-row {
+  display: flex !important;
 }
 
 .table-footer {

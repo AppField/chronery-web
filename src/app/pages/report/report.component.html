@@ -16,25 +16,26 @@
             <!-- Start date -->
             <mat-form-field fxFlex="100">
                 <input matInput [matDatepicker]="fromPicker" placeholder="Starts at"
-                       [max]="endDate" [(ngModel)]="startDate" autocomplete="off">
-                <mat-datepicker-toggle mdSuffix [for]="fromPicker"></mat-datepicker-toggle>
-                <mat-datepicker #fromPicker [startAt]="startDate"
-                               (selectedChanged)="updateReport()"
-                               [touchUi]="isMobile">
+                       [max]="endDate" [(ngModel)]="startDate" autocomplete="off"
+                       (dateChange)="updateReport()">
+                <mat-datepicker-toggle matSuffix [for]="fromPicker"></mat-datepicker-toggle>
+                <mat-datepicker #fromPicker [startAt]="startDate" [touchUi]="isMobile">
                 </mat-datepicker>
             </mat-form-field>
 
             <!-- End date -->
             <mat-form-field fxFlex="100">
                 <input matInput [matDatepicker]="toPicker" placeholder="Ends at"
-                       [min]="startDate" [(ngModel)]="endDate" autocomplete="off">
-                <mat-datepicker-toggle mdSuffix [for]="toPicker"></mat-datepicker-toggle>
-                <mat-datepicker #toPicker (selectedChanged)="updateReport()" [touchUi]="isMobile"></mat-datepicker>
+                       [min]="startDate" [(ngModel)]="endDate" autocomplete="off"
+                       (dateChange)="updateReport()">
+                <mat-datepicker-toggle matSuffix [for]="toPicker"></mat-datepicker-toggle>
+                <mat-datepicker #toPicker [touchUi]="isMobile"></mat-datepicker>
             </mat-form-field>
 
             <!-- Proejct Autocomplete -->
             <mat-form-field fxFlex="100">
-                <input matInput placeholder="Project" [matAutocomplete]="auto" [formControl]="projectsCtrl" [(ngModel)]="selectedProject">
+                <input matInput placeholder="Project" [matAutocomplete]="auto" [formControl]="projectsCtrl"
+                       [(ngModel)]="selectedProject">
                 <mat-error>Required</mat-error>
             </mat-form-field>
             <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="updateReport()">
@@ -47,26 +48,26 @@
 
         <mat-table #table [dataSource]="dataSource">
             <!-- Project number column -->
-            <ng-container cdkColumnDef="date">
-                <mat-header-cell *cdkHeaderCellDef><strong>Date</strong></mat-header-cell>
-                <mat-cell *cdkCellDef="let row" fxLayout="row">
+            <ng-container matColumnDef="date">
+                <mat-header-cell *matHeaderCellDef><strong>Date</strong></mat-header-cell>
+                <mat-cell *matCellDef="let row" fxLayout="row">
                     <div fxHide.gt-sm fxFlex="50"><strong>Date</strong></div>
                     <div fxFlex="50"><strong>{{row.date | encodedDate}}</strong></div>
                 </mat-cell>
             </ng-container>
 
             <!-- Project name column -->
-            <ng-container cdkColumnDef="from">
-                <mat-header-cell *cdkHeaderCellDef>From</mat-header-cell>
-                <mat-cell *cdkCellDef="let row" fxLayout="row">
+            <ng-container matColumnDef="from">
+                <mat-header-cell *matHeaderCellDef>From</mat-header-cell>
+                <mat-cell *matCellDef="let row" fxLayout="row">
                     <div fxHide.gt-sm fxFlex="50"><strong>From</strong></div>
                     <div fxFlex="50">{{row.from}} h</div>
                 </mat-cell>
             </ng-container>
 
-            <ng-container cdkColumnDef="to">
-                <mat-header-cell *cdkHeaderCellDef>To</mat-header-cell>
-                <mat-cell *cdkCellDef="let row" fxLayout="row">
+            <ng-container matColumnDef="to">
+                <mat-header-cell *matHeaderCellDef>To</mat-header-cell>
+                <mat-cell *matCellDef="let row" fxLayout="row">
                     <div fxHide.gt-sm fxFlex="50">
                         <strong>To</strong>
                     </div>
@@ -74,40 +75,40 @@
                 </mat-cell>
             </ng-container>
 
-            <ng-container cdkColumnDef="spent">
-                <mat-header-cell *cdkHeaderCellDef><strong>Spent</strong></mat-header-cell>
-                <mat-cell *cdkCellDef="let row" fxLayout="row">
+            <ng-container matColumnDef="spent">
+                <mat-header-cell *matHeaderCellDef><strong>Spent</strong></mat-header-cell>
+                <mat-cell *matCellDef="let row" fxLayout="row">
                     <div fxHide.gt-sm fxFlex="50"><strong>Spent</strong></div>
                     <div fxFlex="50"><strong>{{row.spent}} h</strong></div>
                 </mat-cell>
             </ng-container>
 
-            <ng-container cdkColumnDef="projectNumber">
-                <mat-header-cell *cdkHeaderCellDef>Project Number</mat-header-cell>
-                <mat-cell *cdkCellDef="let row" fxLayout="row">
+            <ng-container matColumnDef="projectNumber">
+                <mat-header-cell *matHeaderCellDef>Project Number</mat-header-cell>
+                <mat-cell *matCellDef="let row" fxLayout="row">
                     <div fxHide.gt-sm fxFlex="50"><strong>Project Number</strong></div>
                     <div fxFlex="50">{{row.project.number}}</div>
                 </mat-cell>
             </ng-container>
 
-            <ng-container cdkColumnDef="projectName">
-                <mat-header-cell *cdkHeaderCellDef>Project Name</mat-header-cell>
-                <mat-cell *cdkCellDef="let row" fxLayout="row">
+            <ng-container matColumnDef="projectName">
+                <mat-header-cell *matHeaderCellDef>Project Name</mat-header-cell>
+                <mat-cell *matCellDef="let row" fxLayout="row">
                     <div fxHide.gt-sm fxFlex="50"><strong>Project Name</strong></div>
                     <div fxFlex="50">{{row.project.name}}</div>
                 </mat-cell>
             </ng-container>
 
-            <ng-container cdkColumnDef="comment">
-                <mat-header-cell *cdkHeaderCellDef>Comment</mat-header-cell>
-                <mat-cell *cdkCellDef="let row" fxLayout="row">
+            <ng-container matColumnDef="comment">
+                <mat-header-cell *matHeaderCellDef>Comment</mat-header-cell>
+                <mat-cell *matCellDef="let row" fxLayout="row">
                     <div fxHide.gt-sm fxFlex="50"><strong>Comment</strong></div>
                     <div fxFlex="50">{{row.comment}}</div>
                 </mat-cell>
             </ng-container>
 
-            <mat-header-row *cdkHeaderRowDef="displayedColumns" fxHide.xs fxHide.sm></mat-header-row>
-            <mat-row *cdkRowDef="let row; columns: displayedColumns;"></mat-row>
+            <mat-header-row *matHeaderRowDef="displayedColumns" fxHide.xs fxHide.sm></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
         </mat-table>
 
         <div class="table-footer" *ngIf="!hasData">
