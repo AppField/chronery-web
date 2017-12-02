@@ -11,6 +11,10 @@
   }
 }
 
+.mat-input-element:disabled {
+  color: black;
+}
+
 .mat-header-row {
   display: flex !important;
 }

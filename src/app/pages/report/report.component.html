@@ -17,9 +17,9 @@
             <mat-form-field fxFlex="100">
                 <input matInput [matDatepicker]="fromPicker" placeholder="Starts at"
                        [max]="endDate" [(ngModel)]="startDate" autocomplete="off"
-                       (dateChange)="updateReport()">
+                       (dateChange)="updateReport()" disabled>
                 <mat-datepicker-toggle matSuffix [for]="fromPicker"></mat-datepicker-toggle>
-                <mat-datepicker #fromPicker [startAt]="startDate" [touchUi]="isMobile">
+                <mat-datepicker #fromPicker [startAt]="startDate" [touchUi]="isMobile" disabled="false">
                 </mat-datepicker>
             </mat-form-field>
 
@@ -27,9 +27,9 @@
             <mat-form-field fxFlex="100">
                 <input matInput [matDatepicker]="toPicker" placeholder="Ends at"
                        [min]="startDate" [(ngModel)]="endDate" autocomplete="off"
-                       (dateChange)="updateReport()">
+                       (dateChange)="updateReport()" disabled>
                 <mat-datepicker-toggle matSuffix [for]="toPicker"></mat-datepicker-toggle>
-                <mat-datepicker #toPicker [touchUi]="isMobile"></mat-datepicker>
+                <mat-datepicker #toPicker [touchUi]="isMobile" disabled="false"></mat-datepicker>
             </mat-form-field>
 
             <!-- Proejct Autocomplete -->
@@ -38,7 +38,8 @@
                        [(ngModel)]="selectedProject">
                 <mat-error>Required</mat-error>
             </mat-form-field>
-            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="updateReport()">
+            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn"
+                              (optionSelected)="updateProjectFilter()">
                 <mat-option *ngFor="let project of filteredProjects | async" [value]="project">
                     <span>{{ project.name }}  <span *ngIf="project.number">|</span>  <small>{{ project.number }} </small></span>
                 </mat-option>

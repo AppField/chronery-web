@@ -10,6 +10,7 @@ import { ObservableMedia } from '@angular/flex-layout';
 import { ProjectsService } from '../../services/projects/projects.service';
 import { WorkingHoursService } from '../../services/working-hours/working-hours.service';
 import { WorkingHours } from '../../models/working-hours';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 @Component({
 	selector: 'chy-report',
@@ -92,17 +93,17 @@ export class ReportComponent implements OnInit, OnDestroy {
 			});
 	}
 
+	updateProjectFilter(): void {
+		this.dataSource.filter = this.selectedProject;
+	}
+
 	filterProjects(val: string) {
 		return this.projects.filter(project => new RegExp(val, 'i').test(project.name));
 	}
 
 	displayFn(project: Project) {
 		if (project) {
-			if (project.name) {
-				return project.number ? `${project.name} | ${project.number}` : project.name;
-			} else {
-				return '';
-			}
+			return project.name ? project.name : '';
 		}
 	}
 
@@ -117,13 +118,39 @@ export class ReportComponent implements OnInit, OnDestroy {
 
 
 export class ReportSource extends DataSource<any> {
+	private _filterChange = new BehaviorSubject(new Project);
+
+	get filter(): Project {
+		return this._filterChange.value;
+	}
+
+	set filter(filter: Project) {
+		this._filterChange.next(filter);
+	}
 
 	constructor(private workingHoursService: WorkingHoursService) {
 		super();
 	}
 
 	connect(): Observable<WorkingHours[]> {
-		return this.workingHoursService.dataChange;
+		const displayDataChanges = [
+			this.workingHoursService.dataChange,
+			this._filterChange
+		];
+
+		return Observable.merge(...displayDataChanges).map(() => {
+			if (this.workingHoursService.data) {
+				if (this.filter.id) {
+					return this.workingHoursService.data.slice().filter((item: WorkingHours) => {
+						return item.project.id === this.filter.id;
+					});
+				} else {
+					return this.workingHoursService.data;
+				}
+			} else {
+				return [];
+			}
+		});
 	}
 
 	disconnect() {
