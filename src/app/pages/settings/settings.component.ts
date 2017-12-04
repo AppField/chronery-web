@@ -27,7 +27,7 @@ export class SettingsComponent implements OnInit {
 	ngOnInit() {
 		this.commentsService.dataIsLoading.subscribe((isLoading: boolean) => this.isLoading = isLoading);
 
-		this.authService.authDidFail.subscribe((didFail: boolean) => this.accountDeletFailed = didFail);
+		// this.authService.authDidFail.subscribe((didFail: boolean) => this.accountDeletFailed = didFail);
 
 		this.accountForm = this.fb.group({
 			given_name: ['', [Validators.required]],
@@ -35,7 +35,7 @@ export class SettingsComponent implements OnInit {
 			email: ['', [Validators.required, Validators.email]]
 		});
 
-		this.authService.getUserAttributes().then((attributes) => {
+		this.authService.getUserAttributes().then((attributes: User) => {
 			this.attributes = attributes;
 			this.accountForm = this.fb.group({
 				given_name: [this.attributes['given_name'], [Validators.required]],

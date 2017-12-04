@@ -229,8 +229,8 @@ export class AuthService {
 		});
 	}
 
-	getUserAttributes() {
-		return new Promise((resolve, reject) => {
+	getUserAttributes(): Promise<User> {
+		return new Promise<User>((resolve, reject) => {
 			const cognitoUser = this.getAuthenticatedUser();
 			if (cognitoUser) {
 				cognitoUser.getSession((err, result) => {
@@ -247,11 +247,12 @@ export class AuthService {
 							reject(error);
 							return;
 						}
-						const attributes: any = {};
+						const attributes = new User();
 						response.map((attribute: CognitoUserAttribute) => {
 							attributes[attribute.getName()] = attribute.getValue();
 						});
-						resolve(attributes);
+						console.log(attributes);
+						resolve(attributes ? attributes : null);
 					});
 				});
 			}
