@@ -229,6 +229,37 @@ export class AuthService {
 		});
 	}
 
+	getUserAttributes() {
+		return new Promise((resolve, reject) => {
+			const cognitoUser = this.getAuthenticatedUser();
+			if (cognitoUser) {
+				cognitoUser.getSession((err, result) => {
+					if (err) {
+						this.authDidFail.next(true);
+						console.log(err);
+						return;
+					}
+
+					cognitoUser.getUserAttributes((error, response: CognitoUserAttribute[]) => {
+						if (error) {
+							this.authDidFail.next(true);
+							console.log(err);
+							reject(error);
+							return;
+						}
+						const attributes: any = {};
+						response.map((attribute: CognitoUserAttribute) => {
+							attributes[attribute.getName()] = attribute.getValue();
+						});
+						resolve(attributes);
+					});
+				});
+			}
+
+
+		});
+	}
+
 	initAuth() {
 		this.isAuthenticated().subscribe(
 			(auth) => this.authStatusChanged.next(auth)

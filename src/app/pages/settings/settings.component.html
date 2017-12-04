@@ -4,29 +4,73 @@
 </mat-toolbar>
 
 <div class="inner-sidenav-content">
-    <mat-list class="comments-list">
-        <h3 md-subheader>Predefined Comments (max. 5)</h3>
-        <mat-list-item *ngFor="let comment of commentsService.dataChange| async" chyMaterialActive>
-            <mat-form-field floatPlaceholder="never">
-                <input matInput placeholder="Comment" [(ngModel)]="comment.comment" (blur)="updateComment(comment)"
-                       (keyup.enter)="updateComment(comment)" autocomplete="off"/>
-            </mat-form-field>
-            <button mat-icon-button (click)="deleteComment(comment)">
-                <mat-icon>close</mat-icon>
-            </button>
-        </mat-list-item>
-        <mat-list-item chyMaterialActive *ngIf="commentsService.data?.length < 5">
-            <mat-form-field floatPlaceholder="never">
-                <input matInput placeholder="New Comment" [(ngModel)]="newComment.comment"
-                       (blur)="createComment()"
-                       (keyup.enter)="createComment()" autocomplete="off"/>
-            </mat-form-field>
-        </mat-list-item>
-    </mat-list>
 
-    <div class="dange-zoner">
-        <h2>Account</h2>
-        <button mat-button color="warn" (click)="deleteAccount()">Delete my account</button>
-        <mat-error *ngIf="accountDeletFailed ">Error while deleting account.</mat-error>
-    </div>
+    <mat-accordion>
+
+        <mat-expansion-panel hideToggle="true">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Predefined comments
+                </mat-panel-title>
+                <mat-panel-description>
+                    Max. 5 comments
+                    <mat-icon>comment</mat-icon>
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+
+
+            <mat-list class="comments-list">
+                <mat-list-item *ngFor="let comment of commentsService.dataChange| async" chyMaterialActive>
+                    <mat-form-field floatPlaceholder="never">
+                        <input matInput placeholder="Comment" [(ngModel)]="comment.comment"
+                               (blur)="updateComment(comment)"
+                               (keyup.enter)="updateComment(comment)" autocomplete="off"/>
+                    </mat-form-field>
+                    <button mat-icon-button (click)="deleteComment(comment)">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </mat-list-item>
+                <mat-list-item chyMaterialActive *ngIf="commentsService.data?.length < 5">
+                    <mat-form-field floatPlaceholder="never">
+                        <input matInput placeholder="New Comment" [(ngModel)]="newComment.comment"
+                               (blur)="createComment()"
+                               (keyup.enter)="createComment()" autocomplete="off"/>
+                    </mat-form-field>
+                </mat-list-item>
+            </mat-list>
+        </mat-expansion-panel>
+
+
+        <mat-expansion-panel hideToggle="true">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Account
+                </mat-panel-title>
+                <mat-panel-description>
+                    Inspect your data
+                    <mat-icon>account_circle</mat-icon>
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+
+            <form [formGroup]="accountForm" (ngSubmit)="updateAttributes()">
+                <mat-form-field>
+                    <input matInput placeholder="First Name" formControlName="given_name" autocomplete="off" readonly>
+                    <mat-error>Required</mat-error>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <input matInput placeholder="Name" formControlName="family_name" autocomplete="off" readonly>
+                    <mat-error>Required</mat-error>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <input matInput placeholder="E-Mail Address" formControlName="email" autocomplete="off" readonly>
+                </mat-form-field>
+            </form>
+
+            <mat-action-row>
+                <button mat-button color="warn" (click)="deleteAccount()">Delete my account</button>
+            </mat-action-row>
+        </mat-expansion-panel>
+    </mat-accordion>
 </div>

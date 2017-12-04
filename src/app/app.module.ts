@@ -3,7 +3,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
 	MatButtonModule,
@@ -23,7 +22,8 @@ import {
 	MatNativeDateModule,
 	MatProgressSpinnerModule,
 	MatProgressBarModule,
-	MatSnackBarModule
+	MatSnackBarModule,
+	MatExpansionModule
 } from '@angular/material';
 import { CdkTableModule } from '@angular/cdk/table';
 
@@ -87,7 +87,7 @@ import { ForgotPasswordDialogComponent } from './components/forgot-password-dial
 		BrowserAnimationsModule,
 		MatButtonModule, MatDialogModule, MatSidenavModule, MatIconModule, MatMenuModule, MatCardModule, MatAutocompleteModule, MatInputModule,
 		MatTabsModule, MatListModule, MatToolbarModule, MatTableModule, MatTooltipModule, MatDatepickerModule, MatNativeDateModule,
-		AppRoutingModule, MatProgressSpinnerModule, MatProgressBarModule, MatSnackBarModule,
+		AppRoutingModule, MatProgressSpinnerModule, MatProgressBarModule, MatSnackBarModule, MatExpansionModule
 		CdkTableModule
 	],
 	providers: [AuthService, WorkingHoursService, ProjectsService, CommentsService, LocalStorageService],
