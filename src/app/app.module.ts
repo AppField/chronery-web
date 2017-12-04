@@ -54,6 +54,7 @@ import { CommentsService } from './services/comments/comments.service';
 import { WorkingHoursService } from './services/working-hours/working-hours.service';
 import { ConfirmAccountDeletionComponent } from './components/confirm-account-deletion/confirm-account-deletion.component';
 import { ForgotPasswordDialogComponent } from './components/forgot-password-dialog/forgot-password-dialog.component';
+import { ImprintComponent } from './pages/imprint/imprint.component';
 
 @NgModule({
 	declarations: [
@@ -75,7 +76,8 @@ import { ForgotPasswordDialogComponent } from './components/forgot-password-dial
 		RegisterComponent,
 		AuthenticateComponent,
 		ConfirmAccountDeletionComponent,
-		ForgotPasswordDialogComponent
+		ForgotPasswordDialogComponent,
+		ImprintComponent
 	],
 	entryComponents: [MonthYearDialogComponent, ProjectDialogComponent, ConfirmAccountDeletionComponent, ForgotPasswordDialogComponent],
 	imports: [

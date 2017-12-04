@@ -9,6 +9,7 @@ import { ProjectsComponent } from './pages/projects/projects.component';
 import { AuthenticateComponent } from './user/authenticate/authenticate.component';
 import { AuthGuard } from './user/auth-guard.service';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
+import { ImprintComponent } from './pages/imprint/imprint.component';
 
 const routes: Routes = [
 	{
@@ -45,6 +46,10 @@ const routes: Routes = [
 			{
 				path: 'settings',
 				component: SettingsComponent
+			},
+			{
+				path: 'imprint',
+				component: ImprintComponent
 			}
 		]
 	},

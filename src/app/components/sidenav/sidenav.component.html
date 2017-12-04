@@ -12,15 +12,15 @@
             <a mat-list-item *ngFor="let item of routerItems" routerLink="{{item.link}}" routerLinkActive="active"
                (click)="recollapseNav()">
                 <mat-icon mat-list-icon>{{item.icon}}</mat-icon>
-                <!--<span *ngIf="!isMobile || state === 'expandedState'">{{item.display}}</span>-->
                 <span class="sidenav-label" [@labelState]="state">{{item.display}}</span>
             </a>
         </mat-nav-list>
 
         <div class="bottom-container">
-            <button mat-button color="primary" (click)="logout()">Logout</button>
             <div class="version">
-                V 0.6.3
+                <a routerLink="/imprint" matTooltip="Imprint">
+                    <mat-icon>info</mat-icon>
+                </a>
             </div>
         </div>
     </mat-sidenav>
