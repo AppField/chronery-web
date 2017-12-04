@@ -11,20 +11,21 @@
 
 <div class="inner-sidenav-content">
     <div class="mat-elevation-z5">
-        <div class="table-header" fxLayout.gt-xs="row" fxLayout="column" fxLayoutGap="20px" fxLayoutGap.xs="0">
+        <div class="table-header" fxLayout.gt-xs="space-around row" fxLayout="column"
+             fxLayoutGap.xs="0">
 
             <!-- Start date -->
-            <mat-form-field fxFlex="100">
+            <mat-form-field fxFlex="33" fxFlex.xs="100">
                 <input matInput [matDatepicker]="fromPicker" placeholder="Starts at"
                        [max]="endDate" [(ngModel)]="startDate" autocomplete="off"
-                       (dateChange)="updateReport()" disabled>
+                       (dateChange)="updateReport()" disabled class="dynamic-width">
                 <mat-datepicker-toggle matSuffix [for]="fromPicker"></mat-datepicker-toggle>
                 <mat-datepicker #fromPicker [startAt]="startDate" [touchUi]="isMobile" disabled="false">
                 </mat-datepicker>
             </mat-form-field>
 
             <!-- End date -->
-            <mat-form-field fxFlex="100">
+            <mat-form-field fxFlex="33" fxFlex.xs="100">
                 <input matInput [matDatepicker]="toPicker" placeholder="Ends at"
                        [min]="startDate" [(ngModel)]="endDate" autocomplete="off"
                        (dateChange)="updateReport()" disabled>
@@ -32,8 +33,8 @@
                 <mat-datepicker #toPicker [touchUi]="isMobile" disabled="false"></mat-datepicker>
             </mat-form-field>
 
-            <!-- Proejct Autocomplete -->
-            <mat-form-field fxFlex="100">
+            <!-- Project Autocomplete -->
+            <mat-form-field fxFlex="33" fxFlex.xs="100">
                 <input matInput placeholder="Project" [matAutocomplete]="auto" [formControl]="projectsCtrl"
                        [(ngModel)]="selectedProject">
                 <mat-error>Required</mat-error>
