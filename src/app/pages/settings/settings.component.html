@@ -51,7 +51,7 @@
                 </mat-panel-description>
             </mat-expansion-panel-header>
 
-            <form [formGroup]="accountForm" (ngSubmit)="updateAttributes()">
+            <form [formGroup]="accountForm">
                 <mat-form-field>
                     <input matInput placeholder="First Name" formControlName="given_name" autocomplete="off" readonly>
                     <mat-error>Required</mat-error>
