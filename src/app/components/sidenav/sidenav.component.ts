@@ -8,7 +8,6 @@ import {
 	animate,
 	transition
 } from '@angular/animations';
-import { AuthService } from '../../user/auth.service';
 
 interface RouterItem {
 	link: string;
@@ -49,7 +48,7 @@ export class SidenavComponent implements OnInit {
 
 	@ViewChild('sidenavContainer') private sidenav;
 
-	constructor(private media: ObservableMedia, private authService: AuthService) {
+	constructor(private media: ObservableMedia) {
 		// ToDo: Working Hours should remain active when another day is selected in subsidenav
 		this.routerItems = [
 			{
@@ -100,9 +99,5 @@ export class SidenavComponent implements OnInit {
 		if (this.isMobile) {
 			this.state = 'collapsedState';
 		}
-	}
-
-	logout(): void {
-		this.authService.logout();
 	}
 }

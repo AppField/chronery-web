@@ -21,7 +21,10 @@ export class SettingsComponent implements OnInit {
 	accountForm: FormGroup;
 	attributes: User;
 
-	constructor(public commentsService: CommentsService, public dialog: MatDialog, public authService: AuthService, private fb: FormBuilder) {
+	constructor(public commentsService: CommentsService,
+				public dialog: MatDialog,
+				public authService: AuthService,
+				private fb: FormBuilder) {
 	}
 
 	ngOnInit() {
@@ -75,6 +78,10 @@ export class SettingsComponent implements OnInit {
 				this.authService.deleteAccount();
 			}
 		});
+	}
+
+	logout(): void {
+		this.authService.logout();
 	}
 
 }
