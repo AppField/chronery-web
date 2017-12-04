@@ -87,7 +87,7 @@ import { ForgotPasswordDialogComponent } from './components/forgot-password-dial
 		BrowserAnimationsModule,
 		MatButtonModule, MatDialogModule, MatSidenavModule, MatIconModule, MatMenuModule, MatCardModule, MatAutocompleteModule, MatInputModule,
 		MatTabsModule, MatListModule, MatToolbarModule, MatTableModule, MatTooltipModule, MatDatepickerModule, MatNativeDateModule,
-		AppRoutingModule, MatProgressSpinnerModule, MatProgressBarModule, MatSnackBarModule, MatExpansionModule
+		AppRoutingModule, MatProgressSpinnerModule, MatProgressBarModule, MatSnackBarModule, MatExpansionModule,
 		CdkTableModule
 	],
 	providers: [AuthService, WorkingHoursService, ProjectsService, CommentsService, LocalStorageService],

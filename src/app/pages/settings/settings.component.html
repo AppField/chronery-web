@@ -6,7 +6,7 @@
 <div class="inner-sidenav-content">
 
     <mat-accordion>
-
+        <!-- PREDEFINED COMMENTS -->
         <mat-expansion-panel hideToggle="true">
             <mat-expansion-panel-header>
                 <mat-panel-title>
@@ -17,7 +17,6 @@
                     <mat-icon>comment</mat-icon>
                 </mat-panel-description>
             </mat-expansion-panel-header>
-
 
             <mat-list class="comments-list">
                 <mat-list-item *ngFor="let comment of commentsService.dataChange| async" chyMaterialActive>
@@ -40,7 +39,7 @@
             </mat-list>
         </mat-expansion-panel>
 
-
+        <!-- ACCOUNT -->
         <mat-expansion-panel hideToggle="true">
             <mat-expansion-panel-header>
                 <mat-panel-title>
