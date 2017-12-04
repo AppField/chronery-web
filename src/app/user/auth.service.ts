@@ -251,7 +251,6 @@ export class AuthService {
 						response.map((attribute: CognitoUserAttribute) => {
 							attributes[attribute.getName()] = attribute.getValue();
 						});
-						console.log(attributes);
 						resolve(attributes ? attributes : null);
 					});
 				});

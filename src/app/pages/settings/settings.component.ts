@@ -36,6 +36,9 @@ export class SettingsComponent implements OnInit {
 		});
 
 		this.authService.getUserAttributes().then((attributes: User) => {
+			if (!attributes) {
+				return;
+			}
 			this.attributes = attributes;
 			this.accountForm = this.fb.group({
 				given_name: [this.attributes['given_name'], [Validators.required]],
