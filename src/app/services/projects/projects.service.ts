@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Headers, Response } from '@angular/http';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/map';
 import { Project } from '../../models/project';
 import { AuthService } from '../../user/auth.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 
 @Injectable()
@@ -39,7 +39,7 @@ export class ProjectsService {
 			if (err) {
 				console.log(err);
 			} else {
-				this.http.post('https://qa1nu08638.execute-api.eu-central-1.amazonaws.com/dev/projects', data, {
+				this.http.post(environment.apiProjects, data, {
 					headers: new HttpHeaders().set('Authorization', session.getIdToken().getJwtToken())
 				})
 					.subscribe(
@@ -69,7 +69,7 @@ export class ProjectsService {
 			if (err) {
 				console.log(err);
 			} else {
-				this.http.put('https://qa1nu08638.execute-api.eu-central-1.amazonaws.com/dev/projects', data, {
+				this.http.put(environment.apiProjects, data, {
 					headers: new HttpHeaders().set('Authorization', session.getIdToken().getJwtToken())
 				})
 					.subscribe(
@@ -106,7 +106,7 @@ export class ProjectsService {
 		this.authService.getAuthenticatedUser().getSession((err, session) => {
 			const queryParam = '?accessToken=' + session.getAccessToken().getJwtToken();
 
-			this.http.get('https://qa1nu08638.execute-api.eu-central-1.amazonaws.com/dev/projects/' + queryParam, {
+			this.http.get(`${environment.apiProjects}/${queryParam}`, {
 				headers: new HttpHeaders().set('Authorization', session.getIdToken().getJwtToken())
 			})
 				.subscribe((data: Project[]) => {

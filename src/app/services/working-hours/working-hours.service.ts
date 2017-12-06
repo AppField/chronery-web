@@ -6,6 +6,7 @@ import { AuthService } from '../../user/auth.service';
 import { WorkingHours } from '../../models/working-hours';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { DayWorkingHours } from '../../models/day-working-hours';
+import { environment } from '../../../environments/environment';
 
 
 @Injectable()
@@ -34,7 +35,7 @@ export class WorkingHoursService {
 			if (err) {
 				console.log(err);
 			} else {
-				this.http.post(`https://qa1nu08638.execute-api.eu-central-1.amazonaws.com/dev/working-hours/${date}`, data, {
+				this.http.post(`${environment.apiWorkingHours}/${date}`, data, {
 					headers: new HttpHeaders().set('Authorization', session.getIdToken().getJwtToken())
 				})
 					.subscribe(
@@ -61,7 +62,7 @@ export class WorkingHoursService {
 		this.dataIsLoading.next(true);
 
 		this.authService.getAuthenticatedUser().getSession((err, session) => {
-			this.http.get(`https://qa1nu08638.execute-api.eu-central-1.amazonaws.com/dev/working-hours/${date}`, {
+			this.http.get(`${environment.apiWorkingHours}/${date}`, {
 				headers: new HttpHeaders().set('Authorization', session.getIdToken().getJwtToken())
 			})
 				.subscribe((data: WorkingHours[]) => {
@@ -94,7 +95,7 @@ export class WorkingHoursService {
 			if (err) {
 				console.log(err);
 			} else {
-				this.http.put(`https://qa1nu08638.execute-api.eu-central-1.amazonaws.com/dev/working-hours/${date}`, data, {
+				this.http.put(`${environment.apiWorkingHours}/${date}`, data, {
 					headers: new HttpHeaders().set('Authorization', session.getIdToken().getJwtToken()),
 					params: new HttpParams().set('index', index.toString())
 				})
@@ -123,7 +124,7 @@ export class WorkingHoursService {
 			this.dataIsLoading.next(true);
 
 			this.authService.getAuthenticatedUser().getSession((err, session) => {
-				this.http.get('https://qa1nu08638.execute-api.eu-central-1.amazonaws.com/dev/working-hours', {
+				this.http.get(environment.apiWorkingHours, {
 					headers: new HttpHeaders().set('Authorization', session.getIdToken().getJwtToken()),
 					params: new HttpParams()
 						.set('from', from)
@@ -164,7 +165,7 @@ export class WorkingHoursService {
 		const index = this.data.map((wh: WorkingHours) => wh.id).indexOf(data.id);
 
 		this.authService.getAuthenticatedUser().getSession((err, session) => {
-			this.http.delete(`https://qa1nu08638.execute-api.eu-central-1.amazonaws.com/dev/working-hours/${date}?index=${index}`, {
+			this.http.delete(`${environment.apiWorkingHours}/${date}?index=${index}`, {
 				headers: new HttpHeaders().set('Authorization', session.getIdToken().getJwtToken())
 			})
 				.subscribe(

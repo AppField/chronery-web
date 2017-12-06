@@ -4,6 +4,7 @@ import { Subject } from 'rxjs/Subject';
 import { AuthService } from '../../user/auth.service';
 import { Comment } from '../../models/comment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class CommentsService {
@@ -33,7 +34,7 @@ export class CommentsService {
 			if (err) {
 				console.log(err);
 			} else {
-				this.http.post('https://qa1nu08638.execute-api.eu-central-1.amazonaws.com/dev/comments', data, {
+				this.http.post(environment.apiComments, data, {
 					headers: new HttpHeaders().set('Authorization', session.getIdToken().getJwtToken())
 				})
 					.subscribe(
@@ -64,7 +65,7 @@ export class CommentsService {
 			if (err) {
 				console.log(err);
 			} else {
-				this.http.post('https://qa1nu08638.execute-api.eu-central-1.amazonaws.com/dev/comments', comment, {
+				this.http.post(environment.apiComments, comment, {
 					headers: new HttpHeaders().set('Authorization', session.getIdToken().getJwtToken())
 				})
 					.subscribe(
@@ -97,7 +98,7 @@ export class CommentsService {
 
 		this.authService.getAuthenticatedUser().getSession((err, session) => {
 
-			this.http.get('https://qa1nu08638.execute-api.eu-central-1.amazonaws.com/dev/comments', {
+			this.http.get(environment.apiComments, {
 				headers: new HttpHeaders().set('Authorization', session.getIdToken().getJwtToken())
 			})
 				.subscribe((data: Comment[]) => {
@@ -123,7 +124,7 @@ export class CommentsService {
 		this.dataLoadFailed.next(false);
 		this.dataIsLoading.next(true);
 		this.authService.getAuthenticatedUser().getSession((err, session) => {
-			this.http.delete('https://qa1nu08638.execute-api.eu-central-1.amazonaws.com/dev/comments/' + comment.id, {
+			this.http.delete(`${environment.apiComments}/${comment.id}`, {
 				headers: new HttpHeaders().set('Authorization', session.getIdToken().getJwtToken())
 			})
 				.subscribe(
