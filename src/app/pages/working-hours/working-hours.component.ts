@@ -106,7 +106,7 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
 		}
 	};
 
-	SetActiveDateToToday = function (): void {
+	setActiveDateToToday = function (): void {
 		const encodedDate = Utility.encodeDate(new Date());
 		this.router.navigate(['working-hours', encodedDate]);
 	};

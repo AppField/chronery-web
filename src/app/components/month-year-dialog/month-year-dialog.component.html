@@ -1,6 +1,7 @@
 <h1 mat-dialog-title color="primary">{{selectedDate | date:'MMMM yyyy' }}</h1>
-<div mat-dialog-content>
-    <div class="picker">
+<div mat-dialog-content fxLayout="row">
+
+    <div class="picker" fxLayout="column">
         <button mat-button (click)="nextMonth()">
             <mat-icon>keyboard_arrow_up</mat-icon>
         </button>
@@ -12,7 +13,7 @@
         </button>
     </div>
 
-    <div class="picker">
+    <div class="picker" fxLayout="column">
         <button mat-button (click)="nextYear()">
             <mat-icon>keyboard_arrow_up</mat-icon>
         </button>
