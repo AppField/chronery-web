@@ -9,7 +9,9 @@ export class AuthGuard implements CanActivate {
 	}
 
 	canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
+		console.log('HELLO FROM AUTH GUARD');
 		return new Promise<boolean>((resolve, reject) => {
+			console.log('INSIDE AUTH NEW PROMISE');
 			this.authService.isAuthenticated().subscribe(isAuthenticated => {
 				console.log('CHECKING AUTHENTICATION');
 				if (isAuthenticated) {
