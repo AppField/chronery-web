@@ -1,10 +1,32 @@
 {
   "name": "Chronery",
   "short_name": "Chronery",
-  "start_url": "/chronery-web/",
+  "start_url": "/",
   "display": "fullscreen",
   "background_color": "#009688",
   "theme_color": "#009688",
+  "routing": {
+    "routes": {
+      "/": {
+        "match": true
+      },
+      "/dashboard": {
+        "match": "prefix"
+      },
+      "/working-hours/": {
+        "match": "prefix"
+      },
+      "/report": {
+        "match": "prefix"
+      },
+      "/projects": {
+        "match": "prefix"
+      },
+      "/settings": {
+        "match": "prefix"
+      }
+    }
+  },
   "icons": [
     {
       "src": "/assets/icons/icon36.png",
