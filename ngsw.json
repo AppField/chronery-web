@@ -9,28 +9,59 @@
       "urls": [
         "/chronery-web/favicon.ico",
         "/chronery-web/index.html",
-        "/chronery-web/inline.21a58e969e5400c8ae9e.bundle.js",
-        "/chronery-web/main.0f285d099468b18c23b0.bundle.js",
+        "/chronery-web/inline.b19e9ef8f4e34ff0f705.bundle.js",
+        "/chronery-web/main.ddf16c4388a9b4839944.bundle.js",
         "/chronery-web/polyfills.daf167a86bce141cd7c8.bundle.js",
         "/chronery-web/styles.25364585d17b40903551.bundle.css"
       ],
-      "patterns": []
+      "patterns": [
+        "https:\\/\\/fonts\\.googleapis\\.com\\/icon\\?family=Material\\+Icons"
+      ]
     },
     {
       "name": "assets",
       "installMode": "lazy",
       "updateMode": "prefetch",
-      "urls": [],
+      "urls": [
+        "/chronery-web/assets/icons/favicon.ico",
+        "/chronery-web/assets/icons/favicon16.png",
+        "/chronery-web/assets/icons/favicon32.png",
+        "/chronery-web/assets/icons/icon144.png",
+        "/chronery-web/assets/icons/icon152.png",
+        "/chronery-web/assets/icons/icon180.png",
+        "/chronery-web/assets/icons/icon192.png",
+        "/chronery-web/assets/icons/icon36.png",
+        "/chronery-web/assets/icons/icon48.png",
+        "/chronery-web/assets/icons/icon512.png",
+        "/chronery-web/assets/icons/icon60.png",
+        "/chronery-web/assets/icons/icon72.png",
+        "/chronery-web/assets/icons/icon76.png",
+        "/chronery-web/assets/icons/icon96.png"
+      ],
       "patterns": []
     }
   ],
   "dataGroups": [],
   "hashTable": {
-    "/chronery-web/inline.21a58e969e5400c8ae9e.bundle.js": "6fb7389b8cf9e4ef78428be50b1b33793a99ea6c",
-    "/chronery-web/main.0f285d099468b18c23b0.bundle.js": "3f4a0c793efe4f8b84ab913f80ad8131a04a3f6c",
+    "/chronery-web/inline.b19e9ef8f4e34ff0f705.bundle.js": "961db96e20bd087c280a71c1af03085aee1fa5e4",
+    "/chronery-web/assets/icons/favicon.ico": "78125fe9612e6d051c62a28a926053702ce19091",
+    "/chronery-web/main.ddf16c4388a9b4839944.bundle.js": "6986d3bed22997f694987fdacc8d20cebcb27208",
+    "/chronery-web/assets/icons/favicon16.png": "609a7bdbd9559bfa5a5b479e64d91810350ba205",
     "/chronery-web/polyfills.daf167a86bce141cd7c8.bundle.js": "64266759d60c0af63f37e42945d5fe860da15b0b",
+    "/chronery-web/assets/icons/favicon32.png": "89dc7f92b76f82ce1d6cfec29b45b6b1e34004ad",
     "/chronery-web/styles.25364585d17b40903551.bundle.css": "77997276ebc21dba921fd12acccb723a45da3115",
+    "/chronery-web/assets/icons/icon144.png": "d94eb532555c9e1ba66a3b81aa21adac25a3c551",
     "/chronery-web/favicon.ico": "84161b857f5c547e3699ddfbffc6d8d737542e01",
-    "/chronery-web/index.html": "322c6b3e1b676123089ffd7505d76f875fb36e04"
+    "/chronery-web/assets/icons/icon152.png": "a1446c68f2fadaa0735e2f66a416f2ab4c8ac62a",
+    "/chronery-web/index.html": "9cddf7d8d97639d479f0109f2e6d21f2df6e39e1",
+    "/chronery-web/assets/icons/icon180.png": "f96df5843e8dbf95e599b4b65e9ebae68b617d0d",
+    "/chronery-web/assets/icons/icon192.png": "91737627d5f0e21e76d6ead425c3a9b3c3ff5725",
+    "/chronery-web/assets/icons/icon36.png": "54e38aa0cfb72929972d700ae3206553a1799d6d",
+    "/chronery-web/assets/icons/icon48.png": "2dcdfecef0010ffdafdeee5685584da0f1d599dc",
+    "/chronery-web/assets/icons/icon512.png": "44a607726d65c66e758c3facaa4f1a6d69be874e",
+    "/chronery-web/assets/icons/icon60.png": "aa9890fd355dfbbb96ce27c11d34038d50a57b8e",
+    "/chronery-web/assets/icons/icon72.png": "d674eab63a80392c6ed1d2c5fbcba5b99140f4ef",
+    "/chronery-web/assets/icons/icon76.png": "77aac8c9ae9344512259015be954708d94ccae0d",
+    "/chronery-web/assets/icons/icon96.png": "296fffe6c552f07d5165ff9f0bfe66440c84c80b"
   }
 }
