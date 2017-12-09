@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "index": "/chronery-web/index.html",
+  "index": "/index.html",
   "assetGroups": [
     {
       "name": "app",
