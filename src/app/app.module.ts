@@ -55,6 +55,8 @@ import { WorkingHoursService } from './services/working-hours/working-hours.serv
 import { ConfirmAccountDeletionComponent } from './components/confirm-account-deletion/confirm-account-deletion.component';
 import { ForgotPasswordDialogComponent } from './components/forgot-password-dialog/forgot-password-dialog.component';
 import { ImprintComponent } from './pages/imprint/imprint.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 @NgModule({
 	declarations: [
@@ -82,6 +84,7 @@ import { ImprintComponent } from './pages/imprint/imprint.component';
 	entryComponents: [MonthYearDialogComponent, ProjectDialogComponent, ConfirmAccountDeletionComponent, ForgotPasswordDialogComponent],
 	imports: [
 		BrowserModule,
+		ServiceWorkerModule.register('/ngsw-worker.js', {enabled: environment.production}),
 		HttpClientModule,
 		FlexLayoutModule,
 		FormsModule,

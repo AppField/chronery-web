@@ -26,6 +26,7 @@
     "@angular/platform-browser-dynamic": "^5.1.0",
     "@angular/platform-server": "^5.1.0",
     "@angular/router": "^5.1.0",
+    "@angular/service-worker": "^5.1.0",
     "amazon-cognito-identity-js": "^1.28.0",
     "angular2-csv": "^0.2.5",
     "core-js": "^2.5.1",
@@ -55,6 +56,6 @@
     "protractor": "^5.2.1",
     "ts-node": "~3.3.0",
     "tslint": "~5.8.0",
-    "typescript": "^2.4.2"
+    "typescript": "^2.5.0"
   }
 }
