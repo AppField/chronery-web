@@ -1,61 +1,63 @@
-<md-toolbar color="primary" class="mat-elevation-z8">
+<mat-toolbar color="primary" class="mat-elevation-z8">
+    <mat-progress-bar mode="indeterminate" color="accent" *ngIf="isLoading" class="top-loader"></mat-progress-bar>
     Dashboard
-</md-toolbar>
+</mat-toolbar>
 
 <div class="inner-sidenav-content">
     <h2>
         Today's date:
-        <button md-button (click)="navigateToWorkingHours()">
+        <button mat-button (click)="navigateToWorkingHours()">
             <h2 class="inline-h2">{{ todaysDate | date:'dd. MMMM yyyy'}}</h2>
         </button>
     </h2>
 
-    <md-card class="chart-card" *ngIf="chartData || async; else loading">
-        <md-card-header>
-            <md-card-title>
+    <!--<mat-card class="chart-card" *ngIf="chartData || async; else loading">-->
+    <mat-card class="chart-card" *ngIf="chartData || async">
+        <mat-card-header>
+            <mat-card-title>
                 <h3>
-                    <button md-icon-button (click)="previousMonth()">
-                        <md-icon>chevron_left</md-icon>
+                    <button mat-icon-button (click)="previousMonth()">
+                        <mat-icon>chevron_left</mat-icon>
                     </button>
                     <span class="month-button-text">
                         {{ chartMonth | date:'MMMM yyyy' }}
                     </span>
-                    <button md-icon-button (click)="nextMonth()">
-                        <md-icon>chevron_right</md-icon>
+                    <button mat-icon-button (click)="nextMonth()">
+                        <mat-icon>chevron_right</mat-icon>
                     </button>
                 </h3>
-            </md-card-title>
-        </md-card-header>
-        <md-card-content *ngIf="chartData.length; else noData">
+            </mat-card-title>
+        </mat-card-header>
+        <mat-card-content *ngIf="chartData.length; else noData">
             <chy-working-hours-chart [data]="chartData"></chy-working-hours-chart>
-        </md-card-content>
-    </md-card>
+        </mat-card-content>
+    </mat-card>
 
-    <ng-template #loading>
-        <md-progress-spinner
-                color="primary"
-                mode="indeterminate">
-        </md-progress-spinner>
-    </ng-template>
+    <!--<ng-template #loading>-->
+    <!--<mat-progress-spinner-->
+    <!--color="primary"-->
+    <!--mode="indeterminate">-->
+    <!--</mat-progress-spinner>-->
+    <!--</ng-template>-->
 
     <ng-template #noData>
-        <md-card-content class="no-data">
+        <mat-card-content class="no-data">
             <p class="no-data-text">It's empty in this month.<br>
                 Go ahead and do something!</p>
             <div fxLayout="row" fxLayout.lt-sm="column">
-                <button md-button fxFlex="50" class="no-data-action" (click)="navigateToChartMonth()">
-                    <md-icon>
+                <button mat-button fxFlex="50" class="no-data-action" (click)="navigateToChartMonth()">
+                    <mat-icon>
                         timelapse
-                    </md-icon>
+                    </mat-icon>
                     <p>Add working hours!</p>
                 </button>
-                <button md-button fxFlex="50" class="no-data-action" (click)="navigateToProjects()">
-                    <md-icon>
+                <button mat-button fxFlex="50" class="no-data-action" (click)="navigateToProjects()">
+                    <mat-icon>
                         work
-                    </md-icon>
+                    </mat-icon>
                     <p>Add projects!</p>
                 </button>
             </div>
-        </md-card-content>
+        </mat-card-content>
     </ng-template>
 </div>

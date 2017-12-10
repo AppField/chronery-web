@@ -4,6 +4,10 @@
   width: 100%;
 
   svg {
+    .none-select {
+      user-select: none;
+    }
+
     .bar {
       transition: fill 400ms;
       fill: mat-color($primary);

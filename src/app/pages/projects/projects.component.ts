@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Project } from '../../models/project';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { DataSource } from '@angular/cdk/collections';
@@ -9,10 +9,10 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/observable/fromEvent';
-import { MdDialog } from '@angular/material';
+import { MatDialog } from '@angular/material';
 import { ProjectDialogComponent } from '../../components/project-modal/project-dialog.component';
-import { ProjectsDbService } from '../../services/projects-db/projects-db.service';
 import { ObservableMedia } from '@angular/flex-layout';
+import { ProjectsService } from '../../services/projects/projects.service';
 
 @Component({
 	selector: 'chy-projects',
@@ -22,17 +22,19 @@ import { ObservableMedia } from '@angular/flex-layout';
 export class ProjectsComponent implements OnInit {
 	displayedColumns = ['projectNumber', 'projectName', 'edit'];
 	dataSource: ProjectSource | null;
+	isLoading = false;
 
 	@ViewChild('filter') filter: ElementRef;
 
-	constructor(public dialog: MdDialog,
-				private detector: ChangeDetectorRef,
-				public projectsDB: ProjectsDbService,
+	constructor(public dialog: MatDialog,
+				private projectsService: ProjectsService,
 				private media: ObservableMedia) {
 	}
 
 	ngOnInit() {
-		this.dataSource = new ProjectSource(this.projectsDB);
+		this.projectsService.dataIsLoading.subscribe((isLoading: boolean) => this.isLoading = isLoading);
+
+		this.dataSource = new ProjectSource(this.projectsService);
 
 		Observable.fromEvent(this.filter.nativeElement, 'keyup')
 			.debounceTime(150)
@@ -46,12 +48,13 @@ export class ProjectsComponent implements OnInit {
 	}
 
 	trackByFn(index, item): string {
-		return item._id;
+		return item.id;
 	}
 
 	editProject(project: Project): void {
 		this.openProjectDialog(project);
 	}
+
 
 	editMobileProject(project: Project): void {
 		if (!this.media.isActive('gt-sm')) {
@@ -65,14 +68,11 @@ export class ProjectsComponent implements OnInit {
 		});
 		dialogRef.afterClosed().subscribe(result => {
 			if (result) {
-				if (result.hasOwnProperty('_id')) {
-					this.projectsDB.updateProject(result);
+				if (result.userId) {
+					// TODO: Table doesn't get updated. Fix this.
+					this.projectsService.onUpdateData(result);
 				} else {
-					this.projectsDB.createProject(result);
-					// TODO: Remove workaraound which makes shure that the newly created project is correctly shown.
-					setTimeout(() => {
-						this.detector.detectChanges();
-					}, 100)
+					this.projectsService.onStoreData(result);
 				}
 			}
 		});
@@ -90,22 +90,27 @@ export class ProjectSource extends DataSource<any> {
 		this._filterChange.next(filter);
 	}
 
-	constructor(private projectsDB: ProjectsDbService) {
+	constructor(private projectsService: ProjectsService) {
 		super();
 	}
 
 	/** Connect function called by the table to retrieve one stream containing the data to render. */
 	connect(): Observable<Project[]> {
 		const displayDataChanges = [
-			this.projectsDB.dataChange,
+			this.projectsService.dataChange,
 			this._filterChange
 		];
 
 		return Observable.merge(...displayDataChanges).map(() => {
-			return this.projectsDB.dataChange.value.slice().filter((item: Project) => {
-				const searchStr = (item.number + item.name).toLowerCase();
-				return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
-			});
+			if (this.projectsService.data) {
+				return this.projectsService.data.slice().filter((item: Project) => {
+					const searchStr = (item.number + item.name).toLowerCase();
+					return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
+				});
+			} else {
+				return [];
+			}
+
 		});
 	}
 

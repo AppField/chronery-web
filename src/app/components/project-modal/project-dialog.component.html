@@ -1,22 +1,22 @@
 <form [formGroup]="projectForm">
-    <h2 md-dialog-title>Project</h2>
-    <md-dialog-content>
+    <h2 mat-dialog-title>Project</h2>
+    <mat-dialog-content>
 
-        <md-form-field>
-            <input mdInput placeholder="Number" formControlName="number" autocomplete="off">
-            <md-error>Required</md-error>
-        </md-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Number" formControlName="number" autocomplete="off">
+            <mat-error>Required</mat-error>
+        </mat-form-field>
 
-        <md-form-field>
-            <input mdInput placeholder="Name" formControlName="name" autocomplete="off">
-            <md-error>Required</md-error>
-        </md-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Name" formControlName="name" autocomplete="off">
+            <mat-error>Required</mat-error>
+        </mat-form-field>
 
-    </md-dialog-content>
+    </mat-dialog-content>
 
-    <md-dialog-actions>
-        <button md-button md-dialog-close>Cancel</button>
+    <mat-dialog-actions>
+        <button mat-button mat-dialog-close>Cancel</button>
         <!-- Can optionally provide a result for the closing dialog. -->
-        <button md-button color="primary" (click)="saveProject()">Save</button>
-    </md-dialog-actions>
+        <button mat-button color="primary" (click)="saveProject()">Save</button>
+    </mat-dialog-actions>
 </form>

@@ -1,0 +1,43 @@
+@import '../../../chy-theme';
+
+.mat-card {
+
+  .mat-card-header {
+    text-align: right;
+
+    .mat-card-title {
+      color: mat-color($primary);
+      font-size: 1.5rem;
+    }
+  }
+
+  .mat-form-field {
+    width: 100%;
+    padding: .5rem;
+  }
+
+  .mat-card-actions {
+    padding: 1rem;
+
+    button {
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+  }
+
+  .register-error {
+    display: inline-block;
+    margin-left: 1rem;
+  }
+
+  .mat-form-field {
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .verify-mail {
+    color: mat-color($primary);
+  }
+}

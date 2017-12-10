@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ObservableMedia } from '@angular/flex-layout';
 import { Utility } from '../../utils/utility';
 import {
@@ -8,6 +8,9 @@ import {
 	animate,
 	transition
 } from '@angular/animations';
+import { SwUpdate } from '@angular/service-worker';
+import { MatSnackBar } from '@angular/material';
+import { WindowRef } from '../../services/window-ref/window-ref.service';
 
 interface RouterItem {
 	link: string;
@@ -42,14 +45,16 @@ interface RouterItem {
 		])
 	]
 })
-export class SidenavComponent implements OnInit, AfterViewInit {
+export class SidenavComponent implements OnInit {
 	routerItems: RouterItem[];
 	state = 'expandedState';
 
 	@ViewChild('sidenavContainer') private sidenav;
 
 	constructor(private media: ObservableMedia,
-				private detector: ChangeDetectorRef) {
+				private winRef: WindowRef,
+				private swUpdate: SwUpdate,
+				private snackBar: MatSnackBar) {
 		// ToDo: Working Hours should remain active when another day is selected in subsidenav
 		this.routerItems = [
 			{
@@ -86,16 +91,17 @@ export class SidenavComponent implements OnInit, AfterViewInit {
 		this.media.subscribe(media => {
 			this.state = (media.mqAlias === 'xs') ? 'collapsedState' : 'expandedState';
 		});
-	}
 
-	ngAfterViewInit() {
-		// TODO: Remove this workaround as it is a bug in angular material 2 beta 10
-		// Necessary to recalculate sidenav-containers width when the sidenav width gets changed.
-		this.sidenav._ngZone.onMicrotaskEmpty.subscribe(() => {
-			setTimeout(() => {
-				this.sidenav._updateStyles();
-				this.sidenav._changeDetectorRef.markForCheck();
+
+		this.swUpdate.available.subscribe(event => {
+
+			console.log('[App] Update available: current version is', event.current, 'available version is', event.available);
+			const snackBarRef = this.snackBar.open('Newer version of the app is available', 'Refresh');
+
+			snackBarRef.onAction().subscribe(() => {
+				this.winRef.nativeWindow.location.reload()
 			});
+
 		});
 	}
 

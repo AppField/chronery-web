@@ -1,0 +1,51 @@
+<form [formGroup]="registerForm" (ngSubmit)="register()">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>Register</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <!-- First Name -->
+            <mat-form-field>
+                <input matInput placeholder="FIRST NAME" formControlName="given_name" autocomplete="off">
+                <mat-error>Required</mat-error>
+            </mat-form-field>
+
+            <!-- Family Name -->
+            <mat-form-field>
+                <input matInput placeholder="FAMILY NAME" formControlName="family_name" autocomplete="off">
+                <mat-error>Required</mat-error>
+            </mat-form-field>
+
+            <!-- E-Mail Address -->
+            <mat-form-field>
+                <input matInput placeholder="E-MAIL ADDRESS" formControlName="email" autocomplete="off">
+                <mat-error *ngIf="email.invalid">
+                    {{ emailErrorMessage }}
+                </mat-error>
+            </mat-form-field>
+
+            <!-- Password -->
+            <mat-form-field>
+                <input matInput placeholder="PASSWORD" formControlName="password" autocomplete="off"
+                       type="password">
+                <mat-error>{{getPasswordErrorMessage}}</mat-error>
+            </mat-form-field>
+
+            <!-- Repeat Password -->
+            <mat-form-field>
+                <input matInput placeholder="REPEAT PASSWORD" formControlName="repeatPassword" autocomplete="off"
+                       type="password">
+                <mat-error *ngIf="!isPasswordMismatch">Required</mat-error>
+                <mat-error *ngIf="isPasswordMismatch">Password does not match</mat-error>
+            </mat-form-field>
+        </mat-card-content>
+
+        <mat-card-actions *ngIf="!justRegisted; else verifyMail">
+            <button mat-raised-button color="accent">Register</button>
+        </mat-card-actions>
+        <ng-template #verifyMail>
+            <p class="verify-mail">We have sent you an E-Mail. Please click the link it contains to verify that it is
+                yours</p>
+        </ng-template>
+    </mat-card>
+</form>

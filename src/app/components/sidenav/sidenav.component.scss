@@ -24,14 +24,34 @@
   }
 
   .mat-sidenav {
+    overflow: hidden;
     background-color: $sidenav-bg;
 
     .sidenav-label {
       white-space: nowrap;
+      transition: opacity 400ms;
     }
   }
 
   .mat-sidenav-container {
     width: 100%;
+  }
+
+  .bottom-container {
+    width: 100%;
+    text-align: center;
+    padding: 1rem 0 0 0;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%, 0);
+
+    .version {
+      padding: .5rem 0 1rem 0;
+
+      a {
+        color: mat-color($primary);
+      }
+    }
   }
 }

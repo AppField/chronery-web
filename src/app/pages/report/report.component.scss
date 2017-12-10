@@ -1,31 +1,45 @@
 @import '../../../chy-theme';
 
-:host {
+.table-header {
+  min-height: 64px;
+  width: 100%;
+  align-items: baseline;
+  padding: 1em 1em 0 1em;
 
-  .table-header {
-    min-height: 64px;
+  .mat-input-wrapper {
+    width: 100% !important;
+  }
+
+  .mat-form-field {
     width: 100%;
-    align-items: center;
-    padding: 1em 1em 0 1em;
-    //font-size: 20px;
+  }
+}
 
-    .mat-input-wrapper {
-      width: 100% !important;
-    }
+.mat-input-element:disabled {
+  color: black;
+}
+
+.mat-header-row {
+  display: flex !important;
+}
+
+.table-footer {
+  text-align: center;
+  padding: 1em;
+
+  .total-header {
+    display: block;
+    padding-bottom: .5em;
   }
 
-  .table-footer {
-    text-align: center;
-    padding: 1em;
-
-    .total-header {
-      display: block;
-      padding-bottom: .5em;
-    }
-
-    .total-hours {
-      color: $subsidenav-bg;
-      font-size: 2.5em;
-    }
+  .total-hours {
+    color: $subsidenav-bg;
+    font-size: 2.5em;
   }
+}
+
+.top-loader {
+  position: absolute;
+  top: 0;
+  right: 0;
 }

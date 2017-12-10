@@ -1,7 +1,7 @@
-import {Component, Inject, OnInit} from '@angular/core';
-import {MD_DIALOG_DATA, MdDialogRef} from '@angular/material';
-import {Project} from '../../models/project';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { Project } from '../../models/project';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
 	selector: 'chy-project-modal',
@@ -13,9 +13,10 @@ export class ProjectDialogComponent implements OnInit {
 	projectForm: FormGroup;
 
 	// order matters
-	constructor(public fb: FormBuilder, @Inject(MD_DIALOG_DATA) public data: Project,
-				public dialogRef: MdDialogRef<ProjectDialogComponent>) {
-		this.project = data;
+	constructor(public fb: FormBuilder, @Inject(MAT_DIALOG_DATA) public data: Project,
+				public dialogRef: MatDialogRef<ProjectDialogComponent>) {
+
+		this.project = Object.assign({}, data);
 	}
 
 	ngOnInit() {
@@ -28,7 +29,7 @@ export class ProjectDialogComponent implements OnInit {
 	saveProject() {
 		if (this.projectForm.valid) {
 			this.project.number = this.projectForm.controls['number'].value;
-			this.project.name = this.projectForm.controls['name'].value
+			this.project.name = this.projectForm.controls['name'].value;
 			this.dialogRef.close(this.project);
 		}
 	}
