@@ -42,7 +42,7 @@ export class ReportComponent implements OnInit, OnDestroy {
 		this.endDate = moment().endOf('month').toDate();
 
 		this.projectsCtrl = new FormControl();
-		const allProjects = new Project(undefined, 'All');
+		const allProjects = new Project(null, null, null, 'All');
 		this.selectedProject = allProjects;
 		this.projects = [allProjects];
 
@@ -154,7 +154,7 @@ export class ReportSource extends DataSource<any> {
 			if (this.workingHoursService.data) {
 				if (this.filter.id) {
 					return this.workingHoursService.data.slice().filter((item: WorkingHours) => {
-						return item.project.id === this.filter.id;
+						return item.project.id === this.filter.id || !this.filter.id;
 					});
 				} else {
 					return this.workingHoursService.data;
