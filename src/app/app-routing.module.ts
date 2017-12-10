@@ -14,15 +14,14 @@ import { ImprintComponent } from './pages/imprint/imprint.component';
 const routes: Routes = [
 	{
 		path: '',
-		redirectTo: 'dashboard',
-		canActivate: [AuthGuard],
-		pathMatch: 'full'
-	},
-	{
-		path: '',
 		component: SidenavComponent,
 		canActivate: [AuthGuard],
 		children: [
+			{
+				path: '',
+				pathMatch: 'full',
+				redirectTo: 'dashboard'
+			},
 			{
 				path: 'dashboard',
 				component: DashboardComponent
