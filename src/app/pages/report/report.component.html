@@ -113,7 +113,7 @@
             <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
         </mat-table>
 
-        <div class="table-footer" *ngIf="!hasData">
+        <div class="table-footer" *ngIf="!hasData && !isLoading">
             <span class="total-header">No times found for the selected period and project</span>
         </div>
 

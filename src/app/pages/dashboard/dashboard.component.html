@@ -11,7 +11,8 @@
         </button>
     </h2>
 
-    <mat-card class="chart-card" *ngIf="chartData || async; else loading">
+    <!--<mat-card class="chart-card" *ngIf="chartData || async; else loading">-->
+    <mat-card class="chart-card" *ngIf="chartData || async">
         <mat-card-header>
             <mat-card-title>
                 <h3>
@@ -32,12 +33,12 @@
         </mat-card-content>
     </mat-card>
 
-    <ng-template #loading>
-        <mat-progress-spinner
-                color="primary"
-                mode="indeterminate">
-        </mat-progress-spinner>
-    </ng-template>
+    <!--<ng-template #loading>-->
+    <!--<mat-progress-spinner-->
+    <!--color="primary"-->
+    <!--mode="indeterminate">-->
+    <!--</mat-progress-spinner>-->
+    <!--</ng-template>-->
 
     <ng-template #noData>
         <mat-card-content class="no-data">

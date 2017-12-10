@@ -17,6 +17,10 @@
   }
 }
 
+.mat-header-row {
+  display: flex !important;
+}
+
 .mat-table {
   overflow: auto;
 
