@@ -9,7 +9,8 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "deploy-ghpage": "ng build --prod --aot --env=test --base-href /chronery-web/ && angular-cli-ghpages"
+    "deploy-ghpage": "ng build --prod --aot --env=test --base-href /chronery-web/ && angular-cli-ghpages",
+    "pwa": "http-server -p 8080 ./dist"
   },
   "private": true,
   "dependencies": {

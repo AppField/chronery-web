@@ -84,7 +84,7 @@ import { environment } from '../environments/environment';
 	entryComponents: [MonthYearDialogComponent, ProjectDialogComponent, ConfirmAccountDeletionComponent, ForgotPasswordDialogComponent],
 	imports: [
 		BrowserModule,
-		ServiceWorkerModule.register('/ngsw-worker.js', {enabled: environment.production}),
+		ServiceWorkerModule.register(environment.test ? '/chronery-web/ngsw-worker.js' : 'ngsw-worker.js', {enabled: environment.production || environment.test}),
 		HttpClientModule,
 		FlexLayoutModule,
 		FormsModule,
