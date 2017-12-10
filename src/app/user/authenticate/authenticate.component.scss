@@ -2,7 +2,8 @@
 
 // position loading-bar on top of a parent element
 .top-loader {
-  position: absolute;
+  position: fixed;
+  z-index: 100;
   top: 0;
   right: 0;
 }
