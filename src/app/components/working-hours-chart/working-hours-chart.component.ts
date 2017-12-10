@@ -92,13 +92,15 @@ export class WorkingHoursChartComponent implements OnChanges {
 		}
 		this.xAxis
 			.attr('transform', 'translate(0,' + this.chartHeight + ')')
+			.attr('class', 'none-select')
 			.call(d3.axisBottom(this.xScale).tickFormat(d => d + '.'));
 
 		if (!this.yAxis) {
 			this.yAxis = this.group.append('g')
 		}
 		this.yAxis
-			.call(d3.axisLeft(this.yScale).tickFormat(d3.timeFormat('%H:%M')));
+			.call(d3.axisLeft(this.yScale).tickFormat(d3.timeFormat('%H:%M')))
+			.attr('class', 'none-select');
 
 		// Draw bars
 		const bars = this.group.selectAll('.bar')
