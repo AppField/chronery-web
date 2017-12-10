@@ -57,6 +57,7 @@ import { ForgotPasswordDialogComponent } from './components/forgot-password-dial
 import { ImprintComponent } from './pages/imprint/imprint.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
+import { WindowRef } from './services/window-ref/window-ref.service';
 
 @NgModule({
 	declarations: [
@@ -95,7 +96,7 @@ import { environment } from '../environments/environment';
 		AppRoutingModule, MatProgressSpinnerModule, MatProgressBarModule, MatSnackBarModule, MatExpansionModule,
 		CdkTableModule
 	],
-	providers: [AuthService, WorkingHoursService, ProjectsService, CommentsService, LocalStorageService],
+	providers: [AuthService, WorkingHoursService, ProjectsService, CommentsService, LocalStorageService, WindowRef],
 	bootstrap: [AppComponent]
 })
 export class AppModule {
