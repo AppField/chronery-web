@@ -1,12 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Comment } from '../../models/comment';
 import { CommentsService } from '../../services/comments/comments.service';
 import { ConfirmAccountDeletionComponent } from '../../components/confirm-account-deletion/confirm-account-deletion.component';
 import { MatDialog } from '@angular/material';
 import { AuthService } from '../../user/auth.service';
-import { CognitoUser } from 'amazon-cognito-identity-js';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { User } from '../../models/user';
+import { Subject } from 'rxjs/Subject';
+import 'rxjs/add/operator/takeUntil';
 
 @Component({
 	selector: 'chy-settings',
@@ -15,7 +16,9 @@ import { User } from '../../models/user';
 })
 
 
-export class SettingsComponent implements OnInit {
+export class SettingsComponent implements OnInit, OnDestroy {
+	private destroy$: Subject<boolean> = new Subject<boolean>();
+
 	newComment: Comment = new Comment();
 	isLoading = false;
 	accountForm: FormGroup;
@@ -28,7 +31,9 @@ export class SettingsComponent implements OnInit {
 	}
 
 	ngOnInit() {
-		this.commentsService.dataIsLoading.subscribe((isLoading: boolean) => this.isLoading = isLoading);
+		this.commentsService.dataIsLoading
+			.takeUntil(this.destroy$)
+			.subscribe((isLoading: boolean) => this.isLoading = isLoading);
 
 		// this.authService.authDidFail.subscribe((didFail: boolean) => this.accountDeletFailed = didFail);
 
@@ -72,7 +77,9 @@ export class SettingsComponent implements OnInit {
 	deleteAccount(): void {
 		const dialogRef = this.dialog.open(ConfirmAccountDeletionComponent);
 
-		dialogRef.afterClosed().subscribe(result => {
+		dialogRef.afterClosed()
+			.takeUntil(this.destroy$)
+			.subscribe(result => {
 			if (result) {
 				// delete account
 				this.authService.deleteAccount();
@@ -82,6 +89,11 @@ export class SettingsComponent implements OnInit {
 
 	logout(): void {
 		this.authService.logout();
+	}
+
+	ngOnDestroy() {
+		this.destroy$.next(true);
+		this.destroy$.unsubscribe();
 	}
 
 }

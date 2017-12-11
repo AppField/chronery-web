@@ -1,4 +1,4 @@
-import { Component, OnDestroy, ViewChildren, AfterViewInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnDestroy, ViewChildren, Output, EventEmitter } from '@angular/core';
 import { MonthYearDialogComponent } from '../month-year-dialog/month-year-dialog.component';
 import { MatDialog } from '@angular/material';
 import { Utility } from '../../utils/utility';
@@ -6,6 +6,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment/moment';
 import { WorkingHoursService } from '../../services/working-hours/working-hours.service';
 import { WorkingHours } from '../../models/working-hours';
+import 'rxjs/add/operator/takeUntil';
+import { Subject } from 'rxjs/Subject';
 
 interface DayMeta {
 	date: Date;
@@ -18,14 +20,15 @@ interface DayMeta {
 	templateUrl: './sidenav-daypicker.component.html',
 	styleUrls: ['./sidenav-daypicker.component.scss'],
 })
-export class SidenavDaypickerComponent implements OnDestroy, AfterViewInit {
+export class SidenavDaypickerComponent implements OnDestroy {
 	@ViewChildren('dayList') dayList;
 	@Output() daySelected = new EventEmitter();
+
+	private destroy$: Subject<boolean> = new Subject<boolean>();
 
 	days: DayMeta[] = [];
 	activeLinkIndex = 0;
 	monthYear: Date = new Date();
-	private sub: any;
 
 	constructor(private dialog: MatDialog,
 				private router: Router,
@@ -34,26 +37,24 @@ export class SidenavDaypickerComponent implements OnDestroy, AfterViewInit {
 		this.getDays();
 		this.getMeta();
 
-		this.sub = this.activeRoute.params.subscribe(params => {
-			const dateParam = params['date'];
-			if (dateParam) {
-				const date = Utility.decodeDate(dateParam);
-				if (this.monthYear.getMonth() !== date.getMonth() || this.monthYear.getFullYear() !== date.getFullYear()) {
-					this.monthYear.setMonth(date.getMonth());
-					this.monthYear.setFullYear(date.getFullYear());
-					this.getDays();
-					this.getMeta();
+		this.activeRoute.params
+			.takeUntil(this.destroy$)
+			.subscribe(params => {
+				const dateParam = params['date'];
+				if (dateParam) {
+					const date = Utility.decodeDate(dateParam);
+					if (this.monthYear.getMonth() !== date.getMonth() || this.monthYear.getFullYear() !== date.getFullYear()) {
+						this.monthYear.setMonth(date.getMonth());
+						this.monthYear.setFullYear(date.getFullYear());
+						this.getDays();
+						this.getMeta();
+					}
+
+					this.activeLinkIndex = this.days.map((obj) => {
+						return obj['date'].getDate();
+					}).indexOf(date.getDate());
 				}
-
-				this.activeLinkIndex = this.days.map((obj) => {
-					return obj['date'].getDate();
-				}).indexOf(date.getDate());
-			}
-		});
-	}
-
-	ngAfterViewInit() {
-		// const activeElement = this.dayList.toArray()[this.activeLinkIndex];
+			});
 	}
 
 	onDaySelect(date: Date) {
@@ -66,14 +67,16 @@ export class SidenavDaypickerComponent implements OnDestroy, AfterViewInit {
 		const dialogRef = this.dialog.open(MonthYearDialogComponent, {
 			data: this.monthYear
 		});
-		dialogRef.afterClosed().subscribe(result => {
-			if (result) {
-				this.activeLinkIndex = -1;
-				this.monthYear = result;
-				this.getDays();
-				this.getMeta();
-			}
-		});
+		dialogRef.afterClosed()
+			.takeUntil(this.destroy$)
+			.subscribe(result => {
+				if (result) {
+					this.activeLinkIndex = -1;
+					this.monthYear = result;
+					this.getDays();
+					this.getMeta();
+				}
+			});
 	}
 
 	private getDays(): void {
@@ -118,6 +121,7 @@ export class SidenavDaypickerComponent implements OnDestroy, AfterViewInit {
 	}
 
 	ngOnDestroy() {
-		this.sub.unsubscribe();
+		this.destroy$.next(true);
+		this.destroy$.unsubscribe();
 	}
 }

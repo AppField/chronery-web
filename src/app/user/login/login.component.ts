@@ -1,14 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
+import 'rxjs/add/operator/takeUntil';
+import { Subject } from 'rxjs/Subject';
 
 @Component({
 	selector: 'chy-login',
 	templateUrl: './login.component.html',
 	styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
+	private destroy$: Subject<boolean> = new Subject<boolean>();
+
 	loginForm: FormGroup;
 	email: AbstractControl;
 	didFail = false;
@@ -18,9 +22,11 @@ export class LoginComponent implements OnInit {
 	}
 
 	ngOnInit() {
-		this.authService.authDidFail.subscribe(
-			(didFail: boolean) => this.didFail = didFail
-		);
+		this.authService.authDidFail
+			.takeUntil(this.destroy$)
+			.subscribe(
+				(didFail: boolean) => this.didFail = didFail
+			);
 
 		// Setup form
 		this.loginForm = this.fb.group({
@@ -37,6 +43,7 @@ export class LoginComponent implements OnInit {
 
 
 		this.authService.authStatusChanged
+			.takeUntil(this.destroy$)
 			.subscribe(authenticated => {
 				if (authenticated) {
 					this.router.navigate(['dashboard']);
@@ -74,6 +81,11 @@ export class LoginComponent implements OnInit {
 
 	get didLoginFail(): boolean {
 		return this.didFail && this.loginSent;
+	}
+
+	ngOnDestroy() {
+		this.destroy$.next(true);
+		this.destroy$.unsubscribe();
 	}
 
 }

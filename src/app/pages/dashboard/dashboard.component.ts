@@ -1,16 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Utility } from '../../utils/utility';
 import * as moment from 'moment/moment';
 import { Router } from '@angular/router';
 import { WorkingHoursService } from '../../services/working-hours/working-hours.service';
 import { WorkingHours } from '../../models/working-hours';
+import { Subject } from 'rxjs/Subject';
+import 'rxjs/add/operator/takeUntil';
 
 @Component({
 	selector: 'chy-dashboard',
 	templateUrl: './dashboard.component.html',
 	styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
+	private destroy$: Subject<boolean> = new Subject<boolean>();
+
 	todaysDate = new Date();
 	chartMonth = new Date();
 	todaysLink: string;
@@ -28,7 +32,9 @@ export class DashboardComponent implements OnInit {
 	}
 
 	ngOnInit() {
-		this.workingHoursService.dataIsLoading.subscribe((isLoading: boolean) => this.isLoading = isLoading);
+		this.workingHoursService.dataIsLoading
+			.takeUntil(this.destroy$)
+			.subscribe((isLoading: boolean) => this.isLoading = isLoading);
 	}
 
 	nextMonth(): void {
@@ -66,5 +72,10 @@ export class DashboardComponent implements OnInit {
 
 	navigateToProjects(): void {
 		this.router.navigate(['/projects']);
+	}
+
+	ngOnDestroy() {
+		this.destroy$.next(true);
+		this.destroy$.unsubscribe();
 	}
 }

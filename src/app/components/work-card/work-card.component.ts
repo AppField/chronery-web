@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, ElementRef, HostListener } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ElementRef, HostListener, OnDestroy } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Project } from '../../models/project';
 import { Observable } from 'rxjs/Observable';
@@ -8,6 +8,8 @@ import 'rxjs/add/operator/map';
 import * as moment from 'moment/moment';
 import { Utility } from '../../utils/utility';
 import { WorkingHours } from '../../models/working-hours';
+import { Subject } from 'rxjs/Subject';
+import 'rxjs/add/operator/takeUntil';
 
 @Component({
 	selector: 'chy-work-card',
@@ -16,13 +18,15 @@ import { WorkingHours } from '../../models/working-hours';
 })
 
 
-export class WorkCardComponent implements OnInit {
+export class WorkCardComponent implements OnInit, OnDestroy {
 	@Input() projects: Project[];
 	@Input() comments: Comment[];
 	@Input() work: WorkingHours;
 	@Output() saveWork = new EventEmitter<WorkingHours>();
 	@Output() deleteWork = new EventEmitter<WorkingHours>();
 	@Output() persistNewWork = new EventEmitter<WorkingHours>();
+
+	private destroy$: Subject<boolean> = new Subject<boolean>();
 
 	filteredProjects: Observable<Project[]>;
 	filteredComments: Observable<Comment[]>;
@@ -93,7 +97,9 @@ export class WorkCardComponent implements OnInit {
 			.map(value => value ? this.filterComments(value) : this.comments ? this.comments.slice() : []);
 
 		this.toControl = this.workForm.controls['to'];
-		this.workForm.controls['from'].valueChanges.subscribe((value) => {
+		this.workForm.controls['from'].valueChanges
+			.takeUntil(this.destroy$)
+			.subscribe((value) => {
 			this.workForm.controls['to'].updateValueAndValidity();
 		});
 
@@ -209,5 +215,10 @@ export class WorkCardComponent implements OnInit {
 
 	removeWork(): void {
 		this.deleteWork.emit(this.work);
+	}
+
+	ngOnDestroy() {
+		this.destroy$.next(true);
+		this.destroy$.unsubscribe();
 	}
 }

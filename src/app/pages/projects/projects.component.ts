@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Project } from '../../models/project';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { DataSource } from '@angular/cdk/collections';
@@ -13,13 +13,17 @@ import { MatDialog } from '@angular/material';
 import { ProjectDialogComponent } from '../../components/project-modal/project-dialog.component';
 import { ObservableMedia } from '@angular/flex-layout';
 import { ProjectsService } from '../../services/projects/projects.service';
+import { Subject } from 'rxjs/Subject';
+import 'rxjs/add/operator/takeUntil';
 
 @Component({
 	selector: 'chy-projects',
 	templateUrl: './projects.component.html',
 	styleUrls: ['./projects.component.scss']
 })
-export class ProjectsComponent implements OnInit {
+export class ProjectsComponent implements OnInit, OnDestroy {
+	private destroy$: Subject<boolean> = new Subject<boolean>();
+
 	displayedColumns = ['projectNumber', 'projectName', 'edit'];
 	dataSource: ProjectSource | null;
 	isLoading = false;
@@ -32,11 +36,14 @@ export class ProjectsComponent implements OnInit {
 	}
 
 	ngOnInit() {
-		this.projectsService.dataIsLoading.subscribe((isLoading: boolean) => this.isLoading = isLoading);
+		this.projectsService.dataIsLoading
+			.takeUntil(this.destroy$)
+			.subscribe((isLoading: boolean) => this.isLoading = isLoading);
 
 		this.dataSource = new ProjectSource(this.projectsService);
 
 		Observable.fromEvent(this.filter.nativeElement, 'keyup')
+			.takeUntil(this.destroy$)
 			.debounceTime(150)
 			.distinctUntilChanged()
 			.subscribe(() => {
@@ -66,7 +73,9 @@ export class ProjectsComponent implements OnInit {
 		const dialogRef = this.dialog.open(ProjectDialogComponent, {
 			data: project
 		});
-		dialogRef.afterClosed().subscribe(result => {
+		dialogRef.afterClosed()
+			.takeUntil(this.destroy$)
+			.subscribe(result => {
 			if (result) {
 				if (result.userId) {
 					// TODO: Table doesn't get updated. Fix this.
@@ -76,6 +85,11 @@ export class ProjectsComponent implements OnInit {
 				}
 			}
 		});
+	}
+
+	ngOnDestroy() {
+		this.destroy$.next(true);
+		this.destroy$.unsubscribe();
 	}
 }
 

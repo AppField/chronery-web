@@ -9,6 +9,8 @@ import { ProjectsService } from '../../services/projects/projects.service';
 import { CommentsService } from '../../services/comments/comments.service';
 import { WorkingHours } from '../../models/working-hours';
 import { WorkingHoursService } from '../../services/working-hours/working-hours.service';
+import { Subject } from 'rxjs/Subject';
+import 'rxjs/add/operator/takeUntil';
 
 @Component({
 	selector: 'chy-working-hours',
@@ -17,6 +19,7 @@ import { WorkingHoursService } from '../../services/working-hours/working-hours.
 })
 export class WorkingHoursComponent implements OnInit, OnDestroy {
 	@ViewChild('subsidenav') subsidenav: MatSidenav;
+	private destroy$: Subject<boolean> = new Subject<boolean>();
 
 	date: Date;
 	encodedDate: string;
@@ -26,7 +29,6 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
 	async: any;
 	isLoading = false;
 
-	private dateSub: Subscription;
 	private mediaSub: Subscription;
 
 	constructor(private route: ActivatedRoute, public media: ObservableMedia,
@@ -36,36 +38,43 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
 				public commentsService: CommentsService,
 				private localStorage: LocalStorageService) {
 
-		this.workingHoursService.dataIsLoading.subscribe((isLoading: boolean) => this.isLoading = isLoading);
+		this.workingHoursService.dataIsLoading
+			.takeUntil(this.destroy$)
+			.subscribe((isLoading: boolean) => this.isLoading = isLoading);
 
-		this.workingHoursService.dataChange.subscribe((data) => {
-			const newCard = this.localStorage.getItem(this.encodedDate);
-			if (newCard) {
-				this.works = data ? [newCard].concat(data.slice().reverse()) : [newCard];
-				this.newCard = true;
-			} else {
-				this.works = data ? data.slice().reverse() : [];
-				this.newCard = false;
-			}
-		});
+		this.workingHoursService.dataChange
+			.takeUntil(this.destroy$)
+			.subscribe((data) => {
+				const newCard = this.localStorage.getItem(this.encodedDate);
+				if (newCard) {
+					this.works = data ? [newCard].concat(data.slice().reverse()) : [newCard];
+					this.newCard = true;
+				} else {
+					this.works = data ? data.slice().reverse() : [];
+					this.newCard = false;
+				}
+			});
 
-		this.dateSub = this.route.params.subscribe(params => {
-			this.encodedDate = params['date'];
-			this.date = Utility.decodeDate(params['date']);
-			this.workingHoursService.onRetrieveData(this.encodedDate);
-		});
+		this.route.params
+			.takeUntil(this.destroy$)
+			.subscribe(params => {
+				this.encodedDate = params['date'];
+				this.date = Utility.decodeDate(params['date']);
+				this.workingHoursService.onRetrieveData(this.encodedDate);
+			});
 	}
 
 	ngOnInit() {
-		this.mediaSub = this.media.subscribe((change: MediaChange) => {
-			if (change.mqAlias === 'xs') {
-				this.sidenavMode = 'over';
-				this.subsidenav.close();
-			} else {
-				this.sidenavMode = 'side';
-				this.subsidenav.open();
-			}
-		});
+		this.mediaSub = this.media
+			.subscribe((change: MediaChange) => {
+				if (change.mqAlias === 'xs') {
+					this.sidenavMode = 'over';
+					this.subsidenav.close();
+				} else {
+					this.sidenavMode = 'side';
+					this.subsidenav.open();
+				}
+			});
 		if (this.media.isActive('xs')) {
 			this.sidenavMode = 'over';
 			this.subsidenav.close();
@@ -119,7 +128,8 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
 	}
 
 	ngOnDestroy() {
-		this.dateSub.unsubscribe();
+		this.destroy$.next(true);
+		this.destroy$.unsubscribe();
 		this.mediaSub.unsubscribe();
 	}
 }
