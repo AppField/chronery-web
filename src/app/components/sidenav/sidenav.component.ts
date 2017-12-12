@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ObservableMedia } from '@angular/flex-layout';
 import { Utility } from '../../utils/utility';
 import {
@@ -11,6 +11,9 @@ import {
 import { SwUpdate } from '@angular/service-worker';
 import { MatSnackBar } from '@angular/material';
 import { WindowRef } from '../../services/window-ref/window-ref.service';
+import 'rxjs/add/operator/takeUntil';
+import { Subject } from 'rxjs/Subject';
+import { Subscription } from 'rxjs/Subscription';
 
 interface RouterItem {
 	link: string;
@@ -45,11 +48,13 @@ interface RouterItem {
 		])
 	]
 })
-export class SidenavComponent implements OnInit {
+export class SidenavComponent implements OnInit, OnDestroy {
+	@ViewChild('sidenavContainer') private sidenav;
+	private destroy$: Subject<boolean> = new Subject<boolean>();
+	private mediaSub: Subscription;
+
 	routerItems: RouterItem[];
 	state = 'expandedState';
-
-	@ViewChild('sidenavContainer') private sidenav;
 
 	constructor(private media: ObservableMedia,
 				private winRef: WindowRef,
@@ -88,21 +93,24 @@ export class SidenavComponent implements OnInit {
 
 	ngOnInit() {
 		this.state = (this.media.isActive('xs')) ? 'collapsedState' : 'expandedState';
-		this.media.subscribe(media => {
-			this.state = (media.mqAlias === 'xs') ? 'collapsedState' : 'expandedState';
-		});
-
-
-		this.swUpdate.available.subscribe(event => {
-
-			console.log('[App] Update available: current version is', event.current, 'available version is', event.available);
-			const snackBarRef = this.snackBar.open('Newer version of the app is available', 'Refresh');
-
-			snackBarRef.onAction().subscribe(() => {
-				this.winRef.nativeWindow.location.reload()
+		this.mediaSub = this.media
+			.subscribe(media => {
+				this.state = (media.mqAlias === 'xs') ? 'collapsedState' : 'expandedState';
 			});
 
-		});
+
+		this.swUpdate.available
+			.takeUntil(this.destroy$)
+			.subscribe(event => {
+
+				console.log('[App] Update available: current version is', event.current, 'available version is', event.available);
+				const snackBarRef = this.snackBar.open('Newer version of the app is available', 'Refresh');
+
+				snackBarRef.onAction().subscribe(() => {
+					this.winRef.nativeWindow.location.reload()
+				});
+
+			});
 	}
 
 	get isMobile(): boolean {
@@ -117,5 +125,11 @@ export class SidenavComponent implements OnInit {
 		if (this.isMobile) {
 			this.state = 'collapsedState';
 		}
+	}
+
+	ngOnDestroy() {
+		this.destroy$.next(true);
+		this.destroy$.unsubscribe();
+		this.mediaSub.unsubscribe();
 	}
 }

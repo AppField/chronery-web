@@ -11,6 +11,8 @@ import { ProjectsService } from '../../services/projects/projects.service';
 import { WorkingHoursService } from '../../services/working-hours/working-hours.service';
 import { WorkingHours } from '../../models/working-hours';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Subject } from 'rxjs/Subject';
+import 'rxjs/add/operator/takeUntil';
 
 @Component({
 	selector: 'chy-report',
@@ -18,8 +20,9 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 	styleUrls: ['./report.component.scss']
 })
 export class ReportComponent implements OnInit, OnDestroy {
-	date: Date;
+	private destroy$: Subject<boolean> = new Subject<boolean>();
 
+	date: Date;
 	startDate: Date;
 	endDate: Date;
 	projects: Project[] = [];
@@ -46,7 +49,9 @@ export class ReportComponent implements OnInit, OnDestroy {
 		this.selectedProject = allProjects;
 		this.projects = [allProjects];
 
-		this.projectsService.dataChange.subscribe((data: Project[]) => {
+		this.projectsService.dataChange
+			.takeUntil(this.destroy$)
+			.subscribe((data: Project[]) => {
 			this.projects = data ? this.projects.concat(data) : this.projects;
 			this.filteredProjects = this.projectsCtrl.valueChanges
 				.startWith(null)
@@ -60,7 +65,9 @@ export class ReportComponent implements OnInit, OnDestroy {
 	}
 
 	ngOnInit() {
-		this.workingHoursService.dataIsLoading.subscribe((isLoading: boolean) => this.isLoading = isLoading);
+		this.workingHoursService.dataIsLoading
+			.takeUntil(this.destroy$)
+			.subscribe((isLoading: boolean) => this.isLoading = isLoading);
 	}
 
 	get isMobile(): boolean {
@@ -125,6 +132,8 @@ export class ReportComponent implements OnInit, OnDestroy {
 	}
 
 	ngOnDestroy() {
+		this.destroy$.next(true);
+		this.destroy$.unsubscribe();
 	}
 }
 

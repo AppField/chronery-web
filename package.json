@@ -10,7 +10,9 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "deploy-ghpage": "ng build --prod --aot --env=test --base-href /chronery-web/ && angular-cli-ghpages",
-    "pwa": "http-server -p 8080 ./dist"
+    "pwa": "http-server -p 8080 ./dist",
+    "stats": "ng build --prod --stats-json && npx webpack-bundle-analyzer dist/stats.json",
+    "source-maps-explorer": "ng build --prod --sourcemaps && npx source-map-explorer dist/main.f3be1bf742c2a16b21d5.bundle.js"
   },
   "private": true,
   "dependencies": {
@@ -55,8 +57,10 @@
     "karma-jasmine": "~1.1.1",
     "karma-jasmine-html-reporter": "^0.2.2",
     "protractor": "^5.2.1",
+    "source-map-explorer": "^1.5.0",
     "ts-node": "~3.3.0",
     "tslint": "~5.8.0",
-    "typescript": "^2.5.0"
+    "typescript": "^2.5.0",
+    "webpack-bundle-analyzer": "^2.9.1"
   }
 }

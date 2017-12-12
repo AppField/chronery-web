@@ -142,6 +142,7 @@ export class AuthService {
 
 	isAuthenticated(): Observable<boolean> {
 		const user = this.getAuthenticatedUser();
+		console.log('user', user);
 		const obs = Observable.create((observer) => {
 			if (!user) {
 				observer.next(false);
