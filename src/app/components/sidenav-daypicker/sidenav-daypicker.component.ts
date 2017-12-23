@@ -1,4 +1,4 @@
-import { Component, OnDestroy, ViewChildren, Output, EventEmitter } from '@angular/core';
+import { Component, OnDestroy, ViewChildren, Output, EventEmitter, AfterViewInit, AfterContentInit } from '@angular/core';
 import { MonthYearDialogComponent } from '../month-year-dialog/month-year-dialog.component';
 import { MatDialog } from '@angular/material';
 import { Utility } from '../../utils/utility';
@@ -20,7 +20,7 @@ interface DayMeta {
 	templateUrl: './sidenav-daypicker.component.html',
 	styleUrls: ['./sidenav-daypicker.component.scss'],
 })
-export class SidenavDaypickerComponent implements OnDestroy {
+export class SidenavDaypickerComponent implements OnDestroy, AfterContentInit {
 	@ViewChildren('dayList') dayList;
 	@Output() daySelected = new EventEmitter();
 
@@ -34,6 +34,9 @@ export class SidenavDaypickerComponent implements OnDestroy {
 				private router: Router,
 				private activeRoute: ActivatedRoute,
 				private workingHoursService: WorkingHoursService) {
+	}
+
+	ngAfterContentInit() {
 		this.getDays();
 		this.getMeta();
 

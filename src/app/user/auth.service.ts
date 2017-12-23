@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs/Subject';
-
-import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 import {
@@ -140,28 +138,30 @@ export class AuthService {
 		this.router.navigate(['/login']);
 	}
 
-	isAuthenticated(): Observable<boolean> {
+	isAuthenticated(): Promise<boolean> {
 		const user = this.getAuthenticatedUser();
-		console.log('user', user);
-		const obs = Observable.create((observer) => {
+		return new Promise<boolean>((resolve, reject) => {
 			if (!user) {
-				observer.next(false);
+				console.log('NO USER');
+				resolve(false);
 			} else {
 				user.getSession((err, session) => {
+					console.log('SESSION:', session);
 					if (err) {
-						observer.next(false);
+						console.log('AUTH REJECTED');
+						resolve(false);
 					} else {
 						if (session.isValid()) {
-							observer.next(true);
+							console.log('SESSION VALID');
+							resolve(true);
 						} else {
-							observer.next(false);
+							console.log('AUTH REJECTED NUMBER TWO');
+							resolve(false);
 						}
 					}
 				});
 			}
-			observer.complete();
 		});
-		return obs;
 	}
 
 	deleteAccount(): void {
@@ -261,9 +261,9 @@ export class AuthService {
 		});
 	}
 
-	initAuth() {
-		this.isAuthenticated().subscribe(
-			(auth) => this.authStatusChanged.next(auth)
-		);
-	}
+	// initAuth() {
+	// 	this.isAuthenticated().subscribe(
+	// 		(auth) => this.authStatusChanged.next(auth)
+	// 	);
+	// }
 }

@@ -8,9 +8,6 @@ import {
 	animate,
 	transition
 } from '@angular/animations';
-import { SwUpdate } from '@angular/service-worker';
-import { MatSnackBar } from '@angular/material';
-import { WindowRef } from '../../services/window-ref/window-ref.service';
 import 'rxjs/add/operator/takeUntil';
 import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
@@ -56,10 +53,7 @@ export class SidenavComponent implements OnInit, OnDestroy {
 	routerItems: RouterItem[];
 	state = 'expandedState';
 
-	constructor(private media: ObservableMedia,
-				private winRef: WindowRef,
-				private swUpdate: SwUpdate,
-				private snackBar: MatSnackBar) {
+	constructor(private media: ObservableMedia) {
 		// ToDo: Working Hours should remain active when another day is selected in subsidenav
 		this.routerItems = [
 			{
@@ -96,20 +90,6 @@ export class SidenavComponent implements OnInit, OnDestroy {
 		this.mediaSub = this.media
 			.subscribe(media => {
 				this.state = (media.mqAlias === 'xs') ? 'collapsedState' : 'expandedState';
-			});
-
-
-		this.swUpdate.available
-			.takeUntil(this.destroy$)
-			.subscribe(event => {
-
-				console.log('[App] Update available: current version is', event.current, 'available version is', event.available);
-				const snackBarRef = this.snackBar.open('Newer version of the app is available', 'Refresh');
-
-				snackBarRef.onAction().subscribe(() => {
-					this.winRef.nativeWindow.location.reload()
-				});
-
 			});
 	}
 
