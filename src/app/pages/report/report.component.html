@@ -113,13 +113,15 @@
             <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
         </mat-table>
 
-        <div class="table-footer" *ngIf="!hasData && !isLoading">
+        <div class="table-footer" *ngIf="!hasData && !isLoading; else totalTime">
             <span class="total-header">No times found for the selected period and project</span>
         </div>
 
-        <div class="table-footer" *ngIf="totalTime">
-            <span class="total-header">Total:</span>
-            <span class="total-hours">{{totalTime}} h</span>
-        </div>
+        <ng-template #totalTime>
+            <div class="table-footer">
+                <span class="total-header">Total:</span>
+                <span class="total-hours">{{dataSource.totalTime}} h</span>
+            </div>
+        </ng-template>
     </div>
 </div>

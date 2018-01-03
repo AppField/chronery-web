@@ -52,13 +52,13 @@ export class ReportComponent implements OnInit, OnDestroy {
 		this.projectsService.dataChange
 			.takeUntil(this.destroy$)
 			.subscribe((data: Project[]) => {
-			this.projects = data ? this.projects.concat(data) : this.projects;
-			this.filteredProjects = this.projectsCtrl.valueChanges
-				.startWith(null)
-				.map(project => project && typeof project === 'object' ? project.name : project)
-				.map(name => name ? this.filterProjects(name) : this.projects.slice());
+				this.projects = data ? this.projects.concat(data) : this.projects;
+				this.filteredProjects = this.projectsCtrl.valueChanges
+					.startWith(null)
+					.map(project => project && typeof project === 'object' ? project.name : project)
+					.map(name => name ? this.filterProjects(name) : this.projects.slice());
 
-		});
+			});
 
 		this.dataSource = new ReportSource(this.workingHoursService);
 		this.updateReport();
@@ -88,16 +88,6 @@ export class ReportComponent implements OnInit, OnDestroy {
 		const to = Utility.encodeDate(this.endDate);
 
 		this.workingHoursService.onFilterData(from, to)
-			.then((data: WorkingHours[]) => {
-				const times = data.map((work: WorkingHours) => {
-					return work.spent;
-				});
-				if (times.length) {
-					this.totalTime = Utility.sumTotalTimes(times);
-				} else {
-					this.totalTime = null;
-				}
-			});
 	}
 
 	updateProjectFilter(): void {
@@ -140,6 +130,7 @@ export class ReportComponent implements OnInit, OnDestroy {
 
 export class ReportSource extends DataSource<any> {
 	private _filterChange = new BehaviorSubject(new Project);
+	totalTime: string = '00:00';
 
 	get filter(): Project {
 		return this._filterChange.value;
@@ -161,14 +152,21 @@ export class ReportSource extends DataSource<any> {
 
 		return Observable.merge(...displayDataChanges).map(() => {
 			if (this.workingHoursService.data) {
+				let data = [];
 				if (this.filter.id) {
-					return this.workingHoursService.data.slice().filter((item: WorkingHours) => {
+					data = this.workingHoursService.data.slice().filter((item: WorkingHours) => {
 						return item.project.id === this.filter.id || !this.filter.id;
 					});
 				} else {
-					return this.workingHoursService.data;
+					data = this.workingHoursService.data;
 				}
+				const times = data.map((work: WorkingHours) => {
+					return work.spent;
+				});
+				this.totalTime = times.length ? Utility.sumTotalTimes(times) : '00:00';
+				return data;
 			} else {
+				this.totalTime = '00:00';
 				return [];
 			}
 		});
