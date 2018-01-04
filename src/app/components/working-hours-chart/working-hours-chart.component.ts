@@ -169,7 +169,7 @@ export class WorkingHoursChartComponent implements OnChanges {
 			});
 			workChartData.totalTime = totalTime.toDate();
 		});
-		this.chartData.reverse();
+		// this.chartData.reverse();
 	}
 
 	private onMouseOver(d, i: number, bars) {
