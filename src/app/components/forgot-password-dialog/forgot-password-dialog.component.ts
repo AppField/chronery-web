@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material';
-import { CustomValidators } from '../../utils/CustomValidators';
+import { CustomValidators } from '../../utils/custom-validators';
 
 @Component({
 	selector: 'chy-forgot-password-dialog',

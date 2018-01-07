@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../auth.service';
-import { CustomValidators } from '../../utils/CustomValidators';
+import { CustomValidators } from '../../utils/custom-validators';
 
 @Component({
 	selector: 'chy-register',
