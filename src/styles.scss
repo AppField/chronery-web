@@ -62,6 +62,7 @@ html, body {
     }
   }
 }
+
 /* SIDENAV */
 .chy-sidenav {
   .mat-toolbar, .mat-nav-list .mat-list-item .mat-list-item-content {
@@ -101,3 +102,23 @@ html, body {
 }
 
 /* END RESPONSIVE mat-table */
+
+/* BEGIN SCROLLBAR */
+*::-webkit-scrollbar {
+  width: 6px !important;
+  height: 6px !important;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+*::-webkit-scrollbar-track {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+:not(.selectable-text) > :not(.selectable-text) > :not(.selectable-text)::selection {
+  background-color: transparent;
+}
+
+/* END SCROLLBAR */
