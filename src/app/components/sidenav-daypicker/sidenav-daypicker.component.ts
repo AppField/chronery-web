@@ -62,6 +62,7 @@ export class SidenavDaypickerComponent implements OnDestroy, AfterContentInit {
 
 	onDaySelect(date: Date) {
 		const encodedDate = Utility.encodeDate(date);
+		this.workingHoursService.dataChange.next([]);
 		this.router.navigate(['working-hours', encodedDate]);
 		this.daySelected.emit();
 	}
