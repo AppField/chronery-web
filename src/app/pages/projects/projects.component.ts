@@ -78,7 +78,6 @@ export class ProjectsComponent implements OnInit, OnDestroy {
 			.subscribe(result => {
 				if (result) {
 					if (result.userId) {
-						// TODO: Table doesn't get updated. Fix this.
 						this.projectsService.onUpdateData(result);
 					} else {
 						this.projectsService.onStoreData(result);
