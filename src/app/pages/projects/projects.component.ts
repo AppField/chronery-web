@@ -24,7 +24,7 @@ import 'rxjs/add/operator/takeUntil';
 export class ProjectsComponent implements OnInit, OnDestroy {
 	private destroy$: Subject<boolean> = new Subject<boolean>();
 
-	displayedColumns = ['projectNumber', 'projectName', 'edit'];
+	displayedColumns = ['projectNumber', 'projectName', 'inactive', 'edit'];
 	dataSource: ProjectSource | null;
 	isLoading = false;
 
@@ -76,15 +76,15 @@ export class ProjectsComponent implements OnInit, OnDestroy {
 		dialogRef.afterClosed()
 			.takeUntil(this.destroy$)
 			.subscribe(result => {
-			if (result) {
-				if (result.userId) {
-					// TODO: Table doesn't get updated. Fix this.
-					this.projectsService.onUpdateData(result);
-				} else {
-					this.projectsService.onStoreData(result);
+				if (result) {
+					if (result.userId) {
+						// TODO: Table doesn't get updated. Fix this.
+						this.projectsService.onUpdateData(result);
+					} else {
+						this.projectsService.onStoreData(result);
+					}
 				}
-			}
-		});
+			});
 	}
 
 	ngOnDestroy() {

@@ -39,6 +39,17 @@
                 </mat-cell>
             </ng-container>
 
+            <!-- Project inactive column -->
+            <ng-container cdkColumnDef="inactive">
+                <mat-header-cell *cdkHeaderCellDef>Inactive</mat-header-cell>
+                <mat-cell *cdkCellDef="let row" fxLayout="row">
+                    <div fxHide.gt-sm fxFlex="50">Inactive</div>
+
+                    <mat-icon *ngIf="row.inactive" class="inactive">done</mat-icon>
+                </mat-cell>
+            </ng-container>
+
+
             <!-- Edit Button -->
             <ng-container cdkColumnDef="edit">
                 <mat-header-cell *cdkHeaderCellDef class="action"></mat-header-cell>

@@ -1,3 +1,5 @@
+@import '../../../chy-theme';
+
 // position loading-bar on top of a parent element
 .top-loader {
   position: absolute;
@@ -27,4 +29,8 @@
   .action {
     flex: .1;
   }
+}
+
+.inactive {
+  color: mat-color($accent);
 }
