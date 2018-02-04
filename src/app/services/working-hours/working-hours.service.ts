@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs/Subject'
 import 'rxjs/add/operator/map';
-import { AuthService } from '../../user/auth.service';
 import { WorkingHours } from '../../models/working-hours';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { DayWorkingHours } from '../../models/day-working-hours';
 import { environment } from '../../../environments/environment';
 

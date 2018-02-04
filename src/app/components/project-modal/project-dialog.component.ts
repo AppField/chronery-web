@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { Project } from '../../models/project';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { clone } from 'lodash';
 
 @Component({
 	selector: 'chy-project-modal',
@@ -16,13 +17,14 @@ export class ProjectDialogComponent implements OnInit {
 	constructor(public fb: FormBuilder, @Inject(MAT_DIALOG_DATA) public data: Project,
 				public dialogRef: MatDialogRef<ProjectDialogComponent>) {
 
-		this.project = Object.assign({}, data);
+		this.project = clone(data);
 	}
 
 	ngOnInit() {
 		this.projectForm = this.fb.group({
 			number: [this.project.number, [Validators.required]],
-			name: [this.project.name, [Validators.required]]
+			name: [this.project.name, [Validators.required]],
+			inactive: [this.project.inactive]
 		});
 	}
 

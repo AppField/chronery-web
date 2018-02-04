@@ -3,6 +3,7 @@ export class Project {
 	id: string;
 	number: string;
 	name: string;
+	inactive: boolean;
 
 	constructor(userId?: string, id?: string, number?: string, name?: string) {
 		if (userId) {
@@ -11,5 +12,6 @@ export class Project {
 		this.id = id || '';
 		this.number = number || '';
 		this.name = name || '';
+		this.inactive = false;
 	}
 }

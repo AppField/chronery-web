@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Subject } from 'rxjs/Subject';
-import { AuthService } from '../../user/auth.service';
 import { Comment } from '../../models/comment';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient} from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 
 @Injectable()

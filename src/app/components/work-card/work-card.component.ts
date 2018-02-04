@@ -10,6 +10,7 @@ import { Utility } from '../../utils/utility';
 import { WorkingHours } from '../../models/working-hours';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/takeUntil';
+import { clone } from 'lodash';
 
 @Component({
 	selector: 'chy-work-card',
@@ -64,7 +65,7 @@ export class WorkCardComponent implements OnInit, OnDestroy {
 
 	ngOnInit() {
 		const timeRegex = '^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$';
-		this.backupWork = Object.assign({}, this.work);
+		this.backupWork = clone(this.work);
 
 		// let tempProject = null;
 		// if (this.work.hasOwnProperty('project')) {
@@ -100,8 +101,8 @@ export class WorkCardComponent implements OnInit, OnDestroy {
 		this.workForm.controls['from'].valueChanges
 			.takeUntil(this.destroy$)
 			.subscribe((value) => {
-			this.workForm.controls['to'].updateValueAndValidity();
-		});
+				this.workForm.controls['to'].updateValueAndValidity();
+			});
 
 		this.updateExistingProject();
 	}
