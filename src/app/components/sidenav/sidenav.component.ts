@@ -23,35 +23,23 @@ interface RouterItem {
 	templateUrl: './sidenav.component.html',
 	styleUrls: ['./sidenav.component.scss'],
 	animations: [
-		trigger('sidenavState', [
-			state('expandedState', style({
-				width: '*'
-			})),
-			state('collapsedState', style({
-				width: '56px'
-			})),
-			transition('expandedState => collapsedState', animate('400ms cubic-bezier(0.25, 0.8, 0.25, 1)')),
-			transition('collapsedState => expandedState', animate('400ms cubic-bezier(0.25, 0.8, 0.25, 1)'))
-		]),
-		trigger('labelState', [
-			state('expandedState', style({
-				opacity: 1
-			})),
-			state('collapsedState', style({
-				opacity: 0
-			})),
-			transition('expandedState => collapsedState', animate('400ms cubic-bezier(0.25, 0.8, 0.25, 1)')),
-			transition('collapsedState => expandedState', animate('400ms cubic-bezier(0.25, 0.8, 0.25, 1)'))
+		trigger('menuState', [
+			state('open', style({opacity: 1})),
+			state('close', style({opacity: 0, width: '0px', display: 'none'}))
+			// transition('* => *', [
+			// 	animate('400ms cubic-bezier(0.25, 0.8, 0.25, 1)')
+			// ])
 		])
 	]
 })
+
 export class SidenavComponent implements OnInit, OnDestroy {
 	@ViewChild('sidenavContainer') private sidenav;
 	private destroy$: Subject<boolean> = new Subject<boolean>();
 	private mediaSub: Subscription;
 
 	routerItems: RouterItem[];
-	state = 'expandedState';
+	state = 'open';
 
 	constructor(private media: ObservableMedia) {
 		// ToDo: Working Hours should remain active when another day is selected in subsidenav
@@ -86,10 +74,10 @@ export class SidenavComponent implements OnInit, OnDestroy {
 	}
 
 	ngOnInit() {
-		this.state = (this.media.isActive('xs')) ? 'collapsedState' : 'expandedState';
+		this.state = (this.media.isActive('xs')) ? 'close' : 'open';
 		this.mediaSub = this.media
 			.subscribe(media => {
-				this.state = (media.mqAlias === 'xs') ? 'collapsedState' : 'expandedState';
+				this.state = (media.mqAlias === 'xs') ? 'close' : 'open';
 			});
 	}
 
@@ -98,12 +86,12 @@ export class SidenavComponent implements OnInit, OnDestroy {
 	}
 
 	toggleCollapse(): void {
-		this.state = (this.state === 'expandedState') ? 'collapsedState' : 'expandedState';
+		this.state = (this.state === 'open') ? 'close' : 'open';
 	}
 
 	recollapseNav(): void {
 		if (this.isMobile) {
-			this.state = 'collapsedState';
+			this.state = 'close';
 		}
 	}
 

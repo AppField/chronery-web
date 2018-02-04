@@ -1,5 +1,6 @@
-<mat-sidenav-container #sidenavContainer>
-    <mat-sidenav mode="side" opened="true" class="chy-sidenav" [@sidenavState]="state">
+<mat-sidenav-container #sidenavContainer autosize>
+    <!--<mat-sidenav mode="side" opened="true" class="chy-sidenav" [@sidenavState]="state">-->
+    <mat-sidenav mode="side" opened="true" class="chy-sidenav">
         <mat-toolbar>
             <span *ngIf="!isMobile; else menuButton">Chronery</span>
             <ng-template #menuButton>
@@ -12,7 +13,7 @@
             <a mat-list-item *ngFor="let item of routerItems" routerLink="{{item.link}}" routerLinkActive="active"
                (click)="recollapseNav()">
                 <mat-icon mat-list-icon>{{item.icon}}</mat-icon>
-                <span class="sidenav-label" [@labelState]="state">{{item.display}}</span>
+                <span class="sidenav-label" [@menuState]="state">{{item.display}}</span>
             </a>
         </mat-nav-list>
 
