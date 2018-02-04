@@ -6,12 +6,16 @@
   align-items: baseline;
   padding: 1em 1em 0 1em;
 
+  flex-wrap: wrap;
+  justify-content: space-around;
+
   .mat-input-wrapper {
     width: 100% !important;
   }
 
   .mat-form-field {
     width: 100%;
+    max-width: 200px;
   }
 }
 
