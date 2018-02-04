@@ -23,7 +23,8 @@ import {
 	MatProgressSpinnerModule,
 	MatProgressBarModule,
 	MatSnackBarModule,
-	MatExpansionModule
+	MatExpansionModule,
+	MatCheckboxModule
 } from '@angular/material';
 import { CdkTableModule } from '@angular/cdk/table';
 
@@ -94,7 +95,7 @@ import { RequestInterceptor } from './utils/request-interceptor';
 		BrowserAnimationsModule,
 		MatButtonModule, MatDialogModule, MatSidenavModule, MatIconModule, MatMenuModule, MatCardModule, MatAutocompleteModule, MatInputModule,
 		MatTabsModule, MatListModule, MatToolbarModule, MatTableModule, MatTooltipModule, MatDatepickerModule, MatNativeDateModule,
-		AppRoutingModule, MatProgressSpinnerModule, MatProgressBarModule, MatSnackBarModule, MatExpansionModule,
+		AppRoutingModule, MatProgressSpinnerModule, MatProgressBarModule, MatSnackBarModule, MatExpansionModule, MatCheckboxModule,
 		CdkTableModule
 	],
 	providers: [AuthService, WorkingHoursService, ProjectsService, CommentsService, LocalStorageService, WindowRef,

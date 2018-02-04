@@ -32,6 +32,7 @@ export class ProjectDialogComponent implements OnInit {
 		if (this.projectForm.valid) {
 			this.project.number = this.projectForm.controls['number'].value;
 			this.project.name = this.projectForm.controls['name'].value;
+			this.project.inactive = this.projectForm.controls['inactive'].value;
 			this.dialogRef.close(this.project);
 		}
 	}
