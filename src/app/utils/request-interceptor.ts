@@ -1,18 +1,21 @@
 import { Injectable } from '@angular/core';
-import { HttpEvent, HttpHandler, HttpRequest, HttpInterceptor } from '@angular/common/http';
+import { HttpEvent, HttpHandler, HttpRequest, HttpInterceptor, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
+import { AuthService } from '../user/auth.service';
+import { MatSnackBar } from '@angular/material';
+
 
 // operators
 import 'rxjs/add/operator/catch'
 import 'rxjs/add/observable/throw'
 import 'rxjs/add/operator/map'
-import { AuthService } from '../user/auth.service';
 
 
 @Injectable()
 export class RequestInterceptor implements HttpInterceptor {
 
-	constructor(private authService: AuthService) {
+	constructor(private authService: AuthService,
+				public snackBar: MatSnackBar) {
 	}
 
 
@@ -27,21 +30,26 @@ export class RequestInterceptor implements HttpInterceptor {
 					}
 				});
 			});
+
+			return next.handle(request).catch(this.handleError)
 		}
+
 
 		return next.handle(request);
 	}
 
-	//
-	// public request(url: string | Request, options?: RequestOptionsArgs): Observable<Response> {
-	// 	return super.request(url, options)
-	// 		.catch(this.handleError);
-	// }
-	//
-	// private handleError = (error: Response) => {
-	// 	// Do messaging and error handling
-	//
-	// 	return Observable.throw(error);
-	// }
+	private handleError = (error: Response) => {
+		let message = 'Daten konnten nicht geladen werden. Bitte versuchen Sie es erneut';
+
+		if (error.status === 0) {
+			message = 'Keine Netzwerkverbindung';
+		}
+
+		this.snackBar.open(message, null, {
+			duration: 10000,
+		});
+
+		return Observable.throw(error);
+	}
 
 }
