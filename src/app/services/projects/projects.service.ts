@@ -21,8 +21,7 @@ export class ProjectsService {
 		}
 	}
 
-	constructor(private http: HttpClient,
-				private authService: AuthService) {
+	constructor(private http: HttpClient) {
 
 		this.onRetrieveData();
 	}
@@ -35,66 +34,50 @@ export class ProjectsService {
 		this.dataLoadFailed.next(false);
 		this.dataIsLoading.next(true);
 
-		this.authService.getAuthenticatedUser().getSession((err, session) => {
-			if (err) {
-				console.log(err);
-			} else {
-				this.http.post(environment.apiProjects, data, {
-					headers: new HttpHeaders().set('Authorization', session.getIdToken().getJwtToken())
-				})
-					.subscribe(
-						(result: Project) => {
-							this.dataLoadFailed.next(false);
-							this.dataIsLoading.next(false);
+		this.http.post(environment.apiProjects, data)
+			.subscribe(
+				(result: Project) => {
+					this.dataLoadFailed.next(false);
+					this.dataIsLoading.next(false);
 
-							const newData = this.data.slice();
-							newData.push(result);
-							this.dataChange.next(newData);
-						},
-						(error) => {
-							console.log(error);
-							this.dataIsLoading.next(false);
-							this.dataLoadFailed.next(true);
-						}
-					);
-			}
-		});
+					const newData = this.data.slice();
+					newData.push(result);
+					this.dataChange.next(newData);
+				},
+				(error) => {
+					console.log(error);
+					this.dataIsLoading.next(false);
+					this.dataLoadFailed.next(true);
+				}
+			);
 	}
 
 	onUpdateData(data: Project) {
 		this.dataLoadFailed.next(false);
 		this.dataIsLoading.next(true);
 
-		this.authService.getAuthenticatedUser().getSession((err, session) => {
-			if (err) {
-				console.log(err);
-			} else {
-				this.http.put(environment.apiProjects, data, {
-					headers: new HttpHeaders().set('Authorization', session.getIdToken().getJwtToken())
-				})
-					.subscribe(
-						(result: Project) => {
-							console.log('PROJECT', result);
-							this.dataLoadFailed.next(false);
-							this.dataIsLoading.next(false);
-							// clone array to prevent change detection issues
-							const newData = this.data.slice();
+		this.http.put(environment.apiProjects, data)
+			.subscribe(
+				(result: Project) => {
+					console.log('PROJECT', result);
+					this.dataLoadFailed.next(false);
+					this.dataIsLoading.next(false);
+					// clone array to prevent change detection issues
+					const newData = this.data.slice();
 
-							const index = newData.map(project => {
-								return project.id;
-							}).indexOf(result.id);
-							newData[index] = result;
+					const index = newData.map(project => {
+						return project.id;
+					}).indexOf(result.id);
+					newData[index] = result;
 
-							this.dataChange.next(newData);
-						},
-						(error) => {
-							console.log(error);
-							this.dataIsLoading.next(false);
-							this.dataLoadFailed.next(true);
-						}
-					);
-			}
-		});
+					this.dataChange.next(newData);
+				},
+				(error) => {
+					console.log(error);
+					this.dataIsLoading.next(false);
+					this.dataLoadFailed.next(true);
+				}
+			);
 	}
 
 
@@ -103,29 +86,23 @@ export class ProjectsService {
 		this.dataLoadFailed.next(false);
 		this.dataIsLoading.next(true);
 
-		this.authService.getAuthenticatedUser().getSession((err, session) => {
-			const queryParam = '?accessToken=' + session.getAccessToken().getJwtToken();
-
-			this.http.get(`${environment.apiProjects}/${queryParam}`, {
-				headers: new HttpHeaders().set('Authorization', session.getIdToken().getJwtToken())
-			})
-				.subscribe((data: Project[]) => {
-						console.log('DATA: ', data);
-						if (data) {
-							this.dataChange.next(data);
-						} else {
-							this.dataLoadFailed.next(true);
-						}
-						this.dataIsLoading.next(false);
-					},
-					(error) => {
-						console.log(error);
+		this.http.get(environment.apiProjects)
+			.subscribe((data: Project[]) => {
+					console.log('DATA: ', data);
+					if (data) {
+						this.dataChange.next(data);
+					} else {
 						this.dataLoadFailed.next(true);
-						this.dataIsLoading.next(false);
-						this.dataChange.next(null);
 					}
-				);
-		});
+					this.dataIsLoading.next(false);
+				},
+				(error) => {
+					console.log(error);
+					this.dataLoadFailed.next(true);
+					this.dataIsLoading.next(false);
+					this.dataChange.next(null);
+				}
+			);
 	}
 
 	onDeleteData() {

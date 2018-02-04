@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
-import { NgModule } from '@angular/core';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { ErrorHandler, NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -58,6 +58,7 @@ import { ImprintComponent } from './pages/imprint/imprint.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { WindowRef } from './services/window-ref/window-ref.service';
+import { RequestInterceptor } from './utils/request-interceptor';
 
 @NgModule({
 	declarations: [
@@ -96,7 +97,12 @@ import { WindowRef } from './services/window-ref/window-ref.service';
 		AppRoutingModule, MatProgressSpinnerModule, MatProgressBarModule, MatSnackBarModule, MatExpansionModule,
 		CdkTableModule
 	],
-	providers: [AuthService, WorkingHoursService, ProjectsService, CommentsService, LocalStorageService, WindowRef],
+	providers: [AuthService, WorkingHoursService, ProjectsService, CommentsService, LocalStorageService, WindowRef,
+		{
+			provide: HTTP_INTERCEPTORS,
+			useClass: RequestInterceptor,
+			multi: true
+		}],
 	bootstrap: [AppComponent]
 })
 export class AppModule {

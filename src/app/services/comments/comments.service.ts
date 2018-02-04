@@ -20,8 +20,7 @@ export class CommentsService {
 		}
 	}
 
-	constructor(private http: HttpClient,
-				private authService: AuthService) {
+	constructor(private http: HttpClient) {
 
 		this.onRetrieveData();
 	}
@@ -30,64 +29,48 @@ export class CommentsService {
 		this.dataLoadFailed.next(false);
 		this.dataIsLoading.next(true);
 
-		this.authService.getAuthenticatedUser().getSession((err, session) => {
-			if (err) {
-				console.log(err);
-			} else {
-				this.http.post(environment.apiComments, data, {
-					headers: new HttpHeaders().set('Authorization', session.getIdToken().getJwtToken())
-				})
-					.subscribe(
-						(result: Comment) => {
-							this.dataLoadFailed.next(false);
-							this.dataIsLoading.next(false);
-							console.log('COMMENTS', result);
-							const newData = this.data.slice();
-							newData.push(result);
-							this.dataChange.next(newData);
-							callback();
-						},
-						(error) => {
-							console.log(error);
-							this.dataIsLoading.next(false);
-							this.dataLoadFailed.next(true);
-						}
-					);
-			}
-		});
+		this.http.post(environment.apiComments, data)
+			.subscribe(
+				(result: Comment) => {
+					this.dataLoadFailed.next(false);
+					this.dataIsLoading.next(false);
+					console.log('COMMENTS', result);
+					const newData = this.data.slice();
+					newData.push(result);
+					this.dataChange.next(newData);
+					callback();
+				},
+				(error) => {
+					console.log(error);
+					this.dataIsLoading.next(false);
+					this.dataLoadFailed.next(true);
+				}
+			);
 	}
 
 	onUpdateData(comment: Comment) {
 		this.dataLoadFailed.next(false);
 		this.dataIsLoading.next(true);
 
-		this.authService.getAuthenticatedUser().getSession((err, session) => {
-			if (err) {
-				console.log(err);
-			} else {
-				this.http.post(environment.apiComments, comment, {
-					headers: new HttpHeaders().set('Authorization', session.getIdToken().getJwtToken())
-				})
-					.subscribe(
-						(data: Comment) => {
-							console.log(data);
+		this.http.post(environment.apiComments, comment)
+			.subscribe(
+				(data: Comment) => {
+					console.log(data);
 
-							const newData = this.data.slice();
-							const idx = newData.map((com: Comment) => com.id).indexOf(data.id);
-							newData[idx] = data;
-							this.dataChange.next(newData);
+					const newData = this.data.slice();
+					const idx = newData.map((com: Comment) => com.id).indexOf(data.id);
+					newData[idx] = data;
+					this.dataChange.next(newData);
 
-							this.dataLoadFailed.next(false);
-							this.dataIsLoading.next(false);
-						},
-						(error) => {
-							console.log(error);
-							this.dataIsLoading.next(false);
-							this.dataLoadFailed.next(true);
-						}
-					);
-			}
-		});
+					this.dataLoadFailed.next(false);
+					this.dataIsLoading.next(false);
+				},
+				(error) => {
+					console.log(error);
+					this.dataIsLoading.next(false);
+					this.dataLoadFailed.next(true);
+				}
+			);
 	}
 
 
@@ -96,55 +79,46 @@ export class CommentsService {
 		this.dataLoadFailed.next(false);
 		this.dataIsLoading.next(true);
 
-		this.authService.getAuthenticatedUser().getSession((err, session) => {
-
-			this.http.get(environment.apiComments, {
-				headers: new HttpHeaders().set('Authorization', session.getIdToken().getJwtToken())
-			})
-				.subscribe((data: Comment[]) => {
-						console.log('DATA: ', data);
-						if (data) {
-							this.dataChange.next(data);
-						} else {
-							this.dataLoadFailed.next(true);
-						}
-						this.dataIsLoading.next(false);
-					},
-					(error) => {
-						console.log(error);
+		this.http.get(environment.apiComments)
+			.subscribe((data: Comment[]) => {
+					console.log('DATA: ', data);
+					if (data) {
+						this.dataChange.next(data);
+					} else {
 						this.dataLoadFailed.next(true);
-						this.dataIsLoading.next(false);
-						this.dataChange.next(null);
 					}
-				);
-		});
+					this.dataIsLoading.next(false);
+				},
+				(error) => {
+					console.log(error);
+					this.dataLoadFailed.next(true);
+					this.dataIsLoading.next(false);
+					this.dataChange.next(null);
+				}
+			);
 	}
 
 	onDeleteData(comment: Comment) {
 		this.dataLoadFailed.next(false);
 		this.dataIsLoading.next(true);
-		this.authService.getAuthenticatedUser().getSession((err, session) => {
-			this.http.delete(`${environment.apiComments}/${comment.id}`, {
-				headers: new HttpHeaders().set('Authorization', session.getIdToken().getJwtToken())
-			})
-				.subscribe(
-					(data: Comment) => {
-						console.log('DELETED COMMENT', data);
 
-						const newData = this.data.slice();
-						const index = newData.map((com: Comment) => com.id).indexOf(data.id);
-						newData.splice(index, 1);
-						this.dataChange.next(newData);
+		this.http.delete(`${environment.apiComments}/${comment.id}`)
+			.subscribe(
+				(data: Comment) => {
+					console.log('DELETED COMMENT', data);
 
-						this.dataLoadFailed.next(false);
-						this.dataIsLoading.next(false);
-					},
-					(error) => {
-						this.dataLoadFailed.next(true)
-						this.dataIsLoading.next(false);
-					}
-				);
-		});
+					const newData = this.data.slice();
+					const index = newData.map((com: Comment) => com.id).indexOf(data.id);
+					newData.splice(index, 1);
+					this.dataChange.next(newData);
+
+					this.dataLoadFailed.next(false);
+					this.dataIsLoading.next(false);
+				},
+				(error) => {
+					this.dataLoadFailed.next(true);
+					this.dataIsLoading.next(false);
+				}
+			);
 	}
-
 }
