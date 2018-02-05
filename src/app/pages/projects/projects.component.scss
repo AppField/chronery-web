@@ -17,6 +17,14 @@
   .mat-form-field {
     width: 100%;
   }
+
+  .mat-checkbox {
+    padding-left: 1rem;
+  }
+
+  ::ng-deep .mat-checkbox-layout .mat-checkbox-label {
+    font-size: initial;
+  }
 }
 
 .mat-header-row {
