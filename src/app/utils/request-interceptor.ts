@@ -39,11 +39,11 @@ export class RequestInterceptor implements HttpInterceptor {
 	}
 
 	private handleError = (error: Response) => {
-		let message = 'Daten konnten nicht geladen werden. Bitte versuchen Sie es erneut';
+		const message = 'Daten konnten nicht geladen werden. Bitte versuchen Sie es erneut';
 
-		if (error.status === 0) {
-			message = 'Keine Netzwerkverbindung';
-		}
+		// if (error.status === 0) {
+		// 	message = 'Keine Netzwerkverbindung';
+		// }
 
 		this.snackBar.open(message, null, {
 			duration: 10000,
