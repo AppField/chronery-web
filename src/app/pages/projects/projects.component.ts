@@ -9,7 +9,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/observable/fromEvent';
-import { MatDialog } from '@angular/material';
+import { MatCheckbox, MatDialog } from '@angular/material';
 import { ProjectDialogComponent } from '../../components/project-modal/project-dialog.component';
 import { ObservableMedia } from '@angular/flex-layout';
 import { ProjectsService } from '../../services/projects/projects.service';
@@ -29,6 +29,7 @@ export class ProjectsComponent implements OnInit, OnDestroy {
 	isLoading = false;
 
 	@ViewChild('filter') filter: ElementRef;
+	@ViewChild('inactive') inactive: ElementRef;
 
 	constructor(public dialog: MatDialog,
 				private projectsService: ProjectsService,
@@ -52,6 +53,10 @@ export class ProjectsComponent implements OnInit, OnDestroy {
 				}
 				this.dataSource.filter = this.filter.nativeElement.value;
 			});
+	}
+
+	onInactiveChange(inactive: MatCheckbox): void {
+		this.projectsService.onRetrieveData(inactive.checked);
 	}
 
 	trackByFn(index, item): string {

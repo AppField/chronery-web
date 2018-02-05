@@ -22,7 +22,7 @@ export class ProjectsService {
 
 	constructor(private http: HttpClient) {
 
-		this.onRetrieveData();
+		this.onRetrieveData(false);
 	}
 
 	onStoreData(data: Project) {
@@ -80,12 +80,12 @@ export class ProjectsService {
 	}
 
 
-	onRetrieveData() {
+	onRetrieveData(inactive: boolean) {
 		this.dataChange.next(null);
 		this.dataLoadFailed.next(false);
 		this.dataIsLoading.next(true);
 
-		this.http.get(environment.apiProjects)
+		this.http.get(environment.apiProjects + `?inactive=${inactive}`)
 			.subscribe((data: Project[]) => {
 					console.log('DATA: ', data);
 					if (data) {

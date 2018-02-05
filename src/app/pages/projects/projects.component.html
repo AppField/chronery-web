@@ -18,6 +18,7 @@
             <mat-form-field floatPlaceholder="never">
                 <input matInput #filter placeholder="Filter projects" autocomplete="off">
             </mat-form-field>
+            <mat-checkbox #inactive (change)="onInactiveChange(inactive)">Inactive</mat-checkbox>
         </div>
 
         <mat-table #table [dataSource]="dataSource" [trackBy]="trackByFn">
