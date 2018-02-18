@@ -1,0 +1,34 @@
+<h2 mat-dialog-title>Download Report PDF</h2>
+<mat-dialog-content>
+
+    <div fxLayout="row" fxLayout.lt-md="column">
+        <div class="options" fxFlex="200px">
+            <h3>Options</h3>
+
+            <p>
+                <mat-checkbox>Hide from time</mat-checkbox>
+            </p>
+            <p>
+                <mat-checkbox>Hide to time</mat-checkbox>
+            </p>
+            <p>
+                <mat-checkbox>Summarize days</mat-checkbox>
+            </p>
+        </div>
+        <div class="preview">
+            <div class="document mat-elevation-z8">
+                <h3>Chronery Report</h3>
+
+                
+            </div>
+        </div>
+    </div>
+
+
+</mat-dialog-content>
+
+<mat-dialog-actions>
+    <button mat-button mat-dialog-close>Cancel</button>
+    <!-- Can optionally provide a result for the closing dialog. -->
+    <button mat-button color="primary">Download</button>
+</mat-dialog-actions>

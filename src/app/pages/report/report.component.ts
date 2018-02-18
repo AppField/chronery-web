@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import * as moment from 'moment/moment';
 import { Project } from '../../models/project';
 import { Observable } from 'rxjs/Observable';
@@ -13,6 +13,9 @@ import { WorkingHours } from '../../models/working-hours';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/takeUntil';
+import { ReportPdfDialogComponent } from '../../components/report-pdf-dialog/report-pdf-dialog.component';
+import { MatDialog } from '@angular/material';
+
 
 @Component({
 	selector: 'chy-report',
@@ -35,9 +38,12 @@ export class ReportComponent implements OnInit, OnDestroy {
 	dataSource: ReportSource | null;
 	displayedColumns = ['date', 'from', 'to', 'spent', 'projectNumber', 'projectName', 'comment'];
 
+	@ViewChild('reportTable') reportTable;
+
 	constructor(private projectsService: ProjectsService,
 				private workingHoursService: WorkingHoursService,
-				private media: ObservableMedia) {
+				private media: ObservableMedia,
+				public dialog: MatDialog) {
 
 
 		// initialize start and end date for the date pickers
@@ -102,6 +108,27 @@ export class ReportComponent implements OnInit, OnDestroy {
 		if (project) {
 			return project.name ? project.name : '';
 		}
+	}
+
+	downloadPDF(): void {
+
+		const dialogRef = this.dialog.open(ReportPdfDialogComponent, {
+			data: this.workingHoursService.data
+			// height: '95vh'
+		});
+
+		// const doc = new jspdf();
+		// const specialElementHandlers = {
+		// 	'#editor': function (element, renderer) {
+		// 		return true;
+		// 	}
+		// };
+		//
+		// doc.fromHTML(this.reportTable.nativeElement.innerHTML, 15, 15, {
+		// 	'width': 170,
+		// 	'elementHandlers': specialElementHandlers
+		// });
+		// doc.save(`Chronery Report form ${Utility.encodeDate(this.startDate)} to ${Utility.encodeDate(this.endDate)}`);
 	}
 
 	exportReportToCSV(): void {

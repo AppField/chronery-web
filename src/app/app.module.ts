@@ -60,6 +60,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { WindowRef } from './services/window-ref/window-ref.service';
 import { RequestInterceptor } from './utils/request-interceptor';
+import { ReportPdfDialogComponent } from './components/report-pdf-dialog/report-pdf-dialog.component';
 
 @NgModule({
 	declarations: [
@@ -82,9 +83,10 @@ import { RequestInterceptor } from './utils/request-interceptor';
 		AuthenticateComponent,
 		ConfirmAccountDeletionComponent,
 		ForgotPasswordDialogComponent,
-		ImprintComponent
+		ImprintComponent,
+		ReportPdfDialogComponent
 	],
-	entryComponents: [MonthYearDialogComponent, ProjectDialogComponent, ConfirmAccountDeletionComponent, ForgotPasswordDialogComponent],
+	entryComponents: [MonthYearDialogComponent, ProjectDialogComponent, ConfirmAccountDeletionComponent, ForgotPasswordDialogComponent, ReportPdfDialogComponent],
 	imports: [
 		BrowserModule,
 		ServiceWorkerModule.register(environment.test ? '/chronery-web/ngsw-worker.js' : 'ngsw-worker.js', {enabled: environment.production || environment.test}),

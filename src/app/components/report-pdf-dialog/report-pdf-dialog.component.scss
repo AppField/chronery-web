@@ -1,0 +1,30 @@
+@import  '../../../chy-theme';
+
+//.mat-dialog
+
+.mat-dialog-content {
+  //max-height: none;
+  background-color: #fafafa;
+}
+
+.options {
+  padding-right: 2rem;
+}
+
+.preview {
+  //margin: 1rem;
+
+}
+
+.document {
+  padding: 1rem 2rem;
+  width: 21cm;
+  height: 29.7cm;
+  margin: 1rem 1rem 1rem 0;
+
+  h3 {
+    font-size: 1.75rem;
+    color: mat-color($primary);
+    font-weight: lighter;
+  }
+}
