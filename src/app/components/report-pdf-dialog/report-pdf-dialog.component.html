@@ -1,34 +1,50 @@
 <h2 mat-dialog-title>Download Report PDF</h2>
 <mat-dialog-content>
-
-    <div fxLayout="row" fxLayout.lt-md="column">
-        <div class="options" fxFlex="200px">
-            <h3>Options</h3>
-
-            <p>
-                <mat-checkbox>Hide from time</mat-checkbox>
-            </p>
-            <p>
-                <mat-checkbox>Hide to time</mat-checkbox>
-            </p>
-            <p>
-                <mat-checkbox>Summarize days</mat-checkbox>
-            </p>
-        </div>
-        <div class="preview">
-            <div class="document mat-elevation-z8">
-                <h3>Chronery Report</h3>
-
-                
-            </div>
+    <div fxLayout="row" fxLayoutAlign="space-around" class="options">
+        <mat-checkbox [(ngModel)]="showDate">Date</mat-checkbox>
+        <mat-checkbox [(ngModel)]="showFrom">From time</mat-checkbox>
+        <mat-checkbox [(ngModel)]="showTo">To time</mat-checkbox>
+        <mat-checkbox [(ngModel)]="showSpent">Hours</mat-checkbox>
+        <mat-checkbox [(ngModel)]="showProjectNumber">Project Number</mat-checkbox>
+        <mat-checkbox [(ngModel)]="showProjectName">Project Name</mat-checkbox>
+        <mat-checkbox [(ngModel)]="showComment">Comment</mat-checkbox>
+        <mat-checkbox [(ngModel)]="summarizeProjectsPerDay">
+            Summarize projects per days
+        </mat-checkbox>
+    </div>
+    <div class="preview">
+        <div class="document mat-elevation-z8" *ngFor="let page of pages" #reportPage>
+            <h3 style="color: green; font-size:1.75rem; font-weight:lighter; margin: 1em 0;">Chronery Report</h3>
+            <table style="width: 100%; border-collapse: collapse; border-spacing: 2px; border-color:grey">
+                <thead>
+                <tr style="border-bottom: 1px solid black;">
+                    <th *ngIf="showDate">Date</th>
+                    <th *ngIf="showFrom">From</th>
+                    <th *ngIf="showTo">To</th>
+                    <th *ngIf="showSpent">Hours</th>
+                    <th *ngIf="showProjectNumber">Project Number</th>
+                    <th *ngIf="showProjectName">Project Name</th>
+                    <th *ngIf="showComment">Comment</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let item of page">
+                    <td *ngIf="showDate">{{ item.date }}</td>
+                    <td *ngIf="showFrom">{{item.from}}</td>
+                    <td *ngIf="showTo">{{item.to}}</td>
+                    <td *ngIf="showSpent">{{item.spent}} h</td>
+                    <td *ngIf="showProjectNumber">{{item.project.number}}</td>
+                    <td *ngIf="showProjectName">{{item.project.name}}</td>
+                    <td *ngIf="showComment">{{item.comment}}</td>
+                </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 
-
 </mat-dialog-content>
 
-<mat-dialog-actions>
+<mat-dialog-actions align="end">
     <button mat-button mat-dialog-close>Cancel</button>
-    <!-- Can optionally provide a result for the closing dialog. -->
-    <button mat-button color="primary">Download</button>
+    <button mat-raised-button color="primary" (click)="downloadPDF()">Download</button>
 </mat-dialog-actions>
