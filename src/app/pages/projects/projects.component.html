@@ -21,7 +21,7 @@
             <mat-checkbox #inactive (change)="onInactiveChange(inactive)">Inactive</mat-checkbox>
         </div>
 
-        <mat-table #table [dataSource]="dataSource" [trackBy]="trackByFn" matSort style="overflow: auto;">
+        <mat-table #table [dataSource]="dataSource" [trackBy]="trackByFn" matSort>
             <!-- Project number column -->
             <ng-container matColumnDef="number">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>Project Number</mat-header-cell>

@@ -1,20 +1,18 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import * as moment from 'moment/moment';
-import {Project} from '../../models/project';
-import {Observable} from 'rxjs/Observable';
-import {FormControl} from '@angular/forms';
-import {DataSource} from '@angular/cdk/collections';
-import {Utility} from '../../utils/utility';
-import {Angular2Csv} from 'angular2-csv';
-import {ObservableMedia} from '@angular/flex-layout';
-import {ProjectsService} from '../../services/projects/projects.service';
-import {WorkingHoursService} from '../../services/working-hours/working-hours.service';
-import {WorkingHours} from '../../models/working-hours';
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
-import {Subject} from 'rxjs/Subject';
+import { Project } from '../../models/project';
+import { Observable } from 'rxjs/Observable';
+import { FormControl } from '@angular/forms';
+import { Utility } from '../../utils/utility';
+import { Angular2Csv } from 'angular2-csv';
+import { ObservableMedia } from '@angular/flex-layout';
+import { ProjectsService } from '../../services/projects/projects.service';
+import { WorkingHoursService } from '../../services/working-hours/working-hours.service';
+import { WorkingHours } from '../../models/working-hours';
+import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/takeUntil';
-import {ReportPdfDialogComponent} from '../../components/report-pdf-dialog/report-pdf-dialog.component';
-import {MatDialog} from '@angular/material';
+import { ReportPdfDialogComponent } from '../../components/report-pdf-dialog/report-pdf-dialog.component';
+import { MatDialog, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 
 
 @Component({
@@ -22,7 +20,7 @@ import {MatDialog} from '@angular/material';
     templateUrl: './report.component.html',
     styleUrls: ['./report.component.scss']
 })
-export class ReportComponent implements OnInit, OnDestroy {
+export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
     date: Date;
     startDate: Date;
     endDate: Date;
@@ -30,18 +28,18 @@ export class ReportComponent implements OnInit, OnDestroy {
     filteredProjects: Observable<Project[]>;
     selectedProject: Project;
     projectsCtrl: FormControl;
-    totalTime: string;
+    totalSpent: string = null;
     isLoading = false;
-    dataSource: ReportSource | null;
+    dataSource = new MatTableDataSource<WorkingHours>();
     displayedColumns = ['date', 'from', 'to', 'spent', 'projectNumber', 'projectName', 'comment'];
-    @ViewChild('reportTable') reportTable;
+    @ViewChild(MatSort) sort: MatSort;
+    @ViewChild(MatPaginator) paginator: MatPaginator;
     private destroy$: Subject<boolean> = new Subject<boolean>();
 
     constructor(private projectsService: ProjectsService,
                 private workingHoursService: WorkingHoursService,
                 private media: ObservableMedia,
                 public dialog: MatDialog) {
-
 
         // initialize start and end date for the date pickers
         this.startDate = moment().startOf('month').toDate();
@@ -62,8 +60,6 @@ export class ReportComponent implements OnInit, OnDestroy {
                     .map(name => name ? this.filterProjects(name) : this.projects.slice());
 
             });
-
-        this.dataSource = new ReportSource(this.workingHoursService);
         this.updateReport();
     }
 
@@ -72,13 +68,29 @@ export class ReportComponent implements OnInit, OnDestroy {
     }
 
     get hasData(): boolean {
-        return this.workingHoursService.data ? this.workingHoursService.data.length > 0 : false;
+        return this.workingHoursService.filterChange.value ? this.workingHoursService.filterChange.value.length > 0 : false;
     }
 
     ngOnInit() {
         this.workingHoursService.dataIsLoading
             .takeUntil(this.destroy$)
             .subscribe((isLoading: boolean) => this.isLoading = isLoading);
+
+        this.workingHoursService.filterChange
+            .takeUntil(this.destroy$)
+            .subscribe((reportData: WorkingHours[]) => {
+                this.dataSource.data = reportData;
+
+                const times = reportData.map((work: WorkingHours) => {
+                    return work.spent;
+                });
+                this.totalSpent = times.length ? Utility.sumTotalTimes(times) : null;
+            });
+    }
+
+    ngAfterViewInit() {
+        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator;
     }
 
     updateReport(): void {
@@ -93,7 +105,7 @@ export class ReportComponent implements OnInit, OnDestroy {
     }
 
     updateProjectFilter(): void {
-        this.dataSource.filter = this.selectedProject;
+        // this.dataSource.filter = this.selectedProject;
     }
 
     filterProjects(val: string) {
@@ -107,7 +119,6 @@ export class ReportComponent implements OnInit, OnDestroy {
     }
 
     downloadPDF(): void {
-
         const dialogRef = this.dialog.open(ReportPdfDialogComponent, {
             data: [...this.workingHoursService.data],
             closeOnNavigation: true
@@ -128,7 +139,7 @@ export class ReportComponent implements OnInit, OnDestroy {
             csvObject.projectName = work.project.name;
             return csvObject;
         });
-        const report = new Angular2Csv(csvData, `Chronery Report form ${Utility.encodeDate(this.startDate)} to ${Utility.encodeDate(this.endDate)}`, {showLabels: true});
+        const report = new Angular2Csv(csvData, `Chronery Report form ${Utility.encodeDate(this.startDate)} to ${Utility.encodeDate(this.endDate)}`, { showLabels: true });
     }
 
     ngOnDestroy() {
@@ -137,51 +148,52 @@ export class ReportComponent implements OnInit, OnDestroy {
     }
 }
 
-
-export class ReportSource extends DataSource<any> {
-    totalTime = '00:00';
-    private _filterChange = new BehaviorSubject(new Project);
-
-    constructor(private workingHoursService: WorkingHoursService) {
-        super();
-    }
-
-    get filter(): Project {
-        return this._filterChange.value;
-    }
-
-    set filter(filter: Project) {
-        this._filterChange.next(filter);
-    }
-
-    connect(): Observable<WorkingHours[]> {
-        const displayDataChanges = [
-            this.workingHoursService.dataChange,
-            this._filterChange
-        ];
-
-        return Observable.merge(...displayDataChanges).map(() => {
-            if (this.workingHoursService.data) {
-                let data = [];
-                if (this.filter.id) {
-                    data = this.workingHoursService.data.slice().filter((item: WorkingHours) => {
-                        return item.project.id === this.filter.id || !this.filter.id;
-                    });
-                } else {
-                    data = this.workingHoursService.data;
-                }
-                const times = data.map((work: WorkingHours) => {
-                    return work.spent;
-                });
-                this.totalTime = times.length ? Utility.sumTotalTimes(times) : '00:00';
-                return data;
-            } else {
-                this.totalTime = '00:00';
-                return [];
-            }
-        });
-    }
-
-    disconnect() {
-    }
-}
+//
+//
+// export class ReportSource extends DataSource<any> {
+//     totalTime = '00:00';
+//     private _filterChange = new BehaviorSubject(new Project);
+//
+//     constructor(private workingHoursService: WorkingHoursService) {
+//         super();
+//     }
+//
+//     get filter(): Project {
+//         return this._filterChange.value;
+//     }
+//
+//     set filter(filter: Project) {
+//         this._filterChange.next(filter);
+//     }
+//
+//     connect(): Observable<WorkingHours[]> {
+//         const displayDataChanges = [
+//             this.workingHoursService.dataChange,
+//             this._filterChange
+//         ];
+//
+//         return Observable.merge(...displayDataChanges).map(() => {
+//             if (this.workingHoursService.data) {
+//                 let data = [];
+//                 if (this.filter.id) {
+//                     data = this.workingHoursService.data.slice().filter((item: WorkingHours) => {
+//                         return item.project.id === this.filter.id || !this.filter.id;
+//                     });
+//                 } else {
+//                     data = this.workingHoursService.data;
+//                 }
+//                 const times = data.map((work: WorkingHours) => {
+//                     return work.spent;
+//                 });
+//                 this.totalTime = times.length ? Utility.sumTotalTimes(times) : '00:00';
+//                 return data;
+//             } else {
+//                 this.totalTime = '00:00';
+//                 return [];
+//             }
+//         });
+//     }
+//
+//     disconnect() {
+//     }
+// }
