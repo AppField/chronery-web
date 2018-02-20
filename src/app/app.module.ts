@@ -17,17 +17,18 @@ import {
     MatListModule,
     MatMenuModule,
     MatNativeDateModule,
+    MatPaginatorModule,
     MatProgressBarModule,
     MatProgressSpinnerModule,
     MatSelectModule,
     MatSidenavModule,
     MatSnackBarModule,
+    MatSortModule,
     MatTableModule,
     MatTabsModule,
     MatToolbarModule,
     MatTooltipModule
 } from '@angular/material';
-import { CdkTableModule } from '@angular/cdk/table';
 
 import 'hammerjs';
 
@@ -87,7 +88,8 @@ import { ReportPdfDialogComponent } from './components/report-pdf-dialog/report-
         ImprintComponent,
         ReportPdfDialogComponent
     ],
-    entryComponents: [MonthYearDialogComponent, ProjectDialogComponent, ConfirmAccountDeletionComponent, ForgotPasswordDialogComponent, ReportPdfDialogComponent],
+    entryComponents: [MonthYearDialogComponent, ProjectDialogComponent, ConfirmAccountDeletionComponent,
+        ForgotPasswordDialogComponent, ReportPdfDialogComponent],
     imports: [
         BrowserModule,
         ServiceWorkerModule.register(environment.test ? '/chronery-web/ngsw-worker.js' : 'ngsw-worker.js', { enabled: environment.production || environment.test }),
@@ -96,10 +98,11 @@ import { ReportPdfDialogComponent } from './components/report-pdf-dialog/report-
         FormsModule,
         ReactiveFormsModule,
         BrowserAnimationsModule,
-        MatButtonModule, MatDialogModule, MatSidenavModule, MatIconModule, MatMenuModule, MatCardModule, MatAutocompleteModule, MatInputModule,
-        MatTabsModule, MatListModule, MatToolbarModule, MatTableModule, MatTooltipModule, MatDatepickerModule, MatNativeDateModule,
-        AppRoutingModule, MatProgressSpinnerModule, MatProgressBarModule, MatSnackBarModule, MatExpansionModule, MatCheckboxModule, MatSelectModule,
-        CdkTableModule
+        MatButtonModule, MatDialogModule, MatSidenavModule, MatIconModule, MatMenuModule, MatCardModule,
+        MatAutocompleteModule, MatInputModule, MatTabsModule, MatListModule, MatToolbarModule, MatTableModule,
+        MatTooltipModule, MatDatepickerModule, MatNativeDateModule, AppRoutingModule, MatProgressSpinnerModule,
+        MatProgressBarModule, MatSnackBarModule, MatExpansionModule, MatCheckboxModule, MatSelectModule,
+        MatSortModule, MatPaginatorModule
     ],
     providers: [AuthService, WorkingHoursService, ProjectsService, CommentsService, LocalStorageService, WindowRef,
         {

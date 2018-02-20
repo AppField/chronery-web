@@ -1,15 +1,12 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Project } from '../../models/project';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { DataSource } from '@angular/cdk/collections';
-import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/startWith';
 import 'rxjs/add/observable/merge';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/observable/fromEvent';
-import { MatCheckbox, MatDialog } from '@angular/material';
+import { MatCheckbox, MatDialog, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { ProjectDialogComponent } from '../../components/project-modal/project-dialog.component';
 import { ObservableMedia } from '@angular/flex-layout';
 import { ProjectsService } from '../../services/projects/projects.service';
@@ -17,121 +14,82 @@ import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/takeUntil';
 
 @Component({
-	selector: 'chy-projects',
-	templateUrl: './projects.component.html',
-	styleUrls: ['./projects.component.scss']
+    selector: 'chy-projects',
+    templateUrl: './projects.component.html',
+    styleUrls: ['./projects.component.scss']
 })
-export class ProjectsComponent implements OnInit, OnDestroy {
-	private destroy$: Subject<boolean> = new Subject<boolean>();
+export class ProjectsComponent implements OnInit, AfterViewInit, OnDestroy {
+    displayedColumns = ['number', 'name', 'inactive', 'edit'];
+    dataSource = new MatTableDataSource<Project>();
+    isLoading = false;
+    @ViewChild(MatSort) sort: MatSort;
+    @ViewChild(MatPaginator) paginator: MatPaginator;
+    private destroy$: Subject<boolean> = new Subject<boolean>();
 
-	displayedColumns = ['projectNumber', 'projectName', 'inactive', 'edit'];
-	dataSource: ProjectSource | null;
-	isLoading = false;
+    constructor(public dialog: MatDialog,
+                private projectsService: ProjectsService,
+                private media: ObservableMedia) {
+    }
 
-	@ViewChild('filter') filter: ElementRef;
-	@ViewChild('inactive') inactive: ElementRef;
+    ngOnInit() {
+        this.projectsService.dataIsLoading
+            .takeUntil(this.destroy$)
+            .subscribe((isLoading: boolean) => this.isLoading = isLoading);
 
-	constructor(public dialog: MatDialog,
-				private projectsService: ProjectsService,
-				private media: ObservableMedia) {
-	}
+        this.projectsService.dataChange
+            .takeUntil(this.destroy$)
+            .subscribe((projects: Project[]) => {
+                this.dataSource.data = projects ? projects : [];
+            });
+    }
 
-	ngOnInit() {
-		this.projectsService.dataIsLoading
-			.takeUntil(this.destroy$)
-			.subscribe((isLoading: boolean) => this.isLoading = isLoading);
+    ngAfterViewInit() {
+        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator;
+    }
 
-		this.dataSource = new ProjectSource(this.projectsService);
+    applyFilter(filterValue: string): void {
+        this.dataSource.filter = filterValue.trim().toLowerCase();
+    }
 
-		Observable.fromEvent(this.filter.nativeElement, 'keyup')
-			.takeUntil(this.destroy$)
-			.debounceTime(150)
-			.distinctUntilChanged()
-			.subscribe(() => {
-				if (!this.dataSource) {
-					return;
-				}
-				this.dataSource.filter = this.filter.nativeElement.value;
-			});
-	}
+    onInactiveChange(inactive: MatCheckbox): void {
+        this.projectsService.onRetrieveData(inactive.checked);
+    }
 
-	onInactiveChange(inactive: MatCheckbox): void {
-		this.projectsService.onRetrieveData(inactive.checked);
-	}
+    trackByFn(index, item): string {
+        return item.id;
+    }
 
-	trackByFn(index, item): string {
-		return item.id;
-	}
-
-	editProject(project: Project): void {
-		this.openProjectDialog(project);
-	}
+    editProject(project: Project): void {
+        this.openProjectDialog(project);
+    }
 
 
-	editMobileProject(project: Project): void {
-		if (!this.media.isActive('gt-sm')) {
-			this.openProjectDialog(project);
-		}
-	}
+    editMobileProject(project: Project): void {
+        if (!this.media.isActive('gt-sm')) {
+            this.openProjectDialog(project);
+        }
+    }
 
-	openProjectDialog(project: Project = new Project()): void {
-		const dialogRef = this.dialog.open(ProjectDialogComponent, {
-			data: project
-		});
-		dialogRef.afterClosed()
-			.takeUntil(this.destroy$)
-			.subscribe(result => {
-				if (result) {
-					if (result.userId) {
-						this.projectsService.onUpdateData(result);
-					} else {
-						this.projectsService.onStoreData(result);
-					}
-				}
-			});
-	}
+    openProjectDialog(project: Project = new Project()): void {
+        const dialogRef = this.dialog.open(ProjectDialogComponent, {
+            data: project
+        });
+        dialogRef.afterClosed()
+            .takeUntil(this.destroy$)
+            .subscribe(result => {
+                if (result) {
+                    if (result.userId) {
+                        this.projectsService.onUpdateData(result);
+                    } else {
+                        this.projectsService.onStoreData(result);
+                    }
+                }
+            });
+    }
 
-	ngOnDestroy() {
-		this.destroy$.next(true);
-		this.destroy$.unsubscribe();
-	}
-}
-
-export class ProjectSource extends DataSource<any> {
-	private _filterChange = new BehaviorSubject('');
-
-	get filter(): string {
-		return this._filterChange.value;
-	}
-
-	set filter(filter: string) {
-		this._filterChange.next(filter);
-	}
-
-	constructor(private projectsService: ProjectsService) {
-		super();
-	}
-
-	/** Connect function called by the table to retrieve one stream containing the data to render. */
-	connect(): Observable<Project[]> {
-		const displayDataChanges = [
-			this.projectsService.dataChange,
-			this._filterChange
-		];
-
-		return Observable.merge(...displayDataChanges).map(() => {
-			if (this.projectsService.data) {
-				return this.projectsService.data.slice().filter((item: Project) => {
-					const searchStr = (item.number + item.name).toLowerCase();
-					return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
-				});
-			} else {
-				return [];
-			}
-
-		});
-	}
-
-	disconnect() {
-	}
+    ngOnDestroy() {
+        this.destroy$.next(true);
+        this.destroy$.unsubscribe();
+    }
 }

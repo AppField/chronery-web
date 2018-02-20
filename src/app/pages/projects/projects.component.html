@@ -11,60 +11,65 @@
 </mat-toolbar>
 
 <div class="inner-sidenav-content">
-
     <div class="mat-elevation-z5">
 
         <div class="table-header">
             <mat-form-field floatPlaceholder="never">
-                <input matInput #filter placeholder="Filter projects" autocomplete="off">
+                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter projects"
+                       autocomplete="off">
             </mat-form-field>
             <mat-checkbox #inactive (change)="onInactiveChange(inactive)">Inactive</mat-checkbox>
         </div>
 
-        <mat-table #table [dataSource]="dataSource" [trackBy]="trackByFn">
+        <mat-table #table [dataSource]="dataSource" [trackBy]="trackByFn" matSort style="overflow: auto;">
             <!-- Project number column -->
-            <ng-container cdkColumnDef="projectNumber">
-                <mat-header-cell *cdkHeaderCellDef>Project Number</mat-header-cell>
-                <mat-cell *cdkCellDef="let row" fxLayout="row">
+            <ng-container matColumnDef="number">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Project Number</mat-header-cell>
+                <mat-cell *matCellDef="let row">
                     <div fxHide.gt-sm fxFlex="50">Project Number</div>
-                    <div>{{row.number}}</div>
+                    {{ row.number }}
                 </mat-cell>
             </ng-container>
 
             <!-- Project name column -->
-            <ng-container cdkColumnDef="projectName">
-                <mat-header-cell *cdkHeaderCellDef>Project Name</mat-header-cell>
-                <mat-cell *cdkCellDef="let row" fxLayout="row">
+            <ng-container matColumnDef="name">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Project Name</mat-header-cell>
+                <mat-cell *matCellDef="let row">
                     <div fxHide.gt-sm fxFlex="50">Name</div>
-                    <div>{{row.name}}</div>
+                    <div>{{ row.name }}</div>
                 </mat-cell>
             </ng-container>
 
             <!-- Project inactive column -->
-            <ng-container cdkColumnDef="inactive">
-                <mat-header-cell *cdkHeaderCellDef>Inactive</mat-header-cell>
-                <mat-cell *cdkCellDef="let row" fxLayout="row">
+            <ng-container matColumnDef="inactive">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Inactive</mat-header-cell>
+                <mat-cell *matCellDef="let row">
                     <div fxHide.gt-sm fxFlex="50">Inactive</div>
 
                     <mat-icon *ngIf="row.inactive" class="inactive">done</mat-icon>
                 </mat-cell>
             </ng-container>
 
-
             <!-- Edit Button -->
-            <ng-container cdkColumnDef="edit">
-                <mat-header-cell *cdkHeaderCellDef class="action"></mat-header-cell>
-                <mat-cell *cdkCellDef="let row" class="action" fxHide.xs fxHide.sm>
+            <ng-container matColumnDef="edit">
+                <mat-header-cell *matHeaderCellDef class="action"></mat-header-cell>
+                <mat-cell *matCellDef="let row" class="action" fxHide.xs fxHide.sm>
                     <button mat-icon-button (click)="editProject(row)">
                         <mat-icon>edit</mat-icon>
                     </button>
                 </mat-cell>
             </ng-container>
 
-            <mat-header-row *cdkHeaderRowDef="displayedColumns" fxHide.xs fxHide.sm></mat-header-row>
-            <mat-row class="mobile-pointer" *cdkRowDef="let row; columns: displayedColumns;"
+            <mat-header-row *matHeaderRowDef="displayedColumns" fxHide.xs fxHide.sm></mat-header-row>
+            <mat-row class="mobile-pointer" *matRowDef="let row; columns: displayedColumns;"
                      (click)="editMobileProject(row)"></mat-row>
         </mat-table>
+
+        <mat-paginator #paginator
+                       [pageSize]="10"
+                       [pageSizeOptions]="[5, 10, 25, 50]"
+                       [showFirstLastButtons]="false">
+        </mat-paginator>
     </div>
 
 </div>
