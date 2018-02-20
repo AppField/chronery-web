@@ -1,4 +1,4 @@
-import {Component, ElementRef, Inject, OnInit, QueryList, ViewChildren} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {WorkingHours} from '../../models/working-hours';
 import {AuthService} from '../../user/auth.service';
@@ -24,9 +24,6 @@ export class ReportPdfDialogComponent implements OnInit {
     showComment = true;
     summarizeProjectsPerDay = true;
 
-    @ViewChildren('reportPage') documents: QueryList<ElementRef>;
-    @ViewChildren('reportTable') tables: QueryList<ElementRef>;
-
 // order matters
     constructor(@Inject(MAT_DIALOG_DATA) public data: WorkingHours[],
                 public dialogRef: MatDialogRef<ReportPdfDialogComponent>,
@@ -41,27 +38,6 @@ export class ReportPdfDialogComponent implements OnInit {
     }
 
     ngOnInit() {
-    }
-
-    calcPages(pageIndex: number, pages: WorkingHours[]): void {
-        const doc = this.documents.last.nativeElement;
-        const docRectBottom = doc.getBoundingClientRect().bottom;
-        const rows = doc.querySelectorAll('tr');
-
-        let index = 0;
-        let rowBottom;
-        do {
-            rowBottom = rows[index].getBoundingClientRect().bottom;
-            console.log('Outside: ', rowBottom >= (docRectBottom - 40));
-            index++;
-        } while (rowBottom <= (docRectBottom - 150));
-
-        const rest = pages.slice(index, pages.length);
-        this.pages[pageIndex] = pages.slice(0, index);
-
-        if (rest.length > 0) {
-            this.calcPages(++pageIndex, rest);
-        }
     }
 
     async downloadPDF() {
@@ -144,12 +120,16 @@ export class ReportPdfDialogComponent implements OnInit {
     }
 
     private getData() {
-        return this.reportData.map((item: WorkingHours) => {
-            return {
-                ...item,
-                projectNumber: item.project.number,
-                projectName: item.project.name
-            };
-        });
+        if (this.summarizeProjectsPerDay) {
+            return this.reportData.map((item: WorkingHours) => {
+                return {
+                    ...item,
+                    projectNumber: item.project.number,
+                    projectName: item.project.name
+                };
+            });
+        } else {
+
+        }
     }
 }
