@@ -1,30 +1,31 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { ErrorHandler, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
-	MatButtonModule,
-	MatDialogModule,
-	MatSidenavModule,
-	MatIconModule,
-	MatMenuModule,
-	MatCardModule,
-	MatAutocompleteModule,
-	MatInputModule,
-	MatTabsModule,
-	MatListModule,
-	MatToolbarModule,
-	MatTableModule,
-	MatTooltipModule,
-	MatDatepickerModule,
-	MatNativeDateModule,
-	MatProgressSpinnerModule,
-	MatProgressBarModule,
-	MatSnackBarModule,
-	MatExpansionModule,
-	MatCheckboxModule
+    MatAutocompleteModule,
+    MatButtonModule,
+    MatCardModule,
+    MatCheckboxModule,
+    MatDatepickerModule,
+    MatDialogModule,
+    MatExpansionModule,
+    MatIconModule,
+    MatInputModule,
+    MatListModule,
+    MatMenuModule,
+    MatNativeDateModule,
+    MatProgressBarModule,
+    MatProgressSpinnerModule,
+    MatSelectModule,
+    MatSidenavModule,
+    MatSnackBarModule,
+    MatTableModule,
+    MatTabsModule,
+    MatToolbarModule,
+    MatTooltipModule
 } from '@angular/material';
 import { CdkTableModule } from '@angular/cdk/table';
 
@@ -63,50 +64,50 @@ import { RequestInterceptor } from './utils/request-interceptor';
 import { ReportPdfDialogComponent } from './components/report-pdf-dialog/report-pdf-dialog.component';
 
 @NgModule({
-	declarations: [
-		AppComponent,
-		SidenavComponent,
-		SidenavDaypickerComponent,
-		MonthYearDialogComponent,
-		ReportComponent,
-		SettingsComponent,
-		WorkingHoursComponent,
-		WorkCardComponent,
-		DashboardComponent,
-		ProjectsComponent,
-		ProjectDialogComponent,
-		MaterialActiveDirective,
-		EncodedDatePipe,
-		WorkingHoursChartComponent,
-		LoginComponent,
-		RegisterComponent,
-		AuthenticateComponent,
-		ConfirmAccountDeletionComponent,
-		ForgotPasswordDialogComponent,
-		ImprintComponent,
-		ReportPdfDialogComponent
-	],
-	entryComponents: [MonthYearDialogComponent, ProjectDialogComponent, ConfirmAccountDeletionComponent, ForgotPasswordDialogComponent, ReportPdfDialogComponent],
-	imports: [
-		BrowserModule,
-		ServiceWorkerModule.register(environment.test ? '/chronery-web/ngsw-worker.js' : 'ngsw-worker.js', {enabled: environment.production || environment.test}),
-		HttpClientModule,
-		FlexLayoutModule,
-		FormsModule,
-		ReactiveFormsModule,
-		BrowserAnimationsModule,
-		MatButtonModule, MatDialogModule, MatSidenavModule, MatIconModule, MatMenuModule, MatCardModule, MatAutocompleteModule, MatInputModule,
-		MatTabsModule, MatListModule, MatToolbarModule, MatTableModule, MatTooltipModule, MatDatepickerModule, MatNativeDateModule,
-		AppRoutingModule, MatProgressSpinnerModule, MatProgressBarModule, MatSnackBarModule, MatExpansionModule, MatCheckboxModule,
-		CdkTableModule
-	],
-	providers: [AuthService, WorkingHoursService, ProjectsService, CommentsService, LocalStorageService, WindowRef,
-		{
-			provide: HTTP_INTERCEPTORS,
-			useClass: RequestInterceptor,
-			multi: true
-		}],
-	bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+        SidenavComponent,
+        SidenavDaypickerComponent,
+        MonthYearDialogComponent,
+        ReportComponent,
+        SettingsComponent,
+        WorkingHoursComponent,
+        WorkCardComponent,
+        DashboardComponent,
+        ProjectsComponent,
+        ProjectDialogComponent,
+        MaterialActiveDirective,
+        EncodedDatePipe,
+        WorkingHoursChartComponent,
+        LoginComponent,
+        RegisterComponent,
+        AuthenticateComponent,
+        ConfirmAccountDeletionComponent,
+        ForgotPasswordDialogComponent,
+        ImprintComponent,
+        ReportPdfDialogComponent
+    ],
+    entryComponents: [MonthYearDialogComponent, ProjectDialogComponent, ConfirmAccountDeletionComponent, ForgotPasswordDialogComponent, ReportPdfDialogComponent],
+    imports: [
+        BrowserModule,
+        ServiceWorkerModule.register(environment.test ? '/chronery-web/ngsw-worker.js' : 'ngsw-worker.js', { enabled: environment.production || environment.test }),
+        HttpClientModule,
+        FlexLayoutModule,
+        FormsModule,
+        ReactiveFormsModule,
+        BrowserAnimationsModule,
+        MatButtonModule, MatDialogModule, MatSidenavModule, MatIconModule, MatMenuModule, MatCardModule, MatAutocompleteModule, MatInputModule,
+        MatTabsModule, MatListModule, MatToolbarModule, MatTableModule, MatTooltipModule, MatDatepickerModule, MatNativeDateModule,
+        AppRoutingModule, MatProgressSpinnerModule, MatProgressBarModule, MatSnackBarModule, MatExpansionModule, MatCheckboxModule, MatSelectModule,
+        CdkTableModule
+    ],
+    providers: [AuthService, WorkingHoursService, ProjectsService, CommentsService, LocalStorageService, WindowRef,
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: RequestInterceptor,
+            multi: true
+        }],
+    bootstrap: [AppComponent]
 })
 export class AppModule {
 }

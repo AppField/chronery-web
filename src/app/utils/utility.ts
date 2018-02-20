@@ -65,4 +65,13 @@ export class Utility {
 
         return hours + ':' + minutes;
     }
+
+    static convertTimeToDecimal(time: string): string {
+        const values = time.split(':');
+        let hours = +values[0];
+        const minutes = values[1];
+
+        hours += +minutes / 60;
+        return hours.toFixed(2);
+    }
 }

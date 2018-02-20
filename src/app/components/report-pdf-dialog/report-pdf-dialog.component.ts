@@ -9,12 +9,12 @@ declare var jsPDF: any; // Important
 interface ReportData {
     id: string;
     date: string;
-    from: string;
-    to: string;
-    spent: string;
     comment: string;
     projectNumber: string;
     projectName: string;
+    from: string;
+    to: string;
+    spent: string;
     project: {
         id: string;
         number: string;
@@ -39,6 +39,7 @@ export class ReportPdfDialogComponent implements OnInit {
     showFrom = false;
     showTo = false;
     showSpent = true;
+    decimalFormat = true;
     // summarizeProjectsPerDay = true;
 
 // order matters
@@ -73,7 +74,6 @@ export class ReportPdfDialogComponent implements OnInit {
             pdf.setFontStyle('normal');
             pdf.text('Chronery Report', 15, 18);
 
-
             // Footer
             let str = 'Page ' + data.pageCount;
             str += ' of ' + totalPagesExp;
@@ -102,7 +102,8 @@ export class ReportPdfDialogComponent implements OnInit {
             const tableEndPosY = pdf.autoTableEndPosY() + 7;
             pdf.setFontSize(10);
             pdf.setFontStyle('bold');
-            pdf.text(`Total: ${this.totalTime}`, 246, tableEndPosY);
+            console.log('totaltime: ', this.totalTime);
+            pdf.text(`Total: ${this.totalTime} h`, 266, tableEndPosY, 'right');
         }
 
         pdf.putTotalPages(totalPagesExp);
@@ -143,10 +144,13 @@ export class ReportPdfDialogComponent implements OnInit {
             return {
                 ...item,
                 projectNumber: item.project.number,
-                projectName: item.project.name
+                projectName: item.project.name,
+                spent: this.decimalFormat ? Utility.convertTimeToDecimal(item.spent) + ' h' : item.spent + ' h'
             };
         });
-        this.totalTime = Utility.sumTotalTimes(times);
+        const totalTime = Utility.sumTotalTimes(times);
+        console.log('time totaltime: ', totalTime);
+        this.totalTime = this.decimalFormat ? Utility.convertTimeToDecimal(totalTime) : totalTime;
         return data;
         // } else {
         //     const data: ReportData[] = [

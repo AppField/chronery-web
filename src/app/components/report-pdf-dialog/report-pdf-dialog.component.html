@@ -8,6 +8,16 @@
         <mat-checkbox [(ngModel)]="showFrom">From time</mat-checkbox>
         <mat-checkbox [(ngModel)]="showTo">To time</mat-checkbox>
         <mat-checkbox [(ngModel)]="showSpent">Hours</mat-checkbox>
+        <mat-form-field>
+            <mat-select placeholder="Time Format" [(value)]="decimalFormat">
+                <mat-option [value]="true">
+                    2.5 h
+                </mat-option>
+                <mat-option [value]="false">
+                    02:30 h
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
         <!--<mat-checkbox [(ngModel)]="summarizeProjectsPerDay">-->
         <!--Summarize projects per days-->
         <!--</mat-checkbox>-->

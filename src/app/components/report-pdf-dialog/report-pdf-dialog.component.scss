@@ -4,6 +4,10 @@
     background-color: #fafafa;
 }
 
-.options .mat-checkbox {
+.options .mat-checkbox, .mat-form-field {
     padding: 1rem 0;
+}
+
+.mat-form-field {
+    max-width: 150px;
 }
