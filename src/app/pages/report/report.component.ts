@@ -110,9 +110,6 @@ export class ReportComponent implements OnInit, OnDestroy {
 
         const dialogRef = this.dialog.open(ReportPdfDialogComponent, {
             data: [...this.workingHoursService.data],
-            // height: '90vh',
-            maxWidth: '1300px',
-            width: '95%',
             closeOnNavigation: true
         });
     }

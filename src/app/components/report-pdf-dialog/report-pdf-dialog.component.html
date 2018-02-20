@@ -1,16 +1,16 @@
 <h2 mat-dialog-title>Download Report PDF</h2>
 <mat-dialog-content>
-    <div fxLayout="row" fxLayoutAlign="space-around" class="options">
+    <div fxLayout="column" class="options">
         <mat-checkbox [(ngModel)]="showDate">Date</mat-checkbox>
-        <mat-checkbox [(ngModel)]="showFrom">From time</mat-checkbox>
-        <mat-checkbox [(ngModel)]="showTo">To time</mat-checkbox>
-        <mat-checkbox [(ngModel)]="showSpent">Hours</mat-checkbox>
         <mat-checkbox [(ngModel)]="showProjectNumber">Project Number</mat-checkbox>
         <mat-checkbox [(ngModel)]="showProjectName">Project Name</mat-checkbox>
         <mat-checkbox [(ngModel)]="showComment">Comment</mat-checkbox>
-        <mat-checkbox [(ngModel)]="summarizeProjectsPerDay">
-            Summarize projects per days
-        </mat-checkbox>
+        <mat-checkbox [(ngModel)]="showFrom">From time</mat-checkbox>
+        <mat-checkbox [(ngModel)]="showTo">To time</mat-checkbox>
+        <mat-checkbox [(ngModel)]="showSpent">Hours</mat-checkbox>
+        <!--<mat-checkbox [(ngModel)]="summarizeProjectsPerDay">-->
+        <!--Summarize projects per days-->
+        <!--</mat-checkbox>-->
     </div>
 </mat-dialog-content>
 

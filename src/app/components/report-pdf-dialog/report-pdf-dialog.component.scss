@@ -4,45 +4,6 @@
     background-color: #fafafa;
 }
 
-.options {
+.options .mat-checkbox {
     padding: 1rem 0;
-}
-
-.document {
-    padding: 1rem 2rem;
-    width: 29.7cm;
-    height: 21cm;
-    margin: 1rem 1rem 1rem 0;
-
-    h3 {
-        font-size: 1.75rem;
-        color: mat-color($primary);
-        font-weight: lighter;
-    }
-
-    table {
-        width: 100%;
-        border-collapse: collapse;
-
-        thead {
-            tr {
-                border-bottom: 1px solid black;
-            }
-
-            th {
-                text-align: left;
-                padding: 12px 0;
-            }
-        }
-
-        tbody {
-            tr {
-                border-bottom: 1px dashed black;
-            }
-
-            td {
-                padding: 12px 0;
-            }
-        }
-    }
 }

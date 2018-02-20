@@ -6,6 +6,22 @@ import {Utility} from '../../utils/utility';
 
 declare var jsPDF: any; // Important
 
+interface ReportData {
+    id: string;
+    date: string;
+    from: string;
+    to: string;
+    spent: string;
+    comment: string;
+    projectNumber: string;
+    projectName: string;
+    project: {
+        id: string;
+        number: string;
+        name: string;
+    };
+}
+
 @Component({
     selector: 'chy-report-pdf-dialog',
     templateUrl: './report-pdf-dialog.component.html',
@@ -14,27 +30,22 @@ declare var jsPDF: any; // Important
 export class ReportPdfDialogComponent implements OnInit {
     pages: WorkingHours[][] = [[]];
     reportData: WorkingHours[] = [];
+    totalTime = '00:00';
 
     showDate = true;
-    showFrom = true;
-    showTo = true;
-    showSpent = true;
     showProjectNumber = true;
     showProjectName = true;
     showComment = true;
-    summarizeProjectsPerDay = true;
+    showFrom = false;
+    showTo = false;
+    showSpent = true;
+    // summarizeProjectsPerDay = true;
 
 // order matters
     constructor(@Inject(MAT_DIALOG_DATA) public data: WorkingHours[],
                 public dialogRef: MatDialogRef<ReportPdfDialogComponent>,
                 private authService: AuthService) {
-
-        for (let i = 0; i < 20; i++) {
-            this.pages[0] = this.pages[0].concat(data);
-            this.reportData = this.reportData.concat(data);
-        }
-
-// this.report = data;
+        this.reportData = data;
     }
 
     ngOnInit() {
@@ -43,7 +54,6 @@ export class ReportPdfDialogComponent implements OnInit {
     async downloadPDF() {
         try {
             const pdf = await this.generatePDF();
-
             pdf.save(`Chronery Report`);
         } catch (err) {
             console.error(err);
@@ -88,8 +98,14 @@ export class ReportPdfDialogComponent implements OnInit {
             showHeader: 'everyPage'
         });
 
-        pdf.putTotalPages(totalPagesExp);
+        if (this.totalTime) {
+            const tableEndPosY = pdf.autoTableEndPosY() + 7;
+            pdf.setFontSize(10);
+            pdf.setFontStyle('bold');
+            pdf.text(`Total: ${this.totalTime}`, 246, tableEndPosY);
+        }
 
+        pdf.putTotalPages(totalPagesExp);
         return pdf;
     }
 
@@ -119,17 +135,42 @@ export class ReportPdfDialogComponent implements OnInit {
         return columns;
     }
 
-    private getData() {
-        if (this.summarizeProjectsPerDay) {
-            return this.reportData.map((item: WorkingHours) => {
-                return {
-                    ...item,
-                    projectNumber: item.project.number,
-                    projectName: item.project.name
-                };
-            });
-        } else {
-
-        }
+    private getData(): ReportData[] {
+        // if (!this.summarizeProjectsPerDay) {
+        const times: string[] = [];
+        const data: ReportData[] = this.reportData.map((item: WorkingHours) => {
+            times.push(item.spent);
+            return {
+                ...item,
+                projectNumber: item.project.number,
+                projectName: item.project.name
+            };
+        });
+        this.totalTime = Utility.sumTotalTimes(times);
+        return data;
+        // } else {
+        //     const data: ReportData[] = [
+        //         {
+        //             ...this.reportData[0],
+        //             projectNumber: this.reportData[0].project.number,
+        //             projectName: this.reportData[0].project.name
+        //         }
+        //     ];
+        //
+        //     for (let i = 1; i < this.reportData.length; i++) {
+        //         const item = this.reportData[i];
+        //         if (item.date === this.reportData[i - 1].date && item.project.id === this.reportData[i - 1].project.id) {
+        //             this.reportData[i - 1].spent = Utility.sumTimes([item.spent, this.reportData[i - 1].spent]);
+        //         } else {
+        //             data.push({
+        //                 ...item,
+        //                 projectNumber: item.project.number,
+        //                 projectName: item.project.name
+        //             });
+        //         }
+        //     }
+        //     console.log('Data: ', data);
+        //     return data;
+        // }
     }
 }
