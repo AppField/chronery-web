@@ -142,7 +142,7 @@ export class ReportComponent implements OnInit, OnDestroy {
 
 
 export class ReportSource extends DataSource<any> {
-    totalTime: string = '00:00';
+    totalTime = '00:00';
     private _filterChange = new BehaviorSubject(new Project);
 
     constructor(private workingHoursService: WorkingHoursService) {

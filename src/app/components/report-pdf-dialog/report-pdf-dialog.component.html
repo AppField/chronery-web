@@ -14,10 +14,10 @@
     </div>
     <div class="preview">
         <div class="document mat-elevation-z8" *ngFor="let page of pages" #reportPage>
-            <h3 style="color: green; font-size:1.75rem; font-weight:lighter; margin: 1em 0;">Chronery Report</h3>
-            <table style="width: 100%; border-collapse: collapse; border-spacing: 2px; border-color:grey">
+            <h3 style="font-size:1.75rem; font-weight:lighter; margin: 1em 0;">Chronery Report</h3>
+            <table #reportTable style="width: 100%; border-collapse: collapse; border-spacing: 2px; border-color:grey">
                 <thead>
-                <tr style="border-bottom: 1px solid black;">
+                <tr>
                     <th *ngIf="showDate">Date</th>
                     <th *ngIf="showFrom">From</th>
                     <th *ngIf="showTo">To</th>
