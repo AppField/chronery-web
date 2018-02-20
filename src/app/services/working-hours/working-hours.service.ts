@@ -6,6 +6,7 @@ import { WorkingHours } from '../../models/working-hours';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { DayWorkingHours } from '../../models/day-working-hours';
 import { environment } from '../../../environments/environment';
+import { Project } from "../../models/project";
 
 
 @Injectable()
@@ -130,7 +131,11 @@ export class WorkingHoursService {
                     }
                 );
         });
+    }
 
+    onFilterDataByProject(project: Project) {
+        const filtered = this.filterChange.value.filter((work: WorkingHours) => work.project.id === project.id);
+        this.filterChange.next(filtered);
     }
 
     onDeleteData(data: WorkingHours, date: string) {

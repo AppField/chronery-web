@@ -67,10 +67,6 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
         return !this.media.isActive('gt-sm');
     }
 
-    get hasData(): boolean {
-        return this.workingHoursService.filterChange.value ? this.workingHoursService.filterChange.value.length > 0 : false;
-    }
-
     ngOnInit() {
         this.workingHoursService.dataIsLoading
             .takeUntil(this.destroy$)
@@ -105,7 +101,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     updateProjectFilter(): void {
-        // this.dataSource.filter = this.selectedProject;
+        this.workingHoursService.onFilterDataByProject(this.selectedProject);
     }
 
     filterProjects(val: string) {
@@ -120,7 +116,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
 
     downloadPDF(): void {
         const dialogRef = this.dialog.open(ReportPdfDialogComponent, {
-            data: [...this.workingHoursService.data],
+            data: [...this.workingHoursService.filterChange.value],
             closeOnNavigation: true
         });
     }
