@@ -39,6 +39,7 @@ import { WindowRef } from './services/window-ref/window-ref.service';
 import { RequestInterceptor } from './utils/request-interceptor';
 import { ReportPdfDialogComponent } from './components/report-pdf-dialog/report-pdf-dialog.component';
 import { MaterialModule } from './material.module';
+import { DecimalPipe } from "@angular/common";
 
 @NgModule({
     declarations: [
@@ -77,7 +78,14 @@ import { MaterialModule } from './material.module';
         AppRoutingModule,
         MaterialModule
     ],
-    providers: [AuthService, WorkingHoursService, ProjectsService, CommentsService, LocalStorageService, WindowRef,
+    providers: [
+        DecimalPipe,
+        AuthService,
+        WorkingHoursService,
+        ProjectsService,
+        CommentsService,
+        LocalStorageService,
+        WindowRef,
         {
             provide: HTTP_INTERCEPTORS,
             useClass: RequestInterceptor,

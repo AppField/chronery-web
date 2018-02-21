@@ -1,8 +1,9 @@
-import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
-import {WorkingHours} from '../../models/working-hours';
-import {AuthService} from '../../user/auth.service';
-import {Utility} from '../../utils/utility';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { WorkingHours } from '../../models/working-hours';
+import { AuthService } from '../../user/auth.service';
+import { Utility } from '../../utils/utility';
+import { DecimalPipe } from '@angular/common';
 
 declare var jsPDF: any; // Important
 
@@ -45,7 +46,8 @@ export class ReportPdfDialogComponent implements OnInit {
 // order matters
     constructor(@Inject(MAT_DIALOG_DATA) public data: WorkingHours[],
                 public dialogRef: MatDialogRef<ReportPdfDialogComponent>,
-                private authService: AuthService) {
+                private authService: AuthService,
+                private numberPipe: DecimalPipe) {
         this.reportData = data;
     }
 
@@ -91,7 +93,7 @@ export class ReportPdfDialogComponent implements OnInit {
         pdf.autoTable(this.getColumns(), this.getData(), {
             addPageContent: pageContent,
             // startY: 28,
-            margin: {top: 30},
+            margin: { top: 30 },
             headerStyles: {
                 fillColor: [0, 150, 136]
             },
@@ -102,8 +104,7 @@ export class ReportPdfDialogComponent implements OnInit {
             const tableEndPosY = pdf.autoTableEndPosY() + 7;
             pdf.setFontSize(10);
             pdf.setFontStyle('bold');
-            console.log('totaltime: ', this.totalTime);
-            pdf.text(`Total: ${this.totalTime} h`, 266, tableEndPosY, 'right');
+            pdf.text(`Total: ${this.totalTime} h`, 265, tableEndPosY, 'right');
         }
 
         pdf.putTotalPages(totalPagesExp);
@@ -113,25 +114,25 @@ export class ReportPdfDialogComponent implements OnInit {
     private getColumns() {
         const columns = [];
         if (this.showDate) {
-            columns.push({title: 'Date', dataKey: 'date'});
+            columns.push({ title: 'Date', dataKey: 'date' });
         }
         if (this.showProjectNumber) {
-            columns.push({title: 'Project Number', dataKey: 'projectNumber'});
+            columns.push({ title: 'Project Number', dataKey: 'projectNumber' });
         }
         if (this.showProjectName) {
-            columns.push({title: 'Project Name', dataKey: 'projectName'});
+            columns.push({ title: 'Project Name', dataKey: 'projectName' });
         }
         if (this.showComment) {
-            columns.push({title: 'Comment', dataKey: 'comment'});
+            columns.push({ title: 'Comment', dataKey: 'comment' });
         }
         if (this.showFrom) {
-            columns.push({title: 'From', dataKey: 'from'});
+            columns.push({ title: 'From', dataKey: 'from' });
         }
         if (this.showTo) {
-            columns.push({title: 'To', dataKey: 'to'});
+            columns.push({ title: 'To', dataKey: 'to' });
         }
         if (this.showSpent) {
-            columns.push({title: 'Hours', dataKey: 'spent'});
+            columns.push({ title: 'Hours', dataKey: 'spent' });
         }
         return columns;
     }
@@ -145,12 +146,11 @@ export class ReportPdfDialogComponent implements OnInit {
                 ...item,
                 projectNumber: item.project.number,
                 projectName: item.project.name,
-                spent: this.decimalFormat ? Utility.convertTimeToDecimal(item.spent) + ' h' : item.spent + ' h'
+                spent: this.decimalFormat ? this.numberPipe.transform(Utility.convertTimeToDecimal(item.spent), '2.2') + ' h' : item.spent + ' h'
             };
         });
         const totalTime = Utility.sumTotalTimes(times);
-        console.log('time totaltime: ', totalTime);
-        this.totalTime = this.decimalFormat ? Utility.convertTimeToDecimal(totalTime) : totalTime;
+        this.totalTime = this.decimalFormat ? this.numberPipe.transform(Utility.convertTimeToDecimal(totalTime), '2.2') : totalTime;
         return data;
         // } else {
         //     const data: ReportData[] = [
