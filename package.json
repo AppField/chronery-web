@@ -5,7 +5,7 @@
     "scripts": {
         "ng": "ng",
         "start": "ng serve",
-        "start-de": "ng serve --aot --locale de",
+        "start-de": "ng serve --aot --locale de --port 4300",
         "build": "ng build --prod --aot --env=prod",
         "test": "ng test",
         "lint": "ng lint",
