@@ -6,76 +6,75 @@ import { WorkingHoursService } from '../../services/working-hours/working-hours.
 import { WorkingHours } from '../../models/working-hours';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/takeUntil';
+import { Moment } from 'moment';
 
 @Component({
-	selector: 'chy-dashboard',
-	templateUrl: './dashboard.component.html',
-	styleUrls: ['./dashboard.component.scss']
+    selector: 'chy-dashboard',
+    templateUrl: './dashboard.component.html',
+    styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit, OnDestroy {
-	private destroy$: Subject<boolean> = new Subject<boolean>();
+    todaysDate: Moment = moment();
+    chartMonth: Moment = moment();
+    todaysLink: string;
+    chartLink: string;
+    dataFound = true;
+    chartData: WorkingHours[];
+    isLoading = false;
+    // TODO: remove this workaround. Necessary as the async time causes an error when building the prod package.
+    async: any;
+    private destroy$: Subject<boolean> = new Subject<boolean>();
 
-	todaysDate = new Date();
-	chartMonth = new Date();
-	todaysLink: string;
-	chartLink: string;
-	dataFound = true;
-	chartData: WorkingHours[];
-	isLoading = false;
+    constructor(private router: Router, private workingHoursService: WorkingHoursService) {
+        this.todaysLink = '/working-hours/' + Utility.encodeDate(this.todaysDate);
+        this.updateChart();
+    }
 
-	// TODO: remove this workaround. Necessary as the async time causes an error whenn building the prod package.
-	async: any;
+    ngOnInit() {
+        this.workingHoursService.dataIsLoading
+            .takeUntil(this.destroy$)
+            .subscribe((isLoading: boolean) => this.isLoading = isLoading);
+    }
 
-	constructor(private router: Router, private workingHoursService: WorkingHoursService) {
-		this.todaysLink = '/working-hours/' + Utility.encodeDate(this.todaysDate);
-		this.updateChart();
-	}
+    nextMonth(): void {
+        this.chartMonth = moment(this.chartMonth).add(1, 'month').date(1);
+        this.updateChart();
+    }
 
-	ngOnInit() {
-		this.workingHoursService.dataIsLoading
-			.takeUntil(this.destroy$)
-			.subscribe((isLoading: boolean) => this.isLoading = isLoading);
-	}
+    previousMonth(): void {
+        this.chartMonth = moment(this.chartMonth).subtract(1, 'month').date(1);
+        this.updateChart();
+    }
 
-	nextMonth(): void {
-		this.chartMonth = moment(this.chartMonth).add(1, 'month').date(1).toDate();
-		this.updateChart();
-	}
+    updateChart(): void {
+        this.chartLink = '/working-hours/' + Utility.encodeDate(this.chartMonth);
 
-	previousMonth(): void {
-		this.chartMonth = moment(this.chartMonth).subtract(1, 'month').date(1).toDate();
-		this.updateChart();
-	}
-
-	updateChart(): void {
-		this.chartLink = '/working-hours/' + Utility.encodeDate(this.chartMonth);
-
-		const startDate = Utility.encodeDate(moment(this.chartMonth).startOf('month').toDate());
-		const endDate = Utility.encodeDate(moment(this.chartMonth).endOf('month').toDate());
+        const startDate = Utility.encodeDate(moment(this.chartMonth).startOf('month'));
+        const endDate = Utility.encodeDate(moment(this.chartMonth).endOf('month'));
 
 
-		const from = startDate;
-		const to = endDate;
-		this.workingHoursService.onFilterData(from, to).then(data => {
-			this.chartData = data;
-			(data.length > 0) ? this.dataFound = true : this.dataFound = false;
-		});
-	}
+        const from = startDate;
+        const to = endDate;
+        this.workingHoursService.onFilterData(from, to).then(data => {
+            this.chartData = data;
+            (data.length > 0) ? this.dataFound = true : this.dataFound = false;
+        });
+    }
 
-	navigateToWorkingHours(): void {
-		this.router.navigate([this.todaysLink]);
-	}
+    navigateToWorkingHours(): void {
+        this.router.navigate([this.todaysLink]);
+    }
 
-	navigateToChartMonth(): void {
-		this.router.navigate([this.chartLink]);
-	}
+    navigateToChartMonth(): void {
+        this.router.navigate([this.chartLink]);
+    }
 
-	navigateToProjects(): void {
-		this.router.navigate(['/projects']);
-	}
+    navigateToProjects(): void {
+        this.router.navigate(['/projects']);
+    }
 
-	ngOnDestroy() {
-		this.destroy$.next(true);
-		this.destroy$.unsubscribe();
-	}
+    ngOnDestroy() {
+        this.destroy$.next(true);
+        this.destroy$.unsubscribe();
+    }
 }
