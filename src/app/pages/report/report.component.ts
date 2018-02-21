@@ -13,6 +13,7 @@ import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/takeUntil';
 import { ReportPdfDialogComponent } from '../../components/report-pdf-dialog/report-pdf-dialog.component';
 import { MatDialog, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
+import { Moment } from "moment";
 
 
 @Component({
@@ -22,8 +23,8 @@ import { MatDialog, MatPaginator, MatSort, MatTableDataSource } from '@angular/m
 })
 export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
     date: Date;
-    startDate: Date;
-    endDate: Date;
+    startDate: Moment;
+    endDate: Moment;
     projects: Project[] = [];
     filteredProjects: Observable<Project[]>;
     selectedProject: Project;
@@ -42,8 +43,8 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
                 public dialog: MatDialog) {
 
         // initialize start and end date for the date pickers
-        this.startDate = moment().startOf('month').toDate();
-        this.endDate = moment().endOf('month').toDate();
+        this.startDate = moment().startOf('month');
+        this.endDate = moment().endOf('month');
 
         this.projectsCtrl = new FormControl();
         const allProjects = new Project(null, null, null, 'All');

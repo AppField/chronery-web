@@ -1,24 +1,21 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 import * as moment from 'moment/moment';
+import { Moment } from 'moment';
 
 @Injectable()
 export class Utility {
-    static encodeDate(date: Date): string {
-        const day = date.getDate();
-        const month = date.getMonth() + 1;
-        const year = date.getFullYear();
-
-        return year + '-' + (month < 10 ? '0' : '') + month + '-' + (day < 10 ? '0' : '') + day;
+    static encodeDate(date: Moment): string {
+        return date.format('YYYY-MM-DD');
     }
 
-    static decodeDate(encodedDate: string): Date {
+    static decodeDate(encodedDate: string): Moment {
         if (encodedDate) {
-            const dateValues = encodedDate.split('-');
-            const year = +dateValues[0];
-            const month = +dateValues[1];
-            const day = +dateValues[2];
-            const decodedDate = new Date(year, month - 1, day);
-            return new Date(decodedDate);
+            // const dateValues = encodedDate.split('-');
+            // const year = +dateValues[0];
+            // const month = +dateValues[1];
+            // const day = +dateValues[2];
+            // const decodedDate = new Date(year, month - 1, day);
+            return moment(encodedDate, 'YYYY-MM-DD');
         } else {
             return null;
         }
