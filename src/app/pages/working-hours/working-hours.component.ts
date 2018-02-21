@@ -89,7 +89,7 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
         newWork.from = Utility.getCurrentTimeString();
         this.works.unshift(newWork);
         this.newCard = true;
-    };
+    }
 
     saveWork(work: WorkingHours): void {
         if (work.hasOwnProperty('id')) {
@@ -113,12 +113,12 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
             this.works.shift();
             this.newCard = false;
         }
-    };
+    }
 
     setActiveDateToToday(): void {
         const encodedDate = Utility.encodeDate(moment());
         this.router.navigate(['working-hours', encodedDate]);
-    };
+    }
 
     checkSubsidenav(): void {
         if (this.sidenavMode === 'over'

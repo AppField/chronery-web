@@ -46,6 +46,7 @@ export class SidenavDaypickerComponent implements OnDestroy, AfterContentInit {
                 if (dateParam) {
                     const date = Utility.decodeDate(dateParam);
                     if (this.monthYear.month() !== date.month() || this.monthYear.year() !== date.year()) {
+                        this.monthYear = moment();
                         this.monthYear.month(date.month());
                         this.monthYear.year(date.year());
                         this.getDays();
@@ -91,7 +92,6 @@ export class SidenavDaypickerComponent implements OnDestroy, AfterContentInit {
         this.days = [];
         // get list of days of current month
         const helperDate = moment(this.monthYear);
-        console.log('helper Date: ', helperDate);
         const currentMonth = helperDate.month();
         helperDate.date(1);
         do {
