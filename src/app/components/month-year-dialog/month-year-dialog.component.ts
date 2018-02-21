@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 import { Moment } from 'moment';
-import moment = require('moment');
+import * as moment from 'moment';
 
 @Component({
     selector: 'chy-month-year-dialog',

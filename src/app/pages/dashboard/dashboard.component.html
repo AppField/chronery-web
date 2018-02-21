@@ -5,7 +5,7 @@
 
 <div class="inner-sidenav-content">
     <h2>
-        Today's date:
+       <ng-container i18n="Dashboard header|Button on dashboard to say that's today's date@@dashboardHeader">Today's date:</ng-container>
         <button mat-button (click)="navigateToWorkingHours()">
             <h2 class="inline-h2">{{ todaysDate | date:'dd. MMMM yyyy'}}</h2>
         </button>

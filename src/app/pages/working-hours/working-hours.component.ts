@@ -11,8 +11,8 @@ import { WorkingHours } from '../../models/working-hours';
 import { WorkingHoursService } from '../../services/working-hours/working-hours.service';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/takeUntil';
+import * as moment from 'moment';
 import { Moment } from 'moment';
-import moment = require('moment');
 
 @Component({
     selector: 'chy-working-hours',

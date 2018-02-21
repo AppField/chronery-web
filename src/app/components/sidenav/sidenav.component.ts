@@ -5,7 +5,7 @@ import { state, style, trigger } from '@angular/animations';
 import 'rxjs/add/operator/takeUntil';
 import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
-import moment = require('moment');
+import * as moment from 'moment';
 
 interface RouterItem {
     link: string;
