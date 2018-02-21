@@ -3,7 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { WorkingHours } from '../../models/working-hours';
 import { AuthService } from '../../user/auth.service';
 import { Utility } from '../../utils/utility';
-import { DecimalPipe } from '@angular/common';
+import { DatePipe, DecimalPipe } from '@angular/common';
 
 declare var jsPDF: any; // Important
 
@@ -47,7 +47,8 @@ export class ReportPdfDialogComponent implements OnInit {
     constructor(@Inject(MAT_DIALOG_DATA) public data: WorkingHours[],
                 public dialogRef: MatDialogRef<ReportPdfDialogComponent>,
                 private authService: AuthService,
-                private numberPipe: DecimalPipe) {
+                private numberPipe: DecimalPipe,
+                private datePipe: DatePipe) {
         this.reportData = data;
     }
 
@@ -144,6 +145,7 @@ export class ReportPdfDialogComponent implements OnInit {
             times.push(item.spent);
             return {
                 ...item,
+                date: this.datePipe.transform(item.date),
                 projectNumber: item.project.number,
                 projectName: item.project.name,
                 spent: this.decimalFormat ? this.numberPipe.transform(Utility.convertTimeToDecimal(item.spent), '2.2') + ' h' : item.spent + ' h'

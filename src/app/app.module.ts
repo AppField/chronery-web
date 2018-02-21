@@ -39,7 +39,7 @@ import { WindowRef } from './services/window-ref/window-ref.service';
 import { RequestInterceptor } from './utils/request-interceptor';
 import { ReportPdfDialogComponent } from './components/report-pdf-dialog/report-pdf-dialog.component';
 import { MaterialModule } from './material.module';
-import { DecimalPipe } from "@angular/common";
+import { DatePipe, DecimalPipe } from "@angular/common";
 
 @NgModule({
     declarations: [
@@ -80,6 +80,7 @@ import { DecimalPipe } from "@angular/common";
     ],
     providers: [
         DecimalPipe,
+        DatePipe,
         AuthService,
         WorkingHoursService,
         ProjectsService,

@@ -58,7 +58,7 @@
                 <mat-header-cell *matHeaderCellDef mat-sort-header><strong>Date</strong></mat-header-cell>
                 <mat-cell *matCellDef="let row" fxLayout="row">
                     <div fxHide.gt-sm fxFlex="50"><strong>Date</strong></div>
-                    <div fxFlex="50"><strong>{{row.date | encodedDate}}</strong></div>
+                    <div fxFlex="50"><strong>{{row.date | encodedDate | date}}</strong></div>
                 </mat-cell>
             </ng-container>
 
