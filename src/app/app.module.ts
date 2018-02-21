@@ -4,31 +4,6 @@ import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {
-    MatAutocompleteModule,
-    MatButtonModule,
-    MatCardModule,
-    MatCheckboxModule,
-    MatDatepickerModule,
-    MatDialogModule,
-    MatExpansionModule,
-    MatIconModule,
-    MatInputModule,
-    MatListModule,
-    MatMenuModule,
-    MatNativeDateModule,
-    MatPaginatorModule,
-    MatProgressBarModule,
-    MatProgressSpinnerModule,
-    MatSelectModule,
-    MatSidenavModule,
-    MatSnackBarModule,
-    MatSortModule,
-    MatTableModule,
-    MatTabsModule,
-    MatToolbarModule,
-    MatTooltipModule
-} from '@angular/material';
 
 import 'hammerjs';
 
@@ -63,6 +38,7 @@ import { environment } from '../environments/environment';
 import { WindowRef } from './services/window-ref/window-ref.service';
 import { RequestInterceptor } from './utils/request-interceptor';
 import { ReportPdfDialogComponent } from './components/report-pdf-dialog/report-pdf-dialog.component';
+import { MaterialModule } from './material.module';
 
 @NgModule({
     declarations: [
@@ -98,11 +74,8 @@ import { ReportPdfDialogComponent } from './components/report-pdf-dialog/report-
         FormsModule,
         ReactiveFormsModule,
         BrowserAnimationsModule,
-        MatButtonModule, MatDialogModule, MatSidenavModule, MatIconModule, MatMenuModule, MatCardModule,
-        MatAutocompleteModule, MatInputModule, MatTabsModule, MatListModule, MatToolbarModule, MatTableModule,
-        MatTooltipModule, MatDatepickerModule, MatNativeDateModule, AppRoutingModule, MatProgressSpinnerModule,
-        MatProgressBarModule, MatSnackBarModule, MatExpansionModule, MatCheckboxModule, MatSelectModule,
-        MatSortModule, MatPaginatorModule
+        AppRoutingModule,
+        MaterialModule
     ],
     providers: [AuthService, WorkingHoursService, ProjectsService, CommentsService, LocalStorageService, WindowRef,
         {
