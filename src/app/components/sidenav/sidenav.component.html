@@ -10,10 +10,30 @@
             </ng-template>
         </mat-toolbar>
         <mat-nav-list>
-            <a mat-list-item *ngFor="let item of routerItems" routerLink="{{item.link}}" routerLinkActive="active"
+            <a mat-list-item routerLink="/dashboard" routerLinkActive="active"
                (click)="recollapseNav()">
-                <mat-icon mat-list-icon>{{item.icon}}</mat-icon>
-                <span class="sidenav-label" [@menuState]="state">{{item.display}}</span>
+                <mat-icon mat-list-icon>dashboard</mat-icon>
+                <span class="sidenav-label" [@menuState]="state">Dashboard</span>
+            </a>
+            <a mat-list-item routerLink="/working-hours/" routerLinkActive="active"
+               (click)="recollapseNav()">
+                <mat-icon mat-list-icon>timer</mat-icon>
+                <span class="sidenav-label" [@menuState]="state">Working Hours</span>
+            </a>
+            <a mat-list-item routerLink="/report" routerLinkActive="active"
+               (click)="recollapseNav()">
+                <mat-icon mat-list-icon>business</mat-icon>
+                <span class="sidenav-label" [@menuState]="state">Report</span>
+            </a>
+            <a mat-list-item routerLink="/projects" routerLinkActive="active"
+               (click)="recollapseNav()">
+                <mat-icon mat-list-icon>work</mat-icon>
+                <span class="sidenav-label" [@menuState]="state">Projects</span>
+            </a>
+            <a mat-list-item routerLink="/settings" routerLinkActive="active"
+               (click)="recollapseNav()">
+                <mat-icon mat-list-icon>settings</mat-icon>
+                <span class="sidenav-label" [@menuState]="state">Settings</span>
             </a>
         </mat-nav-list>
 

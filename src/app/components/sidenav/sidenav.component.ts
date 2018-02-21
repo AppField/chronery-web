@@ -1,17 +1,9 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ObservableMedia } from '@angular/flex-layout';
-import { Utility } from '../../utils/utility';
 import { state, style, trigger } from '@angular/animations';
 import 'rxjs/add/operator/takeUntil';
 import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
-import * as moment from 'moment';
-
-interface RouterItem {
-    link: string;
-    icon: string;
-    display: string;
-}
 
 @Component({
     selector: 'chy-sidenav',
@@ -29,42 +21,12 @@ interface RouterItem {
 })
 
 export class SidenavComponent implements OnInit, OnDestroy {
-    routerItems: RouterItem[];
     state = 'open';
     @ViewChild('sidenavContainer') private sidenav;
     private destroy$: Subject<boolean> = new Subject<boolean>();
     private mediaSub: Subscription;
 
     constructor(private media: ObservableMedia) {
-        // ToDo: Working Hours should remain active when another day is selected in subsidenav
-        this.routerItems = [
-            {
-                link: '/dashboard',
-                icon: 'dashboard',
-                display: 'Dashboard'
-            },
-            {
-                link: '/working-hours/' + Utility.encodeDate(moment()),
-                icon: 'timer',
-                display: 'Working Hours'
-            },
-            {
-                link: '/report',
-                icon: 'business',
-                display: 'Report'
-            },
-            {
-                link: '/projects',
-                icon: 'work',
-                display: 'Projects'
-            },
-            {
-                link: '/settings',
-                icon: 'settings',
-                display: 'Settings'
-            }
-        ];
-
     }
 
     get isMobile(): boolean {
