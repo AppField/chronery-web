@@ -1,58 +1,59 @@
 <mat-card tabindex="0" (blur)="checkValidation()" chyMaterialActive>
-    <form [formGroup]="workForm" (ngSubmit)="checkValidation()">
-        <mat-card-content>
-            <mat-form-field class="project">
-                <input matInput placeholder="Project" formControlName="project" [matAutocomplete]="auto"
-                       autocomplete="off">
-                <mat-error>Required</mat-error>
-            </mat-form-field>
-            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-                <mat-option *ngFor="let project of filteredProjects | async" [value]="project">
-                    <span>{{ project.name }}  |  {{ project.number }} </span>
-                </mat-option>
-            </mat-autocomplete>
-            <button mat-icon-button type="button" class="delete-button" (click)="removeWork()"
-                    tabindex="-1">
-                <mat-icon>clear</mat-icon>
-            </button>
+  <form [formGroup]="workForm" (ngSubmit)="checkValidation()">
+    <mat-card-content>
+      <mat-form-field class="project">
+        <input matInput i18n-placeholder="Work Card Project placeholder@@workCardProject" placeholder="Project" formControlName="project"
+               [matAutocomplete]="auto"
+               autocomplete="off">
+        <mat-error>Required</mat-error>
+      </mat-form-field>
+      <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+        <mat-option *ngFor="let project of filteredProjects | async" [value]="project">
+          <span>{{ project.name }}  |  {{ project.number }} </span>
+        </mat-option>
+      </mat-autocomplete>
+      <button mat-icon-button type="button" class="delete-button" (click)="removeWork()"
+              tabindex="-1">
+        <mat-icon>clear</mat-icon>
+      </button>
 
-            <div class="flex-row">
-                <mat-form-field>
-                    <input matInput placeholder="From" #from formControlName="from" [(ngModel)]="work.from"
-                           (blur)="formatTime(work.from, 'from')" (focus)="from.select()" autocomplete="off">
-                    <mat-error>Required format: hh:mm</mat-error>
-                </mat-form-field>
-                <mat-form-field>
-                    <input matInput placeholder="To" #to formControlName="to" [(ngModel)]="work.to"
-                           (blur)="formatTime(work.to, 'to')" (focus)="to.select(); checkTo()" autocomplete="off">
-                    <mat-error *ngIf="toControl.hasError('required') || toControl.hasError('pattern')">Required
-                        format:
-                        hh:mm
-                    </mat-error>
-                    <mat-error
-                            *ngIf="!(toControl.hasError('required') || toControl.hasError('pattern')) && toControl.hasError('isNotAfter')">
-                        "To time" isn't after from time
-                    </mat-error>
-                </mat-form-field>
-            </div>
+      <div class="flex-row">
+        <mat-form-field>
+          <input matInput i18n-placeholder="Work Card From Placeholder@@workCardFrom" placeholder="From" #from formControlName="from"
+                 [(ngModel)]="work.from"
+                 (blur)="formatTime(work.from, 'from')" (focus)="from.select()" autocomplete="off">
+          <mat-error i18n="Work Card Time Format Error@@workCardTimeFormatError">Required format: hh:mm</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput i18n-placeholder="Work Card To Placeholder@@workCardTo" placeholder="To" #to formControlName="to"
+                 [(ngModel)]="work.to"
+                 (blur)="formatTime(work.to, 'to')" (focus)="to.select(); checkTo()" autocomplete="off">
+          <mat-error *ngIf="toControl.hasError('required') || toControl.hasError('pattern')">
+            <ng-container i18n="Work Card Time Format Error@@workCardTimeFormatError">Required format: hh:mm</ng-container>
+          </mat-error>
+          <mat-error *ngIf="!(toControl.hasError('required') || toControl.hasError('pattern')) && toControl.hasError('isNotAfter')">
+            <ng-container i18n="Work Card To Error@@workCardToError">"To time" isn't after from time</ng-container>
+          </mat-error>
+        </mat-form-field>
+      </div>
 
-            <!--<input matInput placeholder="Comment" formControlName="comment">-->
-            <mat-form-field class="comment">
-                <input matInput placeholder="Comment" formControlName="comment" [matAutocomplete]="commentAuto"
-                       autocomplete="off">
-                <mat-error>Required</mat-error>
-            </mat-form-field>
-            <mat-autocomplete #commentAuto="matAutocomplete">
-                <mat-option *ngFor="let comment of filteredComments | async" [value]="comment.comment">
-                    <span>{{ comment.comment }}</span>
-                </mat-option>
-            </mat-autocomplete>
+      <mat-form-field class="comment">
+        <input matInput i18n-placeholder="Work Card Comment Placeholder@@workCardComment" placeholder="Comment" formControlName="comment"
+               [matAutocomplete]="commentAuto"
+               autocomplete="off">
+        <mat-error i18n="Work Card RequiredError@@workCardRequiredError">Required</mat-error>
+      </mat-form-field>
+      <mat-autocomplete #commentAuto="matAutocomplete">
+        <mat-option *ngFor="let comment of filteredComments | async" [value]="comment.comment">
+          <span>{{ comment.comment }}</span>
+        </mat-option>
+      </mat-autocomplete>
 
-        </mat-card-content>
-        <mat-card-footer>
-            <div class="spent">
-                {{work.spent}} h
-            </div>
-        </mat-card-footer>
-    </form>
+    </mat-card-content>
+    <mat-card-footer>
+      <div class="spent">
+        {{work.spent}} h
+      </div>
+    </mat-card-footer>
+  </form>
 </mat-card>

@@ -1,0 +1,1036 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="en" datatype="plaintext" original="ng2.template">
+    <body>
+      <trans-unit id="resetPasswordHeader" datatype="html">
+        <source>Reset your password</source>
+        <target>Passwort zurücksetzen</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/forgot-password-dialog/forgot-password-dialog.component.ts</context>
+          <context context-type="linenumber">2</context>
+        </context-group>
+        <note priority="1" from="description">Reset PW Header</note>
+      </trans-unit>
+      <trans-unit id="resetPasswordInstructions" datatype="html">
+        <source>We have sent you a verification code per E-Mail.</source>
+        <target>Eine E-Mail mit einem Bestätigungscode wurde versendet.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/forgot-password-dialog/forgot-password-dialog.component.ts</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+        <note priority="1" from="description">Reset PWI nstructions</note>
+      </trans-unit>
+      <trans-unit id="resetPasswordEnterCode" datatype="html">
+        <source>Please enter this code:</source>
+        <target>Bitte den Bestätigungscode eingeben:</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/forgot-password-dialog/forgot-password-dialog.component.ts</context>
+          <context context-type="linenumber">7</context>
+        </context-group>
+        <note priority="1" from="description">Reset Password Enter verification code</note>
+      </trans-unit>
+      <trans-unit id="resetPasswordVerificationPlaceholder" datatype="html">
+        <source>Verification Code</source>
+        <target>Bestätigungscode</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/forgot-password-dialog/forgot-password-dialog.component.ts</context>
+          <context context-type="linenumber">13</context>
+        </context-group>
+        <note priority="1" from="description">Reset Password Verification Placeholder</note>
+      </trans-unit>
+      <trans-unit id="resetPasswordRequiredError" datatype="html">
+        <source>Required</source>
+        <target>Pflichtfeld</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/forgot-password-dialog/forgot-password-dialog.component.ts</context>
+          <context context-type="linenumber">15</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/forgot-password-dialog/forgot-password-dialog.component.ts</context>
+          <context context-type="linenumber">31</context>
+        </context-group>
+        <note priority="1" from="description">Reset Password Required Error</note>
+      </trans-unit>
+      <trans-unit id="resetPasswordNewPasswordPlaceholder" datatype="html">
+        <source>New Password</source>
+        <target>Neues Passwort</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/forgot-password-dialog/forgot-password-dialog.component.ts</context>
+          <context context-type="linenumber">21</context>
+        </context-group>
+        <note priority="1" from="description">Reset Password New Password Placeholder</note>
+      </trans-unit>
+      <trans-unit id="resetPasswordNoMatch" datatype="html">
+        <source>Password does not match</source>
+        <target>Passwörter sind nicht gleich</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/forgot-password-dialog/forgot-password-dialog.component.ts</context>
+          <context context-type="linenumber">32</context>
+        </context-group>
+        <note priority="1" from="description">Reset Password No match</note>
+      </trans-unit>
+      <trans-unit id="resetPasswordCancel" datatype="html">
+        <source>Cancel</source>
+        <target>Abbrechen</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/forgot-password-dialog/forgot-password-dialog.component.ts</context>
+          <context context-type="linenumber">38</context>
+        </context-group>
+        <note priority="1" from="description">Reset Password Cancel Button</note>
+      </trans-unit>
+      <trans-unit id="resetPasswordResetBtn" datatype="html">
+        <source>Reset my Password!</source>
+        <target>Password zurücksetzen!</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/forgot-password-dialog/forgot-password-dialog.component.ts</context>
+          <context context-type="linenumber">41</context>
+        </context-group>
+        <note priority="1" from="description">Reset Password Reset Button</note>
+      </trans-unit>
+      <trans-unit id="navWorkingHours" datatype="html">
+        <source>Working Hours</source>
+        <target>Arbeitszeiten</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/sidenav/sidenav.component.ts</context>
+          <context context-type="linenumber">22</context>
+        </context-group>
+        <note priority="1" from="description">Side Menu for navigating</note>
+        <note priority="1" from="meaning">Nav Item Working Hours</note>
+      </trans-unit>
+      <trans-unit id="navReport" datatype="html">
+        <source>Report</source>
+        <target>Bericht</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/sidenav/sidenav.component.ts</context>
+          <context context-type="linenumber">28</context>
+        </context-group>
+        <note priority="1" from="description">Side Menu for navigating</note>
+        <note priority="1" from="meaning">Nav Item Report</note>
+      </trans-unit>
+      <trans-unit id="navProjects" datatype="html">
+        <source>Projects</source>
+        <target>Projekte</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/sidenav/sidenav.component.ts</context>
+          <context context-type="linenumber">34</context>
+        </context-group>
+        <note priority="1" from="description">Side Menu for navigating</note>
+        <note priority="1" from="meaning">Nav Item Projects</note>
+      </trans-unit>
+      <trans-unit id="navSettings" datatype="html">
+        <source>Settings</source>
+        <target>Einstellungen</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/sidenav/sidenav.component.ts</context>
+          <context context-type="linenumber">40</context>
+        </context-group>
+        <note priority="1" from="description">Side Menu for navigating</note>
+        <note priority="1" from="meaning">Nav Item Settings</note>
+      </trans-unit>
+      <trans-unit id="imprintTooltip" datatype="html">
+        <source>Imprint</source>
+        <target>Impressum</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/sidenav/sidenav.component.ts</context>
+          <context context-type="linenumber">48</context>
+        </context-group>
+        <note priority="1" from="description">Shown when hovering over the imprint icon</note>
+        <note priority="1" from="meaning">Imprint Tooltip</note>
+      </trans-unit>
+      <trans-unit id="daypickerProjects" datatype="html">
+        <source>Projects:</source>
+        <target>Projekte:</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/sidenav-daypicker/sidenav-daypicker.component.ts</context>
+          <context context-type="linenumber">15</context>
+        </context-group>
+        <note priority="1" from="description">Daypicker Projects</note>
+      </trans-unit>
+      <trans-unit id="daypickerHours" datatype="html">
+        <source>Hours:</source>
+        <target>Stunden:</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/sidenav-daypicker/sidenav-daypicker.component.ts</context>
+          <context context-type="linenumber">16</context>
+        </context-group>
+        <note priority="1" from="description">Daypicker hours</note>
+      </trans-unit>
+      <trans-unit id="reportPDFHeader" datatype="html">
+        <source>Download Report PDF</source>
+        <target>Bericht als PDF herunterladen</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/report-pdf-dialog/report-pdf-dialog.component.ts</context>
+          <context context-type="linenumber">1</context>
+        </context-group>
+        <note priority="1" from="description">Report PDF Header</note>
+      </trans-unit>
+      <trans-unit id="reportPDFDate" datatype="html">
+        <source>Date</source>
+        <target>Datum</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/report-pdf-dialog/report-pdf-dialog.component.ts</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+        <note priority="1" from="description">Report PDF Date</note>
+      </trans-unit>
+      <trans-unit id="reportPDFProjectNumber" datatype="html">
+        <source>Project Number</source>
+        <target>Projektnummer</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/report-pdf-dialog/report-pdf-dialog.component.ts</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+        <note priority="1" from="description">Report PDF ProjectNumber</note>
+      </trans-unit>
+      <trans-unit id="reportPDFProjectName" datatype="html">
+        <source>Project Name</source>
+        <target>Projektname</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/report-pdf-dialog/report-pdf-dialog.component.ts</context>
+          <context context-type="linenumber">9</context>
+        </context-group>
+        <note priority="1" from="description">Report PDF ProjectName</note>
+      </trans-unit>
+      <trans-unit id="reportPDFComment" datatype="html">
+        <source>Comment</source>
+        <target>Kommentar</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/report-pdf-dialog/report-pdf-dialog.component.ts</context>
+          <context context-type="linenumber">11</context>
+        </context-group>
+        <note priority="1" from="description">Report PDF Comment</note>
+      </trans-unit>
+      <trans-unit id="reportPDFFrom" datatype="html">
+        <source>From</source>
+        <target>Von</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/report-pdf-dialog/report-pdf-dialog.component.ts</context>
+          <context context-type="linenumber">12</context>
+        </context-group>
+        <note priority="1" from="description">Report PDF From</note>
+      </trans-unit>
+      <trans-unit id="reportPDFTo" datatype="html">
+        <source>To</source>
+        <target>Bis</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/report-pdf-dialog/report-pdf-dialog.component.ts</context>
+          <context context-type="linenumber">13</context>
+        </context-group>
+        <note priority="1" from="description">Report PDF To</note>
+      </trans-unit>
+      <trans-unit id="reportPDFSpent" datatype="html">
+        <source>Spent</source>
+        <target>Stunden</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/report-pdf-dialog/report-pdf-dialog.component.ts</context>
+          <context context-type="linenumber">14</context>
+        </context-group>
+        <note priority="1" from="description">Report PDF Spent</note>
+      </trans-unit>
+      <trans-unit id="reportPDFTimeFormat" datatype="html">
+        <source>Time Format</source>
+        <target>Zeitformat</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/report-pdf-dialog/report-pdf-dialog.component.ts</context>
+          <context context-type="linenumber">16</context>
+        </context-group>
+        <note priority="1" from="description">Report PDF Time Format</note>
+      </trans-unit>
+      <trans-unit id="reportPDFCancel" datatype="html">
+        <source>Cancel</source>
+        <target>Abbrechen</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/report-pdf-dialog/report-pdf-dialog.component.ts</context>
+          <context context-type="linenumber">32</context>
+        </context-group>
+        <note priority="1" from="description">Report PDF Cancel</note>
+      </trans-unit>
+      <trans-unit id="reportPDFBtnDownload" datatype="html">
+        <source>Download</source>
+        <target>Herunterladen</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/report-pdf-dialog/report-pdf-dialog.component.ts</context>
+          <context context-type="linenumber">33</context>
+        </context-group>
+        <note priority="1" from="description">Report PDF Download</note>
+      </trans-unit>
+      <trans-unit id="reportHeader" datatype="html">
+        <source>Report</source>
+        <target>Bericht</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/report/report.component.ts</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+        <note priority="1" from="description">Header for Report page</note>
+        <note priority="1" from="meaning">Report Header</note>
+      </trans-unit>
+      <trans-unit id="reportBtnDownloadPdf" datatype="html">
+        <source>Download PDF</source>
+        <target>PDF herunterladen</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/report/report.component.ts</context>
+          <context context-type="linenumber">7</context>
+        </context-group>
+        <note priority="1" from="description">Button for downloading PDF</note>
+        <note priority="1" from="meaning">Report Download PDF</note>
+      </trans-unit>
+      <trans-unit id="reportExport" datatype="html">
+        <source>Export</source>
+        <target>Exportieren</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/report/report.component.ts</context>
+          <context context-type="linenumber">11</context>
+        </context-group>
+        <note priority="1" from="description">Button for exporting report data</note>
+        <note priority="1" from="meaning">Report Export</note>
+      </trans-unit>
+      <trans-unit id="reportPlaceholderStart" datatype="html">
+        <source>Starts at</source>
+        <target>Von</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/report/report.component.ts</context>
+          <context context-type="linenumber">24</context>
+        </context-group>
+        <note priority="1" from="description">Report datepicker for Start date</note>
+        <note priority="1" from="meaning">Report Datepicker Start</note>
+      </trans-unit>
+      <trans-unit id="reportPlaceholderEnd" datatype="html">
+        <source>Ends at</source>
+        <target>Bis</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/report/report.component.ts</context>
+          <context context-type="linenumber">35</context>
+        </context-group>
+        <note priority="1" from="description">Report datepicker for End date</note>
+        <note priority="1" from="meaning">Report Datepicker End</note>
+      </trans-unit>
+      <trans-unit id="reportPlaceholderProject" datatype="html">
+        <source>Project</source>
+        <target>Projekt</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/report/report.component.ts</context>
+          <context context-type="linenumber">44</context>
+        </context-group>
+        <note priority="1" from="description">Report project filter</note>
+        <note priority="1" from="meaning">Report Project Autocomplete</note>
+      </trans-unit>
+      <trans-unit id="reportTableHeaderDate" datatype="html">
+        <source>Date</source>
+        <target>Datum</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/report/report.component.ts</context>
+          <context context-type="linenumber">61</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/report/report.component.ts</context>
+          <context context-type="linenumber">64</context>
+        </context-group>
+        <note priority="1" from="description">Report Table Column Date</note>
+      </trans-unit>
+      <trans-unit id="reportTableHeaderFrom" datatype="html">
+        <source>From</source>
+        <target>Von</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/report/report.component.ts</context>
+          <context context-type="linenumber">71</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/report/report.component.ts</context>
+          <context context-type="linenumber">73</context>
+        </context-group>
+        <note priority="1" from="description">Report Table Column From</note>
+      </trans-unit>
+      <trans-unit id="reportTableHeaderTo" datatype="html">
+        <source>To</source>
+        <target>Bis</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/report/report.component.ts</context>
+          <context context-type="linenumber">79</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/report/report.component.ts</context>
+          <context context-type="linenumber">82</context>
+        </context-group>
+        <note priority="1" from="description">Report Table Column To</note>
+      </trans-unit>
+      <trans-unit id="reportTableHeaderSpent" datatype="html">
+        <source>Spent</source>
+        <target>Stunden</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/report/report.component.ts</context>
+          <context context-type="linenumber">90</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/report/report.component.ts</context>
+          <context context-type="linenumber">94</context>
+        </context-group>
+        <note priority="1" from="description">Report Table Column Spent</note>
+      </trans-unit>
+      <trans-unit id="reportTableHeaderProjectNumber" datatype="html">
+        <source>Project Number</source>
+        <target>Projektnummer</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/report/report.component.ts</context>
+          <context context-type="linenumber">102</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/report/report.component.ts</context>
+          <context context-type="linenumber">106</context>
+        </context-group>
+        <note priority="1" from="description">Report Table Column ProjectNumber</note>
+      </trans-unit>
+      <trans-unit id="reportTableHeaderProjectName" datatype="html">
+        <source>Project Name</source>
+        <target>Projektname</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/report/report.component.ts</context>
+          <context context-type="linenumber">114</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/report/report.component.ts</context>
+          <context context-type="linenumber">118</context>
+        </context-group>
+        <note priority="1" from="description">Report Table Column ProjectName</note>
+      </trans-unit>
+      <trans-unit id="reportTableHeaderComment" datatype="html">
+        <source>Comment</source>
+        <target>Kommentar</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/report/report.component.ts</context>
+          <context context-type="linenumber">126</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/report/report.component.ts</context>
+          <context context-type="linenumber">130</context>
+        </context-group>
+        <note priority="1" from="description">Report Table Column Comment</note>
+      </trans-unit>
+      <trans-unit id="reportNoData" datatype="html">
+        <source>No times found for the selected period and project</source>
+        <target>Keine Zeiten für die ausgewählte Periode und das Projekt gefunden</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/report/report.component.ts</context>
+          <context context-type="linenumber">147</context>
+        </context-group>
+        <note priority="1" from="description">Report Table No Data</note>
+      </trans-unit>
+      <trans-unit id="reportTotal" datatype="html">
+        <source>Total:</source>
+        <target>Gesamt:</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/report/report.component.ts</context>
+          <context context-type="linenumber">152</context>
+        </context-group>
+        <note priority="1" from="description">Report Total</note>
+      </trans-unit>
+      <trans-unit id="confirmAccountDeletionHeader" datatype="html">
+        <source>Do you really want to delete your account?</source>
+        <target>Konto wirklich löschen?</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/confirm-account-deletion/confirm-account-deletion.component.ts</context>
+          <context context-type="linenumber">1</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="confirmAccountDeletionNoOption" datatype="html">
+        <source>No, I like it here</source>
+        <target>Nein, ich mag es hier</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/confirm-account-deletion/confirm-account-deletion.component.ts</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="confirmAccountDeletionYesOption" datatype="html">
+        <source>Yes, delete my account</source>
+        <target>Ja, Konto löschen</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/confirm-account-deletion/confirm-account-deletion.component.ts</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="settingsHeader" datatype="html">
+        <source>Settings</source>
+        <target>Einstellungen</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/settings/settings.component.ts</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+        <note priority="1" from="description">Settings Header</note>
+      </trans-unit>
+      <trans-unit id="settingsPredefinedComments" datatype="html">
+        <source>Predefined comments</source>
+        <target>Vordefinierte Kommentare</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/settings/settings.component.ts</context>
+          <context context-type="linenumber">13</context>
+        </context-group>
+        <note priority="1" from="description">Settings Predefined Comments</note>
+      </trans-unit>
+      <trans-unit id="settingsMaxComments" datatype="html">
+        <source>Max. 5 comments</source>
+        <target>Max. 5 Kommentare</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/settings/settings.component.ts</context>
+          <context context-type="linenumber">16</context>
+        </context-group>
+        <note priority="1" from="description">Settings Maximum Comments</note>
+      </trans-unit>
+      <trans-unit id="settingsCommentPlaceholder" datatype="html">
+        <source>Comment</source>
+        <target>Kommentar</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/settings/settings.component.ts</context>
+          <context context-type="linenumber">24</context>
+        </context-group>
+        <note priority="1" from="description">Settings CommentPlaceholder</note>
+      </trans-unit>
+      <trans-unit id="settingsNewCommentPlaceholder" datatype="html">
+        <source>New Comment</source>
+        <target>Neuer Kommentar</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/settings/settings.component.ts</context>
+          <context context-type="linenumber">35</context>
+        </context-group>
+        <note priority="1" from="description">Settings New Comment Placeholder</note>
+      </trans-unit>
+      <trans-unit id="settingsUserAccount" datatype="html">
+        <source>User Account</source>
+        <target>Benutzerkonto</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/settings/settings.component.ts</context>
+          <context context-type="linenumber">48</context>
+        </context-group>
+        <note priority="1" from="description">Settings User Account</note>
+      </trans-unit>
+      <trans-unit id="settingsInspectAccountData" datatype="html">
+        <source>Inspect your data</source>
+        <target>Daten überprüfen</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/settings/settings.component.ts</context>
+          <context context-type="linenumber">51</context>
+        </context-group>
+        <note priority="1" from="description">Settings InspectAccountData</note>
+      </trans-unit>
+      <trans-unit id="settingsFirstNamePlaceholder" datatype="html">
+        <source>First Name</source>
+        <target>Vorname</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/settings/settings.component.ts</context>
+          <context context-type="linenumber">58</context>
+        </context-group>
+        <note priority="1" from="description">Settings First Name Placeholder</note>
+      </trans-unit>
+      <trans-unit id="settingsRequiredError" datatype="html">
+        <source>Required</source>
+        <target>Pflichtfeld</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/settings/settings.component.ts</context>
+          <context context-type="linenumber">60</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/settings/settings.component.ts</context>
+          <context context-type="linenumber">66</context>
+        </context-group>
+        <note priority="1" from="description">Settings Required Error</note>
+      </trans-unit>
+      <trans-unit id="settingsEMailPlaceholder" datatype="html">
+        <source>E-Mail Address</source>
+        <target>E-Mail Adresse</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/settings/settings.component.ts</context>
+          <context context-type="linenumber">70</context>
+        </context-group>
+        <note priority="1" from="description">Settings E-Mail placeholder</note>
+      </trans-unit>
+      <trans-unit id="settingsDeleteAccountBtn" datatype="html">
+        <source>Delete account</source>
+        <target>Account löschen</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/settings/settings.component.ts</context>
+          <context context-type="linenumber">78</context>
+        </context-group>
+        <note priority="1" from="description">Settings Delete Account Button</note>
+      </trans-unit>
+      <trans-unit id="settingsLogoutBtn" datatype="html">
+        <source>Logout</source>
+        <target>Ausloggen</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/settings/settings.component.ts</context>
+          <context context-type="linenumber">81</context>
+        </context-group>
+        <note priority="1" from="description">Settings Logout Button</note>
+      </trans-unit>
+      <trans-unit id="workingHoursHeader" datatype="html">
+        <source>Working Hours</source>
+        <target>Arbeitszeiten</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/working-hours/working-hours.component.ts</context>
+          <context context-type="linenumber">14</context>
+        </context-group>
+        <note priority="1" from="description">Header for Working Hours page</note>
+        <note priority="1" from="meaning">Working Hours Header</note>
+      </trans-unit>
+      <trans-unit id="workingHoursBtnToday" datatype="html">
+        <source>Today</source>
+        <target>Heute</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/working-hours/working-hours.component.ts</context>
+          <context context-type="linenumber">17</context>
+        </context-group>
+        <note priority="1" from="description">Button to switch current date to today</note>
+        <note priority="1" from="meaning">Today Button</note>
+      </trans-unit>
+      <trans-unit id="workingHoursTooltip" datatype="html">
+        <source>You have an unfinished card open.</source>
+        <target>Eine Arbeit ist noch nicht beendet.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/working-hours/working-hours.component.ts</context>
+          <context context-type="linenumber">25</context>
+        </context-group>
+        <note priority="1" from="description">WorkingHours Unfinished Card</note>
+      </trans-unit>
+      <trans-unit id="workingHoursAddTimes" datatype="html">
+        <source>Add working hours for this day!</source>
+        <target>Arbeitszeit zu diesem Tag hinzufügen!</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/working-hours/working-hours.component.ts</context>
+          <context context-type="linenumber">55</context>
+        </context-group>
+        <note priority="1" from="description">Side Menu for navigating</note>
+        <note priority="1" from="meaning">Working Hours Add</note>
+      </trans-unit>
+      <trans-unit id="workCardProject" datatype="html">
+        <source>Project</source>
+        <target>Projekt</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/work-card/work-card.component.ts</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+        <note priority="1" from="description">Work Card Project placeholder</note>
+      </trans-unit>
+      <trans-unit id="workCardFrom" datatype="html">
+        <source>From</source>
+        <target>Von</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/work-card/work-card.component.ts</context>
+          <context context-type="linenumber">22</context>
+        </context-group>
+        <note priority="1" from="description">Work Card From Placeholder</note>
+      </trans-unit>
+      <trans-unit id="workCardTimeFormatError" datatype="html">
+        <source>Required format: hh:mm</source>
+        <target>Benötigtes Format: hh:mm</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/work-card/work-card.component.ts</context>
+          <context context-type="linenumber">25</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/work-card/work-card.component.ts</context>
+          <context context-type="linenumber">32</context>
+        </context-group>
+        <note priority="1" from="description">Work Card Time Format Error</note>
+      </trans-unit>
+      <trans-unit id="workCardTo" datatype="html">
+        <source>To</source>
+        <target>Bis</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/work-card/work-card.component.ts</context>
+          <context context-type="linenumber">28</context>
+        </context-group>
+        <note priority="1" from="description">Work Card To Placeholder</note>
+      </trans-unit>
+      <trans-unit id="workCardToError" datatype="html">
+        <source>&quot;To time&quot; isn&apos;t after from time</source>
+        <target>"Bis" ist nicht nach "Von"</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/work-card/work-card.component.ts</context>
+          <context context-type="linenumber">35</context>
+        </context-group>
+        <note priority="1" from="description">Work Card To Error</note>
+      </trans-unit>
+      <trans-unit id="workCardComment" datatype="html">
+        <source>Comment</source>
+        <target>Kommentar</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/work-card/work-card.component.ts</context>
+          <context context-type="linenumber">42</context>
+        </context-group>
+        <note priority="1" from="description">Work Card Comment Placeholder</note>
+      </trans-unit>
+      <trans-unit id="workCardRequiredError" datatype="html">
+        <source>Required</source>
+        <target>Pflichtfeld</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/work-card/work-card.component.ts</context>
+          <context context-type="linenumber">45</context>
+        </context-group>
+        <note priority="1" from="description">Work Card RequiredError</note>
+      </trans-unit>
+      <trans-unit id="dashboardHeader" datatype="html">
+        <source>Today&apos;s date:</source>
+        <target>Heutiges Datum:</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/dashboard/dashboard.component.ts</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+        <note priority="1" from="description">Button on dashboard to say that&apos;s today&apos;s date</note>
+        <note priority="1" from="meaning">Dashboard header</note>
+      </trans-unit>
+      <trans-unit id="dashboardNoData" datatype="html">
+        <source>It&apos;s empty in this month.</source>
+        <target>Es ist leer in diesem Monat.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/dashboard/dashboard.component.ts</context>
+          <context context-type="linenumber">46</context>
+        </context-group>
+        <note priority="1" from="description">When Month has no data</note>
+        <note priority="1" from="meaning">Dashboard No Data</note>
+      </trans-unit>
+      <trans-unit id="dashboardMotivation" datatype="html">
+        <source>Go ahead and do something!</source>
+        <target>Auf gehts, Zeit etwas zu machen!</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/dashboard/dashboard.component.ts</context>
+          <context context-type="linenumber">48</context>
+        </context-group>
+        <note priority="1" from="description">Motivational text</note>
+        <note priority="1" from="meaning">Dashboard Motivation</note>
+      </trans-unit>
+      <trans-unit id="dashboardBtnAddWorkingHours" datatype="html">
+        <source>Add working hours!</source>
+        <target>Arbeitszeiten hinzufügen!</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/dashboard/dashboard.component.ts</context>
+          <context context-type="linenumber">56</context>
+        </context-group>
+        <note priority="1" from="description">Button to add Working Hours page</note>
+        <note priority="1" from="meaning">Dashboard Add Working Hours</note>
+      </trans-unit>
+      <trans-unit id="dashboardBtnAddProjects" datatype="html">
+        <source>Add projects!</source>
+        <target>Projekte erstellen!</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/dashboard/dashboard.component.ts</context>
+          <context context-type="linenumber">62</context>
+        </context-group>
+        <note priority="1" from="description">Button to add Projects</note>
+        <note priority="1" from="meaning">Dashboard Add projects</note>
+      </trans-unit>
+      <trans-unit id="projectDialogHeader" datatype="html">
+        <source>Project</source>
+        <target>Projekt</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/project-modal/project-dialog.component.ts</context>
+          <context context-type="linenumber">2</context>
+        </context-group>
+        <note priority="1" from="description">Project Dialog Header</note>
+      </trans-unit>
+      <trans-unit id="projectDialogNumberPlaceholder" datatype="html">
+        <source>Number</source>
+        <target>Nummer</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/project-modal/project-dialog.component.ts</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+        <note priority="1" from="description">Project Dialog Number Placeholder</note>
+      </trans-unit>
+      <trans-unit id="projectDialogRequiredError" datatype="html">
+        <source>Required</source>
+        <target>Pflichtfeld</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/project-modal/project-dialog.component.ts</context>
+          <context context-type="linenumber">9</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/project-modal/project-dialog.component.ts</context>
+          <context context-type="linenumber">16</context>
+        </context-group>
+        <note priority="1" from="description">Project Dialog Required Error</note>
+      </trans-unit>
+      <trans-unit id="projectDialogNamePlaceholder" datatype="html">
+        <source>Name</source>
+        <target>Name</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/project-modal/project-dialog.component.ts</context>
+          <context context-type="linenumber">13</context>
+        </context-group>
+        <note priority="1" from="description">Project Dialog Name Placeholder</note>
+      </trans-unit>
+      <trans-unit id="projectDialogInactive" datatype="html">
+        <source>Inactive</source>
+        <target>Inaktiv</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/project-modal/project-dialog.component.ts</context>
+          <context context-type="linenumber">19</context>
+        </context-group>
+        <note priority="1" from="description">Project Dialog Inactive</note>
+      </trans-unit>
+      <trans-unit id="projectDialogCancelBtn" datatype="html">
+        <source>Cancel</source>
+        <target>Abbrechen</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/project-modal/project-dialog.component.ts</context>
+          <context context-type="linenumber">23</context>
+        </context-group>
+        <note priority="1" from="description">Project Dialog Cancel Button</note>
+      </trans-unit>
+      <trans-unit id="projectDialogSaveBtn" datatype="html">
+        <source>Save</source>
+        <target>Speichern</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/project-modal/project-dialog.component.ts</context>
+          <context context-type="linenumber">25</context>
+        </context-group>
+        <note priority="1" from="description">Project Dialog Save Button</note>
+      </trans-unit>
+      <trans-unit id="projectsHeader" datatype="html">
+        <source>Projects</source>
+        <target>Projekte</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/projects/projects.component.ts</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+        <note priority="1" from="description">Projects Header</note>
+      </trans-unit>
+      <trans-unit id="projectsFilterPlaceholder" datatype="html">
+        <source>Filter projects</source>
+        <target>Projekte filtern</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/projects/projects.component.ts</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+        <note priority="1" from="description">Projects Filter Placeholder</note>
+      </trans-unit>
+      <trans-unit id="projectsInactiveCheckbox" datatype="html">
+        <source>inactive</source>
+        <target>Inaktiv</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/projects/projects.component.ts</context>
+          <context context-type="linenumber">22</context>
+        </context-group>
+        <note priority="1" from="description">Projects Inactive Checkbox Label</note>
+      </trans-unit>
+      <trans-unit id="projectsTableProjectNumber" datatype="html">
+        <source>Project Number</source>
+        <target>Projektnummer</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/projects/projects.component.ts</context>
+          <context context-type="linenumber">30</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/projects/projects.component.ts</context>
+          <context context-type="linenumber">33</context>
+        </context-group>
+        <note priority="1" from="description">Projects Table Project Number</note>
+      </trans-unit>
+      <trans-unit id="projectsTableProjectName" datatype="html">
+        <source>Project Name</source>
+        <target>Projektname</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/projects/projects.component.ts</context>
+          <context context-type="linenumber">41</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/projects/projects.component.ts</context>
+          <context context-type="linenumber">44</context>
+        </context-group>
+        <note priority="1" from="description">Projects Table Project Name</note>
+      </trans-unit>
+      <trans-unit id="projectsTableInactive" datatype="html">
+        <source>Inactive</source>
+        <target>Inaktiv</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/projects/projects.component.ts</context>
+          <context context-type="linenumber">52</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/projects/projects.component.ts</context>
+          <context context-type="linenumber">55</context>
+        </context-group>
+        <note priority="1" from="description">Projects Table Inactive</note>
+      </trans-unit>
+      <trans-unit id="authenticateLoginHeader" datatype="html">
+        <source>Login</source>
+        <target>Login</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/user/login/login.component.ts</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+        <note priority="1" from="description">Authenticate Login Header</note>
+      </trans-unit>
+      <trans-unit id="authenticateLoginEMailPlaceholder" datatype="html">
+        <source>E-MAIL</source>
+        <target>E-MAIL</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/user/login/login.component.ts</context>
+          <context context-type="linenumber">9</context>
+        </context-group>
+        <note priority="1" from="description">Uppercase!</note>
+        <note priority="1" from="meaning">Authenticate Login E-Mail Placeholder</note>
+      </trans-unit>
+      <trans-unit id="authenticateLoginPasswordPlaceholder" datatype="html">
+        <source>PASSWORD</source>
+        <target>PASSWORT</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/user/login/login.component.ts</context>
+          <context context-type="linenumber">17</context>
+        </context-group>
+        <note priority="1" from="description">Uppercase!</note>
+        <note priority="1" from="meaning">Authenticate Login Password Placeholder</note>
+      </trans-unit>
+      <trans-unit id="authenticateRequiredError" datatype="html">
+        <source>Required</source>
+        <target>Pflichtfeld</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/user/login/login.component.ts</context>
+          <context context-type="linenumber">19</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/user/register/register.component.ts</context>
+          <context context-type="linenumber">12</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/user/register/register.component.ts</context>
+          <context context-type="linenumber">19</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/user/register/register.component.ts</context>
+          <context context-type="linenumber">44</context>
+        </context-group>
+        <note priority="1" from="description">Authenticate Required Error!</note>
+      </trans-unit>
+      <trans-unit id="authenticateLoginBtn" datatype="html">
+        <source>Login</source>
+        <target>Login</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/user/login/login.component.ts</context>
+          <context context-type="linenumber">24</context>
+        </context-group>
+        <note priority="1" from="description">Authenticate Login Button</note>
+      </trans-unit>
+      <trans-unit id="authenticateForgotPasswordBtn" datatype="html">
+        <source>Forgot Password</source>
+        <target>Passwort vergessen</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/user/login/login.component.ts</context>
+          <context context-type="linenumber">27</context>
+        </context-group>
+        <note priority="1" from="description">Authenticate Login Forgot Password Button</note>
+      </trans-unit>
+      <trans-unit id="authenticateRegister" datatype="html">
+        <source>Register</source>
+        <target>Registrieren</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/user/register/register.component.ts</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/user/register/register.component.ts</context>
+          <context context-type="linenumber">57</context>
+        </context-group>
+        <note priority="1" from="description">Authenticate Register</note>
+      </trans-unit>
+      <trans-unit id="authenticateRegisterFirstNamePlaceholder" datatype="html">
+        <source>FIRST NAME</source>
+        <target>VORNAME</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/user/register/register.component.ts</context>
+          <context context-type="linenumber">11</context>
+        </context-group>
+        <note priority="1" from="description">Uppercase!</note>
+        <note priority="1" from="meaning">Authenticate Register FirstNamePlaceholder</note>
+      </trans-unit>
+      <trans-unit id="authenticateRegisterFamilyNamePlaceholder" datatype="html">
+        <source>FAMILY NAME</source>
+        <target>NACHNAME</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/user/register/register.component.ts</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+        <note priority="1" from="description">Uppercase!</note>
+        <note priority="1" from="meaning">Authenticate Register Family NamePlaceholder</note>
+      </trans-unit>
+      <trans-unit id="authenticateRegisterEMailPlaceholder" datatype="html">
+        <source>E-MAIL ADDRESS</source>
+        <target>E-MAIL ADRESSE</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/user/register/register.component.ts</context>
+          <context context-type="linenumber">25</context>
+        </context-group>
+        <note priority="1" from="description">Uppercase!</note>
+        <note priority="1" from="meaning">Authenticate Register E-Mail Placeholder</note>
+      </trans-unit>
+      <trans-unit id="authenticateRegisterPasswordPlaceholder" datatype="html">
+        <source>PASSWORD</source>
+        <target>PASSWORT</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/user/register/register.component.ts</context>
+          <context context-type="linenumber">34</context>
+        </context-group>
+        <note priority="1" from="description">Uppercase!</note>
+        <note priority="1" from="meaning">Authenticate Register PasswordPlaceholder</note>
+      </trans-unit>
+      <trans-unit id="authenticateRegisterRepeatPasswordPlaceholder" datatype="html">
+        <source>REPEAT PASSWORD</source>
+        <target>PASSWORT WIEDERHOLEN</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/user/register/register.component.ts</context>
+          <context context-type="linenumber">42</context>
+        </context-group>
+        <note priority="1" from="description">Uppercase!</note>
+        <note priority="1" from="meaning">Authenticate Register Repeat PasswordPlaceholder</note>
+      </trans-unit>
+      <trans-unit id="authenticateRegisterPWNoMatch" datatype="html">
+        <source>Password does not match</source>
+        <target>Passwörter sind nicht gleich</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/user/register/register.component.ts</context>
+          <context context-type="linenumber">46</context>
+        </context-group>
+        <note priority="1" from="description">Authenticate Register PW No match</note>
+      </trans-unit>
+      <trans-unit id="authenticateRegisterRegisterBtn" datatype="html">
+        <source>Register</source>
+        <target>Registrieren</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/user/register/register.component.ts</context>
+          <context context-type="linenumber">52</context>
+        </context-group>
+        <note priority="1" from="description">Authenticate Register Button</note>
+      </trans-unit>
+      <trans-unit id="authenticateRegisterE-MailSent" datatype="html">
+        <source>We have sent you an E-Mail with a verification link.</source>
+        <target>Wir haben eine E-Mail mit einem Bestätigungslink verschickt.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/user/register/register.component.ts</context>
+          <context context-type="linenumber">56</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="authenticateRegisterVerifyLink" datatype="html">
+        <source>Click the link to verify your E-Mail address.</source>
+        <target>Öffnen Sie den Link, um die E-Mail Adresse zu bestätigen.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/user/register/register.component.ts</context>
+          <context context-type="linenumber">57</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="authenticateWelcome" datatype="html">
+        <source>Welcome to Chronery!</source>
+        <target>Willkommen bei Chronery!</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/user/authenticate/authenticate.component.ts</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+        <note priority="1" from="description">Authenticate Welcome Message</note>
+      </trans-unit>
+      <trans-unit id="imprintHeader" datatype="html">
+        <source>Imprint</source>
+        <target>Impressum</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/imprint/imprint.component.ts</context>
+          <context context-type="linenumber">2</context>
+        </context-group>
+        <note priority="1" from="description">Settings Imprint Header</note>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

@@ -1,28 +1,31 @@
 <form [formGroup]="loginForm" (ngSubmit)="login()">
-    <mat-card>
-        <mat-card-header>
-            <mat-card-title>Login</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-            <mat-form-field>
-                <input matInput placeholder="E-MAIL" formControlName="email" autocomplete="off">
-                <mat-error *ngIf="email.invalid">
-                    {{ emailErrorMessage }}
-                </mat-error>
-            </mat-form-field>
-            <mat-form-field>
-                <input matInput placeholder="PASSWORD" formControlName="password" autocomplete="off"
-                       type="password">
-                <mat-error>Required</mat-error>
-            </mat-form-field>
-        </mat-card-content>
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title i18n="Authenticate Login Header@@authenticateLoginHeader">Login</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-form-field>
+        <input matInput i18n-placeholder="Authenticate Login E-Mail Placeholder|Uppercase!@@authenticateLoginEMailPlaceholder"
+               placeholder="E-MAIL"
+               formControlName="email" autocomplete="off">
+        <mat-error *ngIf="email.invalid">
+          {{ emailErrorMessage }}
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput i18n-placeholder="Authenticate Login Password Placeholder|Uppercase!@@authenticateLoginPasswordPlaceholder"
+               placeholder="PASSWORD" formControlName="password" autocomplete="off"
+               type="password">
+        <mat-error i18n="Authenticate Required Error!@@authenticateRequiredError">Required</mat-error>
+      </mat-form-field>
+    </mat-card-content>
 
-        <mat-card-actions>
-            <button mat-raised-button color="accent">Login</button>
-            <button mat-button color="warn" type="button" class="forgot-button" *ngIf="didLoginFail"
-                    (click)="forgotPassword()">Forgot
-                Password?
-            </button>
-        </mat-card-actions>
-    </mat-card>
+    <mat-card-actions>
+      <button mat-raised-button color="accent" i18n="Authenticate Login Button@@authenticateLoginBtn">Login</button>
+      <button mat-button color="warn" type="button" class="forgot-button" *ngIf="didLoginFail"
+              (click)="forgotPassword()">
+        <ng-container i18n="Authenticate Login Forgot Password Button@@authenticateForgotPasswordBtn">Forgot Password</ng-container>
+      </button>
+    </mat-card-actions>
+  </mat-card>
 </form>

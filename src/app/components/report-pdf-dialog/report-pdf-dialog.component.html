@@ -1,30 +1,34 @@
-<h2 mat-dialog-title>Download Report PDF</h2>
+<h2 mat-dialog-title i18n="Report PDF Header@@reportPDFHeader">Download Report PDF</h2>
 <mat-dialog-content>
-    <div fxLayout="column" class="options">
-        <mat-checkbox [(ngModel)]="showDate">Date</mat-checkbox>
-        <mat-checkbox [(ngModel)]="showProjectNumber">Project Number</mat-checkbox>
-        <mat-checkbox [(ngModel)]="showProjectName">Project Name</mat-checkbox>
-        <mat-checkbox [(ngModel)]="showComment">Comment</mat-checkbox>
-        <mat-checkbox [(ngModel)]="showFrom">From time</mat-checkbox>
-        <mat-checkbox [(ngModel)]="showTo">To time</mat-checkbox>
-        <mat-checkbox [(ngModel)]="showSpent">Hours</mat-checkbox>
-        <mat-form-field>
-            <mat-select placeholder="Time Format" [(value)]="decimalFormat">
-                <mat-option [value]="true">
-                    {{ "2.50" | number }} h
-                </mat-option>
-                <mat-option [value]="false">
-                    02:30 h
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
-        <!--<mat-checkbox [(ngModel)]="summarizeProjectsPerDay">-->
-        <!--Summarize projects per days-->
-        <!--</mat-checkbox>-->
-    </div>
+  <div fxLayout="column" class="options">
+    <mat-checkbox [(ngModel)]="showDate" i18n="Report PDF Date@@reportPDFDate">Date</mat-checkbox>
+    <mat-checkbox [(ngModel)]="showProjectNumber">
+      <ng-container i18n="Report PDF ProjectNumber@@reportPDFProjectNumber">Project Number</ng-container>
+    </mat-checkbox>
+    <mat-checkbox [(ngModel)]="showProjectName">
+      <ng-container i18n="Report PDF ProjectName@@reportPDFProjectName">Project Name</ng-container>
+    </mat-checkbox>
+    <mat-checkbox [(ngModel)]="showComment" i18n="Report PDF Comment@@reportPDFComment">Comment</mat-checkbox>
+    <mat-checkbox [(ngModel)]="showFrom" i18n="Report PDF From@@reportPDFFrom">From</mat-checkbox>
+    <mat-checkbox [(ngModel)]="showTo" i18n="Report PDF To@@reportPDFTo">To</mat-checkbox>
+    <mat-checkbox [(ngModel)]="showSpent" i18n="Report PDF Spent@@reportPDFSpent">Spent</mat-checkbox>
+    <mat-form-field>
+      <mat-select i18n-placeholder="Report PDF Time Format@@reportPDFTimeFormat" placeholder="Time Format" [(value)]="decimalFormat">
+        <mat-option [value]="true">
+          {{ "2.50" | number }} h
+        </mat-option>
+        <mat-option [value]="false">
+          02:30 h
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <!--<mat-checkbox [(ngModel)]="summarizeProjectsPerDay">-->
+    <!--Summarize projects per days-->
+    <!--</mat-checkbox>-->
+  </div>
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
-    <button mat-button mat-dialog-close>Cancel</button>
-    <button mat-raised-button color="primary" (click)="downloadPDF()">Download</button>
+  <button mat-button mat-dialog-close i18n="Report PDF Cancel@@reportPDFCancel">Cancel</button>
+  <button mat-raised-button color="primary" (click)="downloadPDF()" i18n="Report PDF Download@@reportPDFBtnDownload">Download</button>
 </mat-dialog-actions>

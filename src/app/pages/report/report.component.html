@@ -1,137 +1,157 @@
 <mat-toolbar color="primary" class="mat-elevation-z8">
-    <mat-progress-bar mode="indeterminate" color="accent" *ngIf="isLoading" class="top-loader"></mat-progress-bar>
-    Report
-    <span class="fill-remaining-space">
+  <mat-progress-bar mode="indeterminate" color="accent" *ngIf="isLoading" class="top-loader"></mat-progress-bar>
+  <ng-container i18n="Report Header|Header for Report page@@reportHeader">Report</ng-container>
+  <span class="fill-remaining-space">
     </span>
-    <button mat-button (click)="downloadPDF()">
-        Download PDF
-        <mat-icon>file_download</mat-icon>
-    </button>
-    <button mat-button (click)="exportReportToCSV()">
-        Export
-        <mat-icon>import_export</mat-icon>
-    </button>
+  <button mat-button (click)="downloadPDF()">
+    <ng-container i18n="Report Download PDF|Button for downloading PDF@@reportBtnDownloadPdf">Download PDF</ng-container>
+    <mat-icon>file_download</mat-icon>
+  </button>
+  <button mat-button (click)="exportReportToCSV()">
+    <ng-container i18n="Report Export|Button for exporting report data@@reportExport">Export</ng-container>
+    <mat-icon>import_export</mat-icon>
+  </button>
 </mat-toolbar>
 
 <div class="inner-sidenav-content">
-    <div class="mat-elevation-z5">
-        <div class="table-header" fxLayout.gt-xs="space-around row" fxLayout="column"
-             fxLayoutGap.xs="0">
+  <div class="mat-elevation-z5">
+    <div class="table-header" fxLayout.gt-xs="space-around row" fxLayout="column"
+         fxLayoutGap.xs="0">
 
-            <!-- Start date -->
-            <mat-form-field fxFlex.xs="100">
-                <input matInput [matDatepicker]="fromPicker" placeholder="Starts at"
-                       [max]="endDate" [(ngModel)]="startDate" autocomplete="off"
-                       (dateChange)="updateReport()" disabled class="dynamic-width">
-                <mat-datepicker-toggle matSuffix [for]="fromPicker"></mat-datepicker-toggle>
-                <mat-datepicker #fromPicker [startAt]="startDate" [touchUi]="isMobile" disabled="false">
-                </mat-datepicker>
-            </mat-form-field>
+      <!-- Start date -->
+      <mat-form-field fxFlex.xs="100">
+        <input matInput [matDatepicker]="fromPicker"
+               i18n-placeholder="Report Datepicker Start|Report datepicker for Start date@@reportPlaceholderStart" placeholder="Starts at"
+               [max]="endDate" [(ngModel)]="startDate" autocomplete="off"
+               (dateChange)="updateReport()" disabled class="dynamic-width">
+        <mat-datepicker-toggle matSuffix [for]="fromPicker"></mat-datepicker-toggle>
+        <mat-datepicker #fromPicker [startAt]="startDate" [touchUi]="isMobile" disabled="false">
+        </mat-datepicker>
+      </mat-form-field>
 
-            <!-- End date -->
-            <mat-form-field fxFlex.xs="100">
-                <input matInput [matDatepicker]="toPicker" placeholder="Ends at"
-                       [min]="startDate" [(ngModel)]="endDate" autocomplete="off"
-                       (dateChange)="updateReport()" disabled>
-                <mat-datepicker-toggle matSuffix [for]="toPicker"></mat-datepicker-toggle>
-                <mat-datepicker #toPicker [touchUi]="isMobile" disabled="false"></mat-datepicker>
-            </mat-form-field>
+      <!-- End date -->
+      <mat-form-field fxFlex.xs="100">
+        <input matInput [matDatepicker]="toPicker"
+               i18n-placeholder="Report Datepicker End|Report datepicker for End date@@reportPlaceholderEnd" placeholder="Ends at"
+               [min]="startDate" [(ngModel)]="endDate" autocomplete="off"
+               (dateChange)="updateReport()" disabled>
+        <mat-datepicker-toggle matSuffix [for]="toPicker"></mat-datepicker-toggle>
+        <mat-datepicker #toPicker [touchUi]="isMobile" disabled="false"></mat-datepicker>
+      </mat-form-field>
 
-            <!-- Project Autocomplete -->
-            <mat-form-field fxFlex.xs="100">
-                <input matInput placeholder="Project" [matAutocomplete]="auto" [formControl]="projectsCtrl"
-                       [(ngModel)]="selectedProject">
-                <mat-error>Required</mat-error>
-            </mat-form-field>
-            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn"
-                              (optionSelected)="updateProjectFilter()">
-                <mat-option *ngFor="let project of filteredProjects | async" [value]="project">
-                    <span>{{ project.name }}  <span *ngIf="project.number">|</span>  <small>{{ project.number }} </small></span>
-                </mat-option>
-            </mat-autocomplete>
-        </div>
-
-
-        <mat-table #table [dataSource]="dataSource" matSort>
-            <!-- Project number column -->
-            <ng-container matColumnDef="date">
-                <mat-header-cell *matHeaderCellDef mat-sort-header><strong>Date</strong></mat-header-cell>
-                <mat-cell *matCellDef="let row" fxLayout="row">
-                    <div fxHide.gt-sm fxFlex="50"><strong>Date</strong></div>
-                    <div fxFlex="50"><strong>{{row.date | encodedDate | date}}</strong></div>
-                </mat-cell>
-            </ng-container>
-
-            <!-- Project name column -->
-            <ng-container matColumnDef="from">
-                <mat-header-cell *matHeaderCellDef mat-sort-header>From</mat-header-cell>
-                <mat-cell *matCellDef="let row" fxLayout="row">
-                    <div fxHide.gt-sm fxFlex="50"><strong>From</strong></div>
-                    <div fxFlex="50">{{row.from}} h</div>
-                </mat-cell>
-            </ng-container>
-
-            <ng-container matColumnDef="to">
-                <mat-header-cell *matHeaderCellDef mat-sort-header>To</mat-header-cell>
-                <mat-cell *matCellDef="let row" fxLayout="row">
-                    <div fxHide.gt-sm fxFlex="50">
-                        <strong>To</strong>
-                    </div>
-                    <div fxFlex="50">{{row.to}} h</div>
-                </mat-cell>
-            </ng-container>
-
-            <ng-container matColumnDef="spent">
-                <mat-header-cell *matHeaderCellDef mat-sort-header><strong>Spent</strong></mat-header-cell>
-                <mat-cell *matCellDef="let row" fxLayout="row">
-                    <div fxHide.gt-sm fxFlex="50"><strong>Spent</strong></div>
-                    <div fxFlex="50"><strong>{{row.spent}} h</strong></div>
-                </mat-cell>
-            </ng-container>
-
-            <ng-container matColumnDef="projectNumber">
-                <mat-header-cell *matHeaderCellDef mat-sort-header>Project Number</mat-header-cell>
-                <mat-cell *matCellDef="let row" fxLayout="row">
-                    <div fxHide.gt-sm fxFlex="50"><strong>Project Number</strong></div>
-                    <div fxFlex="50">{{row.project.number}}</div>
-                </mat-cell>
-            </ng-container>
-
-            <ng-container matColumnDef="projectName">
-                <mat-header-cell *matHeaderCellDef mat-sort-header>Project Name</mat-header-cell>
-                <mat-cell *matCellDef="let row" fxLayout="row">
-                    <div fxHide.gt-sm fxFlex="50"><strong>Project Name</strong></div>
-                    <div fxFlex="50">{{row.project.name}}</div>
-                </mat-cell>
-            </ng-container>
-
-            <ng-container matColumnDef="comment">
-                <mat-header-cell *matHeaderCellDef mat-sort-header>Comment</mat-header-cell>
-                <mat-cell *matCellDef="let row" fxLayout="row">
-                    <div fxHide.gt-sm fxFlex="50"><strong>Comment</strong></div>
-                    <div fxFlex="50">{{row.comment}}</div>
-                </mat-cell>
-            </ng-container>
-
-            <mat-header-row *matHeaderRowDef="displayedColumns" fxHide.xs fxHide.sm></mat-header-row>
-            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-        </mat-table>
-
-        <mat-paginator #paginator
-                       [pageSize]="10"
-                       [pageSizeOptions]="[1, 5, 10, 25, 50]"
-                       [showFirstLastButtons]="false">
-        </mat-paginator>
-
-        <div class="table-footer" *ngIf="!isLoading && !totalSpent; else totalTime">
-            <span class="total-header">No times found for the selected period and project</span>
-        </div>
-
-        <ng-template #totalTime>
-            <div class="table-footer" *ngIf="totalSpent">
-                <span class="total-header">Total:</span>
-                <span class="total-hours">{{ totalSpent }} h</span>
-            </div>
-        </ng-template>
+      <!-- Project Autocomplete -->
+      <mat-form-field fxFlex.xs="100">
+        <input matInput placeholder="Project" [matAutocomplete]="auto" [formControl]="projectsCtrl"
+               i18n-placeholder="Report Project Autocomplete|Report project filter@@reportPlaceholderProject"
+               [(ngModel)]="selectedProject">
+        <mat-error>Required</mat-error>
+      </mat-form-field>
+      <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn"
+                        (optionSelected)="updateProjectFilter()">
+        <mat-option *ngFor="let project of filteredProjects | async" [value]="project">
+          <span>{{ project.name }}  <span *ngIf="project.number">|</span>  <small>{{ project.number }} </small></span>
+        </mat-option>
+      </mat-autocomplete>
     </div>
+
+    <mat-table #table [dataSource]="dataSource" matSort>
+      <!-- Project number column -->
+      <ng-container matColumnDef="date">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>
+          <strong i18n="Report Table Column Date@@reportTableHeaderDate">Date</strong>
+        </mat-header-cell>
+        <mat-cell *matCellDef="let row" fxLayout="row">
+          <div fxHide.gt-sm fxFlex="50"><strong i18n="Report Table Column Date@@reportTableHeaderDate">Date</strong></div>
+          <div fxFlex="50"><strong>{{row.date | encodedDate | date}}</strong></div>
+        </mat-cell>
+      </ng-container>
+
+      <!-- Project name column -->
+      <ng-container matColumnDef="from">
+        <mat-header-cell *matHeaderCellDef mat-sort-header i18n="Report Table Column From@@reportTableHeaderFrom">From</mat-header-cell>
+        <mat-cell *matCellDef="let row" fxLayout="row">
+          <div fxHide.gt-sm fxFlex="50"><strong i18n="Report Table Column From@@reportTableHeaderFrom">From</strong></div>
+          <div fxFlex="50">{{row.from}} h</div>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="to">
+        <mat-header-cell *matHeaderCellDef mat-sort-header i18n="Report Table Column To@@reportTableHeaderTo">To</mat-header-cell>
+        <mat-cell *matCellDef="let row" fxLayout="row">
+          <div fxHide.gt-sm fxFlex="50">
+            <strong i18n="Report Table Column To@@reportTableHeaderTo">To</strong>
+          </div>
+          <div fxFlex="50">{{row.to}} h</div>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="spent">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>
+          <strong i18n="Report Table Column Spent@@reportTableHeaderSpent">Spent</strong>
+        </mat-header-cell>
+        <mat-cell *matCellDef="let row" fxLayout="row">
+          <div fxHide.gt-sm fxFlex="50">
+            <strong i18n="Report Table Column Spent@@reportTableHeaderSpent">Spent</strong>
+          </div>
+          <div fxFlex="50"><strong>{{row.spent}} h</strong></div>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="projectNumber">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>
+          <ng-container i18n="Report Table Column ProjectNumber@@reportTableHeaderProjectNumber">Project Number</ng-container>
+        </mat-header-cell>
+        <mat-cell *matCellDef="let row" fxLayout="row">
+          <div fxHide.gt-sm fxFlex="50">
+            <strong i18n="Report Table Column ProjectNumber@@reportTableHeaderProjectNumber">Project Number</strong>
+          </div>
+          <div fxFlex="50">{{row.project.number}}</div>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="projectName">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>
+          <ng-container i18n="Report Table Column ProjectName@@reportTableHeaderProjectName">Project Name</ng-container>
+        </mat-header-cell>
+        <mat-cell *matCellDef="let row" fxLayout="row">
+          <div fxHide.gt-sm fxFlex="50">
+            <strong i18n="Report Table Column ProjectName@@reportTableHeaderProjectName">Project Name</strong>
+          </div>
+          <div fxFlex="50">{{row.project.name}}</div>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="comment">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>
+          <ng-container i18n="Report Table Column Comment@@reportTableHeaderComment">Comment</ng-container>
+        </mat-header-cell>
+        <mat-cell *matCellDef="let row" fxLayout="row">
+          <div fxHide.gt-sm fxFlex="50">
+            <strong i18n="Report Table Column Comment@@reportTableHeaderComment">Comment</strong>
+          </div>
+          <div fxFlex="50">{{row.comment}}</div>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns" fxHide.xs fxHide.sm></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+
+    <mat-paginator #paginator
+                   [pageSize]="10"
+                   [pageSizeOptions]="[1, 5, 10, 25, 50]"
+                   [showFirstLastButtons]="false">
+    </mat-paginator>
+
+    <div class="table-footer" *ngIf="!isLoading && !totalSpent; else totalTime">
+      <span class="total-header" i18n="Report Table No Data@@reportNoData">No times found for the selected period and project</span>
+    </div>
+
+    <ng-template #totalTime>
+      <div class="table-footer" *ngIf="totalSpent">
+        <span class="total-header" i18n="Report Total@@reportTotal">Total:</span>
+        <span class="total-hours">{{ totalSpent }} h</span>
+      </div>
+    </ng-template>
+  </div>
 </div>

@@ -1,62 +1,63 @@
 <mat-sidenav-container>
-    <mat-sidenav #subsidenav mode="{{sidenavMode}}">
-        <chy-sidenav-daypicker (daySelected)="checkSubsidenav()"></chy-sidenav-daypicker>
-    </mat-sidenav>
+  <mat-sidenav #subsidenav mode="{{sidenavMode}}">
+    <chy-sidenav-daypicker (daySelected)="checkSubsidenav()"></chy-sidenav-daypicker>
+  </mat-sidenav>
 
-    <div>
-        <mat-toolbar color="primary" class="mat-elevation-z8">
-            <mat-progress-bar mode="indeterminate" color="accent" *ngIf="isLoading"
-                              class="top-loader"></mat-progress-bar>
+  <div>
+    <mat-toolbar color="primary" class="mat-elevation-z8">
+      <mat-progress-bar mode="indeterminate" color="accent" *ngIf="isLoading"
+                        class="top-loader"></mat-progress-bar>
 
-            <button *ngIf="media.isActive('xs')" mat-icon-button type="button" (click)="subsidenav.open()">
-                <mat-icon>date_range</mat-icon>
-            </button>
-            Working Hours
-            <span class="fill-remaining-space">
-                <button mat-button class="btn-today" (click)="setActiveDateToToday()">
-                Today
-                <mat-icon>
-                    today
-                </mat-icon>
-            </button>
-            </span>
-            <!-- span is necessary because the browser doesn't show the tooltip when the button is disabled -->
-            <span class="btn-floating" matTooltip="You have an unfinished card open."
-                  [matTooltipPosition]="'left'" [matTooltipDisabled]="!newCard">
+      <button *ngIf="media.isActive('xs')" mat-icon-button type="button" (click)="subsidenav.open()">
+        <mat-icon>date_range</mat-icon>
+      </button>
+      <ng-container i18n="Working Hours Header|Header for Working Hours page@@workingHoursHeader">Working Hours</ng-container>
+      <span class="fill-remaining-space">
+        <button mat-button class="btn-today" (click)="setActiveDateToToday()">
+          <ng-container i18n="Today Button|Button to switch current date to today@@workingHoursBtnToday">Today</ng-container>
+          <mat-icon>
+            today
+          </mat-icon>
+        </button>
+      </span>
+      <!-- span is necessary because the browser doesn't show the tooltip when the button is disabled -->
+      <span class="btn-floating" i18n-matTooltip="WorkingHours Unfinished Card@@workingHoursTooltip"
+            matTooltip="You have an unfinished card open."
+            [matTooltipPosition]="'left'" [matTooltipDisabled]="!newCard">
                 <button mat-fab [disabled]="newCard" (click)="newWork()">
                     <mat-icon>add</mat-icon>
                 </button>
             </span>
-        </mat-toolbar>
-        <div class="inner-sidenav-content">
+    </mat-toolbar>
+    <div class="inner-sidenav-content">
 
-            <h2 class="title">
-                {{ date | date:'dd. MMMM yyyy' }}
-            </h2>
+      <h2 class="title">
+        {{ date | date:'dd. MMMM yyyy' }}
+      </h2>
 
-            <span *ngIf="works|| async">
-                    <span class="container" *ngIf="works.length; else noData">
-                        <chy-work-card *ngFor="let work of works"
-                                       [work]="work"
-                                       [projects]="projectsService.dataChange | async"
-                                       [comments]="commentsService.dataChange | async"
-                                       (saveWork)="saveWork(work)" (persistNewWork)="persistNewWork(work)"
-                                       (deleteWork)="deleteWork(work)"></chy-work-card>
-                    </span>
+      <span *ngIf="works|| async">
+        <span class="container" *ngIf="works.length; else noData">
+            <chy-work-card *ngFor="let work of works"
+                           [work]="work"
+                           [projects]="projectsService.dataChange | async"
+                           [comments]="commentsService.dataChange | async"
+                           (saveWork)="saveWork(work)" (persistNewWork)="persistNewWork(work)"
+                           (deleteWork)="deleteWork(work)"></chy-work-card>
+        </span>
 
-                    <ng-template #noData>
-                        <mat-card class="no-data">
-                            <mat-card-content>
-                                <button mat-button class="no-data-action" (click)="newWork()">
-                                    <mat-icon>
-                                        timelapse
-                                    </mat-icon>
-                                    <p>Add working hours for this day!</p>
-                                </button>
-                            </mat-card-content>
-                        </mat-card>
-                    </ng-template>
-                </span>
-        </div>
+        <ng-template #noData>
+            <mat-card class="no-data">
+                <mat-card-content>
+                    <button mat-button class="no-data-action" (click)="newWork()">
+                        <mat-icon>
+                            timelapse
+                        </mat-icon>
+                        <p i18n="Working Hours Add|Side Menu for navigating@@workingHoursAddTimes">Add working hours for this day!</p>
+                    </button>
+                </mat-card-content>
+            </mat-card>
+        </ng-template>
+    </span>
     </div>
+  </div>
 </mat-sidenav-container>

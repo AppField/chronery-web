@@ -1,23 +1,27 @@
 <form [formGroup]="projectForm">
-    <h2 mat-dialog-title>Project</h2>
-    <mat-dialog-content>
+  <h2 mat-dialog-title i18n="Project Dialog Header@@projectDialogHeader">Project</h2>
+  <mat-dialog-content>
 
-        <mat-form-field>
-            <input matInput placeholder="Number" formControlName="number" autocomplete="off">
-            <mat-error>Required</mat-error>
-        </mat-form-field>
+    <mat-form-field>
+      <input matInput i18n-placeholder="Project Dialog Number Placeholder@@projectDialogNumberPlaceholder" placeholder="Number"
+             formControlName="number"
+             autocomplete="off">
+      <mat-error i18n="Project Dialog Required Error@@projectDialogRequiredError">Required</mat-error>
+    </mat-form-field>
 
-        <mat-form-field>
-            <input matInput placeholder="Name" formControlName="name" autocomplete="off">
-            <mat-error>Required</mat-error>
-        </mat-form-field>
+    <mat-form-field>
+      <input matInput i18n-placeholder="Project Dialog Name Placeholder@@projectDialogNamePlaceholder" placeholder="Name"
+             formControlName="name"
+             autocomplete="off">
+      <mat-error i18n="Project Dialog Required Error@@projectDialogRequiredError">Required</mat-error>
+    </mat-form-field>
 
-        <mat-checkbox formControlName="inactive">Inactive</mat-checkbox>
-    </mat-dialog-content>
+    <mat-checkbox formControlName="inactive" i18n="Project Dialog Inactive@@projectDialogInactive">Inactive</mat-checkbox>
+  </mat-dialog-content>
 
-    <mat-dialog-actions>
-        <button mat-button mat-dialog-close>Cancel</button>
-        <!-- Can optionally provide a result for the closing dialog. -->
-        <button mat-button color="primary" (click)="saveProject()">Save</button>
-    </mat-dialog-actions>
+  <mat-dialog-actions>
+    <button mat-button mat-dialog-close i18n="Project Dialog Cancel Button@@projectDialogCancelBtn">Cancel</button>
+    <!-- Can optionally provide a result for the closing dialog. -->
+    <button mat-button color="primary" (click)="saveProject()" i18n="Project Dialog Save Button@@projectDialogSaveBtn">Save</button>
+  </mat-dialog-actions>
 </form>

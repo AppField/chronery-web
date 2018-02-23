@@ -1,76 +1,86 @@
 <mat-toolbar color="primary" class="mat-elevation-z8">
-    <mat-progress-bar mode="indeterminate" color="accent" *ngIf="isLoading" class="top-loader"></mat-progress-bar>
-    Settings
+  <mat-progress-bar mode="indeterminate" color="accent" *ngIf="isLoading" class="top-loader"></mat-progress-bar>
+  <ng-container i18n="Settings Header@@settingsHeader">Settings</ng-container>
 </mat-toolbar>
 
 <div class="inner-sidenav-content">
 
-    <mat-accordion>
-        <!-- PREDEFINED COMMENTS -->
-        <mat-expansion-panel hideToggle="true">
-            <mat-expansion-panel-header>
-                <mat-panel-title>
-                    Predefined comments
-                </mat-panel-title>
-                <mat-panel-description>
-                    Max. 5 comments
-                    <mat-icon>comment</mat-icon>
-                </mat-panel-description>
-            </mat-expansion-panel-header>
+  <mat-accordion>
+    <!-- PREDEFINED COMMENTS -->
+    <mat-expansion-panel hideToggle="true">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <ng-container i18n="Settings Predefined Comments@@settingsPredefinedComments">Predefined comments</ng-container>
+        </mat-panel-title>
+        <mat-panel-description>
+          <ng-container i18n="Settings Maximum Comments@@settingsMaxComments">Max. 5 comments</ng-container>
+          <mat-icon>comment</mat-icon>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
 
-            <mat-list class="comments-list">
-                <mat-list-item *ngFor="let comment of commentsService.dataChange| async" chyMaterialActive>
-                    <mat-form-field floatPlaceholder="never">
-                        <input matInput placeholder="Comment" [(ngModel)]="comment.comment"
-                               (blur)="updateComment(comment)"
-                               (keyup.enter)="updateComment(comment)" autocomplete="off"/>
-                    </mat-form-field>
-                    <button mat-icon-button (click)="deleteComment(comment)">
-                        <mat-icon>close</mat-icon>
-                    </button>
-                </mat-list-item>
-                <mat-list-item chyMaterialActive *ngIf="commentsService.data?.length < 5">
-                    <mat-form-field floatPlaceholder="never">
-                        <input matInput placeholder="New Comment" [(ngModel)]="newComment.comment"
-                               (blur)="createComment()"
-                               (keyup.enter)="createComment()" autocomplete="off"/>
-                    </mat-form-field>
-                </mat-list-item>
-            </mat-list>
-        </mat-expansion-panel>
+      <mat-list class="comments-list">
+        <mat-list-item *ngFor="let comment of commentsService.dataChange| async" chyMaterialActive>
+          <mat-form-field floatPlaceholder="never">
+            <input matInput i18n-placeholder="Settings CommentPlaceholder@@settingsCommentPlaceholder" placeholder="Comment"
+                   [(ngModel)]="comment.comment"
+                   (blur)="updateComment(comment)"
+                   (keyup.enter)="updateComment(comment)" autocomplete="off"/>
+          </mat-form-field>
+          <button mat-icon-button (click)="deleteComment(comment)">
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-list-item>
+        <mat-list-item chyMaterialActive *ngIf="commentsService.data?.length < 5">
+          <mat-form-field floatPlaceholder="never">
+            <input matInput i18n-placeholder="Settings New Comment Placeholder@@settingsNewCommentPlaceholder" placeholder="New Comment"
+                   [(ngModel)]="newComment.comment"
+                   (blur)="createComment()"
+                   (keyup.enter)="createComment()" autocomplete="off"/>
+          </mat-form-field>
+        </mat-list-item>
+      </mat-list>
+    </mat-expansion-panel>
 
-        <!-- ACCOUNT -->
-        <mat-expansion-panel hideToggle="true">
-            <mat-expansion-panel-header>
-                <mat-panel-title>
-                    Account
-                </mat-panel-title>
-                <mat-panel-description>
-                    Inspect your data
-                    <mat-icon>account_circle</mat-icon>
-                </mat-panel-description>
-            </mat-expansion-panel-header>
+    <!-- ACCOUNT -->
+    <mat-expansion-panel hideToggle="true">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <ng-container i18n="Settings User Account@@settingsUserAccount">User Account</ng-container>
+        </mat-panel-title>
+        <mat-panel-description>
+          <ng-container i18n="Settings InspectAccountData@@settingsInspectAccountData">Inspect your data</ng-container>
+          <mat-icon>account_circle</mat-icon>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
 
-            <form [formGroup]="accountForm">
-                <mat-form-field>
-                    <input matInput placeholder="First Name" formControlName="given_name" autocomplete="off" readonly>
-                    <mat-error>Required</mat-error>
-                </mat-form-field>
+      <form [formGroup]="accountForm">
+        <mat-form-field>
+          <input matInput i18n-placeholder="Settings First Name Placeholder@@settingsFirstNamePlaceholder" placeholder="First Name"
+                 formControlName="given_name" autocomplete="off" readonly>
+          <mat-error i18n="Settings Required Error@@settingsRequiredError">Required</mat-error>
+        </mat-form-field>
 
-                <mat-form-field>
-                    <input matInput placeholder="Name" formControlName="family_name" autocomplete="off" readonly>
-                    <mat-error>Required</mat-error>
-                </mat-form-field>
+        <mat-form-field>
+          <input matInput i18n="Settings Family Name Placeholder@@settingsFamilyNamePlaceholder" placeholder="Name"
+                 formControlName="family_name" autocomplete="off" readonly>
+          <mat-error i18n="Settings Required Error@@settingsRequiredError">Required</mat-error>
+        </mat-form-field>
 
-                <mat-form-field>
-                    <input matInput placeholder="E-Mail Address" formControlName="email" autocomplete="off" readonly>
-                </mat-form-field>
-            </form>
+        <mat-form-field>
+          <input matInput i18n-placeholder="Settings E-Mail placeholder@@settingsEMailPlaceholder" placeholder="E-Mail Address"
+                 formControlName="email"
+                 autocomplete="off" readonly>
+        </mat-form-field>
+      </form>
 
-            <mat-action-row>
-                <button mat-button color="warn" (click)="deleteAccount()">Delete my account</button>
-                <button mat-button color="primary" (click)="logout()">Logout</button>
-            </mat-action-row>
-        </mat-expansion-panel>
-    </mat-accordion>
+      <mat-action-row>
+        <button mat-button color="warn" (click)="deleteAccount()">
+          <ng-container i18n="Settings Delete Account Button@@settingsDeleteAccountBtn">Delete account</ng-container>
+        </button>
+        <button mat-button color="primary" (click)="logout()">
+          <ng-container i18n="Settings Logout Button@@settingsLogoutBtn">Logout</ng-container>
+        </button>
+      </mat-action-row>
+    </mat-expansion-panel>
+  </mat-accordion>
 </div>

@@ -1,54 +1,54 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material';
-import { CustomValidators } from '../../utils/custom-validators';
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {MatDialogRef} from '@angular/material';
+import {CustomValidators} from '../../utils/custom-validators';
 
 @Component({
-	selector: 'chy-forgot-password-dialog',
-	templateUrl: './forgot-password-dialog.component.html',
-	styleUrls: ['./forgot-password-dialog.component.css']
+  selector: 'chy-forgot-password-dialog',
+  templateUrl: './forgot-password-dialog.component.html',
+  styleUrls: ['./forgot-password-dialog.component.css']
 })
 export class ForgotPasswordDialogComponent implements OnInit {
-	forgotPasswordForm: FormGroup;
+  forgotPasswordForm: FormGroup;
 
-	static matchPasswordValidator(control: FormControl): any {
-		if (control.parent) {
-			const password = control.parent.controls['password'].value;
-			const repeatPassword = control.value;
-			return password === repeatPassword ? true : {mismatch: true};
-		}
-		return null;
-	}
+  // order matters
+  constructor(public fb: FormBuilder,
+              public dialogRef: MatDialogRef<ForgotPasswordDialogComponent>) {
+  }
 
-	// order matters
-	constructor(public fb: FormBuilder,
-				public dialogRef: MatDialogRef<ForgotPasswordDialogComponent>) {
-	}
+  get isPasswordMismatch(): boolean {
+    return this.forgotPasswordForm.controls['repeatPassword'].hasError('mismatch');
+  }
 
-	ngOnInit() {
-		this.forgotPasswordForm = this.fb.group({
-			code: ['', [Validators.required]],
-			password: ['', [Validators.required, CustomValidators.hasLengthEight, CustomValidators.containsNumbersValidator, CustomValidators.containsUpperValidator, CustomValidators.containsLowerValidator]],
-			repeatPassword: ['', [Validators.required, CustomValidators.matchPasswordValidator]]
-		});
-	}
+  get getPasswordErrorMessage(): string {
+    return CustomValidators.getPasswordErrorMessage(this.forgotPasswordForm.controls['password']);
+  }
 
-	resetPassword() {
-		const code = this.forgotPasswordForm.controls['code'].value;
-		const password = this.forgotPasswordForm.controls['password'].value;
+  static matchPasswordValidator(control: FormControl): any {
+    if (control.parent) {
+      const password = control.parent.controls['password'].value;
+      const repeatPassword = control.value;
+      return password === repeatPassword ? true : {mismatch: true};
+    }
+    return null;
+  }
 
-		this.dialogRef.close({
-			code,
-			password
-		});
-	}
+  ngOnInit() {
+    this.forgotPasswordForm = this.fb.group({
+      code: ['', [Validators.required]],
+      password: ['', [Validators.required, CustomValidators.hasLengthEight, CustomValidators.containsNumbersValidator, CustomValidators.containsUpperValidator, CustomValidators.containsLowerValidator]],
+      repeatPassword: ['', [Validators.required, CustomValidators.matchPasswordValidator]]
+    });
+  }
 
-	get isPasswordMismatch(): boolean {
-		return this.forgotPasswordForm.controls['repeatPassword'].hasError('mismatch');
-	}
+  resetPassword() {
+    const code = this.forgotPasswordForm.controls['code'].value;
+    const password = this.forgotPasswordForm.controls['password'].value;
 
-	get getPasswordErrorMessage(): string {
-		return CustomValidators.getPasswordErrorMessage(this.forgotPasswordForm.controls['password']);
-	}
+    this.dialogRef.close({
+      code,
+      password
+    });
+  }
 
 }

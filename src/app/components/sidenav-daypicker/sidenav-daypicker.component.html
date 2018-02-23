@@ -1,20 +1,22 @@
 <mat-toolbar>
-    <button mat-button id="btnMonthYear" (click)="openMonthYearDialog()" color="primary">
-        {{monthYear | date:'MMMM yyyy'}}
-    </button>
+  <button mat-button id="btnMonthYear" (click)="openMonthYearDialog()" color="primary">
+    {{monthYear | date:'MMMM yyyy'}}
+  </button>
 </mat-toolbar>
 
 <div class="inner-sidenav-content subsidenav">
-    <mat-nav-list>
-        <span *ngFor="let day of days; index as i" #dayList>
-            <a mat-list-item
-               (click)="onDaySelect(day.date); activeLinkIndex = i"
-               [ngClass]="{'active': activeLinkIndex === i}">
-                <h4 mat-line>{{ day.date | date:'EEEE dd.' }}</h4>
-                <p mat-line *ngIf="day.projects.length"><span>Projects: {{day.projects.length}}</span> | <span>Hours: {{day.totalTime}}</span></p>
-
-            </a>
-            <mat-divider></mat-divider>
-        </span>
-    </mat-nav-list>
+  <mat-nav-list>
+    <span *ngFor="let day of days; index as i" #dayList>
+      <a mat-list-item
+         (click)="onDaySelect(day.date); activeLinkIndex = i"
+         [ngClass]="{'active': activeLinkIndex === i}">
+        <h4 mat-line>{{ day.date | date:'EEEE dd.' }}</h4>
+        <p mat-line *ngIf="day.projects.length">
+          <span><ng-container i18n="Daypicker Projects@@daypickerProjects">Projects:</ng-container> {{day.projects.length}}</span> |
+          <span><ng-container i18n="Daypicker hours@@daypickerHours">Hours:</ng-container> {{day.totalTime}}</span>
+        </p>
+      </a>
+      <mat-divider></mat-divider>
+    </span>
+  </mat-nav-list>
 </div>

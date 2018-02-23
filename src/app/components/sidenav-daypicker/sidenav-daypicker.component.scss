@@ -1,26 +1,23 @@
 @import '../../../chy-theme';
 
-:host {
+.mat-toolbar {
+  background-color: $subsidenav-bg;
+  box-shadow: none;
+}
 
-  .mat-toolbar {
-    background-color: $subsidenav-bg;
-    box-shadow: none;
+#btnMonthYear {
+  width: 100%;
+}
+
+.mat-nav-list {
+  padding-top: 0;
+
+  .mat-list-item {
+    transition: color 0.3s;
+    color: $sidenav-text;
   }
-
-  #btnMonthYear {
-    width: 100%;
-  }
-
-  .mat-nav-list {
-    padding-top: 0;
-
-    .mat-list-item {
-      transition: color 0.3s;
-      color: $sidenav-text;
-    }
-    .mat-list-item.active {
-      color: mat-color($primary);
-    }
+  .mat-list-item.active {
+    color: mat-color($primary);
   }
 }
 

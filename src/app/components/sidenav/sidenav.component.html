@@ -1,50 +1,56 @@
 <mat-sidenav-container #sidenavContainer autosize>
-    <!--<mat-sidenav mode="side" opened="true" class="chy-sidenav" [@sidenavState]="state">-->
-    <mat-sidenav mode="side" opened="true" class="chy-sidenav">
-        <mat-toolbar>
-            <span *ngIf="!isMobile; else menuButton">Chronery</span>
-            <ng-template #menuButton>
-                <button mat-icon-button (click)="toggleCollapse()">
-                    <mat-icon>menu</mat-icon>
-                </button>
-            </ng-template>
-        </mat-toolbar>
-        <mat-nav-list>
-            <a mat-list-item routerLink="/dashboard" routerLinkActive="active"
-               (click)="recollapseNav()">
-                <mat-icon mat-list-icon>dashboard</mat-icon>
-                <span class="sidenav-label" [@menuState]="state">Dashboard</span>
-            </a>
-            <a mat-list-item routerLink="/working-hours/" routerLinkActive="active"
-               (click)="recollapseNav()">
-                <mat-icon mat-list-icon>timer</mat-icon>
-                <span class="sidenav-label" [@menuState]="state">Working Hours</span>
-            </a>
-            <a mat-list-item routerLink="/report" routerLinkActive="active"
-               (click)="recollapseNav()">
-                <mat-icon mat-list-icon>business</mat-icon>
-                <span class="sidenav-label" [@menuState]="state">Report</span>
-            </a>
-            <a mat-list-item routerLink="/projects" routerLinkActive="active"
-               (click)="recollapseNav()">
-                <mat-icon mat-list-icon>work</mat-icon>
-                <span class="sidenav-label" [@menuState]="state">Projects</span>
-            </a>
-            <a mat-list-item routerLink="/settings" routerLinkActive="active"
-               (click)="recollapseNav()">
-                <mat-icon mat-list-icon>settings</mat-icon>
-                <span class="sidenav-label" [@menuState]="state">Settings</span>
-            </a>
-        </mat-nav-list>
+  <!--<mat-sidenav mode="side" opened="true" class="chy-sidenav" [@sidenavState]="state">-->
+  <mat-sidenav mode="side" opened="true" class="chy-sidenav">
+    <mat-toolbar>
+      <span *ngIf="!isMobile; else menuButton">Chronery</span>
+      <ng-template #menuButton>
+        <button mat-icon-button (click)="toggleCollapse()">
+          <mat-icon>menu</mat-icon>
+        </button>
+      </ng-template>
+    </mat-toolbar>
+    <mat-nav-list>
+      <a mat-list-item routerLink="/dashboard" routerLinkActive="active"
+         (click)="recollapseNav()">
+        <mat-icon mat-list-icon>dashboard</mat-icon>
+        <span class="sidenav-label" [@menuState]="state">Dashboard</span>
+      </a>
+      <a mat-list-item routerLink="/working-hours/" routerLinkActive="active"
+         (click)="recollapseNav()">
+        <mat-icon mat-list-icon>timer</mat-icon>
+        <span class="sidenav-label" [@menuState]="state"
+              i18n="Nav Item Working Hours|Side Menu for navigating@@navWorkingHours">Working Hours</span>
+      </a>
+      <a mat-list-item routerLink="/report" routerLinkActive="active"
+         (click)="recollapseNav()">
+        <mat-icon mat-list-icon>business</mat-icon>
+        <span class="sidenav-label" [@menuState]="state"
+              i18n="Nav Item Report|Side Menu for navigating@@navReport">Report</span>
+      </a>
+      <a mat-list-item routerLink="/projects" routerLinkActive="active"
+         (click)="recollapseNav()">
+        <mat-icon mat-list-icon>work</mat-icon>
+        <span class="sidenav-label" [@menuState]="state"
+              i18n="Nav Item Projects|Side Menu for navigating@@navProjects">Projects</span>
+      </a>
+      <a mat-list-item routerLink="/settings" routerLinkActive="active"
+         (click)="recollapseNav()">
+        <mat-icon mat-list-icon>settings</mat-icon>
+        <span class="sidenav-label" [@menuState]="state"
+              i18n="Nav Item Settings|Side Menu for navigating@@navSettings">Settings</span>
+      </a>
+    </mat-nav-list>
 
-        <div class="bottom-container">
-            <div class="version">
-                <a routerLink="/imprint" matTooltip="Imprint">
-                    <mat-icon>info</mat-icon>
-                </a>
-            </div>
-        </div>
-    </mat-sidenav>
+    <div class="bottom-container">
+      <div class="version">
+        <a routerLink="/imprint"
+           i18n-matTooltip="Imprint Tooltip|Shown when hovering over the imprint icon@@imprintTooltip"
+           matTooltip="Imprint">
+          <mat-icon>info</mat-icon>
+        </a>
+      </div>
+    </div>
+  </mat-sidenav>
 
-    <router-outlet></router-outlet>
+  <router-outlet></router-outlet>
 </mat-sidenav-container>
