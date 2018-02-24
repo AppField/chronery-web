@@ -14,6 +14,7 @@ import 'rxjs/add/operator/takeUntil';
 import { ReportPdfDialogComponent } from '../../components/report-pdf-dialog/report-pdf-dialog.component';
 import { MatDialog, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { Moment } from 'moment';
+import { _isNumberValue } from '@angular/cdk/coercion';
 
 
 @Component({
@@ -31,8 +32,8 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
   projectsCtrl: FormControl;
   totalSpent: string = null;
   isLoading = false;
-  dataSource = new MatTableDataSource<WorkingHours>();
-  displayedColumns = ['date', 'from', 'to', 'spent', 'projectNumber', 'projectName', 'comment'];
+  dataSource = new NestedObjectsDataSource();
+  displayedColumns = ['date', 'from', 'to', 'spent', 'project.number', 'project.name', 'comment'];
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   private destroy$: Subject<boolean> = new Subject<boolean>();
@@ -142,6 +143,25 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnDestroy() {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
+  }
+}
+
+export class NestedObjectsDataSource extends MatTableDataSource<WorkingHours> {
+
+  sortingDataAccessor: ((data: WorkingHours, sortHeaderId: string) => string | number) =
+    (data: WorkingHours, sortHeaderId: string): string | number => {
+      let value = null;
+      if (sortHeaderId.indexOf('.') !== -1) {
+        const ids = sortHeaderId.split('.');
+        value = data[ids[0]][ids[1]];
+      } else {
+        value = data[sortHeaderId];
+      }
+      return _isNumberValue(value) ? Number(value) : value;
+    }
+
+  constructor() {
+    super();
   }
 }
 
