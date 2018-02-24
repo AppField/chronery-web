@@ -20,8 +20,8 @@ export class ForgotPasswordDialogComponent implements OnInit {
     return this.forgotPasswordForm.controls['repeatPassword'].hasError('mismatch');
   }
 
-  get getPasswordErrorMessage(): string {
-    return CustomValidators.getPasswordErrorMessage(this.forgotPasswordForm.controls['password']);
+  get getPasswordErrorState(): number {
+    return CustomValidators.getPasswordErrorState(this.forgotPasswordForm.controls['password']);
   }
 
   static matchPasswordValidator(control: FormControl): any {

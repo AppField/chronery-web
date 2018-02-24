@@ -1,66 +1,65 @@
-import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from '../auth.service';
-import { CustomValidators } from '../../utils/custom-validators';
+import {Component, OnInit} from '@angular/core';
+import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {AuthService} from '../auth.service';
+import {CustomValidators} from '../../utils/custom-validators';
 
 @Component({
-	selector: 'chy-register',
-	templateUrl: './register.component.html',
-	styleUrls: ['./register.component.scss']
+  selector: 'chy-register',
+  templateUrl: './register.component.html',
+  styleUrls: ['./register.component.scss']
 })
 
 
 export class RegisterComponent implements OnInit {
-	registerForm: FormGroup;
-	email: AbstractControl;
-	signupSent = false;
-	justRegisted = false;
+  registerForm: FormGroup;
+  email: AbstractControl;
+  signupSent = false;
+  justRegisted = false;
 
+  constructor(public fb: FormBuilder, private authService: AuthService) {
+  }
 
-	constructor(public fb: FormBuilder, private authService: AuthService) {
-	}
+  get emailErrorMessage(): string {
+    return this.email.hasError('required') ? 'Please enter your E-Mail Address' :
+      this.email.hasError('email') ? 'Not a valid email' : '';
+  }
 
-	ngOnInit() {
-		// Setup Form
-		this.registerForm = this.fb.group({
-			given_name: ['', [Validators.required]],
-			family_name: ['', [Validators.required]],
-			email: ['', [Validators.required, Validators.email]],
-			password: ['', [Validators.required, CustomValidators.hasLengthEight, CustomValidators.containsNumbersValidator, CustomValidators.containsUpperValidator, CustomValidators.containsLowerValidator]],
-			repeatPassword: ['', [Validators.required, CustomValidators.matchPasswordValidator]]
-		});
+  get isPasswordMismatch(): boolean {
+    return this.registerForm.controls['repeatPassword'].hasError('mismatch');
+  }
 
-		this.email = this.registerForm.controls['email'];
-	}
+  get getPasswordErrorState(): number {
+    return CustomValidators.getPasswordErrorState(this.registerForm.controls['password']);
+  }
 
-	register(): void {
-		if (this.registerForm.valid) {
-			const givenName = this.registerForm.controls['given_name'].value;
-			const family_name = this.registerForm.controls['family_name'].value;
-			const email = this.registerForm.controls['email'].value.toLowerCase();
-			const password = this.registerForm.controls['password'].value;
+  ngOnInit() {
+    // Setup Form
+    this.registerForm = this.fb.group({
+      given_name: ['', [Validators.required]],
+      family_name: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, CustomValidators.hasLengthEight, CustomValidators.containsNumbersValidator, CustomValidators.containsUpperValidator, CustomValidators.containsLowerValidator]],
+      repeatPassword: ['', [Validators.required, CustomValidators.matchPasswordValidator]]
+    });
 
-			this.authService.signUp(givenName, family_name, email, password)
-				.then((result) => {
-					this.justRegisted = true;
-				})
-				.catch((error) => {
-					console.log(error)
-				});
-			this.signupSent = true;
-		}
-	}
+    this.email = this.registerForm.controls['email'];
+  }
 
-	get emailErrorMessage(): string {
-		return this.email.hasError('required') ? 'Please enter your E-Mail Address' :
-			this.email.hasError('email') ? 'Not a valid email' : '';
-	}
+  register(): void {
+    if (this.registerForm.valid) {
+      const givenName = this.registerForm.controls['given_name'].value;
+      const family_name = this.registerForm.controls['family_name'].value;
+      const email = this.registerForm.controls['email'].value.toLowerCase();
+      const password = this.registerForm.controls['password'].value;
 
-	get isPasswordMismatch(): boolean {
-		return this.registerForm.controls['repeatPassword'].hasError('mismatch');
-	}
-
-	get getPasswordErrorMessage(): string {
-		return CustomValidators.getPasswordErrorMessage(this.registerForm.controls['password']);
-	}
+      this.authService.signUp(givenName, family_name, email, password)
+        .then((result) => {
+          this.justRegisted = true;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      this.signupSent = true;
+    }
+  }
 }

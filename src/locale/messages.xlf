@@ -42,7 +42,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">app/components/forgot-password-dialog/forgot-password-dialog.component.ts</context>
-          <context context-type="linenumber">28</context>
+          <context context-type="linenumber">32</context>
         </context-group>
         <note priority="1" from="description">Reset Password Required Error</note>
       </trans-unit>
@@ -54,11 +54,66 @@
         </context-group>
         <note priority="1" from="description">Reset Password New Password Placeholder</note>
       </trans-unit>
+      <trans-unit id="passwordValidatorRequired" datatype="html">
+        <source>Required</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/forgot-password-dialog/forgot-password-dialog.component.ts</context>
+          <context context-type="linenumber">21</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/user/register/register.component.ts</context>
+          <context context-type="linenumber">36</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="passwordValidatorOneNumber" datatype="html">
+        <source>One number is required</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/forgot-password-dialog/forgot-password-dialog.component.ts</context>
+          <context context-type="linenumber">22</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/user/register/register.component.ts</context>
+          <context context-type="linenumber">37</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="passwordValidatorOneUpper" datatype="html">
+        <source>One upper letter is required</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/forgot-password-dialog/forgot-password-dialog.component.ts</context>
+          <context context-type="linenumber">23</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/user/register/register.component.ts</context>
+          <context context-type="linenumber">38</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="passwordValidatorOneLower" datatype="html">
+        <source>One lower letter is required</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/forgot-password-dialog/forgot-password-dialog.component.ts</context>
+          <context context-type="linenumber">24</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/user/register/register.component.ts</context>
+          <context context-type="linenumber">39</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="passwordValidatorMinimum8Chars" datatype="html">
+        <source>Minimum 8 characters are required</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/forgot-password-dialog/forgot-password-dialog.component.ts</context>
+          <context context-type="linenumber">25</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/user/register/register.component.ts</context>
+          <context context-type="linenumber">40</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="resetPasswordNoMatch" datatype="html">
         <source>Password does not match</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/components/forgot-password-dialog/forgot-password-dialog.component.ts</context>
-          <context context-type="linenumber">29</context>
+          <context context-type="linenumber">33</context>
         </context-group>
         <note priority="1" from="description">Reset Password No match</note>
       </trans-unit>
@@ -66,7 +121,7 @@
         <source>Cancel</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/components/forgot-password-dialog/forgot-password-dialog.component.ts</context>
-          <context context-type="linenumber">35</context>
+          <context context-type="linenumber">39</context>
         </context-group>
         <note priority="1" from="description">Reset Password Cancel Button</note>
       </trans-unit>
@@ -74,7 +129,7 @@
         <source>Reset my Password!</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/components/forgot-password-dialog/forgot-password-dialog.component.ts</context>
-          <context context-type="linenumber">38</context>
+          <context context-type="linenumber">42</context>
         </context-group>
         <note priority="1" from="description">Reset Password Reset Button</note>
       </trans-unit>
@@ -804,7 +859,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">app/user/register/register.component.ts</context>
-          <context context-type="linenumber">44</context>
+          <context context-type="linenumber">48</context>
         </context-group>
         <note priority="1" from="description">Authenticate Required Error!</note>
       </trans-unit>
@@ -872,7 +927,7 @@
         <source>REPEAT PASSWORD</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/user/register/register.component.ts</context>
-          <context context-type="linenumber">42</context>
+          <context context-type="linenumber">46</context>
         </context-group>
         <note priority="1" from="description">Uppercase!</note>
         <note priority="1" from="meaning">Authenticate Register Repeat PasswordPlaceholder</note>
@@ -881,7 +936,7 @@
         <source>Password does not match</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/user/register/register.component.ts</context>
-          <context context-type="linenumber">46</context>
+          <context context-type="linenumber">50</context>
         </context-group>
         <note priority="1" from="description">Authenticate Register PW No match</note>
       </trans-unit>
@@ -889,7 +944,7 @@
         <source>Register</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/user/register/register.component.ts</context>
-          <context context-type="linenumber">52</context>
+          <context context-type="linenumber">56</context>
         </context-group>
         <note priority="1" from="description">Authenticate Register Button</note>
       </trans-unit>
@@ -897,14 +952,14 @@
         <source>We have sent you an E-Mail with a verification link.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/user/register/register.component.ts</context>
-          <context context-type="linenumber">56</context>
+          <context context-type="linenumber">60</context>
         </context-group>
       </trans-unit>
       <trans-unit id="authenticateRegisterVerifyLink" datatype="html">
         <source>Click the link to verify your E-Mail address.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/user/register/register.component.ts</context>
-          <context context-type="linenumber">57</context>
+          <context context-type="linenumber">61</context>
         </context-group>
       </trans-unit>
       <trans-unit id="authenticateWelcome" datatype="html">

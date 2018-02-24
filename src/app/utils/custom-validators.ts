@@ -29,22 +29,27 @@ export class CustomValidators {
     return (new RegExp('[a-z]{1,}').test(control.value)) ? true : {missingLower: true};
   }
 
-  static getPasswordErrorMessage(control: AbstractControl): string {
+  static getPasswordErrorState(control: AbstractControl): number {
     const mismatchLength = control.hasError('mismatchLength');
     const missingNumber = control.hasError('missingNumber');
     const missingUpper = control.hasError('missingUpper');
     const missingLower = control.hasError('missingLower');
 
     if (missingNumber && missingUpper && missingLower && mismatchLength) {
-      return 'Required';
+      // 'Required';
+      return 1;
     } else if (missingNumber) {
-      return 'One number is required';
+      // 'One number is required';
+      return 2;
     } else if (missingUpper) {
-      return 'One upper letter is required';
+      // 'One upper letter is required';
+      return 3;
     } else if (missingLower) {
-      return 'One lower letter is required';
+      // 'One lower letter is required';
+      return 4;
     } else if (mismatchLength) {
-      return 'Minimum 8 characters are required';
+      // 'Minimum 8 characters are required';
+      return 5;
     }
   }
 }

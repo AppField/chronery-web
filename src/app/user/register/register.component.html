@@ -33,7 +33,11 @@
         <input i18n-placeholder="Authenticate Register PasswordPlaceholder|Uppercase!@@authenticateRegisterPasswordPlaceholder"
                matInput placeholder="PASSWORD" formControlName="password" autocomplete="off"
                type="password">
-        <mat-error>{{getPasswordErrorMessage}}</mat-error>
+        <mat-error *ngIf="getPasswordErrorState == 1" i18n="@@passwordValidatorRequired">Required</mat-error>
+        <mat-error *ngIf="getPasswordErrorState == 2" i18n="@@passwordValidatorOneNumber">One number is required</mat-error>
+        <mat-error *ngIf="getPasswordErrorState == 3" i18n="@@passwordValidatorOneUpper">One upper letter is required</mat-error>
+        <mat-error *ngIf="getPasswordErrorState == 4" i18n="@@passwordValidatorOneLower">One lower letter is required</mat-error>
+        <mat-error *ngIf="getPasswordErrorState == 5" i18n="@@passwordValidatorMinimum8Chars">Minimum 8 characters are required</mat-error>
       </mat-form-field>
 
       <!-- Repeat Password -->
