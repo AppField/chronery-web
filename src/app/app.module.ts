@@ -41,6 +41,7 @@ import { ReportPdfDialogComponent } from './components/report-pdf-dialog/report-
 import { MaterialModule } from './material.module';
 import { DatePipe, DecimalPipe } from '@angular/common';
 import { TranslatePipe } from './pipes/translate/translate.pipe';
+import { MatPaginatorIntl } from '@angular/material';
 
 @NgModule({
   declarations: [

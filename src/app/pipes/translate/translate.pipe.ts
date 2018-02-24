@@ -97,6 +97,27 @@ export class TranslatePipe implements PipeTransform {
           default:
             return 'Report';
         }
+      case 'itemsPerPageLabel':
+        switch (this.lang) {
+          case 'de':
+            return 'Einträge pro Seite';
+          default:
+            return 'Items per page';
+        }
+      case 'nextPageLabel':
+        switch (this.lang) {
+          case 'de':
+            return 'Nächste Seite';
+          default:
+            return 'Next page';
+        }
+      case 'previousPageLabel':
+        switch (this.lang) {
+          case 'de':
+            return 'Vorherige Seite';
+          default:
+            return 'Previous page';
+        }
       default:
         return textId;
     }
