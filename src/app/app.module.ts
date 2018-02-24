@@ -39,60 +39,63 @@ import { WindowRef } from './services/window-ref/window-ref.service';
 import { RequestInterceptor } from './utils/request-interceptor';
 import { ReportPdfDialogComponent } from './components/report-pdf-dialog/report-pdf-dialog.component';
 import { MaterialModule } from './material.module';
-import { DatePipe, DecimalPipe } from "@angular/common";
+import { DatePipe, DecimalPipe } from '@angular/common';
+import { TranslatePipe } from './pipes/translate/translate.pipe';
 
 @NgModule({
-    declarations: [
-        AppComponent,
-        SidenavComponent,
-        SidenavDaypickerComponent,
-        MonthYearDialogComponent,
-        ReportComponent,
-        SettingsComponent,
-        WorkingHoursComponent,
-        WorkCardComponent,
-        DashboardComponent,
-        ProjectsComponent,
-        ProjectDialogComponent,
-        MaterialActiveDirective,
-        EncodedDatePipe,
-        WorkingHoursChartComponent,
-        LoginComponent,
-        RegisterComponent,
-        AuthenticateComponent,
-        ConfirmAccountDeletionComponent,
-        ForgotPasswordDialogComponent,
-        ImprintComponent,
-        ReportPdfDialogComponent
-    ],
-    entryComponents: [MonthYearDialogComponent, ProjectDialogComponent, ConfirmAccountDeletionComponent,
-        ForgotPasswordDialogComponent, ReportPdfDialogComponent],
-    imports: [
-        BrowserModule,
-        ServiceWorkerModule.register(environment.test ? '/chronery-web/ngsw-worker.js' : 'ngsw-worker.js', { enabled: environment.production || environment.test }),
-        HttpClientModule,
-        FlexLayoutModule,
-        FormsModule,
-        ReactiveFormsModule,
-        BrowserAnimationsModule,
-        AppRoutingModule,
-        MaterialModule
-    ],
-    providers: [
-        DecimalPipe,
-        DatePipe,
-        AuthService,
-        WorkingHoursService,
-        ProjectsService,
-        CommentsService,
-        LocalStorageService,
-        WindowRef,
-        {
-            provide: HTTP_INTERCEPTORS,
-            useClass: RequestInterceptor,
-            multi: true
-        }],
-    bootstrap: [AppComponent]
+  declarations: [
+    AppComponent,
+    SidenavComponent,
+    SidenavDaypickerComponent,
+    MonthYearDialogComponent,
+    ReportComponent,
+    SettingsComponent,
+    WorkingHoursComponent,
+    WorkCardComponent,
+    DashboardComponent,
+    ProjectsComponent,
+    ProjectDialogComponent,
+    MaterialActiveDirective,
+    EncodedDatePipe,
+    WorkingHoursChartComponent,
+    LoginComponent,
+    RegisterComponent,
+    AuthenticateComponent,
+    ConfirmAccountDeletionComponent,
+    ForgotPasswordDialogComponent,
+    ImprintComponent,
+    ReportPdfDialogComponent,
+    TranslatePipe,
+  ],
+  entryComponents: [MonthYearDialogComponent, ProjectDialogComponent, ConfirmAccountDeletionComponent,
+    ForgotPasswordDialogComponent, ReportPdfDialogComponent],
+  imports: [
+    BrowserModule,
+    ServiceWorkerModule.register(environment.test ? '/chronery-web/ngsw-worker.js' : 'ngsw-worker.js', { enabled: environment.production || environment.test }),
+    HttpClientModule,
+    FlexLayoutModule,
+    FormsModule,
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
+    AppRoutingModule,
+    MaterialModule
+  ],
+  providers: [
+    DecimalPipe,
+    DatePipe,
+    TranslatePipe,
+    AuthService,
+    WorkingHoursService,
+    ProjectsService,
+    CommentsService,
+    LocalStorageService,
+    WindowRef,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: RequestInterceptor,
+      multi: true
+    }],
+  bootstrap: [AppComponent]
 })
 export class AppModule {
 }
