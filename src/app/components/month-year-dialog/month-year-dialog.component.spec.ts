@@ -8,9 +8,9 @@ describe('MonthYearDialogComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MonthYearDialogComponent ]
+      declarations: [MonthYearDialogComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

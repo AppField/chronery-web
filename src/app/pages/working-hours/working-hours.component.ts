@@ -15,121 +15,121 @@ import * as moment from 'moment';
 import { Moment } from 'moment';
 
 @Component({
-    selector: 'chy-working-hours',
-    templateUrl: './working-hours.component.html',
-    styleUrls: ['./working-hours.component.scss']
+  selector: 'chy-working-hours',
+  templateUrl: './working-hours.component.html',
+  styleUrls: ['./working-hours.component.scss']
 })
 export class WorkingHoursComponent implements OnInit, OnDestroy {
-    @ViewChild('subsidenav') subsidenav: MatSidenav;
-    date: Moment;
-    encodedDate: string;
-    works: WorkingHours[] = [];
-    sidenavMode = 'side';
-    newCard: boolean;
-    async: any;
-    isLoading = false;
-    private destroy$: Subject<boolean> = new Subject<boolean>();
-    private mediaSub: Subscription;
+  @ViewChild('subsidenav') subsidenav: MatSidenav;
+  date: Moment;
+  encodedDate: string;
+  works: WorkingHours[] = [];
+  sidenavMode = 'side';
+  newCard: boolean;
+  async: any;
+  isLoading = false;
+  private destroy$: Subject<boolean> = new Subject<boolean>();
+  private mediaSub: Subscription;
 
-    constructor(private route: ActivatedRoute, public media: ObservableMedia,
-                private router: Router,
-                public projectsService: ProjectsService,
-                private workingHoursService: WorkingHoursService,
-                public commentsService: CommentsService,
-                private localStorage: LocalStorageService) {
+  constructor(private route: ActivatedRoute, public media: ObservableMedia,
+              private router: Router,
+              public projectsService: ProjectsService,
+              private workingHoursService: WorkingHoursService,
+              public commentsService: CommentsService,
+              private localStorage: LocalStorageService) {
 
-        this.workingHoursService.dataIsLoading
-            .takeUntil(this.destroy$)
-            .subscribe((isLoading: boolean) => this.isLoading = isLoading);
+    this.workingHoursService.dataIsLoading
+      .takeUntil(this.destroy$)
+      .subscribe((isLoading: boolean) => this.isLoading = isLoading);
 
-        this.workingHoursService.dataChange
-            .takeUntil(this.destroy$)
-            .subscribe((data) => {
-                const newCard = this.localStorage.getItem(this.encodedDate);
-                if (newCard) {
-                    this.works = data ? [newCard].concat(data.slice().reverse()) : [newCard];
-                    this.newCard = true;
-                } else {
-                    this.works = data ? data.slice().reverse() : [];
-                    this.newCard = false;
-                }
-            });
-
-        this.route.params
-            .takeUntil(this.destroy$)
-            .subscribe(params => {
-                this.encodedDate = params['date'];
-                this.date = Utility.decodeDate(params['date']);
-                this.workingHoursService.onRetrieveData(this.encodedDate);
-            });
-    }
-
-    ngOnInit() {
-        this.mediaSub = this.media
-            .subscribe((change: MediaChange) => {
-                if (change.mqAlias === 'xs') {
-                    this.sidenavMode = 'over';
-                    this.subsidenav.close();
-                } else {
-                    this.sidenavMode = 'side';
-                    this.subsidenav.open();
-                }
-            });
-        if (this.media.isActive('xs')) {
-            this.sidenavMode = 'over';
-            this.subsidenav.close();
+    this.workingHoursService.dataChange
+      .takeUntil(this.destroy$)
+      .subscribe((data) => {
+        const newCard = this.localStorage.getItem(this.encodedDate);
+        if (newCard) {
+          this.works = data ? [newCard].concat(data.slice().reverse()) : [newCard];
+          this.newCard = true;
         } else {
-            this.sidenavMode = 'side';
-            this.subsidenav.open();
+          this.works = data ? data.slice().reverse() : [];
+          this.newCard = false;
         }
-    }
+      });
 
-    newWork(): void {
-        const newWork = new WorkingHours();
-        newWork.from = Utility.getCurrentTimeString();
-        this.works.unshift(newWork);
-        this.newCard = true;
-    }
+    this.route.params
+      .takeUntil(this.destroy$)
+      .subscribe(params => {
+        this.encodedDate = params['date'];
+        this.date = Utility.decodeDate(params['date']);
+        this.workingHoursService.onRetrieveData(this.encodedDate);
+      });
+  }
 
-    saveWork(work: WorkingHours): void {
-        if (work.hasOwnProperty('id')) {
-            this.workingHoursService.onUpdateData(work, this.encodedDate);
+  ngOnInit() {
+    this.mediaSub = this.media
+      .subscribe((change: MediaChange) => {
+        if (change.mqAlias === 'xs') {
+          this.sidenavMode = 'over';
+          this.subsidenav.close();
         } else {
-            this.localStorage.deleteItem(this.encodedDate);
-            this.workingHoursService.onStoreData(work, this.encodedDate);
-            this.newCard = false;
+          this.sidenavMode = 'side';
+          this.subsidenav.open();
         }
+      });
+    if (this.media.isActive('xs')) {
+      this.sidenavMode = 'over';
+      this.subsidenav.close();
+    } else {
+      this.sidenavMode = 'side';
+      this.subsidenav.open();
     }
+  }
 
-    persistNewWork(work: WorkingHours): void {
-        this.localStorage.saveItem(this.encodedDate, work);
-    }
+  newWork(): void {
+    const newWork = new WorkingHours();
+    newWork.from = Utility.getCurrentTimeString();
+    this.works.unshift(newWork);
+    this.newCard = true;
+  }
 
-    deleteWork(work: WorkingHours): void {
-        if (work.hasOwnProperty('id')) {
-            this.workingHoursService.onDeleteData(work, this.encodedDate);
-        } else {
-            this.localStorage.deleteItem(this.encodedDate);
-            this.works.shift();
-            this.newCard = false;
-        }
+  saveWork(work: WorkingHours): void {
+    if (work.hasOwnProperty('id')) {
+      this.workingHoursService.onUpdateData(work, this.encodedDate);
+    } else {
+      this.localStorage.deleteItem(this.encodedDate);
+      this.workingHoursService.onStoreData(work, this.encodedDate);
+      this.newCard = false;
     }
+  }
 
-    setActiveDateToToday(): void {
-        const encodedDate = Utility.encodeDate(moment());
-        this.router.navigate(['working-hours', encodedDate]);
-    }
+  persistNewWork(work: WorkingHours): void {
+    this.localStorage.saveItem(this.encodedDate, work);
+  }
 
-    checkSubsidenav(): void {
-        if (this.sidenavMode === 'over'
-        ) {
-            this.subsidenav.close();
-        }
+  deleteWork(work: WorkingHours): void {
+    if (work.hasOwnProperty('id')) {
+      this.workingHoursService.onDeleteData(work, this.encodedDate);
+    } else {
+      this.localStorage.deleteItem(this.encodedDate);
+      this.works.shift();
+      this.newCard = false;
     }
+  }
 
-    ngOnDestroy() {
-        this.destroy$.next(true);
-        this.destroy$.unsubscribe();
-        this.mediaSub.unsubscribe();
+  setActiveDateToToday(): void {
+    const encodedDate = Utility.encodeDate(moment());
+    this.router.navigate(['working-hours', encodedDate]);
+  }
+
+  checkSubsidenav(): void {
+    if (this.sidenavMode === 'over'
+    ) {
+      this.subsidenav.close();
     }
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
+    this.mediaSub.unsubscribe();
+  }
 }

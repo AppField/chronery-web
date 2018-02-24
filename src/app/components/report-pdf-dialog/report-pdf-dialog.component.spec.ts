@@ -8,9 +8,9 @@ describe('ReportPdfDialogComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ReportPdfDialogComponent ]
+      declarations: [ReportPdfDialogComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

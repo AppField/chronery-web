@@ -8,9 +8,9 @@ describe('ConfirmAccountDeletionComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ConfirmAccountDeletionComponent ]
+      declarations: [ConfirmAccountDeletionComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

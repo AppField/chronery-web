@@ -13,136 +13,136 @@ import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/takeUntil';
 import { ReportPdfDialogComponent } from '../../components/report-pdf-dialog/report-pdf-dialog.component';
 import { MatDialog, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
-import { Moment } from "moment";
+import { Moment } from 'moment';
 
 
 @Component({
-    selector: 'chy-report',
-    templateUrl: './report.component.html',
-    styleUrls: ['./report.component.scss']
+  selector: 'chy-report',
+  templateUrl: './report.component.html',
+  styleUrls: ['./report.component.scss']
 })
 export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
-    date: Date;
-    startDate: Moment;
-    endDate: Moment;
-    projects: Project[] = [];
-    filteredProjects: Observable<Project[]>;
-    selectedProject: Project;
-    projectsCtrl: FormControl;
-    totalSpent: string = null;
-    isLoading = false;
-    dataSource = new MatTableDataSource<WorkingHours>();
-    displayedColumns = ['date', 'from', 'to', 'spent', 'projectNumber', 'projectName', 'comment'];
-    @ViewChild(MatSort) sort: MatSort;
-    @ViewChild(MatPaginator) paginator: MatPaginator;
-    private destroy$: Subject<boolean> = new Subject<boolean>();
+  date: Date;
+  startDate: Moment;
+  endDate: Moment;
+  projects: Project[] = [];
+  filteredProjects: Observable<Project[]>;
+  selectedProject: Project;
+  projectsCtrl: FormControl;
+  totalSpent: string = null;
+  isLoading = false;
+  dataSource = new MatTableDataSource<WorkingHours>();
+  displayedColumns = ['date', 'from', 'to', 'spent', 'projectNumber', 'projectName', 'comment'];
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  private destroy$: Subject<boolean> = new Subject<boolean>();
 
-    constructor(private projectsService: ProjectsService,
-                private workingHoursService: WorkingHoursService,
-                private media: ObservableMedia,
-                public dialog: MatDialog) {
+  constructor(private projectsService: ProjectsService,
+              private workingHoursService: WorkingHoursService,
+              private media: ObservableMedia,
+              public dialog: MatDialog) {
 
-        // initialize start and end date for the date pickers
-        this.startDate = moment().startOf('month');
-        this.endDate = moment().endOf('month');
+    // initialize start and end date for the date pickers
+    this.startDate = moment().startOf('month');
+    this.endDate = moment().endOf('month');
 
-        this.projectsCtrl = new FormControl();
-        const allProjects = new Project(null, null, null, 'All');
-        this.selectedProject = allProjects;
-        this.projects = [allProjects];
+    this.projectsCtrl = new FormControl();
+    const allProjects = new Project(null, null, null, 'All');
+    this.selectedProject = allProjects;
+    this.projects = [allProjects];
 
-        this.projectsService.dataChange
-            .takeUntil(this.destroy$)
-            .subscribe((data: Project[]) => {
-                this.projects = data ? this.projects.concat(data) : this.projects;
-                this.filteredProjects = this.projectsCtrl.valueChanges
-                    .startWith(null)
-                    .map(project => project && typeof project === 'object' ? project.name : project)
-                    .map(name => name ? this.filterProjects(name) : this.projects.slice());
+    this.projectsService.dataChange
+      .takeUntil(this.destroy$)
+      .subscribe((data: Project[]) => {
+        this.projects = data ? this.projects.concat(data) : this.projects;
+        this.filteredProjects = this.projectsCtrl.valueChanges
+          .startWith(null)
+          .map(project => project && typeof project === 'object' ? project.name : project)
+          .map(name => name ? this.filterProjects(name) : this.projects.slice());
 
-            });
-        this.updateReport();
-    }
+      });
+    this.updateReport();
+  }
 
-    get isMobile(): boolean {
-        return !this.media.isActive('gt-sm');
-    }
+  get isMobile(): boolean {
+    return !this.media.isActive('gt-sm');
+  }
 
-    ngOnInit() {
-        this.workingHoursService.dataIsLoading
-            .takeUntil(this.destroy$)
-            .subscribe((isLoading: boolean) => this.isLoading = isLoading);
+  ngOnInit() {
+    this.workingHoursService.dataIsLoading
+      .takeUntil(this.destroy$)
+      .subscribe((isLoading: boolean) => this.isLoading = isLoading);
 
-        this.workingHoursService.filterChange
-            .takeUntil(this.destroy$)
-            .subscribe((reportData: WorkingHours[]) => {
-                this.dataSource.data = reportData;
+    this.workingHoursService.filterChange
+      .takeUntil(this.destroy$)
+      .subscribe((reportData: WorkingHours[]) => {
+        this.dataSource.data = reportData;
 
-                const times = reportData.map((work: WorkingHours) => {
-                    return work.spent;
-                });
-                this.totalSpent = times.length ? Utility.sumTotalTimes(times) : null;
-            });
-    }
-
-    ngAfterViewInit() {
-        this.dataSource.sort = this.sort;
-        this.dataSource.paginator = this.paginator;
-    }
-
-    updateReport(): void {
-        if (!this.startDate && !this.endDate) {
-            return;
-        }
-
-        const from = Utility.encodeDate(this.startDate);
-        const to = Utility.encodeDate(this.endDate);
-
-        this.workingHoursService.onFilterData(from, to);
-    }
-
-    updateProjectFilter(): void {
-        this.workingHoursService.onFilterDataByProject(this.selectedProject);
-    }
-
-    filterProjects(val: string) {
-        return this.projects.filter(project => new RegExp(val, 'i').test(project.name));
-    }
-
-    displayFn(project: Project) {
-        if (project) {
-            return project.name ? project.name : '';
-        }
-    }
-
-    downloadPDF(): void {
-        const dialogRef = this.dialog.open(ReportPdfDialogComponent, {
-            data: [...this.workingHoursService.filterChange.value],
-            closeOnNavigation: true
+        const times = reportData.map((work: WorkingHours) => {
+          return work.spent;
         });
+        this.totalSpent = times.length ? Utility.sumTotalTimes(times) : null;
+      });
+  }
+
+  ngAfterViewInit() {
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
+  }
+
+  updateReport(): void {
+    if (!this.startDate && !this.endDate) {
+      return;
     }
 
-    exportReportToCSV(): void {
-        const data = this.workingHoursService.dataChange.getValue();
-        const csvData = data.map((work: WorkingHours) => {
-            const csvObject: any = {};
-            csvObject.date = work.date;
-            csvObject.from = work.from;
-            csvObject.to = work.to;
-            csvObject.spent = work.spent;
-            csvObject.comment = work.comment || '';
-            csvObject.projectId = work.project.id;
-            csvObject.projectNumber = work.project.number;
-            csvObject.projectName = work.project.name;
-            return csvObject;
-        });
-        const report = new Angular2Csv(csvData, `Chronery Report form ${Utility.encodeDate(this.startDate)} to ${Utility.encodeDate(this.endDate)}`, { showLabels: true });
-    }
+    const from = Utility.encodeDate(this.startDate);
+    const to = Utility.encodeDate(this.endDate);
 
-    ngOnDestroy() {
-        this.destroy$.next(true);
-        this.destroy$.unsubscribe();
+    this.workingHoursService.onFilterData(from, to);
+  }
+
+  updateProjectFilter(): void {
+    this.workingHoursService.onFilterDataByProject(this.selectedProject);
+  }
+
+  filterProjects(val: string) {
+    return this.projects.filter(project => new RegExp(val, 'i').test(project.name));
+  }
+
+  displayFn(project: Project) {
+    if (project) {
+      return project.name ? project.name : '';
     }
+  }
+
+  downloadPDF(): void {
+    const dialogRef = this.dialog.open(ReportPdfDialogComponent, {
+      data: [...this.workingHoursService.filterChange.value],
+      closeOnNavigation: true
+    });
+  }
+
+  exportReportToCSV(): void {
+    const data = this.workingHoursService.dataChange.getValue();
+    const csvData = data.map((work: WorkingHours) => {
+      const csvObject: any = {};
+      csvObject.date = work.date;
+      csvObject.from = work.from;
+      csvObject.to = work.to;
+      csvObject.spent = work.spent;
+      csvObject.comment = work.comment || '';
+      csvObject.projectId = work.project.id;
+      csvObject.projectNumber = work.project.number;
+      csvObject.projectName = work.project.name;
+      return csvObject;
+    });
+    const report = new Angular2Csv(csvData, `Chronery Report form ${Utility.encodeDate(this.startDate)} to ${Utility.encodeDate(this.endDate)}`, { showLabels: true });
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
+  }
 }
 
 //

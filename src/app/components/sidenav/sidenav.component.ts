@@ -1,9 +1,9 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {ObservableMedia} from '@angular/flex-layout';
-import {state, style, trigger} from '@angular/animations';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ObservableMedia } from '@angular/flex-layout';
+import { state, style, trigger } from '@angular/animations';
 import 'rxjs/add/operator/takeUntil';
-import {Subject} from 'rxjs/Subject';
-import {Subscription} from 'rxjs/Subscription';
+import { Subject } from 'rxjs/Subject';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'chy-sidenav',
@@ -11,8 +11,8 @@ import {Subscription} from 'rxjs/Subscription';
   styleUrls: ['./sidenav.component.scss'],
   animations: [
     trigger('menuState', [
-      state('open', style({opacity: 1})),
-      state('close', style({opacity: 0, width: '0px', display: 'none'}))
+      state('open', style({ opacity: 1 })),
+      state('close', style({ opacity: 0, width: '0px', display: 'none' }))
       // transition('* => *', [
       // 	animate('400ms cubic-bezier(0.25, 0.8, 0.25, 1)')
       // ])

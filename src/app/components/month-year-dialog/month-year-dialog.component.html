@@ -1,30 +1,30 @@
 <h1 mat-dialog-title color="primary">{{selectedDate | date:'MMMM yyyy' }}</h1>
 <div mat-dialog-content fxLayout="row">
 
-    <div class="picker" fxLayout="column">
-        <button mat-button (click)="nextMonth()">
-            <mat-icon>keyboard_arrow_up</mat-icon>
-        </button>
-        <mat-form-field type="month" dividerColor="accent">
-            <input matInput readonly [ngModel]="selectedDate | date:'MM.'"/>
-        </mat-form-field>
-        <button mat-button (click)="previousMonth()">
-            <mat-icon>keyboard_arrow_down</mat-icon>
-        </button>
-    </div>
+  <div class="picker" fxLayout="column">
+    <button mat-button (click)="nextMonth()">
+      <mat-icon>keyboard_arrow_up</mat-icon>
+    </button>
+    <mat-form-field type="month" dividerColor="accent">
+      <input matInput readonly [ngModel]="selectedDate | date:'MM.'"/>
+    </mat-form-field>
+    <button mat-button (click)="previousMonth()">
+      <mat-icon>keyboard_arrow_down</mat-icon>
+    </button>
+  </div>
 
-    <div class="picker" fxLayout="column">
-        <button mat-button (click)="nextYear()">
-            <mat-icon>keyboard_arrow_up</mat-icon>
-        </button>
-        <mat-form-field dividerColor="accent">
-            <input readonly matInput [ngModel]="selectedDate | date:'yyyy'"/>
-        </mat-form-field>
-        <button mat-button (click)="previousYear()">
-            <mat-icon>keyboard_arrow_down</mat-icon>
-        </button>
-    </div>
+  <div class="picker" fxLayout="column">
+    <button mat-button (click)="nextYear()">
+      <mat-icon>keyboard_arrow_up</mat-icon>
+    </button>
+    <mat-form-field dividerColor="accent">
+      <input readonly matInput [ngModel]="selectedDate | date:'yyyy'"/>
+    </mat-form-field>
+    <button mat-button (click)="previousYear()">
+      <mat-icon>keyboard_arrow_down</mat-icon>
+    </button>
+  </div>
 </div>
 <div mat-dialog-actions>
-    <button mat-button color="accent" (click)="dialogRef.close(selectedDate)">OK</button>
+  <button mat-button color="accent" (click)="dialogRef.close(selectedDate)">OK</button>
 </div>

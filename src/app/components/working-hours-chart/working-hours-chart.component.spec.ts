@@ -8,9 +8,9 @@ describe('WorkingHoursChartComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ WorkingHoursChartComponent ]
+      declarations: [WorkingHoursChartComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

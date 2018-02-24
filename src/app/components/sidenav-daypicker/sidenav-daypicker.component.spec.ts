@@ -8,9 +8,9 @@ describe('SidenavDaypickerComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SidenavDaypickerComponent ]
+      declarations: [SidenavDaypickerComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

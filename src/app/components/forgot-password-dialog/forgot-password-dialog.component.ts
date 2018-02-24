@@ -1,7 +1,7 @@
-import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {MatDialogRef} from '@angular/material';
-import {CustomValidators} from '../../utils/custom-validators';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialogRef } from '@angular/material';
+import { CustomValidators } from '../../utils/custom-validators';
 
 @Component({
   selector: 'chy-forgot-password-dialog',
@@ -28,7 +28,7 @@ export class ForgotPasswordDialogComponent implements OnInit {
     if (control.parent) {
       const password = control.parent.controls['password'].value;
       const repeatPassword = control.value;
-      return password === repeatPassword ? true : {mismatch: true};
+      return password === repeatPassword ? true : { mismatch: true };
     }
     return null;
   }

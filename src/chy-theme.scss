@@ -10,7 +10,6 @@ $chy-theme: mat-light-theme($primary, $accent, $warn);
 
 @include angular-material-theme($chy-theme);
 
-
 $sidenav-bg: #212121;
 $subsidenav-bg: #424242;
 $sidenav-text: #e2e2e2;

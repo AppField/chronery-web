@@ -1,5 +1,5 @@
-import {Injectable} from '@angular/core';
-import {AbstractControl, FormControl} from '@angular/forms';
+import { Injectable } from '@angular/core';
+import { AbstractControl, FormControl } from '@angular/forms';
 
 @Injectable()
 export class CustomValidators {
@@ -8,25 +8,25 @@ export class CustomValidators {
     if (control.parent) {
       const password = control.parent.controls['password'].value;
       const repeatPassword = control.value;
-      return password === repeatPassword ? true : {mismatch: true};
+      return password === repeatPassword ? true : { mismatch: true };
     }
     return null;
   }
 
   static hasLengthEight(control: FormControl): any {
-    return (new RegExp('^.{8,}$').test(control.value)) ? true : {mismatchLength: true};
+    return (new RegExp('^.{8,}$').test(control.value)) ? true : { mismatchLength: true };
   }
 
   static containsNumbersValidator(control: FormControl): any {
-    return (new RegExp('[0-9]{1,}').test(control.value)) ? true : {missingNumber: true};
+    return (new RegExp('[0-9]{1,}').test(control.value)) ? true : { missingNumber: true };
   }
 
   static containsUpperValidator(control: FormControl): any {
-    return (new RegExp('[A-Z]{1,}').test(control.value)) ? true : {missingUpper: true};
+    return (new RegExp('[A-Z]{1,}').test(control.value)) ? true : { missingUpper: true };
   }
 
   static containsLowerValidator(control: FormControl): any {
-    return (new RegExp('[a-z]{1,}').test(control.value)) ? true : {missingLower: true};
+    return (new RegExp('[a-z]{1,}').test(control.value)) ? true : { missingLower: true };
   }
 
   static getPasswordErrorState(control: AbstractControl): number {

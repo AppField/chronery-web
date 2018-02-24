@@ -4,13 +4,13 @@ import { Utility } from '../../utils/utility';
 import { Moment } from 'moment';
 
 @Pipe({
-    name: 'encodedDate'
+  name: 'encodedDate'
 })
 export class EncodedDatePipe implements PipeTransform {
 
-    transform(value: any, args?: any): Moment {
-        const date = Utility.decodeDate(value);
-        return moment(date);
-    }
+  transform(value: any, args?: any): Moment {
+    const date = Utility.decodeDate(value);
+    return moment(date);
+  }
 
 }
