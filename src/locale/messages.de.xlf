@@ -374,6 +374,14 @@
         <note priority="1" from="description">Report project filter</note>
         <note priority="1" from="meaning">Report Project Autocomplete</note>
       </trans-unit>
+      <trans-unit id="reportTimeFormat" datatype="html">
+        <source>Time Format</source>
+        <target>Zeitformat</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/report/report.component.ts</context>
+          <context context-type="linenumber">66</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="reportTableHeaderDate" datatype="html">
         <source>Date</source>
         <target>Datum</target>
@@ -692,7 +700,7 @@
       </trans-unit>
       <trans-unit id="workingHoursAddTimes" datatype="html">
         <source>Add working hours for this day!</source>
-        <target>Arbeitszeit zu diesem Tag hinzufügen!</target>
+        <target>Arbeitszeit zu diesem Tag hinzufügen</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/pages/working-hours/working-hours.component.ts</context>
           <context context-type="linenumber">55</context>

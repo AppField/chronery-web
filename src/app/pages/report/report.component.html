@@ -19,7 +19,6 @@
          fxLayoutGap="0" ngClass.xs="no-max-width">
 
       <!-- Start date -->
-      <!--<div fxLayout="row" fxLayoutAlign.gt-xs="center center">-->
       <div fxFlex="100" fxLayoutAlign="center center">
         <mat-form-field>
           <input matInput [matDatepicker]="fromPicker"
@@ -44,12 +43,10 @@
           <mat-datepicker #toPicker [touchUi]="isMobile" disabled="false"></mat-datepicker>
         </mat-form-field>
       </div>
-      <!--</div>-->
 
-      <!--<div fxLayout="row" fxLayoutAlign.gt-xs="center center">-->
       <!-- Project Autocomplete -->
       <div fxFlex="100" fxLayoutAlign="center center">
-        <mat-form-field>
+        <mat-form-field floatLabel="always">
           <input matInput placeholder="Project" [matAutocomplete]="auto" [formControl]="projectsCtrl"
                  i18n-placeholder="Report Project Autocomplete|Report project filter@@reportPlaceholderProject"
                  [(ngModel)]="selectedProject">
@@ -76,7 +73,6 @@
           </mat-select>
         </mat-form-field>
       </div>
-      <!--</div>-->
     </div>
 
     <mat-table #table [dataSource]="dataSource" matSort>
