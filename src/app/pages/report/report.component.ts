@@ -15,6 +15,7 @@ import { ReportPdfDialogComponent } from '../../components/report-pdf-dialog/rep
 import { MatDialog, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { Moment } from 'moment';
 import { _isNumberValue } from '@angular/cdk/coercion';
+import { DecimalPipe } from '@angular/common';
 
 
 @Component({
@@ -34,6 +35,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
   isLoading = false;
   dataSource = new NestedObjectsDataSource();
   displayedColumns = ['date', 'from', 'to', 'spent', 'project.number', 'project.name', 'comment'];
+  decimalFormat = true;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   private destroy$: Subject<boolean> = new Subject<boolean>();
@@ -41,7 +43,8 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(private projectsService: ProjectsService,
               private workingHoursService: WorkingHoursService,
               private media: ObservableMedia,
-              public dialog: MatDialog) {
+              public dialog: MatDialog,
+              private numberPipe: DecimalPipe) {
 
     // initialize start and end date for the date pickers
     this.startDate = moment().startOf('month');
@@ -69,6 +72,10 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
     return !this.media.isActive('gt-sm');
   }
 
+  getValueForTimeFormat(time: string): string {
+    return this.decimalFormat ? this.numberPipe.transform(Utility.convertTimeToDecimal(time), '2.2') : time;
+  }
+
   ngOnInit() {
     this.workingHoursService.dataIsLoading
       .takeUntil(this.destroy$)
@@ -82,7 +89,8 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
         const times = reportData.map((work: WorkingHours) => {
           return work.spent;
         });
-        this.totalSpent = times.length ? Utility.sumTotalTimes(times) : null;
+        // this.totalSpent = times.length ? Utility.sumTotalTimes(times) : null;
+        this.totalSpent = times.length ? Utility.sumTimes(times) : null;
       });
   }
 

@@ -15,7 +15,7 @@
     <mat-form-field>
       <mat-select i18n-placeholder="Report PDF Time Format@@reportPDFTimeFormat" placeholder="Time Format" [(value)]="decimalFormat">
         <mat-option [value]="true">
-          {{ "2.50" | number }} h
+          {{ "2.50" | number:"2.2" }} h
         </mat-option>
         <mat-option [value]="false">
           02:30 h

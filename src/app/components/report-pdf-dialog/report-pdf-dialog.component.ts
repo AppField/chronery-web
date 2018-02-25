@@ -153,7 +153,8 @@ export class ReportPdfDialogComponent implements OnInit {
         spent: this.decimalFormat ? this.numberPipe.transform(Utility.convertTimeToDecimal(item.spent), '2.2') + ' h' : item.spent + ' h'
       };
     });
-    const totalTime = Utility.sumTotalTimes(times);
+    // const totalTime = Utility.sumTotalTimes(times);
+    const totalTime = Utility.sumTimes(times);
     this.totalTime = this.decimalFormat ? this.numberPipe.transform(Utility.convertTimeToDecimal(totalTime), '2.2') : totalTime;
     return data;
     // } else {
