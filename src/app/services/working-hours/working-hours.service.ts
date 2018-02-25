@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Subject } from 'rxjs/Subject'
+import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/map';
 import { WorkingHours } from '../../models/working-hours';
 import { HttpClient, HttpParams } from '@angular/common/http';
@@ -15,6 +15,8 @@ export class WorkingHoursService {
   dataChange: BehaviorSubject<WorkingHours[]> = new BehaviorSubject<WorkingHours[]>([]);
   filterChange: BehaviorSubject<WorkingHours[]> = new BehaviorSubject<WorkingHours[]>([]);
   dataLoadFailed = new Subject<boolean>();
+
+  private filteredWithoutProject: WorkingHours[];
 
   constructor(private http: HttpClient) {
   }
@@ -116,6 +118,7 @@ export class WorkingHoursService {
                 workingHours = workingHours.concat(whs);
               });
               if (!notNext) {
+                this.filteredWithoutProject = workingHours;
                 this.filterChange.next(workingHours);
               }
               resolve(workingHours);
@@ -134,7 +137,8 @@ export class WorkingHoursService {
   }
 
   onFilterDataByProject(project: Project) {
-    const filtered = this.filterChange.value.filter((work: WorkingHours) => work.project.id === project.id);
+    console.log('filter project: ', project);
+    const filtered = project.id ? this.filteredWithoutProject.filter((work: WorkingHours) => work.project.id === project.id) : this.filteredWithoutProject;
     this.filterChange.next(filtered);
   }
 

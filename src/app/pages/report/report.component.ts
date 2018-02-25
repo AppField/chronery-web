@@ -48,7 +48,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
     this.endDate = moment().endOf('month');
 
     this.projectsCtrl = new FormControl();
-    const allProjects = new Project(null, null, null, 'All');
+    const allProjects = new Project(null, null, null, '');
     this.selectedProject = allProjects;
     this.projects = [allProjects];
 
