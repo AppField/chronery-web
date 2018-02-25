@@ -46,7 +46,7 @@
         </span>
 
         <ng-template #noData>
-            <mat-card class="no-data">
+            <mat-card class="no-data" *ngIf="!isLoading">
                 <mat-card-content>
                     <button mat-button class="no-data-action" (click)="newWork()">
                         <mat-icon>
