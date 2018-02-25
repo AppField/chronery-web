@@ -3,19 +3,22 @@
 .table-header {
   min-height: 64px;
   width: 100%;
-  align-items: baseline;
+  //align-items: baseline;
   padding: 1em 1em 0 1em;
 
-  flex-wrap: wrap;
-  justify-content: space-around;
+  //flex-wrap: wrap;
 
-  .mat-input-wrapper {
-    width: 100% !important;
-  }
+  //.mat-input-wrapper {
+  //  width: 100% !important;
+  //}
 
   .mat-form-field {
     width: 100%;
     max-width: 200px;
+  }
+
+  &.no-max-width .mat-form-field {
+    max-width: none;
   }
 }
 

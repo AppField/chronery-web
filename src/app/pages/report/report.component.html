@@ -15,55 +15,68 @@
 
 <div class="inner-sidenav-content">
   <div class="mat-elevation-z5">
-    <div class="table-header" fxLayout.gt-xs="space-around row" fxLayout="column"
-         fxLayoutGap.xs="0">
+    <div class="table-header" fxLayout.xs="column" fxLayout="row" fxLayoutAlign.gt-xs="center center"
+         fxLayoutGap="0" ngClass.xs="no-max-width">
 
       <!-- Start date -->
-      <mat-form-field fxFlex.xs="100">
-        <input matInput [matDatepicker]="fromPicker"
-               i18n-placeholder="Report Datepicker Start|Report datepicker for Start date@@reportPlaceholderStart" placeholder="Starts at"
-               [max]="endDate" [(ngModel)]="startDate" autocomplete="off"
-               (dateChange)="updateReport()" disabled class="dynamic-width">
-        <mat-datepicker-toggle matSuffix [for]="fromPicker"></mat-datepicker-toggle>
-        <mat-datepicker #fromPicker [startAt]="startDate" [touchUi]="isMobile" disabled="false">
-        </mat-datepicker>
-      </mat-form-field>
+      <!--<div fxLayout="row" fxLayoutAlign.gt-xs="center center">-->
+      <div fxFlex="100" fxLayoutAlign="center center">
+        <mat-form-field>
+          <input matInput [matDatepicker]="fromPicker"
+                 i18n-placeholder="Report Datepicker Start|Report datepicker for Start date@@reportPlaceholderStart"
+                 placeholder="Starts at"
+                 [max]="endDate" [(ngModel)]="startDate" autocomplete="off"
+                 (dateChange)="updateReport()" disabled class="dynamic-width">
+          <mat-datepicker-toggle matSuffix [for]="fromPicker"></mat-datepicker-toggle>
+          <mat-datepicker #fromPicker [startAt]="startDate" [touchUi]="isMobile" disabled="false">
+          </mat-datepicker>
+        </mat-form-field>
+      </div>
 
       <!-- End date -->
-      <mat-form-field fxFlex.xs="100">
-        <input matInput [matDatepicker]="toPicker"
-               i18n-placeholder="Report Datepicker End|Report datepicker for End date@@reportPlaceholderEnd" placeholder="Ends at"
-               [min]="startDate" [(ngModel)]="endDate" autocomplete="off"
-               (dateChange)="updateReport()" disabled>
-        <mat-datepicker-toggle matSuffix [for]="toPicker"></mat-datepicker-toggle>
-        <mat-datepicker #toPicker [touchUi]="isMobile" disabled="false"></mat-datepicker>
-      </mat-form-field>
+      <div fxFlex="100" fxLayoutAlign="center center">
+        <mat-form-field>
+          <input matInput [matDatepicker]="toPicker"
+                 i18n-placeholder="Report Datepicker End|Report datepicker for End date@@reportPlaceholderEnd" placeholder="Ends at"
+                 [min]="startDate" [(ngModel)]="endDate" autocomplete="off"
+                 (dateChange)="updateReport()" disabled>
+          <mat-datepicker-toggle matSuffix [for]="toPicker"></mat-datepicker-toggle>
+          <mat-datepicker #toPicker [touchUi]="isMobile" disabled="false"></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <!--</div>-->
 
+      <!--<div fxLayout="row" fxLayoutAlign.gt-xs="center center">-->
       <!-- Project Autocomplete -->
-      <mat-form-field fxFlex.xs="100">
-        <input matInput placeholder="Project" [matAutocomplete]="auto" [formControl]="projectsCtrl"
-               i18n-placeholder="Report Project Autocomplete|Report project filter@@reportPlaceholderProject"
-               [(ngModel)]="selectedProject">
-        <mat-error>Required</mat-error>
-      </mat-form-field>
-      <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn"
-                        (optionSelected)="updateProjectFilter()">
-        <mat-option *ngFor="let project of filteredProjects | async" [value]="project">
-          <span>{{ project.name }}  <span *ngIf="project.number">|</span>  <small>{{ project.number }} </small></span>
-        </mat-option>
-      </mat-autocomplete>
+      <div fxFlex="100" fxLayoutAlign="center center">
+        <mat-form-field>
+          <input matInput placeholder="Project" [matAutocomplete]="auto" [formControl]="projectsCtrl"
+                 i18n-placeholder="Report Project Autocomplete|Report project filter@@reportPlaceholderProject"
+                 [(ngModel)]="selectedProject">
+          <mat-error>Required</mat-error>
+        </mat-form-field>
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn"
+                          (optionSelected)="updateProjectFilter()">
+          <mat-option *ngFor="let project of filteredProjects | async" [value]="project">
+            <span>{{ project.name }}  <span *ngIf="project.number">|</span>  <small>{{ project.number }} </small></span>
+          </mat-option>
+        </mat-autocomplete>
+      </div>
 
       <!-- Time Format -->
-      <mat-form-field>
-        <mat-select i18n-placeholder="@@reportTimeFormat" placeholder="Time Format" [(value)]="decimalFormat">
-          <mat-option [value]="true">
-            {{ "2.50" | number:"2.2" }} h
-          </mat-option>
-          <mat-option [value]="false">
-            02:30 h
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
+      <div fxFlex="100" fxLayoutAlign="center center">
+        <mat-form-field>
+          <mat-select i18n-placeholder="@@reportTimeFormat" placeholder="Time Format" [(value)]="decimalFormat">
+            <mat-option [value]="true">
+              {{ "2.50" | number:"2.2" }} h
+            </mat-option>
+            <mat-option [value]="false">
+              02:30 h
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <!--</div>-->
     </div>
 
     <mat-table #table [dataSource]="dataSource" matSort>
