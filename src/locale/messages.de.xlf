@@ -619,6 +619,48 @@
         </context-group>
         <note priority="1" from="description">Settings Logout Button</note>
       </trans-unit>
+      <trans-unit id="settingsAppSettings" datatype="html">
+        <source>App Settings</source>
+        <target>App Einstellungen</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/settings/settings.component.ts</context>
+          <context context-type="linenumber">89</context>
+        </context-group>
+        <note priority="1" from="description">Settings App Settings</note>
+      </trans-unit>
+      <trans-unit id="settingsCustomAppSettings" datatype="html">
+        <source>Custom settings</source>
+        <target>Benutzerdefinierte Einstellungen</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/settings/settings.component.ts</context>
+          <context context-type="linenumber">92</context>
+        </context-group>
+        <note priority="1" from="description">Settings Custom App Settings</note>
+      </trans-unit>
+      <trans-unit id="settingsLanguageGerman" datatype="html">
+        <source>German</source>
+        <target>Deutsch</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/settings/settings.component.ts</context>
+          <context context-type="linenumber">99</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="settingsLanguageEnglish" datatype="html">
+        <source>English</source>
+        <target>Englisch</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/settings/settings.component.ts</context>
+          <context context-type="linenumber">102</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="settingsLanguagePlaceholder" datatype="html">
+        <source>Language</source>
+        <target>Sprache</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/settings/settings.component.ts</context>
+          <context context-type="linenumber">97</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="workingHoursHeader" datatype="html">
         <source>Working Hours</source>
         <target>Arbeitszeiten</target>

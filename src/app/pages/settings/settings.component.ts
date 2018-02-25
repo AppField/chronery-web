@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, LOCALE_ID, OnDestroy, OnInit } from '@angular/core';
 import { Comment } from '../../models/comment';
 import { CommentsService } from '../../services/comments/comments.service';
 import { ConfirmAccountDeletionComponent } from '../../components/confirm-account-deletion/confirm-account-deletion.component';
@@ -17,17 +17,19 @@ import 'rxjs/add/operator/takeUntil';
 
 
 export class SettingsComponent implements OnInit, OnDestroy {
-  private destroy$: Subject<boolean> = new Subject<boolean>();
-
   newComment: Comment = new Comment();
   isLoading = false;
   accountForm: FormGroup;
   attributes: User;
+  lang: string;
+  private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(public commentsService: CommentsService,
               public dialog: MatDialog,
               public authService: AuthService,
-              private fb: FormBuilder) {
+              private fb: FormBuilder,
+              @Inject(LOCALE_ID) locale: string) {
+    this.lang = locale;
   }
 
   ngOnInit() {
@@ -85,6 +87,10 @@ export class SettingsComponent implements OnInit, OnDestroy {
           this.authService.deleteAccount();
         }
       });
+  }
+
+  languageChanged(): void {
+    console.log('New lang: ', this.lang);
   }
 
   logout(): void {
