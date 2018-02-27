@@ -26,15 +26,16 @@ export class WorkCardComponent implements OnInit, OnDestroy {
   @Output() saveWork = new EventEmitter<WorkingHours>();
   @Output() deleteWork = new EventEmitter<WorkingHours>();
   @Output() persistNewWork = new EventEmitter<WorkingHours>();
-
-  private destroy$: Subject<boolean> = new Subject<boolean>();
-
   filteredProjects: Observable<Project[]>;
   filteredComments: Observable<Comment[]>;
   workForm: FormGroup;
   toControl: AbstractControl;
+  private destroy$: Subject<boolean> = new Subject<boolean>();
   private backupWork: WorkingHours;
   private cardActive: boolean;
+
+  constructor(public fb: FormBuilder, private elRef: ElementRef) {
+  }
 
   static isAfter(control: FormControl): any {
     if (control.parent) {
@@ -58,9 +59,6 @@ export class WorkCardComponent implements OnInit, OnDestroy {
     } else {
       this.cardActive = true;
     }
-  }
-
-  constructor(public fb: FormBuilder, private elRef: ElementRef) {
   }
 
   ngOnInit() {
@@ -107,11 +105,20 @@ export class WorkCardComponent implements OnInit, OnDestroy {
     this.updateExistingProject();
   }
 
+  setSpent(): void {
+    const from = this.workForm.controls['from'].value.split(':');
+    const to = this.workForm.controls['to'].value.split(':');
+    const fromDate = new Date(0, 0, 0, from[0], from[1], 0);
+    const toDate = new Date(0, 0, 0, to[0], to[1], 0);
+    const diff = moment.utc(moment(toDate).diff(moment(fromDate)));
+    this.work.spent = diff.format('HH:mm');
+  };
+
   updateExistingProject(): void {
     if (!this.projects) {
       return;
     }
-    if (this.work.hasOwnProperty('projectId')) {
+    if (this.work.hasOwnProperty('project')) {
       const i = this.projects.map((el) => {
         return el.id;
       }).indexOf(this.work.project.id);
@@ -168,15 +175,6 @@ export class WorkCardComponent implements OnInit, OnDestroy {
     name === 'from' ? this.workForm.controls['from'].patchValue(value) : this.workForm.controls['to'].patchValue(value);
     this.timeChanged();
   }
-
-  setSpent = function (): void {
-    const from = this.workForm.controls['from'].value.split(':');
-    const to = this.workForm.controls['to'].value.split(':');
-    const fromDate = new Date(0, 0, 0, from[0], from[1], 0);
-    const toDate = new Date(0, 0, 0, to[0], to[1], 0);
-    const diff = moment.utc(moment(toDate).diff(moment(fromDate)));
-    this.work.spent = diff.format('HH:mm');
-  };
 
   checkValidation(): void {
     this.copyFormDataToWork();

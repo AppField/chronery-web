@@ -34,13 +34,13 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
   constructor(private route: ActivatedRoute, public media: ObservableMedia,
               private router: Router,
               public projectsService: ProjectsService,
-              private workingHoursService: WorkingHoursService,
+              public workingHoursService: WorkingHoursService,
               public commentsService: CommentsService,
               private localStorage: LocalStorageService) {
 
-    this.workingHoursService.dataIsLoading
-      .takeUntil(this.destroy$)
-      .subscribe((isLoading: boolean) => this.isLoading = isLoading);
+    // this.workingHoursService.dataIsLoading
+    //   .takeUntil(this.destroy$)
+    //   .subscribe((isLoading: boolean) => this.isLoading = isLoading);
 
     this.workingHoursService.dataChange
       .takeUntil(this.destroy$)

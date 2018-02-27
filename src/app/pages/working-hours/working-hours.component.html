@@ -5,7 +5,7 @@
 
   <div>
     <mat-toolbar color="primary" class="mat-elevation-z8">
-      <mat-progress-bar mode="indeterminate" color="accent" *ngIf="isLoading"
+      <mat-progress-bar mode="indeterminate" color="accent" *ngIf="workingHoursService.dataIsLoading | async"
                         class="top-loader"></mat-progress-bar>
 
       <button *ngIf="media.isActive('xs')" mat-icon-button type="button" (click)="subsidenav.open()">
@@ -46,7 +46,8 @@
         </span>
 
         <ng-template #noData>
-            <mat-card class="no-data" *ngIf="!isLoading">
+          <div fxLayoutAlign="center">
+            <mat-card class="no-data" *ngIf="!(workingHoursService.dataIsLoading | async)">
                 <mat-card-content>
                     <button mat-button class="no-data-action" (click)="newWork()">
                         <mat-icon>
@@ -56,6 +57,7 @@
                     </button>
                 </mat-card-content>
             </mat-card>
+            </div>
         </ng-template>
     </span>
     </div>
