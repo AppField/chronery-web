@@ -25,6 +25,7 @@ export class ProjectDialogComponent implements OnInit {
       number: [this.project.number, [Validators.required]],
       name: [this.project.name, [Validators.required]],
       inactive: [this.project.inactive]
+      // hourlyRate: [this.project.hourlyRate, [Validators.min(0), Validators.max(1000)]]
     });
   }
 
@@ -33,6 +34,7 @@ export class ProjectDialogComponent implements OnInit {
       this.project.number = this.projectForm.controls['number'].value;
       this.project.name = this.projectForm.controls['name'].value;
       this.project.inactive = this.projectForm.controls['inactive'].value;
+      // this.project.hourlyRate = this.projectForm.controls['hourlyRate'].value;
       this.dialogRef.close(this.project);
     }
   }

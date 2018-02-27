@@ -20,7 +20,7 @@ import {
   MatProgressBarModule,
   MatProgressSpinnerModule,
   MatSelectModule,
-  MatSidenavModule,
+  MatSidenavModule, MatSliderModule,
   MatSnackBarModule,
   MatSortModule,
   MatTableModule,
@@ -56,6 +56,7 @@ import { MatPaginatorIntlI18n } from '../locale/mat-paginator-intl-i18n';
     MatSelectModule,
     MatSortModule,
     MatPaginatorModule,
+    MatSliderModule
   ],
   exports: [
     MatButtonModule,
@@ -80,7 +81,8 @@ import { MatPaginatorIntlI18n } from '../locale/mat-paginator-intl-i18n';
     MatCheckboxModule,
     MatSelectModule,
     MatSortModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatSliderModule
   ],
   providers: [
     {

@@ -1,6 +1,6 @@
 <form [formGroup]="projectForm">
   <h2 mat-dialog-title i18n="Project Dialog Header@@projectDialogHeader">Project</h2>
-  <mat-dialog-content>
+  <mat-dialog-content fxLayout="column" fxLayoutGap=".5rem">
 
     <mat-form-field>
       <input matInput i18n-placeholder="Project Dialog Number Placeholder@@projectDialogNumberPlaceholder" placeholder="Number"
@@ -15,6 +15,13 @@
              autocomplete="off">
       <mat-error i18n="Project Dialog Required Error@@projectDialogRequiredError">Required</mat-error>
     </mat-form-field>
+
+    <!--<mat-form-field>-->
+      <!--<input type="number" matInput i18n-placeholder="@@projectDialogHourlyRaterPlaceholder" placeholder="Hourly Rate" step="1"-->
+             <!--formControlName="hourlyRate" autocomplete="off">-->
+      <!--<mat-error i18n="@@projectDialogHourlyRateError">Please enter a value between 0 and 1000</mat-error>-->
+      <!--<mat-icon matSuffix>euro_symbol</mat-icon>-->
+    <!--</mat-form-field>-->
 
     <mat-checkbox formControlName="inactive" i18n="Project Dialog Inactive@@projectDialogInactive">Inactive</mat-checkbox>
   </mat-dialog-content>

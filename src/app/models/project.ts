@@ -4,6 +4,7 @@ export class Project {
   number: string;
   name: string;
   inactive: boolean;
+  // hourlyRate: number;
 
   constructor(userId?: string, id?: string, number?: string, name?: string) {
     if (userId) {
