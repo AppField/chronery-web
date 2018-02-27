@@ -4,6 +4,8 @@ import { state, style, trigger } from '@angular/animations';
 import 'rxjs/add/operator/takeUntil';
 import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
+import * as moment from 'moment';
+import { Utility } from '../../utils/utility';
 
 @Component({
   selector: 'chy-sidenav',
@@ -22,6 +24,7 @@ import { Subscription } from 'rxjs/Subscription';
 
 export class SidenavComponent implements OnInit, OnDestroy {
   state = 'open';
+  currentDate: string;
   @ViewChild('sidenavContainer') private sidenav;
   private destroy$: Subject<boolean> = new Subject<boolean>();
   private mediaSub: Subscription;
@@ -34,6 +37,7 @@ export class SidenavComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.currentDate = Utility.encodeDate(moment());
     this.state = (this.media.isActive('xs')) ? 'close' : 'open';
     this.mediaSub = this.media
       .subscribe(media => {
