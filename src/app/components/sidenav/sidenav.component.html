@@ -15,7 +15,7 @@
         <mat-icon mat-list-icon>dashboard</mat-icon>
         <span class="sidenav-label" [@menuState]="state">Dashboard</span>
       </a>
-      <a mat-list-item routerLink="/working-hours/{{currentDate}}" routerLinkActive="active"
+      <a mat-list-item [routerLink]="['/working-hours', currentDate]" routerLinkActive="active"
          (click)="recollapseNav()">
         <mat-icon mat-list-icon>timer</mat-icon>
         <span class="sidenav-label" [@menuState]="state"

@@ -58,7 +58,7 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
     this.route.params
       .takeUntil(this.destroy$)
       .subscribe(params => {
-        this.encodedDate = params['date'];
+        this.encodedDate = params['date'] ? params['date'] : Utility.encodeDate(moment());
         this.date = Utility.decodeDate(params['date']);
         this.workingHoursService.onRetrieveData(this.encodedDate);
       });
