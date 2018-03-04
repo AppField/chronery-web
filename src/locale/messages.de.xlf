@@ -478,7 +478,7 @@
         <target>Keine Zeiten für die ausgewählte Periode und das Projekt gefunden</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/pages/report/report.component.ts</context>
-          <context context-type="linenumber">147</context>
+          <context context-type="linenumber">180</context>
         </context-group>
         <note priority="1" from="description">Report Table No Data</note>
       </trans-unit>
@@ -487,7 +487,7 @@
         <target>Gesamt:</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/pages/report/report.component.ts</context>
-          <context context-type="linenumber">152</context>
+          <context context-type="linenumber">185</context>
         </context-group>
         <note priority="1" from="description">Report Total</note>
       </trans-unit>
@@ -703,7 +703,7 @@
         <target>Arbeitszeit zu diesem Tag hinzufügen</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/pages/working-hours/working-hours.component.ts</context>
-          <context context-type="linenumber">55</context>
+          <context context-type="linenumber">56</context>
         </context-group>
         <note priority="1" from="description">Side Menu for navigating</note>
         <note priority="1" from="meaning">Working Hours Add</note>
@@ -870,7 +870,7 @@
         <target>Inaktiv</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/components/project-modal/project-dialog.component.ts</context>
-          <context context-type="linenumber">19</context>
+          <context context-type="linenumber">26</context>
         </context-group>
         <note priority="1" from="description">Project Dialog Inactive</note>
       </trans-unit>
@@ -879,7 +879,7 @@
         <target>Abbrechen</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/components/project-modal/project-dialog.component.ts</context>
-          <context context-type="linenumber">23</context>
+          <context context-type="linenumber">30</context>
         </context-group>
         <note priority="1" from="description">Project Dialog Cancel Button</note>
       </trans-unit>
@@ -888,7 +888,7 @@
         <target>Speichern</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/components/project-modal/project-dialog.component.ts</context>
-          <context context-type="linenumber">25</context>
+          <context context-type="linenumber">32</context>
         </context-group>
         <note priority="1" from="description">Project Dialog Save Button</note>
       </trans-unit>
@@ -950,11 +950,11 @@
         <target>Inaktiv</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/pages/projects/projects.component.ts</context>
-          <context context-type="linenumber">52</context>
+          <context context-type="linenumber">64</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">app/pages/projects/projects.component.ts</context>
-          <context context-type="linenumber">55</context>
+          <context context-type="linenumber">67</context>
         </context-group>
         <note priority="1" from="description">Projects Table Inactive</note>
       </trans-unit>

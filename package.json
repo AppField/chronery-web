@@ -12,7 +12,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "deploy-ghpage": "ng build --prod --aot --env=test --base-href /chronery-web/ && angular-cli-ghpages",
-    "i18n-file": "ng xi18n --outputPath src/local",
+    "i18n-file": "ng xi18n --outputPath src/locale",
     "pwa": "http-server -p 8080 ./dist",
     "stats": "ng build --prod --stats-json && npx webpack-bundle-analyzer dist/stats.json",
     "source-maps-explorer": "ng build --prod --sourcemaps && npx source-map-explorer dist/main.f3be1bf742c2a16b21d5.bundle.js"
