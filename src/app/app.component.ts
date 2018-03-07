@@ -5,6 +5,7 @@ import { MatSnackBar } from '@angular/material';
 import { WindowRef } from './services/window-ref/window-ref.service';
 import { Subject } from 'rxjs/Subject';
 import { environment } from '../environments/environment';
+import { TranslatePipe } from './pipes/translate/translate.pipe';
 
 @Component({
   selector: 'chy-root',
@@ -17,7 +18,8 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(private authService: AuthService,
               private winRef: WindowRef,
               private swUpdate: SwUpdate,
-              private snackBar: MatSnackBar) {
+              private snackBar: MatSnackBar,
+              private translatePipe: TranslatePipe) {
   }
 
   ngOnInit() {
@@ -29,7 +31,7 @@ export class AppComponent implements OnInit, OnDestroy {
         .subscribe(event => {
 
           console.log('[App] Update available: current version is', event.current, 'available version is', event.available);
-          const snackBarRef = this.snackBar.open('Newer version of the app is available', 'Refresh');
+          const snackBarRef = this.snackBar.open(this.translatePipe.transform('updateAvailable'), this.translatePipe.transform('updateRefresh'));
 
           snackBarRef.onAction().subscribe(() => {
             this.winRef.nativeWindow.location.reload();

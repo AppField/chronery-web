@@ -118,6 +118,20 @@ export class TranslatePipe implements PipeTransform {
           default:
             return 'Previous page';
         }
+      case 'updateAvailable':
+        switch (this.lang) {
+          case 'de':
+            return 'Eine neue Version ist verfügbar';
+          default:
+            return 'Newer version of the app is available';
+        }
+      case 'updateRefresh':
+        switch (this.lang) {
+          case 'de':
+            return 'Aktualisieren';
+          default:
+            return 'Refresh';
+        }
       default:
         return textId;
     }
