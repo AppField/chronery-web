@@ -100,6 +100,9 @@ export class ReportPdfDialogComponent implements OnInit {
       headerStyles: {
         fillColor: [0, 150, 136]
       },
+      styles: { overflow: 'linebreak' },
+      // columnStyles: { text: { columnWidth: 'auto' } },
+      columnStyles: { 'comment': { columnWidth: 100} },
       showHeader: 'everyPage'
     });
 
