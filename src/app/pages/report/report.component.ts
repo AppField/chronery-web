@@ -131,7 +131,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   exportReportToCSV(): void {
-    const data = this.workingHoursService.dataChange.getValue();
+    const data = this.workingHoursService.filterChange.getValue();
     const csvData = data.map((work: WorkingHours) => {
       const csvObject: any = {};
       csvObject.date = work.date;
