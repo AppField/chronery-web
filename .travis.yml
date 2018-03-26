@@ -6,7 +6,7 @@ cache:
     - "node_modules"
 install:
   # `awscli` is required for invalidation of CloudFront distributions.
-  - npm install awscli
+  - npm install aws-sdk
   - npm install
 script:
   # Build your site (e.g., HTML, CSS, JS) here.
