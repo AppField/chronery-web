@@ -8,8 +8,7 @@ install:
   # `aws-sdk` is required for invalidation of CloudFront distributions.
   - npm install aws-sdk
   - npm install
-  - aws_access_key_id = $AWS_ACCESS_KEY_ID
-  - aws_secret_access_key = $AWS_SECRET_ACCESS_KEY
+  - pip install awscli
 script:
   # Build your site (e.g., HTML, CSS, JS) here.
   - npm run build-de
