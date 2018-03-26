@@ -89,8 +89,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
         const times = reportData.map((work: WorkingHours) => {
           return work.spent;
         });
-        // this.totalSpent = times.length ? Utility.sumTotalTimes(times) : null;
-        this.totalSpent = times.length ? Utility.sumTimes(times) : null;
+        this.totalSpent = times.length ? Utility.sumTotalTimes(times) : null;
       });
   }
 

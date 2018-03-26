@@ -43,6 +43,7 @@
     "jspdf-autotable": "github:simonbengtsson/jspdf-autotable#master",
     "lodash": "^4.17.5",
     "moment": "^2.20.1",
+    "moment-duration-format": "^2.2.2",
     "pouchdb-find": "^6.4.3",
     "rxjs": "5.5.6",
     "zone.js": "^0.8.20"

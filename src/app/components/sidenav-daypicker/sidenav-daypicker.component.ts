@@ -117,7 +117,7 @@ export class SidenavDaypickerComponent implements OnDestroy, AfterContentInit {
           return Utility.encodeDate(meta.date);
         }).indexOf(work.date);
 
-        const totalTime = Utility.sumTimes([this.days[dateIndex].totalTime, work.spent]);
+        const totalTime = Utility.sumTotalTimes([this.days[dateIndex].totalTime, work.spent]);
         this.days[dateIndex].totalTime = totalTime;
 
         const projectAdded = this.days[dateIndex].projects.indexOf(work.project.id);
