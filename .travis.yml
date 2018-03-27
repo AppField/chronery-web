@@ -1,11 +1,13 @@
 language: node_js
 node_js:
  - "node"
+python:
+   - "3.5"
 cache:
   directories:
     - "node_modules"
 install:
-  # `aws-sdk` is required for invalidation of CloudFront distributions.
+  # `awscli` is required for invalidation of CloudFront distributions.
   - npm install aws-sdk
   - npm install
   - pip install awscli
