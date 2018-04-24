@@ -78,7 +78,7 @@
     <mat-table #table [dataSource]="dataSource" matSort>
       <!-- Project number column -->
       <ng-container matColumnDef="date">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>
+        <mat-header-cell *matHeaderCellDef mat-sort-header fxHide.lt-md>
           <strong i18n="Report Table Column Date@@reportTableHeaderDate">Date</strong>
         </mat-header-cell>
         <mat-cell *matCellDef="let row" fxLayout="row">
@@ -89,7 +89,8 @@
 
       <!-- Project name column -->
       <ng-container matColumnDef="from">
-        <mat-header-cell *matHeaderCellDef mat-sort-header i18n="Report Table Column From@@reportTableHeaderFrom">From</mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header i18n="Report Table Column From@@reportTableHeaderFrom" fxHide.lt-md>From
+        </mat-header-cell>
         <mat-cell *matCellDef="let row" fxLayout="row">
           <div fxHide.gt-sm fxFlex="50"><strong i18n="Report Table Column From@@reportTableHeaderFrom">From</strong></div>
           <div fxFlex="50">{{row.from}} h</div>
@@ -97,7 +98,8 @@
       </ng-container>
 
       <ng-container matColumnDef="to">
-        <mat-header-cell *matHeaderCellDef mat-sort-header i18n="Report Table Column To@@reportTableHeaderTo">To</mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header i18n="Report Table Column To@@reportTableHeaderTo" fxHide.lt-md>To
+        </mat-header-cell>
         <mat-cell *matCellDef="let row" fxLayout="row">
           <div fxHide.gt-sm fxFlex="50">
             <strong i18n="Report Table Column To@@reportTableHeaderTo">To</strong>
@@ -107,7 +109,7 @@
       </ng-container>
 
       <ng-container matColumnDef="spent">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>
+        <mat-header-cell *matHeaderCellDef mat-sort-header fxHide.lt-md>
           <strong i18n="Report Table Column Spent@@reportTableHeaderSpent">Spent</strong>
         </mat-header-cell>
         <mat-cell *matCellDef="let row" fxLayout="row">
@@ -119,7 +121,7 @@
       </ng-container>
 
       <ng-container matColumnDef="project.number">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>
+        <mat-header-cell *matHeaderCellDef mat-sort-header fxHide.lt-md>
           <ng-container i18n="Report Table Column ProjectNumber@@reportTableHeaderProjectNumber">Project Number</ng-container>
         </mat-header-cell>
         <mat-cell *matCellDef="let row" fxLayout="row">
@@ -131,7 +133,7 @@
       </ng-container>
 
       <ng-container matColumnDef="project.name">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>
+        <mat-header-cell *matHeaderCellDef mat-sort-header fxHide.lt-md>
           <ng-container i18n="Report Table Column ProjectName@@reportTableHeaderProjectName">Project Name</ng-container>
         </mat-header-cell>
         <mat-cell *matCellDef="let row" fxLayout="row">
@@ -143,7 +145,7 @@
       </ng-container>
 
       <ng-container matColumnDef="comment">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>
+        <mat-header-cell *matHeaderCellDef mat-sort-header fxHide.lt-md>
           <ng-container i18n="Report Table Column Comment@@reportTableHeaderComment">Comment</ng-container>
         </mat-header-cell>
         <mat-cell *matCellDef="let row" fxLayout="row">
@@ -155,15 +157,15 @@
       </ng-container>
 
       <!--<ng-container matColumnDef="project.hourlyRate">-->
-        <!--<mat-header-cell *matHeaderCellDef mat-sort-header>-->
-          <!--<ng-container i18n="Report Table Column Hourly Rage@@reportTableHourlyRate">HourlyRate</ng-container>-->
-        <!--</mat-header-cell>-->
-        <!--<mat-cell *matCellDef="let row" fxLayout="row">-->
-          <!--<div fxHide.gt-sm fxFlex="50">-->
-            <!--<strong i18n="Report Table Column Comment@@reportTableHeaderComment">Hourly Rate</strong>-->
-          <!--</div>-->
-          <!--<div fxFlex="50">{{row.project.hourlyRate}}</div>-->
-        <!--</mat-cell>-->
+      <!--<mat-header-cell *matHeaderCellDef mat-sort-header>-->
+      <!--<ng-container i18n="Report Table Column Hourly Rage@@reportTableHourlyRate">HourlyRate</ng-container>-->
+      <!--</mat-header-cell>-->
+      <!--<mat-cell *matCellDef="let row" fxLayout="row">-->
+      <!--<div fxHide.gt-sm fxFlex="50">-->
+      <!--<strong i18n="Report Table Column Comment@@reportTableHeaderComment">Hourly Rate</strong>-->
+      <!--</div>-->
+      <!--<div fxFlex="50">{{row.project.hourlyRate}}</div>-->
+      <!--</mat-cell>-->
       <!--</ng-container>-->
 
       <mat-header-row *matHeaderRowDef="displayedColumns" fxHide.xs fxHide.sm></mat-header-row>

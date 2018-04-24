@@ -26,7 +26,7 @@
     <mat-table #table [dataSource]="dataSource" [trackBy]="trackByFn" matSort>
       <!-- Project number column -->
       <ng-container matColumnDef="number">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>
+        <mat-header-cell *matHeaderCellDef mat-sort-header fxHide.lt-md>
           <ng-container i18n="Projects Table Project Number@@projectsTableProjectNumber">Project Number</ng-container>
         </mat-header-cell>
         <mat-cell *matCellDef="let row" fxLayout="row">
@@ -37,7 +37,7 @@
 
       <!-- Project name column -->
       <ng-container matColumnDef="name">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>
+        <mat-header-cell *matHeaderCellDef mat-sort-header fxHide.lt-md>
           <ng-container i18n="Projects Table Project Name@@projectsTableProjectName">Project Name</ng-container>
         </mat-header-cell>
         <mat-cell *matCellDef="let row" fxLayout="row">
@@ -60,7 +60,7 @@
 
       <!-- Project inactive column -->
       <ng-container matColumnDef="inactive">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>
+        <mat-header-cell *matHeaderCellDef mat-sort-header fxHide.lt-md>
           <ng-container i18n="Projects Table Inactive@@projectsTableInactive">Inactive</ng-container>
         </mat-header-cell>
         <mat-cell *matCellDef="let row" fxLayout="row">
@@ -71,7 +71,7 @@
 
       <!-- Edit Button -->
       <ng-container matColumnDef="edit">
-        <mat-header-cell *matHeaderCellDef class="action"></mat-header-cell>
+        <mat-header-cell *matHeaderCellDef class="action" fxHide.lt-md></mat-header-cell>
         <mat-cell *matCellDef="let row" class="action" fxHide.xs fxHide.sm>
           <button mat-icon-button (click)="editProject(row)">
             <mat-icon>edit</mat-icon>
@@ -79,7 +79,7 @@
         </mat-cell>
       </ng-container>
 
-      <mat-header-row *matHeaderRowDef="displayedColumns" fxHide.xs fxHide.sm></mat-header-row>
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
       <mat-row class="mobile-pointer" *matRowDef="let row; columns: displayedColumns;"
                (click)="editMobileProject(row)"></mat-row>
     </mat-table>
