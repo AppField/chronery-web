@@ -6,16 +6,6 @@ python:
 cache:
   directories:
     - "node_modules"
-# This is needed to avoid building all the tags pushed by travis
-branches:
-  except:
-    - /^v?\d+\.\d+\.\d+$/
-before_install:
-#    Create a git tag of the new version.
-#    If package.json major and minor version match last tag, increment last tag. Else use package.json major.minor.0.
-    - "{ sed -nE 's/^[ \\t]*\"version\": \"([0-9]{1,}\\.[0-9]{1,}\\.)[0-9x]{1,}\",$/\\1/p' package.json; git describe --abbrev=0 | sed -E 's/^v([0-9]{1,}\\.[0-9]{1,}\\.)([0-9]{1,})$/\\1 \\2/g'; } | tr \"\\n\" \" \" | awk '{printf($1==$2?\"v\"$2$3+1:\"v\"$1\"0\")}' | xargs -I {} git tag -a {} -m \"{}\"\n"
-#    Update package.json base on the git tag just created
-    - npm --no-git-tag-version version from-git
 install:
   # `awscli` is required for invalidation of CloudFront distributions.
   - pip install --user awscli
@@ -32,12 +22,6 @@ deploy:
     bucket: chronery-web
     skip_cleanup: true
     local_dir: dist
-  - provider: script
-    on:
-      branch: master
-    skip_cleanup: true
-    github-token: $GITHUB_TOKEN
-    script: git push --tags
 after_deploy:
   # Allow `awscli` to make requests to CloudFront.
   - aws configure set preview.cloudfront true
