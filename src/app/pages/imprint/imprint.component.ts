@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'chy-imprint',
@@ -7,10 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ImprintComponent implements OnInit {
 
+  version: string;
+
   constructor() {
   }
 
   ngOnInit() {
+    this.version = environment.version;
   }
 
 
