@@ -32,11 +32,11 @@ deploy:
     bucket: chronery-web
     skip_cleanup: true
     local_dir: dist
-#  - provider: script
-#      skip_cleanup: true
-#      script: git push --tags
-#      on:
-#        branch: master
+  - provider: script
+    on:
+      branch: master
+    skip_cleanup: true
+    script: git push --tags
 after_deploy:
   # Allow `awscli` to make requests to CloudFront.
   - aws configure set preview.cloudfront true
