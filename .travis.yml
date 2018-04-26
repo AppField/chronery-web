@@ -36,6 +36,7 @@ deploy:
     on:
       branch: master
     skip_cleanup: true
+    github-token: $GITHUB_TOKEN
     script: git push --tags
 after_deploy:
   # Allow `awscli` to make requests to CloudFront.
