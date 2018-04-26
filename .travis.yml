@@ -24,14 +24,14 @@ script:
   # Build your site (e.g., HTML, CSS, JS) here.
   - npm run build-de
 deploy:
-  on:
-    branch: master
-  provider: s3
-  access_key_id: $AWS_ACCESS_KEY_ID
-  secret_access_key: $AWS_SECRET_ACCESS_KEY
-  bucket: chronery-web
-  skip_cleanup: true
-  local_dir: dist
+  - provider: s3
+    on:
+      branch: master
+    access_key_id: $AWS_ACCESS_KEY_ID
+    secret_access_key: $AWS_SECRET_ACCESS_KEY
+    bucket: chronery-web
+    skip_cleanup: true
+    local_dir: dist
 #  - provider: script
 #      skip_cleanup: true
 #      script: git push --tags
