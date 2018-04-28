@@ -2,12 +2,66 @@
 apps:
   web: !com.amazonaws.mobilehub.v0.AppDO {}
 features:
+  cloudlogic: !com.amazonaws.mobilehub.v0.CloudLogic 
+    components:
+      Chronery: !com.amazonaws.mobilehub.v0.API 
+        attributes:
+          api-arn: 'arn:aws:execute-api:eu-central-1:329159685776:qa1nu08638'
+          description: Endpoint for chronerys projects.
+          name: Chronery
+          requires-signin: true
+          sdk-generation-stage-name: dev
+        paths:
+          /comments: !com.amazonaws.mobilehub.v0.Function {}
+          '/comments/{id}': !com.amazonaws.mobilehub.v0.Function {}
+          /projects: !com.amazonaws.mobilehub.v0.Function {}
+          /working-hours: !com.amazonaws.mobilehub.v0.Function {}
+          '/working-hours/{date}': !com.amazonaws.mobilehub.v0.Function {}
   content-delivery: !com.amazonaws.mobilehub.v0.ContentDelivery 
     attributes:
       enabled: true
       visibility: public-global
     components:
       release: !com.amazonaws.mobilehub.v0.Bucket {}
+  database: !com.amazonaws.mobilehub.v0.Database 
+    components:
+      database-nosql: !com.amazonaws.mobilehub.v0.NoSQLDatabase 
+        tables:
+          - !com.amazonaws.mobilehub.v0.NoSQLTable 
+            attributes:
+              id: S
+              userId: S
+              value: S
+            hashKeyName: userId
+            hashKeyType: S
+            rangeKeyName: id
+            rangeKeyType: S
+            tableName: ___DYNAMIC_PREFIX___-comments
+            tablePrivacy: private
+          - !com.amazonaws.mobilehub.v0.NoSQLTable 
+            attributes:
+              id: S
+              inactive: BOOL
+              name: S
+              number: S
+              userId: S
+            hashKeyName: userId
+            hashKeyType: S
+            rangeKeyName: id
+            rangeKeyType: S
+            tableName: ___DYNAMIC_PREFIX___-projects
+            tablePrivacy: private
+          - !com.amazonaws.mobilehub.v0.NoSQLTable 
+            attributes:
+              date: S
+              events: L
+              userId: S
+            hashKeyName: userId
+            hashKeyType: S
+            rangeKeyName: date
+            rangeKeyType: S
+            tableName: ___DYNAMIC_PREFIX___-working-hours
+            tablePrivacy: private
   mobile-analytics: !com.amazonaws.mobilehub.v0.Pinpoint 
     components:
       analytics: !com.amazonaws.mobilehub.v0.PinpointAnalytics {}
