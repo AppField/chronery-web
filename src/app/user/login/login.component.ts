@@ -11,22 +11,30 @@ import { Subject } from 'rxjs/Subject';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit, OnDestroy {
-  private destroy$: Subject<boolean> = new Subject<boolean>();
-
   loginForm: FormGroup;
   email: AbstractControl;
   didFail = false;
   loginSent = false;
+  private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(public fb: FormBuilder, private authService: AuthService, private router: Router) {
   }
 
+  get emailErrorMessage(): string {
+    return this.email.hasError('required') ? 'Please enter your E-Mail Address' :
+      this.email.hasError('email') ? 'Not a valid email' : '';
+  }
+
+  get didLoginFail(): boolean {
+    return this.didFail && this.loginSent;
+  }
+
   ngOnInit() {
-    this.authService.authDidFail
-      .takeUntil(this.destroy$)
-      .subscribe(
-        (didFail: boolean) => this.didFail = didFail
-      );
+    // this.authService.authDidFail
+    //   .takeUntil(this.destroy$)
+    //   .subscribe(
+    //     (didFail: boolean) => this.didFail = didFail
+    //   );
 
     // Setup form
     this.loginForm = this.fb.group({
@@ -41,14 +49,14 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.router.navigate(['dashboard']);
     }
 
-
-    this.authService.authStatusChanged
-      .takeUntil(this.destroy$)
-      .subscribe(authenticated => {
-        if (authenticated) {
-          this.router.navigate(['dashboard']);
-        }
-      });
+    //
+    // this.authService.authStatusChanged
+    //   .takeUntil(this.destroy$)
+    //   .subscribe(authenticated => {
+    //     if (authenticated) {
+    //       this.router.navigate(['dashboard']);
+    //     }
+    //   });
   }
 
   login(): void {
@@ -57,7 +65,17 @@ export class LoginComponent implements OnInit, OnDestroy {
       const password = this.loginForm.controls['password'].value;
 
       this.didFail = false;
-      this.authService.signIn(email, password);
+      this.authService.signIn(email, password)
+        .subscribe(
+          result => {
+            this.router.navigate(['/dashboard']);
+            this.didFail = false;
+          },
+          error => {
+            this.didFail = true;
+            this.authService.handleError(error);
+          }
+        );
       this.loginSent = true;
     }
   }
@@ -72,15 +90,6 @@ export class LoginComponent implements OnInit, OnDestroy {
       })
       .catch(err => {
       });
-  }
-
-  get emailErrorMessage(): string {
-    return this.email.hasError('required') ? 'Please enter your E-Mail Address' :
-      this.email.hasError('email') ? 'Not a valid email' : '';
-  }
-
-  get didLoginFail(): boolean {
-    return this.didFail && this.loginSent;
   }
 
   ngOnDestroy() {

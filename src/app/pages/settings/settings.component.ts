@@ -40,22 +40,23 @@ export class SettingsComponent implements OnInit, OnDestroy {
     // this.authService.authDidFail.subscribe((didFail: boolean) => this.accountDeletFailed = didFail);
 
     this.accountForm = this.fb.group({
-      given_name: ['', [Validators.required]],
-      family_name: ['', [Validators.required]],
+      given_name: [''],
+      family_name: [''],
       email: ['', [Validators.required, Validators.email]]
     });
 
-    this.authService.getUserAttributes().then((attributes: User) => {
-      if (!attributes) {
-        return;
-      }
-      this.attributes = attributes;
-      this.accountForm = this.fb.group({
-        given_name: [this.attributes['given_name'], [Validators.required]],
-        family_name: [this.attributes['family_name'], [Validators.required]],
-        email: [this.attributes['email'], [Validators.required, Validators.email]]
-      });
-    });
+    this.authService.getUserAttributes()
+      .then(
+        result => {
+          this.attributes = result;
+          this.accountForm = this.fb.group({
+            given_name: [this.attributes['given_name'], [Validators.required]],
+            family_name: [this.attributes['family_name'], [Validators.required]],
+            email: [this.attributes['email'], [Validators.required, Validators.email]]
+          });
+        },
+        error => console.log(error)
+      );
   }
 
   createComment(): void {

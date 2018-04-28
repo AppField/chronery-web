@@ -53,12 +53,12 @@ export class RegisterComponent implements OnInit {
       const password = this.registerForm.controls['password'].value;
 
       this.authService.signUp(givenName, family_name, email, password)
-        .then((result) => {
-          this.justRegisted = true;
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+        .subscribe(
+          (result) => {
+            this.justRegisted = true;
+          },
+          error => this.authService.handleError(error));
+
       this.signupSent = true;
     }
   }

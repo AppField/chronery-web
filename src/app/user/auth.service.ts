@@ -1,263 +1,182 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subject } from 'rxjs/Subject';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-
-import { AuthenticationDetails, CognitoUser, CognitoUserAttribute, CognitoUserPool, CognitoUserSession } from 'amazon-cognito-identity-js';
-
-import { User } from '../models/user';
-import { MatDialog } from '@angular/material';
+import { AmplifyService } from 'aws-amplify-angular';
+import { MatDialog, MatSnackBar } from '@angular/material';
+import { Observable } from 'rxjs/Observable';
+import { fromPromise } from 'rxjs/observable/fromPromise';
+import { catchError, finalize, map, tap } from 'rxjs/operators';
+import { of } from 'rxjs/observable/of';
 import { ForgotPasswordDialogComponent } from '../components/forgot-password-dialog/forgot-password-dialog.component';
 
-const POOL_DATA = {
-  UserPoolId: 'eu-central-1_kdg6hHeXX',
-  ClientId: '7gddc195e3gak097o6veegd27v'
-};
-const userPool = new CognitoUserPool(POOL_DATA);
-
 @Injectable()
-export class AuthService {
+export class AuthService implements OnInit {
+  auth: any;
+  user: any;
+
   authIsLoading = new BehaviorSubject<boolean>(false);
-  authDidFail = new BehaviorSubject<boolean>(false);
-  errorChange = new BehaviorSubject<{}>({});
-  authStatusChanged = new Subject<boolean>();
-  registeredUser: CognitoUser;
+  loggedIn = new BehaviorSubject<boolean>(false);
 
-  constructor(private router: Router, public dialog: MatDialog) {
+  constructor(private router: Router,
+              public dialog: MatDialog,
+              public amplify: AmplifyService,
+              public snackBar: MatSnackBar) {
   }
 
-  signUp(givenName: string, familyName: string, email: string, password: string): Promise<{}> {
-    return new Promise<{}>((resolve, reject) => {
-
-      this.authIsLoading.next(true);
-      const user: User = {
-        given_name: givenName,
-        family_name: familyName,
-        email: email,
-        password: password,
-        createdAt: Date.now().toString(),
-        updated_at: Date.now().toString()
-      };
-
-      const attrList: CognitoUserAttribute[] = [];
-      const emailAttribute = {
-        Name: 'email',
-        Value: user.email
-      };
-
-      const givenNameAttribute = {
-        Name: 'given_name',
-        Value: user.given_name
-      };
-
-      const familyNameAttribute = {
-        Name: 'family_name',
-        Value: user.family_name
-      };
-
-      const createdAtAttribute = {
-        Name: 'custom:createdAt',
-        Value: user.createdAt
-      };
-
-      const updatedAtAttribute = {
-        Name: 'updated_at',
-        Value: user.updated_at
-      };
-
-      attrList.push(new CognitoUserAttribute(givenNameAttribute));
-      attrList.push(new CognitoUserAttribute(familyNameAttribute));
-      attrList.push(new CognitoUserAttribute(emailAttribute));
-      attrList.push(new CognitoUserAttribute(createdAtAttribute));
-      attrList.push(new CognitoUserAttribute(updatedAtAttribute));
-
-      userPool.signUp(user.email, user.password, attrList, null, (err, result) => {
-        if (err) {
-          console.log(err);
-          this.authDidFail.next(true);
-          this.authIsLoading.next(false);
-          this.errorChange.next(err);
-          reject(err);
-          return;
+  ngOnInit() {
+    this.amplify.auth().authStateChange$
+      .subscribe(authState => {
+        this.loggedIn.next(authState.state === 'signedIn');
+        if (!authState.user) {
+          console.log('no user!');
+          this.user = null;
+        } else {
+          console.log('user', authState.user);
+          this.user = authState.user;
         }
-        this.authDidFail.next(false);
-        this.authIsLoading.next(false);
-        resolve(result);
-        this.registeredUser = result.user;
       });
-
-    });
   }
 
-
-  signIn(email: string, password: string): void {
+  signUp(given_name: string, family_name: string, email: string, password: string): Observable<any> {
     this.authIsLoading.next(true);
-    const authData = {
-      Username: email,
-      Password: password
-    };
-
-    const authDetails = new AuthenticationDetails(authData);
-    const userData = {
-      Username: email,
-      Pool: userPool
-    };
-    const cognitoUser = new CognitoUser(userData);
-    const self = this;
-    cognitoUser.authenticateUser(authDetails, {
-      onSuccess(result: CognitoUserSession) {
-        self.authStatusChanged.next(true);
-        self.authDidFail.next(false);
-        self.authIsLoading.next(false);
-        console.log(result);
-      },
-      onFailure(err) {
-        self.authDidFail.next(true);
-        self.authIsLoading.next(false);
-        self.errorChange.next(err);
-        console.log(err);
+    return fromPromise(this.amplify.auth().signUp({
+      username: email,
+      password,
+      attributes: {
+        email,
+        given_name,
+        family_name,
+        updated_at: Date.now().toString(),
+        'custom:created_at': Date.now().toString()
       }
-    });
-    this.authStatusChanged.next(true);
-    return;
+    }))
+      .pipe(
+        finalize(() => this.authIsLoading.next(false))
+      );
   }
 
-  getAuthenticatedUser() {
-    return userPool.getCurrentUser();
+
+  signIn(email: string, password: string): Observable<any> {
+    this.authIsLoading.next(true);
+    return fromPromise(this.amplify.auth().signIn(email, password))
+      .pipe(
+        tap(() => {
+          this.loggedIn.next(true);
+        }),
+        finalize(() => this.authIsLoading.next(false))
+      );
   }
+
+  // getAuthenticatedUser() {
+  //   this.auth().sign
+  // }
 
   logout() {
-    this.getAuthenticatedUser().signOut();
-    this.authStatusChanged.next(false);
-    this.router.navigate(['/login']);
+    fromPromise(this.amplify.auth().signOut())
+      .subscribe(
+        result => {
+          this.loggedIn.next(true);
+          this.router.navigate(['/login']);
+        },
+        error => console.log(error));
   }
 
-  isAuthenticated(): Promise<boolean> {
-    const user = this.getAuthenticatedUser();
-    return new Promise<boolean>((resolve, reject) => {
-      if (!user) {
-        console.log('NO USER');
-        resolve(false);
-      } else {
-        user.getSession((err, session) => {
-          console.log('SESSION:', session);
-          if (err) {
-            console.log('AUTH REJECTED');
-            resolve(false);
-          } else {
-            if (session.isValid()) {
-              console.log('SESSION VALID');
-              resolve(true);
-            } else {
-              console.log('AUTH REJECTED NUMBER TWO');
-              resolve(false);
-            }
-          }
-        });
-      }
-    });
+  isAuthenticated(): Observable<boolean> {
+    return fromPromise(this.amplify.auth().currentAuthenticatedUser())
+      .pipe(
+        map(result => {
+          this.loggedIn.next(true);
+          return true;
+        }),
+        catchError(error => {
+          this.loggedIn.next(false);
+          return of(false);
+        })
+      );
   }
 
   deleteAccount(): void {
-
-    const cognitoUser = this.getAuthenticatedUser();
-    if (cognitoUser) {
-      cognitoUser.getSession((err, result) => {
-        if (err) {
-          this.authDidFail.next(true);
-          console.log(err);
-          return;
-        }
-
-        cognitoUser.deleteUser((error, response) => {
+    this.amplify.auth().currentAuthenticatedUser()
+      .then(user => {
+        user.deleteUser((error, response) => {
           if (error) {
-            this.authDidFail.next(true);
-            console.log(err);
             return;
           }
           window.location.reload();
         });
-
       });
-    }
-    console.log(cognitoUser);
   }
 
+  // forgotPassword(email: string): Promise<boolean> {
   forgotPassword(email: string): Promise<boolean> {
-    return new Promise((resolve, reject) => {
-      const userData = {
-        Username: email,
-        Pool: userPool
-      };
-      const cognitoUser = new CognitoUser(userData);
-
-      cognitoUser.forgotPassword({
-        onSuccess: (data) => {
-          console.log('CodeDeliveryData from forgotPassword: ' + data);
-        },
-        onFailure: (err) => {
-          console.log(err);
-        },
-        inputVerificationCode: (data) => {
-          console.log('Code sent to: ' + data);
-
+    return new Promise<boolean>((resolve, reject) => {
+      this.amplify.auth().forgotPassword(email)
+        .then(result => {
           const dialogRef = this.dialog.open(ForgotPasswordDialogComponent, { disableClose: true });
 
           dialogRef.afterClosed().subscribe((resetData) => {
             if (resetData) {
-              cognitoUser.confirmPassword(resetData.code, resetData.password, {
-                onSuccess() {
-                  console.log('Password confirmed!');
-                  resolve(true);
-                },
-                onFailure(err) {
-                  console.log('Password not confirmed!');
-                  reject();
-                }
-              });
+              this.amplify.auth().forgotPasswordSubmit(email, resetData.code, resetData.password)
+                .then(response => resolve(true))
+                .catch(error => reject(error));
             } else {
               resolve(false);
             }
           });
-        }
-      });
+        })
+        .catch(error => this.handleError(error));
     });
   }
 
-  getUserAttributes(): Promise<User> {
-    return new Promise<User>((resolve, reject) => {
-      const cognitoUser = this.getAuthenticatedUser();
-      if (cognitoUser) {
-        cognitoUser.getSession((err, result) => {
-          if (err) {
-            this.authDidFail.next(true);
-            console.log(err);
-            return;
-          }
+  getSession(): Observable<any> {
+    return fromPromise(this.amplify.auth().currentSession());
+  }
 
-          cognitoUser.getUserAttributes((error, response: CognitoUserAttribute[]) => {
-            if (error) {
-              this.authDidFail.next(true);
-              console.log(err);
-              reject(error);
-              return;
-            }
-            const attributes = new User();
-            response.map((attribute: CognitoUserAttribute) => {
-              attributes[attribute.getName()] = attribute.getValue();
-            });
-            resolve(attributes ? attributes : null);
-          });
+  getUserAttributes(): Promise<any> {
+    return new Promise<any>((resolve, reject) => {
+
+      this.amplify.auth().currentAuthenticatedUser()
+        .then(user => {
+          this.user = user;
+          this.amplify.auth().userAttributes(user)
+            .then(result => {
+              const attributes = [];
+              result.map(attribute => {
+                attributes[attribute.getName()] = attribute.getValue();
+              });
+              resolve(attributes);
+            })
+            .catch(error => reject(error));
         });
-      }
-
-
     });
   }
 
-  // initAuth() {
-  // 	this.isAuthenticated().subscribe(
-  // 		(auth) => this.authStatusChanged.next(auth)
-  // 	);
-  // }
+  handleError(error) {
+    switch (error['code']) {
+      case 'UserNotConfirmedException':
+        const snackbar = this.snackBar.open('Please confirm your account', 'Resend E-Mail', {
+          duration: 10000
+        });
+        snackbar.onAction().subscribe(() => {
+          alert('send email');
+        });
+        break;
+      case 'NotAuthorizedException':
+        this.snackBar.open('E-Mail or password wrong.', null, {
+          duration: 10000
+        });
+        break;
+      case 'UsernameExistsException':
+        this.snackBar.open('E-Mail is already taken.', null, {
+          duration: 10000
+        });
+        break;
+      case 'UserNotFoundException':
+        this.snackBar.open('User not found', null, {
+          duration: 10000
+        });
+        break;
+    }
+  }
+
 }

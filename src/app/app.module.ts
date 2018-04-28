@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AmplifyAngularModule, AmplifyService } from 'aws-amplify-angular';
 
 import 'hammerjs';
 
@@ -78,9 +79,11 @@ import { TranslatePipe } from './pipes/translate/translate.pipe';
     ReactiveFormsModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-    MaterialModule
+    MaterialModule,
+    AmplifyAngularModule
   ],
   providers: [
+    AmplifyService,
     DecimalPipe,
     DatePipe,
     TranslatePipe,
