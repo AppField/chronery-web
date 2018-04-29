@@ -158,7 +158,8 @@ export class AuthService implements OnInit {
     this.amplify.auth().currentAuthenticatedUser().then(user => {
       this.amplify.auth().updateUserAttributes(user, {
         given_name,
-        family_name
+        family_name,
+        updated_at: Date.now().toString()
       })
         .then(result => {
           this.snackBar.open(this.translate.transform('UserSuccessfullyUpdated'));
