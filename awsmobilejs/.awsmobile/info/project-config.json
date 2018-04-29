@@ -2,5 +2,5 @@
 	"SourceDir": "src",
 	"DistributionDir": "dist",
 	"BuildCommand": "npm run build-de",
-	"StartCommand": "ng serve"
+	"StartCommand": "npm run start-de"
 }

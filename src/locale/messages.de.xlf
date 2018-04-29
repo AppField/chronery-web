@@ -609,6 +609,15 @@
         </context-group>
         <note priority="1" from="description">Settings E-Mail placeholder</note>
       </trans-unit>
+      <trans-unit id="SettingsAccountUpdateBtn" datatype="html">
+        <source>Update</source>
+        <target>Aktualisieren</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/settings/settings.component.ts</context>
+          <context context-type="linenumber">73</context>
+        </context-group>
+        <note priority="1" from="description">Settings Account Update</note>
+      </trans-unit>
       <trans-unit id="settingsDeleteAccountBtn" datatype="html">
         <source>Delete account</source>
         <target>Account löschen</target>

@@ -356,26 +356,28 @@
         <note priority="1" from="description">Report Table Column Date</note>
       </trans-unit>
       <trans-unit id="reportTableHeaderFrom" datatype="html">
-        <source>From</source>
+        <source>From
+        </source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/pages/report/report.component.ts</context>
           <context context-type="linenumber">92</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">app/pages/report/report.component.ts</context>
-          <context context-type="linenumber">94</context>
+          <context context-type="linenumber">95</context>
         </context-group>
         <note priority="1" from="description">Report Table Column From</note>
       </trans-unit>
       <trans-unit id="reportTableHeaderTo" datatype="html">
-        <source>To</source>
+        <source>To
+        </source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/pages/report/report.component.ts</context>
-          <context context-type="linenumber">100</context>
+          <context context-type="linenumber">101</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">app/pages/report/report.component.ts</context>
-          <context context-type="linenumber">103</context>
+          <context context-type="linenumber">105</context>
         </context-group>
         <note priority="1" from="description">Report Table Column To</note>
       </trans-unit>
@@ -383,11 +385,11 @@
         <source>Spent</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/pages/report/report.component.ts</context>
-          <context context-type="linenumber">111</context>
+          <context context-type="linenumber">113</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">app/pages/report/report.component.ts</context>
-          <context context-type="linenumber">115</context>
+          <context context-type="linenumber">117</context>
         </context-group>
         <note priority="1" from="description">Report Table Column Spent</note>
       </trans-unit>
@@ -395,11 +397,11 @@
         <source>Project Number</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/pages/report/report.component.ts</context>
-          <context context-type="linenumber">123</context>
+          <context context-type="linenumber">125</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">app/pages/report/report.component.ts</context>
-          <context context-type="linenumber">127</context>
+          <context context-type="linenumber">129</context>
         </context-group>
         <note priority="1" from="description">Report Table Column ProjectNumber</note>
       </trans-unit>
@@ -407,11 +409,11 @@
         <source>Project Name</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/pages/report/report.component.ts</context>
-          <context context-type="linenumber">135</context>
+          <context context-type="linenumber">137</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">app/pages/report/report.component.ts</context>
-          <context context-type="linenumber">139</context>
+          <context context-type="linenumber">141</context>
         </context-group>
         <note priority="1" from="description">Report Table Column ProjectName</note>
       </trans-unit>
@@ -419,11 +421,11 @@
         <source>Comment</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/pages/report/report.component.ts</context>
-          <context context-type="linenumber">147</context>
+          <context context-type="linenumber">149</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">app/pages/report/report.component.ts</context>
-          <context context-type="linenumber">151</context>
+          <context context-type="linenumber">153</context>
         </context-group>
         <note priority="1" from="description">Report Table Column Comment</note>
       </trans-unit>
@@ -431,7 +433,7 @@
         <source>No times found for the selected period and project</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/pages/report/report.component.ts</context>
-          <context context-type="linenumber">180</context>
+          <context context-type="linenumber">182</context>
         </context-group>
         <note priority="1" from="description">Report Table No Data</note>
       </trans-unit>
@@ -439,7 +441,7 @@
         <source>Total:</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/pages/report/report.component.ts</context>
-          <context context-type="linenumber">185</context>
+          <context context-type="linenumber">187</context>
         </context-group>
         <note priority="1" from="description">Report Total</note>
       </trans-unit>
@@ -528,25 +530,21 @@
         </context-group>
         <note priority="1" from="description">Settings First Name Placeholder</note>
       </trans-unit>
-      <trans-unit id="settingsRequiredError" datatype="html">
-        <source>Required</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/pages/settings/settings.component.ts</context>
-          <context context-type="linenumber">60</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/pages/settings/settings.component.ts</context>
-          <context context-type="linenumber">66</context>
-        </context-group>
-        <note priority="1" from="description">Settings Required Error</note>
-      </trans-unit>
       <trans-unit id="settingsEMailPlaceholder" datatype="html">
         <source>E-Mail Address</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/pages/settings/settings.component.ts</context>
-          <context context-type="linenumber">70</context>
+          <context context-type="linenumber">68</context>
         </context-group>
         <note priority="1" from="description">Settings E-Mail placeholder</note>
+      </trans-unit>
+      <trans-unit id="SettingsAccountUpdateBtn" datatype="html">
+        <source>Update</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/settings/settings.component.ts</context>
+          <context context-type="linenumber">73</context>
+        </context-group>
+        <note priority="1" from="description">Settings Account Update</note>
       </trans-unit>
       <trans-unit id="settingsDeleteAccountBtn" datatype="html">
         <source>Delete account</source>
@@ -563,43 +561,6 @@
           <context context-type="linenumber">81</context>
         </context-group>
         <note priority="1" from="description">Settings Logout Button</note>
-      </trans-unit>
-      <trans-unit id="settingsAppSettings" datatype="html">
-        <source>App Settings</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/pages/settings/settings.component.ts</context>
-          <context context-type="linenumber">89</context>
-        </context-group>
-        <note priority="1" from="description">Settings App Settings</note>
-      </trans-unit>
-      <trans-unit id="settingsCustomAppSettings" datatype="html">
-        <source>Custom settings</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/pages/settings/settings.component.ts</context>
-          <context context-type="linenumber">92</context>
-        </context-group>
-        <note priority="1" from="description">Settings Custom App Settings</note>
-      </trans-unit>
-      <trans-unit id="settingsLanguageGerman" datatype="html">
-        <source>German</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/pages/settings/settings.component.ts</context>
-          <context context-type="linenumber">99</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="settingsLanguageEnglish" datatype="html">
-        <source>English</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/pages/settings/settings.component.ts</context>
-          <context context-type="linenumber">102</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="settingsLanguagePlaceholder" datatype="html">
-        <source>Language</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/pages/settings/settings.component.ts</context>
-          <context context-type="linenumber">97</context>
-        </context-group>
       </trans-unit>
       <trans-unit id="workingHoursHeader" datatype="html">
         <source>Working Hours</source>
