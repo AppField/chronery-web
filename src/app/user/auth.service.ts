@@ -8,6 +8,7 @@ import { fromPromise } from 'rxjs/observable/fromPromise';
 import { catchError, finalize, map, tap } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
 import { ForgotPasswordDialogComponent } from '../components/forgot-password-dialog/forgot-password-dialog.component';
+import { TranslatePipe } from '../pipes/translate/translate.pipe';
 
 @Injectable()
 export class AuthService implements OnInit {
@@ -20,7 +21,8 @@ export class AuthService implements OnInit {
   constructor(private router: Router,
               public dialog: MatDialog,
               public amplify: AmplifyService,
-              public snackBar: MatSnackBar) {
+              public snackBar: MatSnackBar,
+              private translate: TranslatePipe) {
   }
 
   ngOnInit() {
@@ -151,28 +153,49 @@ export class AuthService implements OnInit {
     });
   }
 
+  updateAccount(given_name: string, family_name: string): void {
+
+    this.amplify.auth().currentAuthenticatedUser().then(user => {
+      this.amplify.auth().updateUserAttributes(user, {
+        given_name,
+        family_name
+      })
+        .then(result => {
+          this.snackBar.open(this.translate.transform('UserSuccessfullyUpdated'));
+        })
+        .catch(error => {
+          this.handleError(error);
+        });
+    });
+  }
+
+  resendEmail(): void {
+
+  }
+
   handleError(error) {
     switch (error['code']) {
       case 'UserNotConfirmedException':
-        const snackbar = this.snackBar.open('Please confirm your account', 'Resend E-Mail', {
-          duration: 10000
-        });
+        const snackbar = this.snackBar.open(this.translate.transform('UserNotConfirmedException'),
+          this.translate.transform('UserNotConfirmedExceptionAction'), {
+            duration: 10000
+          });
         snackbar.onAction().subscribe(() => {
           alert('send email');
         });
         break;
       case 'NotAuthorizedException':
-        this.snackBar.open('E-Mail or password wrong.', null, {
+        this.snackBar.open(this.translate.transform('NotAuthorizedException'), null, {
           duration: 10000
         });
         break;
       case 'UsernameExistsException':
-        this.snackBar.open('E-Mail is already taken.', null, {
+        this.snackBar.open(this.translate.transform('UsernameExistsException'), null, {
           duration: 10000
         });
         break;
       case 'UserNotFoundException':
-        this.snackBar.open('User not found', null, {
+        this.snackBar.open(this.translate.transform('UserNotFoundException'), null, {
           duration: 10000
         });
         break;

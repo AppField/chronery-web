@@ -77,6 +77,12 @@ export class SettingsComponent implements OnInit, OnDestroy {
     this.commentsService.onDeleteData(comment);
   }
 
+  updateAccount(): void {
+    const given_name = this.accountForm.controls['given_name'].value;
+    const family_name = this.accountForm.controls['family_name'].value;
+    this.authService.updateAccount(given_name, family_name);
+  }
+
   deleteAccount(): void {
     const dialogRef = this.dialog.open(ConfirmAccountDeletionComponent);
 

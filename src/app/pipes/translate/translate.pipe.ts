@@ -132,6 +132,48 @@ export class TranslatePipe implements PipeTransform {
           default:
             return 'Refresh';
         }
+      case 'UserNotConfirmedException':
+        switch (this.lang) {
+          case 'de':
+            return 'Bitte best&auumltigen Sie ihren Benutzer';
+          default:
+            return 'Please confirm your account.';
+        }
+      case 'UserNotConfirmedExceptionAction':
+        switch (this.lang) {
+          case 'de':
+            return 'E-Mail erneut senden.';
+          default:
+            return 'Resend E-Mail';
+        }
+      case 'NotAuthorizedException':
+        switch (this.lang) {
+          case 'de':
+            return 'E-Mail oder Passwort falsch.';
+          default:
+            return 'E-Mail or password wrong.';
+        }
+      case 'UsernameExistsException':
+        switch (this.lang) {
+          case 'de':
+            return 'E-Mail ist bereits vergeben.';
+          default:
+            return 'E-Mail is already taken.';
+        }
+      case 'UserNotFoundException':
+        switch (this.lang) {
+          case 'de':
+            return 'Benutzer konnte nicht gefunden werden.';
+          default:
+            return 'User not found.';
+        }
+      case 'UserSuccessfullyUpdated':
+        switch (this.lang) {
+          case 'de':
+            return 'Benutzerdaten erfolgreich aktualisiert!';
+          default:
+            return 'Accountdata successfully updated!';
+        }
       default:
         return textId;
     }

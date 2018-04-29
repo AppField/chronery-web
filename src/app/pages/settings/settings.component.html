@@ -53,17 +53,15 @@
         </mat-panel-description>
       </mat-expansion-panel-header>
 
-      <form [formGroup]="accountForm">
+      <form [formGroup]="accountForm" fxFlex fxLayoutAlign="space-around" fxLayout.lt-sm="column" (ngSubmit)="updateAccount()">
         <mat-form-field>
           <input matInput i18n-placeholder="Settings First Name Placeholder@@settingsFirstNamePlaceholder" placeholder="First Name"
-                 formControlName="given_name" autocomplete="off" readonly>
-          <mat-error i18n="Settings Required Error@@settingsRequiredError">Required</mat-error>
+                 formControlName="given_name" autocomplete="off">
         </mat-form-field>
 
         <mat-form-field>
           <input matInput i18n="Settings Family Name Placeholder@@settingsFamilyNamePlaceholder" placeholder="Name"
-                 formControlName="family_name" autocomplete="off" readonly>
-          <mat-error i18n="Settings Required Error@@settingsRequiredError">Required</mat-error>
+                 formControlName="family_name" autocomplete="off">
         </mat-form-field>
 
         <mat-form-field>
@@ -71,6 +69,8 @@
                  formControlName="email"
                  autocomplete="off" readonly>
         </mat-form-field>
+
+        <button mat-button type="submit" color="primary">Update</button>
       </form>
 
       <mat-action-row>
@@ -84,25 +84,25 @@
     </mat-expansion-panel>
 
     <!--<mat-expansion-panel hideToggle="true">-->
-      <!--<mat-expansion-panel-header>-->
-        <!--<mat-panel-title>-->
-          <!--<ng-container i18n="Settings App Settings@@settingsAppSettings">App Settings</ng-container>-->
-        <!--</mat-panel-title>-->
-        <!--<mat-panel-description>-->
-          <!--<ng-container i18n="Settings Custom App Settings@@settingsCustomAppSettings">Custom settings</ng-container>-->
-          <!--<mat-icon>settings_application</mat-icon>-->
-        <!--</mat-panel-description>-->
-      <!--</mat-expansion-panel-header>-->
-      <!--<mat-form-field class="language-select">-->
-        <!--<mat-select i18n-placeholder="@@settingsLanguagePlaceholder" placeholder="Language" [(value)]="lang" (change)="languageChanged()">-->
-          <!--<mat-option value="de">-->
-            <!--<ng-container i18n="@@settingsLanguageGerman">German</ng-container>-->
-          <!--</mat-option>-->
-          <!--<mat-option value="en-US">-->
-            <!--<ng-container i18n="@@settingsLanguageEnglish">English</ng-container>-->
-          <!--</mat-option>-->
-        <!--</mat-select>-->
-      <!--</mat-form-field>-->
+    <!--<mat-expansion-panel-header>-->
+    <!--<mat-panel-title>-->
+    <!--<ng-container i18n="Settings App Settings@@settingsAppSettings">App Settings</ng-container>-->
+    <!--</mat-panel-title>-->
+    <!--<mat-panel-description>-->
+    <!--<ng-container i18n="Settings Custom App Settings@@settingsCustomAppSettings">Custom settings</ng-container>-->
+    <!--<mat-icon>settings_application</mat-icon>-->
+    <!--</mat-panel-description>-->
+    <!--</mat-expansion-panel-header>-->
+    <!--<mat-form-field class="language-select">-->
+    <!--<mat-select i18n-placeholder="@@settingsLanguagePlaceholder" placeholder="Language" [(value)]="lang" (change)="languageChanged()">-->
+    <!--<mat-option value="de">-->
+    <!--<ng-container i18n="@@settingsLanguageGerman">German</ng-container>-->
+    <!--</mat-option>-->
+    <!--<mat-option value="en-US">-->
+    <!--<ng-container i18n="@@settingsLanguageEnglish">English</ng-container>-->
+    <!--</mat-option>-->
+    <!--</mat-select>-->
+    <!--</mat-form-field>-->
     <!--</mat-expansion-panel>-->
   </mat-accordion>
 </div>
