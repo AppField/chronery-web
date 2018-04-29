@@ -2,21 +2,7 @@
 apps:
   web: !com.amazonaws.mobilehub.v0.AppDO {}
 features:
-  cloudlogic: !com.amazonaws.mobilehub.v0.CloudLogic 
-    components:
-      Chronery: !com.amazonaws.mobilehub.v0.API 
-        attributes:
-          api-arn: 'arn:aws:execute-api:eu-central-1:329159685776:qa1nu08638'
-          description: Endpoint for chronerys projects.
-          name: Chronery
-          requires-signin: true
-          sdk-generation-stage-name: dev
-        paths:
-          /comments: !com.amazonaws.mobilehub.v0.Function {}
-          '/comments/{id}': !com.amazonaws.mobilehub.v0.Function {}
-          /projects: !com.amazonaws.mobilehub.v0.Function {}
-          /working-hours: !com.amazonaws.mobilehub.v0.Function {}
-          '/working-hours/{date}': !com.amazonaws.mobilehub.v0.Function {}
+  cloudlogic: !com.amazonaws.mobilehub.v0.CloudLogic {}
   content-delivery: !com.amazonaws.mobilehub.v0.ContentDelivery 
     attributes:
       enabled: true
@@ -68,7 +54,7 @@ features:
   sign-in: !com.amazonaws.mobilehub.v0.SignIn 
     attributes:
       enabled: true
-      optional-sign-in: true
+      optional-sign-in: false
     components:
       sign-in-user-pools: !com.amazonaws.mobilehub.v0.UserPoolsIdentityProvider 
         attributes:

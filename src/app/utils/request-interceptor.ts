@@ -4,9 +4,11 @@ import { Observable } from 'rxjs/Observable';
 import { AuthService } from '../user/auth.service';
 import { MatSnackBar } from '@angular/material';
 // operators
-import 'rxjs/add/operator/catch'
-import 'rxjs/add/observable/throw'
-import 'rxjs/add/operator/map'
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/observable/throw';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/mergeMap';
+import 'rxjs/add/operator/do';
 
 
 @Injectable()
@@ -31,22 +33,19 @@ export class RequestInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
     if (request.url.includes('amazonaws')) {
-      this.authService.getSession()
-        .subscribe(
-          result => {
-            request = request.clone({
-              setHeaders: {
-                Authorization: result.accessToken.jwtToken
-              }
-            });
-          },
-          error => {
-            this.handleError(error);
+
+      return this.authService.getSession()
+        .mergeMap((session) => {
+          request = request.clone({
+            setHeaders: {
+              Authorization: session.idToken.jwtToken
+            }
           });
 
-      return next.handle(request).catch(this.handleError);
+          return next.handle(request).catch(this.handleError);
+        });
     }
-    return next.handle(request);
+    return next.handle(request).catch(this.handleError);
   }
 
 }
