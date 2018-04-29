@@ -1,7 +1,6 @@
 import { Injectable, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { AmplifyService } from 'aws-amplify-angular';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 import { fromPromise } from 'rxjs/observable/fromPromise';
@@ -9,6 +8,7 @@ import { catchError, finalize, map, tap } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
 import { ForgotPasswordDialogComponent } from '../components/forgot-password-dialog/forgot-password-dialog.component';
 import { TranslatePipe } from '../pipes/translate/translate.pipe';
+import { Auth } from 'aws-amplify';
 
 @Injectable()
 export class AuthService implements OnInit {
@@ -20,28 +20,18 @@ export class AuthService implements OnInit {
 
   constructor(private router: Router,
               public dialog: MatDialog,
-              public amplify: AmplifyService,
               public snackBar: MatSnackBar,
               private translate: TranslatePipe) {
   }
 
   ngOnInit() {
-    this.amplify.auth().authStateChange$
-      .subscribe(authState => {
-        this.loggedIn.next(authState.state === 'signedIn');
-        if (!authState.user) {
-          console.log('no user!');
-          this.user = null;
-        } else {
-          console.log('user', authState.user);
-          this.user = authState.user;
-        }
-      });
+
+
   }
 
   signUp(given_name: string, family_name: string, email: string, password: string): Observable<any> {
     this.authIsLoading.next(true);
-    return fromPromise(this.amplify.auth().signUp({
+    return fromPromise(Auth.signUp({
       username: email,
       password,
       attributes: {
@@ -60,7 +50,7 @@ export class AuthService implements OnInit {
 
   signIn(email: string, password: string): Observable<any> {
     this.authIsLoading.next(true);
-    return fromPromise(this.amplify.auth().signIn(email, password))
+    return fromPromise(Auth.signIn(email, password))
       .pipe(
         tap(() => {
           this.loggedIn.next(true);
@@ -74,7 +64,7 @@ export class AuthService implements OnInit {
   // }
 
   logout() {
-    fromPromise(this.amplify.auth().signOut())
+    fromPromise(Auth.signOut())
       .subscribe(
         result => {
           this.loggedIn.next(true);
@@ -84,7 +74,7 @@ export class AuthService implements OnInit {
   }
 
   isAuthenticated(): Observable<boolean> {
-    return fromPromise(this.amplify.auth().currentAuthenticatedUser())
+    return fromPromise(Auth.currentAuthenticatedUser())
       .pipe(
         map(result => {
           this.loggedIn.next(true);
@@ -98,7 +88,7 @@ export class AuthService implements OnInit {
   }
 
   deleteAccount(): void {
-    this.amplify.auth().currentAuthenticatedUser()
+    Auth.currentAuthenticatedUser()
       .then(user => {
         user.deleteUser((error, response) => {
           if (error) {
@@ -112,13 +102,13 @@ export class AuthService implements OnInit {
   // forgotPassword(email: string): Promise<boolean> {
   forgotPassword(email: string): Promise<boolean> {
     return new Promise<boolean>((resolve, reject) => {
-      this.amplify.auth().forgotPassword(email)
+      Auth.forgotPassword(email)
         .then(result => {
           const dialogRef = this.dialog.open(ForgotPasswordDialogComponent, { disableClose: true });
 
           dialogRef.afterClosed().subscribe((resetData) => {
             if (resetData) {
-              this.amplify.auth().forgotPasswordSubmit(email, resetData.code, resetData.password)
+              Auth.forgotPasswordSubmit(email, resetData.code, resetData.password)
                 .then(response => resolve(true))
                 .catch(error => reject(error));
             } else {
@@ -131,16 +121,16 @@ export class AuthService implements OnInit {
   }
 
   getSession(): Observable<any> {
-    return fromPromise(this.amplify.auth().currentSession());
+    return fromPromise(Auth.currentSession());
   }
 
   getUserAttributes(): Promise<any> {
     return new Promise<any>((resolve, reject) => {
 
-      this.amplify.auth().currentAuthenticatedUser()
+      Auth.currentAuthenticatedUser()
         .then(user => {
           this.user = user;
-          this.amplify.auth().userAttributes(user)
+          Auth.userAttributes(user)
             .then(result => {
               const attributes = [];
               result.map(attribute => {
@@ -155,8 +145,8 @@ export class AuthService implements OnInit {
 
   updateAccount(given_name: string, family_name: string): void {
 
-    this.amplify.auth().currentAuthenticatedUser().then(user => {
-      this.amplify.auth().updateUserAttributes(user, {
+    Auth.currentAuthenticatedUser().then(user => {
+      Auth.updateUserAttributes(user, {
         given_name,
         family_name,
         updated_at: Date.now().toString()
