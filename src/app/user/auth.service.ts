@@ -160,21 +160,14 @@ export class AuthService implements OnInit {
     });
   }
 
-  resendEmail(): void {
-
+  resendEmail(email: string): void {
+    Auth.resendSignUp(email)
+      .then(data => console.log(data))
+      .catch(error => console.log(error));
   }
 
   handleError(error) {
     switch (error['code']) {
-      case 'UserNotConfirmedException':
-        const snackbar = this.snackBar.open(this.translate.transform('UserNotConfirmedException'),
-          this.translate.transform('UserNotConfirmedExceptionAction'), {
-            duration: 10000
-          });
-        snackbar.onAction().subscribe(() => {
-          alert('send email');
-        });
-        break;
       case 'NotAuthorizedException':
         this.snackBar.open(this.translate.transform('NotAuthorizedException'), null, {
           duration: 10000

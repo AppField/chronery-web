@@ -4,6 +4,8 @@ import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
 import 'rxjs/add/operator/takeUntil';
 import { Subject } from 'rxjs/Subject';
+import { MatSnackBar } from '@angular/material';
+import { TranslatePipe } from '../../pipes/translate/translate.pipe';
 
 @Component({
   selector: 'chy-login',
@@ -17,7 +19,11 @@ export class LoginComponent implements OnInit, OnDestroy {
   loginSent = false;
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(public fb: FormBuilder, private authService: AuthService, private router: Router) {
+  constructor(public fb: FormBuilder,
+              private authService: AuthService,
+              private router: Router,
+              public snackBar: MatSnackBar,
+              private translate: TranslatePipe) {
   }
 
   get emailErrorMessage(): string {
@@ -73,7 +79,18 @@ export class LoginComponent implements OnInit, OnDestroy {
           },
           error => {
             this.didFail = true;
-            this.authService.handleError(error);
+            if (error['code'] === 'UserNotConfirmedException') {
+              const snackbar = this.snackBar.open(this.translate.transform('UserNotConfirmedException'),
+                this.translate.transform('UserNotConfirmedExceptionAction'), {
+                  duration: 10000
+                });
+              snackbar.onAction().subscribe(() => {
+                this.authService.resendEmail(email);
+              });
+            } else {
+              this.authService.handleError(error);
+            }
+
           }
         );
       this.loginSent = true;
