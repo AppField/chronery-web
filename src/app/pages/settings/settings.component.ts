@@ -8,6 +8,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { User } from '../../models/user';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/takeUntil';
+import { WindowRef } from '../../services/window-ref/window-ref.service';
 
 @Component({
   selector: 'chy-settings',
@@ -28,6 +29,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
               public dialog: MatDialog,
               public authService: AuthService,
               private fb: FormBuilder,
+              private winRef: WindowRef,
               @Inject(LOCALE_ID) locale: string) {
     this.lang = locale;
   }
@@ -97,7 +99,9 @@ export class SettingsComponent implements OnInit, OnDestroy {
   }
 
   languageChanged(): void {
-    console.log('New lang: ', this.lang);
+    console.log(this.winRef);
+    console.log('New lang: ', this.lang
+    );
   }
 
   logout(): void {
