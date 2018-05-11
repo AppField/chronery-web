@@ -1,7 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
-import 'rxjs/add/operator/takeUntil';
-import { Subject } from 'rxjs/Subject';
+
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'chy-authenticate',
@@ -17,7 +18,7 @@ export class AuthenticateComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.authService.authIsLoading
-      .takeUntil(this.destroy$)
+      .pipe(takeUntil(this.destroy$))
       .subscribe((isLoading: boolean) => this.isLoading = isLoading);
 
 

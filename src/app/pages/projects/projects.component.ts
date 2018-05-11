@@ -1,17 +1,18 @@
 import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Project } from '../../models/project';
-import 'rxjs/add/operator/startWith';
-import 'rxjs/add/observable/merge';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/debounceTime';
-import 'rxjs/add/operator/distinctUntilChanged';
-import 'rxjs/add/observable/fromEvent';
+
+
+
+
+
+
 import { MatCheckbox, MatDialog, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { ProjectDialogComponent } from '../../components/project-modal/project-dialog.component';
 import { ObservableMedia } from '@angular/flex-layout';
 import { ProjectsService } from '../../services/projects/projects.service';
-import { Subject } from 'rxjs/Subject';
-import 'rxjs/add/operator/takeUntil';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+
 
 @Component({
   selector: 'chy-projects',
@@ -33,11 +34,11 @@ export class ProjectsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit() {
     this.projectsService.dataIsLoading
-      .takeUntil(this.destroy$)
+      .pipe(takeUntil(this.destroy$))
       .subscribe((isLoading: boolean) => this.isLoading = isLoading);
 
     this.projectsService.dataChange
-      .takeUntil(this.destroy$)
+      .pipe(takeUntil(this.destroy$))
       .subscribe((projects: Project[]) => {
         this.dataSource.data = projects ? projects : [];
       });
@@ -76,7 +77,7 @@ export class ProjectsComponent implements OnInit, AfterViewInit, OnDestroy {
       data: project
     });
     dialogRef.afterClosed()
-      .takeUntil(this.destroy$)
+      .pipe(takeUntil(this.destroy$))
       .subscribe(result => {
         if (result) {
           if (result.userId) {

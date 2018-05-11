@@ -1,16 +1,16 @@
 import { Component, ElementRef, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Project } from '../../models/project';
-import { Observable } from 'rxjs/Observable';
+import { Observable, Subject } from 'rxjs';
 import { Comment } from '../../models/comment';
-import 'rxjs/add/operator/startWith';
-import 'rxjs/add/operator/map';
+
+
 import * as moment from 'moment/moment';
 import { Utility } from '../../utils/utility';
 import { WorkingHours } from '../../models/working-hours';
-import { Subject } from 'rxjs/Subject';
-import 'rxjs/add/operator/takeUntil';
+
 import { clone } from 'lodash';
+import { map, startWith, takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'chy-work-card',
@@ -86,18 +86,23 @@ export class WorkCardComponent implements OnInit, OnDestroy {
 
     // Autocomplete functionality
     this.filteredProjects = this.workForm.controls['project'].valueChanges
-      .startWith(null)
-      .map(project => project && typeof project === 'object' ? project.name : project)
-      .map(name => name ? this.filterProjects(name) : this.projects ? this.projects.slice() : []);
+      .pipe(
+        startWith(null),
+        map(project => project && typeof project === 'object' ? project.name : project),
+        map(name => name ? this.filterProjects(name) : this.projects ? this.projects.slice() : [])
+      );
+
 
     this.filteredComments = this.workForm.controls['comment'].valueChanges
-      .startWith(null)
-      .map(comment => comment && typeof comment === 'object' ? comment.comment : comment)
-      .map(value => value ? this.filterComments(value) : this.comments ? this.comments.slice() : []);
+      .pipe(
+        startWith(null),
+        map(comment => comment && typeof comment === 'object' ? comment.comment : comment),
+        map(value => value ? this.filterComments(value) : this.comments ? this.comments.slice() : [])
+      );
 
     this.toControl = this.workForm.controls['to'];
     this.workForm.controls['from'].valueChanges
-      .takeUntil(this.destroy$)
+      .pipe(takeUntil(this.destroy$))
       .subscribe((value) => {
         this.workForm.controls['to'].updateValueAndValidity();
       });

@@ -6,8 +6,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment/moment';
 import { WorkingHoursService } from '../../services/working-hours/working-hours.service';
 import { WorkingHours } from '../../models/working-hours';
-import 'rxjs/add/operator/takeUntil';
-import { Subject } from 'rxjs/Subject';
+
+import { Subject } from 'rxjs/internal/Subject';
+import { takeUntil } from 'rxjs/operators';
 import { Moment } from 'moment';
 
 interface DayMeta {
@@ -40,7 +41,7 @@ export class SidenavDaypickerComponent implements OnDestroy, AfterContentInit {
     this.getMeta();
 
     this.activeRoute.params
-      .takeUntil(this.destroy$)
+      .pipe(takeUntil(this.destroy$))
       .subscribe(params => {
         const dateParam = params['date'];
         if (dateParam) {
@@ -72,7 +73,7 @@ export class SidenavDaypickerComponent implements OnDestroy, AfterContentInit {
       data: this.monthYear
     });
     dialogRef.afterClosed()
-      .takeUntil(this.destroy$)
+      .pipe(takeUntil(this.destroy$))
       .subscribe(result => {
         if (result) {
           this.activeLinkIndex = -1;

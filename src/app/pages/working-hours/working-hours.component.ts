@@ -2,17 +2,17 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Utility } from '../../utils/utility';
 import { MediaChange, ObservableMedia } from '@angular/flex-layout';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription ,  Subject } from 'rxjs';
 import { MatSidenav } from '@angular/material';
 import { LocalStorageService } from '../../services/local-storage/local-storage.service';
 import { ProjectsService } from '../../services/projects/projects.service';
 import { CommentsService } from '../../services/comments/comments.service';
 import { WorkingHours } from '../../models/working-hours';
 import { WorkingHoursService } from '../../services/working-hours/working-hours.service';
-import { Subject } from 'rxjs/Subject';
-import 'rxjs/add/operator/takeUntil';
+
 import * as moment from 'moment';
 import { Moment } from 'moment';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'chy-working-hours',
@@ -43,7 +43,7 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
     //   .subscribe((isLoading: boolean) => this.isLoading = isLoading);
 
     this.workingHoursService.dataChange
-      .takeUntil(this.destroy$)
+      .pipe(takeUntil(this.destroy$))
       .subscribe((data) => {
         const newCard = this.localStorage.getItem(this.encodedDate);
         if (newCard) {
@@ -56,7 +56,7 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
       });
 
     this.route.params
-      .takeUntil(this.destroy$)
+      .pipe(takeUntil(this.destroy$))
       .subscribe(params => {
         this.encodedDate = params['date'] ? params['date'] : Utility.encodeDate(moment());
         this.date = Utility.decodeDate(params['date']);

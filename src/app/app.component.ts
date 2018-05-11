@@ -3,9 +3,11 @@ import { AuthService } from './user/auth.service';
 import { SwUpdate } from '@angular/service-worker';
 import { MatSnackBar } from '@angular/material';
 import { WindowRef } from './services/window-ref/window-ref.service';
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs/internal/Subject';
+import { takeUntil } from 'rxjs/operators';
 import { environment } from '../environments/environment';
 import { TranslatePipe } from './pipes/translate/translate.pipe';
+
 
 @Component({
   selector: 'chy-root',
@@ -27,7 +29,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
     if (environment.production || environment.test) {
       this.swUpdate.available
-        .takeUntil(this.destroy$)
+        .pipe(takeUntil(this.destroy$))
         .subscribe(event => {
 
           console.log('[App] Update available: current version is', event.current, 'available version is', event.available);

@@ -1,9 +1,8 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ObservableMedia } from '@angular/flex-layout';
 import { state, style, trigger } from '@angular/animations';
-import 'rxjs/add/operator/takeUntil';
-import { Subject } from 'rxjs/Subject';
-import { Subscription } from 'rxjs/Subscription';
+
+import { Subject ,  Subscription } from 'rxjs';
 import * as moment from 'moment';
 import { Utility } from '../../utils/utility';
 

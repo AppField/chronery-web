@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import * as moment from 'moment/moment';
 import { Project } from '../../models/project';
-import { Observable } from 'rxjs/Observable';
+import { Observable ,  Subject } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { Utility } from '../../utils/utility';
 import { Angular2Csv } from 'angular2-csv';
@@ -9,13 +9,13 @@ import { ObservableMedia } from '@angular/flex-layout';
 import { ProjectsService } from '../../services/projects/projects.service';
 import { WorkingHoursService } from '../../services/working-hours/working-hours.service';
 import { WorkingHours } from '../../models/working-hours';
-import { Subject } from 'rxjs/Subject';
-import 'rxjs/add/operator/takeUntil';
+
 import { ReportPdfDialogComponent } from '../../components/report-pdf-dialog/report-pdf-dialog.component';
 import { MatDialog, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { Moment } from 'moment';
 import { _isNumberValue } from '@angular/cdk/coercion';
 import { DecimalPipe } from '@angular/common';
+import { map, startWith, takeUntil } from 'rxjs/operators';
 
 
 @Component({
@@ -56,14 +56,14 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
     this.projects = [allProjects];
 
     this.projectsService.dataChange
-      .takeUntil(this.destroy$)
+      .pipe(takeUntil(this.destroy$))
       .subscribe((data: Project[]) => {
         this.projects = data ? this.projects.concat(data) : this.projects;
         this.filteredProjects = this.projectsCtrl.valueChanges
-          .startWith(null)
-          .map(project => project && typeof project === 'object' ? project.name : project)
-          .map(name => name ? this.filterProjects(name) : this.projects.slice());
-
+          .pipe(
+            startWith(null),
+            map(project => project && typeof project === 'object' ? project.name : project),
+            map(name => name ? this.filterProjects(name) : this.projects.slice()));
       });
     this.updateReport();
   }
@@ -78,11 +78,11 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit() {
     this.workingHoursService.dataIsLoading
-      .takeUntil(this.destroy$)
+      .pipe(takeUntil(this.destroy$))
       .subscribe((isLoading: boolean) => this.isLoading = isLoading);
 
     this.workingHoursService.filterChange
-      .takeUntil(this.destroy$)
+      .pipe(takeUntil(this.destroy$))
       .subscribe((reportData: WorkingHours[]) => {
         this.dataSource.data = reportData;
 

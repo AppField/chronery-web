@@ -4,9 +4,10 @@ import * as moment from 'moment/moment';
 import { Router } from '@angular/router';
 import { WorkingHoursService } from '../../services/working-hours/working-hours.service';
 import { WorkingHours } from '../../models/working-hours';
-import { Subject } from 'rxjs/Subject';
-import 'rxjs/add/operator/takeUntil';
+import { Subject } from 'rxjs';
+
 import { Moment } from 'moment';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'chy-dashboard',
@@ -32,7 +33,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.workingHoursService.dataIsLoading
-      .takeUntil(this.destroy$)
+      .pipe(takeUntil(this.destroy$))
       .subscribe((isLoading: boolean) => this.isLoading = isLoading);
   }
 

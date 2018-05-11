@@ -1,11 +1,8 @@
 import { Injectable, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { BehaviorSubject ,  Observable ,  from as fromPromise ,  of } from 'rxjs';
 import { MatDialog, MatSnackBar } from '@angular/material';
-import { Observable } from 'rxjs/Observable';
-import { fromPromise } from 'rxjs/observable/fromPromise';
 import { catchError, finalize, map, tap } from 'rxjs/operators';
-import { of } from 'rxjs/observable/of';
 import { ForgotPasswordDialogComponent } from '../components/forgot-password-dialog/forgot-password-dialog.component';
 import { TranslatePipe } from '../pipes/translate/translate.pipe';
 import { Auth } from 'aws-amplify';

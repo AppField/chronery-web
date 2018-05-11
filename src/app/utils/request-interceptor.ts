@@ -1,14 +1,11 @@
+import { Observable, throwError as observableThrowError } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
 import { AuthService } from '../user/auth.service';
 import { MatSnackBar } from '@angular/material';
+import { catchError, mergeMap } from 'rxjs/operators';
+
 // operators
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/observable/throw';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/mergeMap';
-import 'rxjs/add/operator/do';
 
 
 @Injectable()
@@ -23,7 +20,7 @@ export class RequestInterceptor implements HttpInterceptor {
       duration: 10000,
     });
 
-    return Observable.throw(error);
+    return observableThrowError(error);
   }
 
   constructor(private authService: AuthService,
@@ -35,17 +32,18 @@ export class RequestInterceptor implements HttpInterceptor {
     if (request.url.includes('amazonaws')) {
 
       return this.authService.getSession()
-        .mergeMap((session) => {
-          request = request.clone({
-            setHeaders: {
-              Authorization: session.idToken.jwtToken
-            }
-          });
+        .pipe(
+          mergeMap((session) => {
+            request = request.clone({
+              setHeaders: {
+                Authorization: session.idToken.jwtToken
+              }
+            });
 
-          return next.handle(request).catch(this.handleError);
-        });
+            return next.handle(request).pipe(catchError(this.handleError));
+          }));
     }
-    return next.handle(request).catch(this.handleError);
+    return next.handle(request).pipe(catchError(this.handleError));
   }
 
 }

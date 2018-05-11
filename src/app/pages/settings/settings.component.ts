@@ -6,9 +6,10 @@ import { MatDialog } from '@angular/material';
 import { AuthService } from '../../user/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { User } from '../../models/user';
-import { Subject } from 'rxjs/Subject';
-import 'rxjs/add/operator/takeUntil';
+import { Subject } from 'rxjs';
+
 import { WindowRef } from '../../services/window-ref/window-ref.service';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'chy-settings',
@@ -36,7 +37,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.commentsService.dataIsLoading
-      .takeUntil(this.destroy$)
+      .pipe(takeUntil(this.destroy$))
       .subscribe((isLoading: boolean) => this.isLoading = isLoading);
 
     // this.authService.authDidFail.subscribe((didFail: boolean) => this.accountDeletFailed = didFail);
@@ -89,7 +90,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(ConfirmAccountDeletionComponent);
 
     dialogRef.afterClosed()
-      .takeUntil(this.destroy$)
+      .pipe(takeUntil(this.destroy$))
       .subscribe(result => {
         if (result) {
           // delete account
