@@ -1,6 +1,6 @@
 {
 	"SourceDir": "src",
 	"DistributionDir": "dist",
-	"BuildCommand": "npm run build-de",
+	"BuildCommand": "npm run build-i18n",
 	"StartCommand": "npm run start-de"
 }
