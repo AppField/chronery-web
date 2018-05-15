@@ -71,7 +71,7 @@ import { TranslatePipe } from './pipes/translate/translate.pipe';
     ForgotPasswordDialogComponent, ReportPdfDialogComponent],
   imports: [
     BrowserModule,
-    ServiceWorkerModule.register(environment.test ? '/chronery-web/ngsw-worker.js' : 'ngsw-worker.js', { enabled: environment.production || environment.test }),
+    ServiceWorkerModule.register(environment.test ? '/chronery-web/ngsw-worker.js' : '/ngsw-worker.js', { enabled: environment.production || environment.test }),
     HttpClientModule,
     FlexLayoutModule,
     FormsModule,

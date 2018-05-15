@@ -1,5 +1,8 @@
 {
   "index": "/index.html",
+  "buildOptimizer": true,
+  "serviceWorker": true,
+  "ngswConfigPath": "src/ngsw-config.json",
   "assetGroups": [
     {
       "name": "app",
