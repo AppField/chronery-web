@@ -8,7 +8,7 @@
     "start-de": "ng serve --aot --i18nFile=src/locale/messages.de.xlf --i18nFormat=xlf --locale de --port 4300",
     "build": "ng build --prod --aot --locale=en --env=prod ",
     "build-de": "ng build --prod --aot --i18nFile=src/locale/messages.de.xlf --i18nFormat=xlf --locale=de --env=prod",
-    "build-i18n": "for lang in de; do ng build --output-path=dist/$lang --aot -prod --bh /$lang/ --i18n-file=src/locale/messages.$lang.xlf --i18n-format=xlf --locale=$lang; ng build --output-path=dist/en --aot -prod --bh /en/ --locale=en --env=prod; done",
+    "build-i18n": "for lang in de; do ng build --output-path=dist/$lang --aot -prod --base=href /$lang/ --i18n-file=src/locale/messages.$lang.xlf --i18n-format=xlf --locale=$lang; ng build --output-path=dist/en --aot -prod --base-href /en/ --locale=en --env=prod; done",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
