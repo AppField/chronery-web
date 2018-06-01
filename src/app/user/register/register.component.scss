@@ -37,6 +37,11 @@
     padding-right: 0;
   }
 
+  .mat-checkbox, .checkbox-error {
+    font-size: .8rem;
+    white-space: pre-wrap;
+  }
+
   .verify-mail {
     color: mat-color($primary);
   }

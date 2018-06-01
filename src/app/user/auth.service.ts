@@ -29,7 +29,7 @@ export class AuthService implements OnInit {
 
   }
 
-  signUp(given_name: string, family_name: string, email: string, password: string): Observable<any> {
+  signUp(given_name: string, family_name: string, email: string, password: string, data_prtctn_accepted: boolean): Observable<any> {
     this.authIsLoading.next(true);
     return fromPromise(Auth.signUp({
       username: email,
@@ -39,7 +39,8 @@ export class AuthService implements OnInit {
         given_name,
         family_name,
         updated_at: Date.now().toString(),
-        'custom:created_at': Date.now().toString()
+        'custom:created_at': Date.now().toString(),
+        'custom:data_prtctn_accepted': data_prtctn_accepted ? 0 : 0
       }
     }))
       .pipe(
