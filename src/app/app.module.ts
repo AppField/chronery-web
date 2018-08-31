@@ -65,7 +65,7 @@ import { TranslatePipe } from './pipes/translate/translate.pipe';
     ForgotPasswordDialogComponent,
     ImprintComponent,
     ReportPdfDialogComponent,
-    TranslatePipe,
+    TranslatePipe
   ],
   entryComponents: [MonthYearDialogComponent, ProjectDialogComponent, ConfirmAccountDeletionComponent,
     ForgotPasswordDialogComponent, ReportPdfDialogComponent],
