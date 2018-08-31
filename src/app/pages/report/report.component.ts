@@ -4,7 +4,7 @@ import { Project } from '../../models/project';
 import { Observable ,  Subject } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { Utility } from '../../utils/utility';
-import { Angular2Csv } from 'angular2-csv';
+import { Angular5Csv } from 'angular5-csv/Angular5-csv';
 import { ObservableMedia } from '@angular/flex-layout';
 import { ProjectsService } from '../../services/projects/projects.service';
 import { WorkingHoursService } from '../../services/working-hours/working-hours.service';
@@ -144,7 +144,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
       csvObject.projectName = work.project.name;
       return csvObject;
     });
-    const report = new Angular2Csv(csvData, `Chronery Report form ${Utility.encodeDate(this.startDate)} to ${Utility.encodeDate(this.endDate)}`, { showLabels: true });
+    new Angular5Csv(csvData, `Chronery Report form ${Utility.encodeDate(this.startDate)} to ${Utility.encodeDate(this.endDate)}`, { showLabels: true });
   }
 
   ngOnDestroy() {

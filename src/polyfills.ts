@@ -14,6 +14,11 @@
  * Learn more in https://angular.io/docs/ts/latest/guide/browser-support.html
  */
 
+/*********************88
+ *  Due to aws-amplify this is necessary
+ */
+(window as any).global = window;
+
 /***************************************************************************************************
  * BROWSER POLYFILLS
  */
