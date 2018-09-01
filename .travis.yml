@@ -15,6 +15,7 @@ install:
 script:
   # Build your site (e.g., HTML, CSS, JS) here.
   #- npm run build-de
+  - awsmobile pull
   - awsmobile publish
 #deploy:
 #  - provider: s3
