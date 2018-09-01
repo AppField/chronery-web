@@ -6,22 +6,25 @@ python:
 cache:
   directories:
     - "node_modules"
+if: branch = master
 install:
   # `awscli` is required for invalidation of CloudFront distributions.
   - pip install --user awscli
+  - pip install --user awsmobile
   - npm install
 script:
   # Build your site (e.g., HTML, CSS, JS) here.
-  - npm run build-de
-deploy:
-  - provider: s3
-    on:
-      branch: master
-    access_key_id: $AWS_ACCESS_KEY_ID
-    secret_access_key: $AWS_SECRET_ACCESS_KEY
-    bucket: chronery-web
-    skip_cleanup: true
-    local_dir: dist
+  #- npm run build-de
+  - awsmobile publish
+#deploy:
+#  - provider: s3
+#    on:
+#      branch: master
+#    access_key_id: $AWS_ACCESS_KEY_ID
+#    secret_access_key: $AWS_SECRET_ACCESS_KEY
+#    bucket: chronery-web
+#    skip_cleanup: true
+#    local_dir: dist
 after_deploy:
   # Allow `awscli` to make requests to CloudFront.
   - aws configure set preview.cloudfront true
