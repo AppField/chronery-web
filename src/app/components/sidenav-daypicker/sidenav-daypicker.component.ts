@@ -41,7 +41,7 @@ export class SidenavDaypickerComponent implements OnDestroy, AfterContentInit {
     this.getMeta();
 
     this.activeRoute.params
-      .pipe(takeUntil(this.destroy$))
+      // .pipe(takeUntil(this.destroy$))
       .subscribe(params => {
         const dateParam = params['date'];
         if (dateParam) {
@@ -73,10 +73,11 @@ export class SidenavDaypickerComponent implements OnDestroy, AfterContentInit {
       data: this.monthYear
     });
     dialogRef.afterClosed()
-      .pipe(takeUntil(this.destroy$))
+      // .pipe(takeUntil(this.destroy$))
       .subscribe(result => {
         if (result) {
           this.activeLinkIndex = -1;
+          console.log('selected month and year', result);
           this.monthYear = result;
           this.getDays();
           this.getMeta();
