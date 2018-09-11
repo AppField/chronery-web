@@ -1,15 +1,15 @@
-import { Component, Inject, LOCALE_ID, OnDestroy, OnInit } from '@angular/core';
-import { Comment } from '../../models/comment';
-import { CommentsService } from '../../services/comments/comments.service';
-import { ConfirmAccountDeletionComponent } from '../../components/confirm-account-deletion/confirm-account-deletion.component';
-import { MatDialog } from '@angular/material';
-import { AuthService } from '../../user/auth.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { User } from '../../models/user';
-import { Subject } from 'rxjs';
+import {Component, Inject, LOCALE_ID, OnDestroy, OnInit} from '@angular/core';
+import {Comment} from '../../models/comment';
+import {CommentsService} from '../../services/comments/comments.service';
+import {ConfirmAccountDeletionComponent} from '../../components/confirm-account-deletion/confirm-account-deletion.component';
+import {MatDialog} from '@angular/material';
+import {AuthService} from '../../user/auth.service';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {User} from '../../models/user';
+import {Subject} from 'rxjs';
 
-import { WindowRef } from '../../services/window-ref/window-ref.service';
-import { takeUntil } from 'rxjs/operators';
+import {WindowRef} from '../../services/window-ref/window-ref.service';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'chy-settings',
@@ -100,9 +100,14 @@ export class SettingsComponent implements OnInit, OnDestroy {
   }
 
   languageChanged(): void {
-    console.log(this.winRef);
-    console.log('New lang: ', this.lang
-    );
+    let newUrl = this.winRef.nativeWindow.location.origin;
+
+    if (this.lang !== 'en') {
+      newUrl += `/${this.lang}`;
+    }
+    this.winRef.nativeWindow.location.href = newUrl;
+
+
   }
 
   logout(): void {
