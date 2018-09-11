@@ -104,6 +104,7 @@ html, body {
 /* END RESPONSIVE mat-table */
 
 /* BEGIN SCROLLBAR */
+
 *::-webkit-scrollbar {
   width: 6px !important;
   height: 6px !important;
@@ -117,8 +118,12 @@ html, body {
   background-color: rgba(255, 255, 255, 0.08);
 }
 
-:not(.selectable-text) > :not(.selectable-text) > :not(.selectable-text)::selection {
-  background-color: transparent;
-}
+//:not(.selectable-text) > :not(.selectable-text) > :not(.selectable-text)::selection {
+//  background-color: transparent;
+//}
 
+
+*::selection {
+  background-color: mat-color($primary);
+}
 /* END SCROLLBAR */
